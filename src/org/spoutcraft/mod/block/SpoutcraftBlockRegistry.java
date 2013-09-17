@@ -2,11 +2,9 @@ package org.spoutcraft.mod.block;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-import gnu.trove.map.hash.TIntObjectHashMap;
-
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
-
+import gnu.trove.map.hash.TIntObjectHashMap;
 import org.spoutcraft.api.block.Block;
 import org.spoutcraft.api.block.BlockRegistry;
 import org.spoutcraft.mod.material.SpoutcraftMaterial;
@@ -26,7 +24,7 @@ public class SpoutcraftBlockRegistry implements BlockRegistry {
 			throw new IllegalStateException("An attempt was made to put a duplicate named block in the registry!");
 		}
 		final int id = idStart + idCounter.incrementAndGet();
-        final SpoutcraftBlock spoutcraftBlock = new SpoutcraftBlock(id, block, new SpoutcraftMaterial((block.getMaterial())));
+		final SpoutcraftBlock spoutcraftBlock = new SpoutcraftBlock(id, block, new SpoutcraftMaterial((block.getMaterial())));
 		LanguageRegistry.addName(spoutcraftBlock, spoutcraftBlock.getApiBlock().getDisplayName());
 		GameRegistry.registerBlock(spoutcraftBlock, block.getDisplayName());
 		return registry.put(id, block);

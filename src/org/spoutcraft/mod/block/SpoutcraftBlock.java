@@ -1,7 +1,6 @@
 package org.spoutcraft.mod.block;
 
 import net.minecraft.block.Block;
-
 import org.spoutcraft.mod.SpoutcraftMod;
 import org.spoutcraft.mod.material.SpoutcraftMaterial;
 

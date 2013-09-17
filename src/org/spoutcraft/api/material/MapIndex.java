@@ -6,8 +6,8 @@ package org.spoutcraft.api.material;
  * Unfortunately Minecraft limits the amount of color indexes so the following are the only available choices.
  */
 public enum MapIndex {
-	AIR (0),
-	GRASS (1),
+	AIR(0),
+	GRASS(1),
 	SAND(2),
 	CLOTH(3),
 	TNT(4),
@@ -20,7 +20,6 @@ public enum MapIndex {
 	STONE(11),
 	WATER(12),
 	WOOD(13);
-
 	private final int index;
 
 	MapIndex(int index) {

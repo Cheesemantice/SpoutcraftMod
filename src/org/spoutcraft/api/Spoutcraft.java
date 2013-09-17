@@ -8,7 +8,7 @@ import org.spoutcraft.api.material.MaterialRegistry;
  */
 public final class Spoutcraft {
 	private static BlockRegistry blockRegistry;
-	private static  MaterialRegistry materialRegistry;
+	private static MaterialRegistry materialRegistry;
 	private static boolean enabled = false;
 
 	public static boolean isSpoutcraftEnabled() {
@@ -23,8 +23,9 @@ public final class Spoutcraft {
 		return materialRegistry;
 	}
 
-	/** INTERNAL USE ONLY **/
-
+	/**
+	 * INTERNAL USE ONLY *
+	 */
 	public static void enable() {
 		enabled = true; //TODO Discover a better way to do this
 	}
