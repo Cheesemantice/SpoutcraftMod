@@ -21,6 +21,7 @@ public class SpoutcraftPacketHandler implements IPacketHandler {
 			buffer.put(packet.data);
 			message = codec.decode(buffer);
 		} catch (Exception e) {
+			e.printStackTrace();
 			throw new IllegalStateException("Error decoding codec: " + codec);
 		}
 		if (message != null) {

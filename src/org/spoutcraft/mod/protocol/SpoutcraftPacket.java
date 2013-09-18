@@ -10,9 +10,9 @@ public class SpoutcraftPacket extends Packet250CustomPayload {
 	@SuppressWarnings ("unchecked")
 	public SpoutcraftPacket(Message toSend) {
 		final Codec codec = ProtocolRegistry.find(toSend.getClass());
-		System.out.println("[Spoutcraft] Writing codec: " + codec);
-		super.channel = codec.getChannel();
 		try {
+			System.out.println("[Spoutcraft] Encoding codec: " + codec);
+			super.channel = codec.getChannel();
 			super.data = codec.encode(toSend).array();
 		} catch (IOException e) {
 			throw new IllegalStateException("Failed to encode message: " + toSend);

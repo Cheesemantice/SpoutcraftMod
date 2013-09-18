@@ -3,8 +3,10 @@ package org.spoutcraft.mod.protocol.codec;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 
+import cpw.mods.fml.common.FMLCommonHandler;
+
 import org.spoutcraft.mod.protocol.message.HelloMessage;
-import org.spoutcraft.mod.protocol.util.ByteBufferUtil;
+import org.spoutcraft.mod.protocol.util.ByteBufferUtils;
 
 public class HelloCodec implements Codec<HelloMessage> {
 	@Override
@@ -14,16 +16,19 @@ public class HelloCodec implements Codec<HelloMessage> {
 
 	@Override
 	public HelloMessage decode(ByteBuffer buffer) throws IOException {
-		return new HelloMessage(ByteBufferUtil.readString(buffer));
+		final String greeting = ByteBufferUtils.readString(buffer, buffer.capacity());
+		return new HelloMessage(greeting);
 	}
 
 	@Override
 	public ByteBuffer encode(HelloMessage message) throws IOException {
-		return ByteBufferUtil.writeString(message.getGreeting());
+		final ByteBuffer buffer = ByteBuffer.allocate(message.getGreeting().length() * 2);
+		ByteBufferUtils.writeString(buffer, message.getGreeting());
+		return buffer;
 	}
 
 	@Override
 	public String toString() {
-		return "HelloCodec {channel= " + getChannel() + "}";
+		return "HelloCodec {side= " + FMLCommonHandler.instance().getEffectiveSide().name() + ", channel= " + getChannel() + "}";
 	}
 }
