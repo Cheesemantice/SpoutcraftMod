@@ -7,6 +7,8 @@ import cpw.mods.fml.common.network.IPacketHandler;
 import cpw.mods.fml.common.network.Player;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet250CustomPayload;
+
+import org.spoutcraft.api.Spoutcraft;
 import org.spoutcraft.mod.protocol.codec.Codec;
 import org.spoutcraft.mod.protocol.message.Message;
 
@@ -16,16 +18,17 @@ public class SpoutcraftPacketHandler implements IPacketHandler {
 		final Codec codec = ProtocolRegistry.find(packet.channel);
 		final Message message;
 		try {
-			System.out.println("[Spoutcraft] Decoding codec: " + codec);
+			Spoutcraft.getLogger().info("Decoding codec: " + codec);
 			final ByteBuffer buffer = ByteBuffer.allocate(packet.data.length);
 			buffer.put(packet.data);
-			message = codec.decode(buffer);
+			buffer.flip();
+			message = codec.decode(FMLCommonHandler.instance().getEffectiveSide(), buffer);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new IllegalStateException("Error decoding codec: " + codec);
 		}
 		if (message != null) {
-			System.out.println("[Spoutcraft] Handling message: " + message);
+			Spoutcraft.getLogger().info("Handling message: " + message);
 			message.handle(FMLCommonHandler.instance().getEffectiveSide(), manager, player);
 		}
 	}

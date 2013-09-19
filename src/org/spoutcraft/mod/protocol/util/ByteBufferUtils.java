@@ -18,11 +18,7 @@ public class ByteBufferUtils {
 	 */
 	public static void writeString(ByteBuffer buffer, String toWrite) throws IOException {
 		//TODO Encoding?
-		final CharBuffer charBuffer = buffer.asCharBuffer();
-		//Write string to encoding buffer
-		charBuffer.put(toWrite);
-		//Reset buffer to 0 index
-		charBuffer.flip();
+		buffer.asCharBuffer().put(toWrite);
 	}
 
 	/**
@@ -35,8 +31,10 @@ public class ByteBufferUtils {
 	 * @throws IOException If reading from the buffer fails
 	 */
 	public static String readString(ByteBuffer buffer, int length) throws IOException {
-		buffer.flip();
-		buffer.limit(length);
-		return buffer.asCharBuffer().toString();
+		buffer.limit(buffer.position() + length);
+		final String decoded = buffer.asCharBuffer().toString();
+		buffer.clear();
+		buffer.position(buffer.position() + length);
+		return decoded;
 	}
 }

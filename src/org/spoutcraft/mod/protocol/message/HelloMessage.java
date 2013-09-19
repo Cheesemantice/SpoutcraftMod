@@ -4,6 +4,8 @@ import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.common.network.Player;
 import cpw.mods.fml.relauncher.Side;
 import net.minecraft.network.INetworkManager;
+
+import org.spoutcraft.api.Spoutcraft;
 import org.spoutcraft.mod.protocol.SpoutcraftPacket;
 
 public class HelloMessage implements Message {
@@ -19,10 +21,10 @@ public class HelloMessage implements Message {
 
 	@Override
 	public void handle(Side side, INetworkManager manager, Player player) {
-		System.out.println(greeting);
+		Spoutcraft.getLogger().info(getGreeting());
 
 		if (side == Side.CLIENT) {
-			PacketDispatcher.sendPacketToServer(new SpoutcraftPacket(new HelloMessage("Hello server")));
+			PacketDispatcher.sendPacketToServer(new SpoutcraftPacket(new HelloMessage("Hello server, this is the client")));
 		}
 	}
 }

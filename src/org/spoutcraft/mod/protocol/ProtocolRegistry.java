@@ -8,11 +8,10 @@ import org.spoutcraft.mod.protocol.codec.Codec;
 import org.spoutcraft.mod.protocol.message.Message;
 
 public class ProtocolRegistry {
-	//Message -> Codec
 	private static final ConcurrentMap<Class<? extends Message>, Codec<?>> table;
 
 	static {
-		table = new ConcurrentHashMap<>(20, 1.0f);
+		table = new ConcurrentHashMap<>(5, 1.0f);
 	}
 
 	public static <T extends Message, C extends Codec<T>> void register(Class<T> clazz, Class<C> clazzz) {

@@ -13,7 +13,7 @@ import org.spoutcraft.mod.protocol.message.HelloMessage;
 public class SpoutcraftConnectionHandler implements IConnectionHandler {
 	@Override
 	public void playerLoggedIn(Player player, NetHandler netHandler, INetworkManager manager) {
-		PacketDispatcher.sendPacketToPlayer(new SpoutcraftPacket(new HelloMessage("Hello client")), player);
+		PacketDispatcher.sendPacketToPlayer(new SpoutcraftPacket(new HelloMessage("Hello client, this is the server")), player);
 	}
 
 	@Override
