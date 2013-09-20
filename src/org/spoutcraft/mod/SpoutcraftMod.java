@@ -1,6 +1,5 @@
 package org.spoutcraft.mod;
 
-import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
@@ -13,9 +12,6 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import org.spoutcraft.api.Spoutcraft;
-import org.spoutcraft.api.block.Block;
-import org.spoutcraft.api.material.MapIndex;
-import org.spoutcraft.api.material.Material;
 import org.spoutcraft.mod.block.SpoutcraftBlockRegistry;
 import org.spoutcraft.mod.logger.SpoutcraftLogger;
 import org.spoutcraft.mod.material.SpoutcraftMaterialRegistry;
@@ -27,7 +23,7 @@ import org.spoutcraft.mod.protocol.codec.HelloCodec;
 import org.spoutcraft.mod.protocol.message.AddBlockMessage;
 import org.spoutcraft.mod.protocol.message.HelloMessage;
 
-@Mod (modid = "Spoutcraft", name = "Spoutcraft", version = "1.0.0")
+@Mod (modid = "Spoutcraft")
 @NetworkMod (clientSideRequired = true, serverSideRequired = true, channels = {"SpoutcraftHello", "SpoutcraftAddRes", "SpoutcraftAddBlk"}, packetHandler = SpoutcraftPacketHandler.class)
 public class SpoutcraftMod {
 	@Instance (value = "Spoutcraft")
