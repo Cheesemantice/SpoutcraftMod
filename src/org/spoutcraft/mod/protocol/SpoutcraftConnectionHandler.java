@@ -1,19 +1,27 @@
 package org.spoutcraft.mod.protocol;
 
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.network.IConnectionHandler;
-import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.common.network.Player;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.network.NetLoginHandler;
 import net.minecraft.network.packet.NetHandler;
 import net.minecraft.network.packet.Packet1Login;
 import net.minecraft.server.MinecraftServer;
-import org.spoutcraft.mod.protocol.message.HelloMessage;
+
+import org.spoutcraft.api.Spoutcraft;
+import org.spoutcraft.api.block.Block;
+import org.spoutcraft.api.material.MapIndex;
+import org.spoutcraft.api.material.Material;
 
 public class SpoutcraftConnectionHandler implements IConnectionHandler {
 	@Override
 	public void playerLoggedIn(Player player, NetHandler netHandler, INetworkManager manager) {
-		PacketDispatcher.sendPacketToPlayer(new SpoutcraftPacket(new HelloMessage("Hello client, this is the server")), player);
+		Spoutcraft.getLogger().info("Player has logged in");
+		//Test code
+		if (FMLCommonHandler.instance().getEffectiveSide().isServer()) {
+			Spoutcraft.getBlockRegistry().put(new Block("testblock", "TestBlock", new Material("TestMaterial", MapIndex.DIRT)));
+		}
 	}
 
 	@Override

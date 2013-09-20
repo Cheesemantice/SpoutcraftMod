@@ -1,6 +1,8 @@
 package org.spoutcraft.api.material;
 
-public class Material {
+import java.io.Serializable;
+
+public class Material implements Serializable {
 	private final String name;
 	private final MapIndex color;
 

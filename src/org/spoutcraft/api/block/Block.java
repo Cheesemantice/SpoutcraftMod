@@ -1,8 +1,10 @@
 package org.spoutcraft.api.block;
 
+import java.io.Serializable;
+
 import org.spoutcraft.api.material.Material;
 
-public class Block {
+public class Block implements Serializable {
 	private final String name, displayName;
 	private final Material material;
 

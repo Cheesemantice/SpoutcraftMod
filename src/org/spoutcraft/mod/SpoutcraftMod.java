@@ -1,5 +1,6 @@
 package org.spoutcraft.mod;
 
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
@@ -21,11 +22,13 @@ import org.spoutcraft.mod.material.SpoutcraftMaterialRegistry;
 import org.spoutcraft.mod.protocol.ProtocolRegistry;
 import org.spoutcraft.mod.protocol.SpoutcraftConnectionHandler;
 import org.spoutcraft.mod.protocol.SpoutcraftPacketHandler;
+import org.spoutcraft.mod.protocol.codec.AddBlockCodec;
 import org.spoutcraft.mod.protocol.codec.HelloCodec;
+import org.spoutcraft.mod.protocol.message.AddBlockMessage;
 import org.spoutcraft.mod.protocol.message.HelloMessage;
 
 @Mod (modid = "Spoutcraft", name = "Spoutcraft", version = "1.0.0")
-@NetworkMod (clientSideRequired = true, serverSideRequired = true, channels = {"SpoutcraftHello", "SpoutcraftAddRes"}, packetHandler = SpoutcraftPacketHandler.class)
+@NetworkMod (clientSideRequired = true, serverSideRequired = true, channels = {"SpoutcraftHello", "SpoutcraftAddRes", "SpoutcraftAddBl"}, packetHandler = SpoutcraftPacketHandler.class)
 public class SpoutcraftMod {
 	@Instance (value = "Spoutcraft")
 	public static SpoutcraftMod instance;
@@ -40,21 +43,23 @@ public class SpoutcraftMod {
 		Spoutcraft.setLogger(new SpoutcraftLogger());
 		Spoutcraft.getLogger().init();
 	}
+
 	@EventHandler
 	public void onEnable(FMLPostInitializationEvent event) {
+		//Assign creative tab name
+		LanguageRegistry.instance().addStringLocalization("itemGroup.spoutcraftTab", "en_US", "Spoutcraft");
+		//Register messages
+		ProtocolRegistry.register(HelloMessage.class, HelloCodec.class);
+		ProtocolRegistry.register(AddBlockMessage.class, AddBlockCodec.class);
+
 		//Assign registries
 		Spoutcraft.setBlockRegistry(new SpoutcraftBlockRegistry());
 		Spoutcraft.setMaterialRegistry(new SpoutcraftMaterialRegistry());
 		//Let the API know Spoutcraft is enabled
 		Spoutcraft.enable();
-		//Assign creative tab name
-		LanguageRegistry.instance().addStringLocalization("itemGroup.spoutcraftTab", "en_US", "Spoutcraft");
-		//Register packets
-		ProtocolRegistry.register(HelloMessage.class, HelloCodec.class);
-		//Assign connection handler
+
+		//Setup connection handler
 		NetworkRegistry.instance().registerConnectionHandler(new SpoutcraftConnectionHandler());
-		//Test code
-		Spoutcraft.getBlockRegistry().put(new Block("block", "TestBlock", new Material("TestMaterial", MapIndex.DIRT)));
 	}
 
 	public static CreativeTabs getSpoutcraftTab() {

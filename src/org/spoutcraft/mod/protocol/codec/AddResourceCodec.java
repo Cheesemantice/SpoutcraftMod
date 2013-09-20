@@ -23,7 +23,7 @@ public class AddResourceCodec implements Codec<AddResourceMessage> {
 		if (FMLCommonHandler.instance().getEffectiveSide().isServer()) {
 			throw new IllegalStateException("Server is not allowed to receive resources!");
 		}
-		return null;  //To change body of implemented methods use File | Settings | File Templates.
+		return null;
 	}
 
 	@Override
