@@ -18,4 +18,9 @@ public class Material implements Serializable {
 	public MapIndex getMapColorIndex() {
 		return color;
 	}
+
+	@Override
+	public String toString() {
+		return "Material {name= " + name + ", color= " + color.name() + "}";
+	}
 }

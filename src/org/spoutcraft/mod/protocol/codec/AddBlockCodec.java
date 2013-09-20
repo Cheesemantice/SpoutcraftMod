@@ -5,14 +5,13 @@ import java.nio.ByteBuffer;
 
 import cpw.mods.fml.relauncher.Side;
 import org.apache.commons.lang3.SerializationUtils;
-
 import org.spoutcraft.api.block.Block;
 import org.spoutcraft.mod.protocol.message.AddBlockMessage;
 
 public class AddBlockCodec implements Codec<AddBlockMessage> {
 	@Override
 	public String getChannel() {
-		return "SpoutcraftAddBl";
+		return "SpoutcraftAddBlk";
 	}
 
 	@Override

@@ -6,9 +6,9 @@ import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
-import cpw.mods.fml.relauncher.Side;
-
 import gnu.trove.map.hash.TIntObjectHashMap;
+import gnu.trove.procedure.TIntObjectProcedure;
+import net.minecraft.network.INetworkManager;
 import org.spoutcraft.api.block.Block;
 import org.spoutcraft.api.block.BlockRegistry;
 import org.spoutcraft.mod.material.SpoutcraftMaterial;
@@ -30,26 +30,18 @@ public class SpoutcraftBlockRegistry implements BlockRegistry {
 			throw new IllegalStateException("An attempt was made to put a duplicate named block in the registry!");
 		}
 		final int id = idStart + idCounter.incrementAndGet();
+		return register(id, block);
+	}
+
+	public Block register(int id, Block block) {
 		final Block put = registry.put(id, block);
-		register(id, block);
+		final SpoutcraftBlock spoutcraftBlock = new SpoutcraftBlock(id, block, new SpoutcraftMaterial(block.getMaterial()));
+		LanguageRegistry.addName(spoutcraftBlock, block.getDisplayName());
+		GameRegistry.registerBlock(spoutcraftBlock, block.getDisplayName());
 		if (FMLCommonHandler.instance().getEffectiveSide().isServer()) {
 			PacketDispatcher.sendPacketToAllPlayers(new SpoutcraftPacket(new AddBlockMessage(id, block)));
 		}
 		return put;
-	}
-
-	public void register(int id, Block block) {
-		if (FMLCommonHandler.instance().getEffectiveSide().isClient()) {
-			if (block == null) {
-				throw new IllegalStateException("Attempt to add a null block to the registry!");
-			}
-			if (contains(block.getName())) {
-				throw new IllegalStateException("An attempt was made to put a duplicate named block in the registry!");
-			}
-		}
-		final SpoutcraftBlock spoutcraftBlock = new SpoutcraftBlock(id, block, new SpoutcraftMaterial(block.getMaterial()));
-		LanguageRegistry.addName(spoutcraftBlock, block.getDisplayName());
-		GameRegistry.registerBlock(spoutcraftBlock, block.getDisplayName());
 	}
 
 	@Override
@@ -65,5 +57,20 @@ public class SpoutcraftBlockRegistry implements BlockRegistry {
 	@Override
 	public boolean contains(String name) {
 		return get(name) != null;
+	}
+
+	/**
+	 * Syncs the entire block registry to the client
+	 *
+	 * @param network The connected network
+	 */
+	public void sync(final INetworkManager network) {
+		registry.forEachEntry(new TIntObjectProcedure<Block>() {
+			@Override
+			public boolean execute(int i, Block block) {
+				network.addToSendQueue(new SpoutcraftPacket(new AddBlockMessage(i, block)));
+				return true;
+			}
+		});
 	}
 }

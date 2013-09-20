@@ -25,4 +25,9 @@ public class Block implements Serializable {
 	public Material getMaterial() {
 		return material;
 	}
+
+	@Override
+	public String toString() {
+		return "Block {name= " + name + ", displayName= " + displayName + " material= " + material + "}";
+	}
 }

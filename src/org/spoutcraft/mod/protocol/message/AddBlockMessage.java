@@ -3,7 +3,6 @@ package org.spoutcraft.mod.protocol.message;
 import cpw.mods.fml.common.network.Player;
 import cpw.mods.fml.relauncher.Side;
 import net.minecraft.network.INetworkManager;
-
 import org.spoutcraft.api.Spoutcraft;
 import org.spoutcraft.api.block.Block;
 import org.spoutcraft.api.material.Material;

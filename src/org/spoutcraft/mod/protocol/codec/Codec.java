@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 
 import cpw.mods.fml.relauncher.Side;
-
 import org.spoutcraft.mod.protocol.message.Message;
 
 public interface Codec<T extends Message> {
