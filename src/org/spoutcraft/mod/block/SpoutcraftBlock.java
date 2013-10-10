@@ -1,6 +1,7 @@
 package org.spoutcraft.mod.block;
 
 import net.minecraft.block.Block;
+
 import org.spoutcraft.mod.SpoutcraftMod;
 import org.spoutcraft.mod.material.SpoutcraftMaterial;
 
@@ -12,6 +13,7 @@ public class SpoutcraftBlock extends Block {
 		this.apiBlock = apiBlock;
 		setUnlocalizedName(apiBlock.getName());
 		setCreativeTab(SpoutcraftMod.getSpoutcraftTab());
+		func_111022_d("Spoutcraft:" + apiBlock.getName());
 	}
 
 	public org.spoutcraft.api.block.Block getApiBlock() {

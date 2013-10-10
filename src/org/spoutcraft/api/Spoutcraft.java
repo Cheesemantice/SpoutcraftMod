@@ -3,6 +3,7 @@ package org.spoutcraft.api;
 import org.spoutcraft.api.block.BlockRegistry;
 import org.spoutcraft.api.logger.AbstractLogger;
 import org.spoutcraft.api.material.MaterialRegistry;
+import org.spoutcraft.api.resource.FileSystem;
 
 /**
  * Represents the Spoutcraft core with access to necessary registries
@@ -11,6 +12,7 @@ public final class Spoutcraft {
 	private static AbstractLogger logger;
 	private static BlockRegistry blockRegistry;
 	private static MaterialRegistry materialRegistry;
+	private static FileSystem fileSystem;
 	private static boolean enabled = false;
 
 	public static boolean isSpoutcraftEnabled() {
@@ -27,6 +29,10 @@ public final class Spoutcraft {
 
 	public static MaterialRegistry getMaterialRegistry() {
 		return materialRegistry;
+	}
+
+	public static FileSystem getFileSystem() {
+		return fileSystem;
 	}
 
 	/**
@@ -61,5 +67,16 @@ public final class Spoutcraft {
 		}
 		Spoutcraft.materialRegistry = materialRegistry;
 		return materialRegistry;
+	}
+
+	public static FileSystem setFileSystem(FileSystem fileSystem) {
+		if (Spoutcraft.fileSystem != null) {
+			throw new IllegalStateException("Attempt to assign file system twice!");
+		}
+		if (fileSystem == null) {
+			throw new IllegalStateException("Attempt to assign a null file system!");
+		}
+		Spoutcraft.fileSystem = fileSystem;
+		return fileSystem;
 	}
 }

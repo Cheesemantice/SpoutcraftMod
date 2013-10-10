@@ -3,16 +3,15 @@ package org.spoutcraft.mod.protocol.message;
 import cpw.mods.fml.common.network.Player;
 import cpw.mods.fml.relauncher.Side;
 import net.minecraft.network.INetworkManager;
-import org.spoutcraft.api.resource.Resource;
 
-public class AddResourceMessage implements Message {
-	private final Resource resource;
+public class AddResourceMessage<R> implements Message {
+	private final R resource;
 
-	public AddResourceMessage(Resource resource) {
+	public AddResourceMessage(R resource) {
 		this.resource = resource;
 	}
 
-	public Resource getResource() {
+	public R getResource() {
 		return resource;
 	}
 

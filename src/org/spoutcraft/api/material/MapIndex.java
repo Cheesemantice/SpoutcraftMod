@@ -2,7 +2,7 @@ package org.spoutcraft.api.material;
 
 /**
  * An enum of color indexes that are used when the client renders an in-game map.
- *
+ * <p/>
  * Unfortunately Minecraft limits the amount of color indexes so the following are the only available choices.
  */
 public enum MapIndex {

@@ -7,6 +7,7 @@ import cpw.mods.fml.common.network.IPacketHandler;
 import cpw.mods.fml.common.network.Player;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet250CustomPayload;
+
 import org.spoutcraft.api.Spoutcraft;
 import org.spoutcraft.mod.protocol.codec.Codec;
 import org.spoutcraft.mod.protocol.message.Message;
@@ -14,7 +15,7 @@ import org.spoutcraft.mod.protocol.message.Message;
 public class SpoutcraftPacketHandler implements IPacketHandler {
 	@Override
 	public void onPacketData(INetworkManager manager, Packet250CustomPayload packet, Player player) {
-		final Codec codec = ProtocolRegistry.find(packet.channel);
+		final Codec codec = SpoutcraftProtocol.find(packet.channel);
 		final Message message;
 		try {
 			Spoutcraft.getLogger().info("Decoding codec: " + codec);
