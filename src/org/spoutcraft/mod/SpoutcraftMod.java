@@ -9,10 +9,12 @@ import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.network.NetworkMod;
 import org.spoutcraft.api.Spoutcraft;
 import org.spoutcraft.api.block.BlockPrefab;
+import org.spoutcraft.api.item.ItemPrefab;
 import org.spoutcraft.api.material.MapIndex;
 import org.spoutcraft.api.material.MaterialPrefab;
 import org.spoutcraft.mod.block.SpoutcraftBlockPrefabRegistry;
 import org.spoutcraft.mod.game.CustomTabs;
+import org.spoutcraft.mod.item.SpoutcraftItemPrefabRegistry;
 import org.spoutcraft.mod.logger.SpoutcraftLogger;
 import org.spoutcraft.mod.material.SpoutcraftMaterialPrefabRegistry;
 import org.spoutcraft.mod.protocol.SpoutcraftPacketHandler;
@@ -36,8 +38,9 @@ public class SpoutcraftMod {
 		Spoutcraft.getLogger().init();
 
 		//Setup registries
-		Spoutcraft.setBlockRegistry(new SpoutcraftBlockPrefabRegistry());
 		Spoutcraft.setFileSystem(new SpoutcraftFileSystem());
+		Spoutcraft.setBlockRegistry(new SpoutcraftBlockPrefabRegistry());
+		Spoutcraft.setItemPrefabRegistry(new SpoutcraftItemPrefabRegistry());
 		Spoutcraft.setMaterialRegistry(new SpoutcraftMaterialPrefabRegistry());
 
 		//Init protocol
@@ -55,6 +58,7 @@ public class SpoutcraftMod {
 
 		//Test code
 		Spoutcraft.getBlockPrefabRegistry().put(new BlockPrefab("testblock", "TestBlock", new MaterialPrefab("TestMaterial", MapIndex.DIRT)));
+		Spoutcraft.getItemPrefabRegistry().put(new ItemPrefab("testitem", "TestItem", 128));
 	}
 
 	public static CustomTabs getCustomTabs() {

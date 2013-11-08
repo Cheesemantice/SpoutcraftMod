@@ -1,6 +1,7 @@
 package org.spoutcraft.api;
 
 import org.spoutcraft.api.block.BlockPrefabRegistry;
+import org.spoutcraft.api.item.ItemPrefabRegistry;
 import org.spoutcraft.api.logger.AbstractLogger;
 import org.spoutcraft.api.material.MaterialPrefabRegistry;
 import org.spoutcraft.api.resource.FileSystem;
@@ -11,6 +12,7 @@ import org.spoutcraft.api.resource.FileSystem;
 public final class Spoutcraft {
 	private static AbstractLogger logger;
 	private static BlockPrefabRegistry blockPrefabRegistry;
+	private static ItemPrefabRegistry itemPrefabRegistry;
 	private static MaterialPrefabRegistry materialPrefabRegistry;
 	private static FileSystem fileSystem;
 	private static boolean enabled = false;
@@ -25,6 +27,10 @@ public final class Spoutcraft {
 
 	public static BlockPrefabRegistry getBlockPrefabRegistry() {
 		return blockPrefabRegistry;
+	}
+
+	public static ItemPrefabRegistry getItemPrefabRegistry() {
+		return itemPrefabRegistry;
 	}
 
 	public static MaterialPrefabRegistry getMaterialPrefabRegistry() {
@@ -56,6 +62,17 @@ public final class Spoutcraft {
 		}
 		Spoutcraft.blockPrefabRegistry = blockPrefabRegistry;
 		return blockPrefabRegistry;
+	}
+
+	public static ItemPrefabRegistry setItemPrefabRegistry(ItemPrefabRegistry itemPrefabRegistry) {
+		if (Spoutcraft.itemPrefabRegistry != null) {
+			throw new IllegalStateException("Attempt to assign item prefab registry twice!");
+		}
+		if (itemPrefabRegistry == null) {
+			throw new IllegalStateException("Attempt to assign a null item prefab registry!");
+		}
+		Spoutcraft.itemPrefabRegistry = itemPrefabRegistry;
+		return itemPrefabRegistry;
 	}
 
 	public static MaterialPrefabRegistry setMaterialRegistry(MaterialPrefabRegistry materialPrefabRegistry) {

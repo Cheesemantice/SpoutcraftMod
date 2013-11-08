@@ -3,16 +3,21 @@ package org.spoutcraft.api.item;
 import java.io.Serializable;
 
 public class ItemPrefab implements Serializable {
-	private final String name;
+	private final String name, displayName;
 	private final int maxStackSize;
 
-	public ItemPrefab(String name, int maxStackSize) {
+	public ItemPrefab(String name, String displayName, int maxStackSize) {
 		this.name = name;
+		this.displayName = displayName;
 		this.maxStackSize = maxStackSize;
 	}
 
 	public String getName() {
 		return name;
+	}
+
+	public String getDisplayName() {
+		return displayName;
 	}
 
 	public int getMaxStackSize() {
@@ -33,6 +38,11 @@ public class ItemPrefab implements Serializable {
 		if (maxStackSize != that.maxStackSize) {
 			return false;
 		}
+
+		if (!displayName.equals(that.displayName)) {
+			return false;
+		}
+
 		if (!name.equals(that.name)) {
 			return false;
 		}
@@ -49,6 +59,6 @@ public class ItemPrefab implements Serializable {
 
 	@Override
 	public String toString() {
-		return "ItemPrefab {name= " + name + ", maxStackSize= " + maxStackSize + "}";
+		return "ItemPrefab {name= " + name + ", displayName: " + displayName + ", maxStackSize= " + maxStackSize + "}";
 	}
 }
