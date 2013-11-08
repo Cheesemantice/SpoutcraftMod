@@ -5,7 +5,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 import cpw.mods.fml.common.network.NetworkRegistry;
-
 import org.spoutcraft.mod.protocol.codec.Codec;
 import org.spoutcraft.mod.protocol.codec.UpdateBlockCodec;
 import org.spoutcraft.mod.protocol.message.Message;
@@ -39,12 +38,12 @@ public class SpoutcraftProtocol {
 		table.put(clazz, c);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings ("unchecked")
 	public static <T extends Message> Codec<T> find(Class<T> clazz) {
 		return (Codec<T>) table.get(clazz);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings ("unchecked")
 	public static <T extends Message> Codec<T> find(String channel) {
 		for (Codec codec : table.values()) {
 			if (codec.getChannel().equals(channel)) {

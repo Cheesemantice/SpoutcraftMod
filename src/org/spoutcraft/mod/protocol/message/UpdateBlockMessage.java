@@ -3,26 +3,25 @@ package org.spoutcraft.mod.protocol.message;
 import cpw.mods.fml.common.network.Player;
 import cpw.mods.fml.relauncher.Side;
 import net.minecraft.network.INetworkManager;
-
 import org.spoutcraft.api.Spoutcraft;
-import org.spoutcraft.api.block.Block;
-import org.spoutcraft.mod.block.SpoutcraftBlockRegistry;
+import org.spoutcraft.api.block.BlockPrefab;
+import org.spoutcraft.mod.block.SpoutcraftBlockPrefabRegistry;
 
 public class UpdateBlockMessage implements Message {
 	private final int id;
-	private final Block block;
+	private final BlockPrefab blockPrefab;
 
-	public UpdateBlockMessage(int id, Block block) {
+	public UpdateBlockMessage(int id, BlockPrefab blockPrefab) {
 		this.id = id;
-		this.block = block;
+		this.blockPrefab = blockPrefab;
 	}
 
 	public int getId() {
 		return id;
 	}
 
-	public Block getBlock() {
-		return block;
+	public BlockPrefab getBlock() {
+		return blockPrefab;
 	}
 
 	@Override
@@ -30,7 +29,7 @@ public class UpdateBlockMessage implements Message {
 		if (side.isServer()) {
 			throw new IllegalStateException("The server is not allowed to receive blocks");
 		}
-		Spoutcraft.getLogger().info("Received block: " + block + " with id: " + id + " from the server");
-		((SpoutcraftBlockRegistry) Spoutcraft.getBlockRegistry()).prepareForRendering(null, block);
+		Spoutcraft.getLogger().info("Received blockPrefab: " + blockPrefab + " with id: " + id + " from the server");
+		((SpoutcraftBlockPrefabRegistry) Spoutcraft.getBlockPrefabRegistry()).prepareForRendering(null, blockPrefab);
 	}
 }

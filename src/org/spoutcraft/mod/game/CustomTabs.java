@@ -5,8 +5,8 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
-public class SpoutcraftTab extends CreativeTabs {
-	public SpoutcraftTab() {
+public class CustomTabs extends CreativeTabs {
+	public CustomTabs() {
 		super("Spoutcraft");
 		LanguageRegistry.instance().addStringLocalization("itemGroup.Spoutcraft", "en_US", "Spoutcraft");
 	}

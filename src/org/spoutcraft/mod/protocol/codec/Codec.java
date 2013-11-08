@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 
 import cpw.mods.fml.relauncher.Side;
-
 import org.spoutcraft.mod.protocol.message.Message;
 
 public interface Codec<T extends Message> {
@@ -12,6 +11,7 @@ public interface Codec<T extends Message> {
 
 	/**
 	 * Decodes a buffer into a message
+	 *
 	 * @param side The current side Forge is on (Client/Server)
 	 * @param buffer the buffer to read from
 	 * @return the message fully encoded.
@@ -21,6 +21,7 @@ public interface Codec<T extends Message> {
 
 	/**
 	 * Encodes a {@link Message} into a {@link ByteBuffer}.
+	 *
 	 * @param side The current side Forge is on (Client/Server)
 	 * @param message The message to encode
 	 * @return A buffer ready to be sent

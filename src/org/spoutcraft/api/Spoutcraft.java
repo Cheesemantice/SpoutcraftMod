@@ -1,8 +1,8 @@
 package org.spoutcraft.api;
 
-import org.spoutcraft.api.block.BlockRegistry;
+import org.spoutcraft.api.block.BlockPrefabRegistry;
 import org.spoutcraft.api.logger.AbstractLogger;
-import org.spoutcraft.api.material.MaterialRegistry;
+import org.spoutcraft.api.material.MaterialPrefabRegistry;
 import org.spoutcraft.api.resource.FileSystem;
 
 /**
@@ -10,8 +10,8 @@ import org.spoutcraft.api.resource.FileSystem;
  */
 public final class Spoutcraft {
 	private static AbstractLogger logger;
-	private static BlockRegistry blockRegistry;
-	private static MaterialRegistry materialRegistry;
+	private static BlockPrefabRegistry blockPrefabRegistry;
+	private static MaterialPrefabRegistry materialPrefabRegistry;
 	private static FileSystem fileSystem;
 	private static boolean enabled = false;
 
@@ -23,12 +23,12 @@ public final class Spoutcraft {
 		return logger;
 	}
 
-	public static BlockRegistry getBlockRegistry() {
-		return blockRegistry;
+	public static BlockPrefabRegistry getBlockPrefabRegistry() {
+		return blockPrefabRegistry;
 	}
 
-	public static MaterialRegistry getMaterialRegistry() {
-		return materialRegistry;
+	public static MaterialPrefabRegistry getMaterialPrefabRegistry() {
+		return materialPrefabRegistry;
 	}
 
 	public static FileSystem getFileSystem() {
@@ -47,26 +47,26 @@ public final class Spoutcraft {
 		return logger;
 	}
 
-	public static BlockRegistry setBlockRegistry(BlockRegistry blockRegistry) {
-		if (Spoutcraft.blockRegistry != null) {
+	public static BlockPrefabRegistry setBlockRegistry(BlockPrefabRegistry blockPrefabRegistry) {
+		if (Spoutcraft.blockPrefabRegistry != null) {
 			throw new IllegalStateException("Attempt to assign block registry twice!");
 		}
-		if (blockRegistry == null) {
+		if (blockPrefabRegistry == null) {
 			throw new IllegalStateException("Attempt to assign a null block registry!");
 		}
-		Spoutcraft.blockRegistry = blockRegistry;
-		return blockRegistry;
+		Spoutcraft.blockPrefabRegistry = blockPrefabRegistry;
+		return blockPrefabRegistry;
 	}
 
-	public static MaterialRegistry setMaterialRegistry(MaterialRegistry materialRegistry) {
-		if (Spoutcraft.materialRegistry != null) {
+	public static MaterialPrefabRegistry setMaterialRegistry(MaterialPrefabRegistry materialPrefabRegistry) {
+		if (Spoutcraft.materialPrefabRegistry != null) {
 			throw new IllegalStateException("Attempt to assign material registry twice!");
 		}
-		if (materialRegistry == null) {
+		if (materialPrefabRegistry == null) {
 			throw new IllegalStateException("Attempt to assign a null material registry!");
 		}
-		Spoutcraft.materialRegistry = materialRegistry;
-		return materialRegistry;
+		Spoutcraft.materialPrefabRegistry = materialPrefabRegistry;
+		return materialPrefabRegistry;
 	}
 
 	public static FileSystem setFileSystem(FileSystem fileSystem) {

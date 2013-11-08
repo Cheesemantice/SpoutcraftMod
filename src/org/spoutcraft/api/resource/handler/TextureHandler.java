@@ -1,9 +1,9 @@
 package org.spoutcraft.api.resource.handler;
 
-import javax.imageio.ImageIO;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import javax.imageio.ImageIO;
 
 import org.spoutcraft.api.resource.ResourceHandler;
 import org.spoutcraft.api.resource.type.Texture;

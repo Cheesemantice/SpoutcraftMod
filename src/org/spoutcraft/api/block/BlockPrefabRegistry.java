@@ -1,23 +1,26 @@
 package org.spoutcraft.api.block;
 
-public interface BlockRegistry {
+public interface BlockPrefabRegistry {
 	/**
-	 * Puts a new {@link org.spoutcraft.api.block.Block} into the registry.
-	 * @param block The block to put
+	 * Puts a new {@link BlockPrefab} into the registry.
+	 *
+	 * @param blockPrefab The block to put
 	 * @return The block
 	 * @throws IllegalStateException If the block has been added before or if the block provided is null
 	 */
-	public Block put(Block block);
+	public BlockPrefab put(BlockPrefab blockPrefab);
 
 	/**
 	 * Gets a block by its unique name
+	 *
 	 * @param name The name to lookup
 	 * @return The block or null if not found
 	 */
-	public Block get(String name);
+	public BlockPrefab get(String name);
 
 	/**
 	 * Returns if this registry contains a block with the name provided
+	 *
 	 * @param name The name to lookup
 	 * @return True if found, false if not
 	 */

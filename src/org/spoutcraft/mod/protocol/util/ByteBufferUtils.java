@@ -5,9 +5,8 @@ import java.nio.ByteBuffer;
 
 public class ByteBufferUtils {
 	/**
-	 * Writes a string to the buffer provided.
-	 * <p/>
-	 * This method will grow the buffer if capacity is exceeded
+	 * Writes a string to the buffer provided. <p/> This method will grow the buffer if capacity is exceeded
+	 *
 	 * @param buffer To write to
 	 * @param toWrite String to write
 	 * @throws IOException If writing fails to occur
@@ -18,9 +17,8 @@ public class ByteBufferUtils {
 	}
 
 	/**
-	 * Reads a string from the buffer provided with a specified length.
-	 * <p/>
-	 * This method assumes the buffer's position is set to the start position to read the string.
+	 * Reads a string from the buffer provided with a specified length. <p/> This method assumes the buffer's position is set to the start position to read the string.
+	 *
 	 * @param buffer Buffer to read from
 	 * @param length Length to read
 	 * @return The read string

@@ -2,11 +2,11 @@ package org.spoutcraft.api.material;
 
 import java.io.Serializable;
 
-public class Material implements Serializable {
+public class MaterialPrefab implements Serializable {
 	private final String name;
 	private final MapIndex color;
 
-	public Material(String name, MapIndex color) {
+	public MaterialPrefab(String name, MapIndex color) {
 		this.name = name;
 		this.color = color;
 	}
@@ -21,6 +21,6 @@ public class Material implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Material {name= " + name + ", color= " + color.name() + "}";
+		return "MaterialPrefab {name= " + name + ", color= " + color.name() + "}";
 	}
 }

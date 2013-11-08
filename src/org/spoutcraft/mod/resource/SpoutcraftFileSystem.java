@@ -12,7 +12,6 @@ import java.util.Map;
 import java.util.Set;
 
 import cpw.mods.fml.common.FMLCommonHandler;
-
 import org.spoutcraft.api.resource.FileSystem;
 import org.spoutcraft.api.resource.ResourceHandler;
 
@@ -21,7 +20,6 @@ public class SpoutcraftFileSystem implements FileSystem {
 	public static final Path TEXTURES_DIR = Paths.get(ASSETS_DIR.toString(), "textures");
 	public static final Path BLOCK_TEXTURES_DIR = Paths.get(TEXTURES_DIR.toString(), "blocks");
 	public static final Path ITEM_TEXTURES_DIR = Paths.get(TEXTURES_DIR.toString(), "items");
-
 	private final Map<URI, Object> loadedResources = new HashMap<>();
 
 	public void init() throws IOException {
