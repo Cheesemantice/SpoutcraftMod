@@ -6,17 +6,17 @@ import org.spoutcraft.mod.SpoutcraftMod;
 import org.spoutcraft.mod.material.CustomMaterial;
 
 public class CustomBlock extends Block {
-	private final BlockPrefab apiBlockPrefab;
+	private final BlockPrefab prefab;
 
-	public CustomBlock(int id, BlockPrefab apiBlockPrefab, CustomMaterial material) {
+	public CustomBlock(int id, BlockPrefab prefab, CustomMaterial material) {
 		super(id, material);
-		this.apiBlockPrefab = apiBlockPrefab;
-		setUnlocalizedName(apiBlockPrefab.getName());
+		this.prefab = prefab;
+		setUnlocalizedName(prefab.getName());
 		setCreativeTab(SpoutcraftMod.getCustomTabs());
-		func_111022_d("Spoutcraft:" + apiBlockPrefab.getName());
+		func_111022_d("spoutcraft:" + prefab.getName());
 	}
 
-	public BlockPrefab getApiPrefab() {
-		return apiBlockPrefab;
+	public BlockPrefab getPrefab() {
+		return prefab;
 	}
 }
