@@ -12,6 +12,7 @@ public class CustomItem extends Item {
 		this.prefab = prefab;
 		setCreativeTab(SpoutcraftMod.getCustomTabs());
 		setUnlocalizedName("spoutcraft:" + prefab.getName());
+		setTextureName("spoutcraft:" + prefab.getName());
 		setMaxStackSize(prefab.getMaxStackSize());
 	}
 

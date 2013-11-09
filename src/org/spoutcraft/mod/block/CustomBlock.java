@@ -13,7 +13,7 @@ public class CustomBlock extends Block {
 		this.prefab = prefab;
 		setUnlocalizedName(prefab.getName());
 		setCreativeTab(SpoutcraftMod.getCustomTabs());
-		func_111022_d("spoutcraft:" + prefab.getName());
+		setTextureName("spoutcraft:" + prefab.getName());
 	}
 
 	public BlockPrefab getPrefab() {
