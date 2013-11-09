@@ -5,9 +5,12 @@ import java.util.concurrent.atomic.AtomicInteger;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 import gnu.trove.map.hash.TIntObjectHashMap;
+import net.minecraft.item.Item;
 import org.spoutcraft.api.Spoutcraft;
+import org.spoutcraft.api.item.FoodPrefab;
 import org.spoutcraft.api.item.ItemPrefab;
 import org.spoutcraft.api.item.ItemPrefabRegistry;
+import org.spoutcraft.api.item.SpoutcraftItem;
 
 public class SpoutcraftItemPrefabRegistry implements ItemPrefabRegistry {
 	// ID -> Block
@@ -24,9 +27,19 @@ public class SpoutcraftItemPrefabRegistry implements ItemPrefabRegistry {
 			throw new IllegalStateException("An attempt was made to put a duplicate named item prefab in the registry!");
 		}
 		final int id = 1000 + idCounter.incrementAndGet();
-		final CustomItem customItem = new CustomItem(id, prefab);
-		GameRegistry.registerItem(customItem, prefab.getName());
-		LanguageRegistry.addName(customItem, prefab.getDisplayName());
+		final SpoutcraftItem item;
+		switch(prefab.getType()) {
+			case GENERIC:
+				item = new CustomItem(id, prefab);
+				break;
+			case FOOD:
+				item = new CustomFood(id, (FoodPrefab) prefab);
+				break;
+			default:
+				throw new IllegalStateException("Prefab type: " + prefab.getType().name() + " is not a valid type!");
+		}
+		GameRegistry.registerItem((Item) item, prefab.getName());
+		LanguageRegistry.addName(item, prefab.getDisplayName());
 		registry.put(id, prefab);
 		//TODO Send AddItemMessage to all players
 		return prefab;

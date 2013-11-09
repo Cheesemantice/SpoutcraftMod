@@ -1,15 +1,15 @@
 package org.spoutcraft.mod.item;
 
-import net.minecraft.item.Item;
-import org.spoutcraft.api.item.ItemPrefab;
+import net.minecraft.item.ItemFood;
+import org.spoutcraft.api.item.FoodPrefab;
 import org.spoutcraft.api.item.SpoutcraftItem;
 import org.spoutcraft.mod.SpoutcraftMod;
 
-public class CustomItem extends Item implements SpoutcraftItem {
-	private final ItemPrefab prefab;
+public class CustomFood extends ItemFood implements SpoutcraftItem {
+	private final FoodPrefab prefab;
 
-	public CustomItem(int id, ItemPrefab prefab) {
-		super(id);
+	public CustomFood(int id, FoodPrefab prefab) {
+		super(id, prefab.getHealAmount(), prefab.getSaturationModifier(), prefab.isWolfFavorite());
 		this.prefab = prefab;
 		setCreativeTab(SpoutcraftMod.getCustomTabs());
 		setUnlocalizedName("spoutcraft:" + prefab.getName());
@@ -18,7 +18,7 @@ public class CustomItem extends Item implements SpoutcraftItem {
 	}
 
 	@Override
-	public ItemPrefab getPrefab() {
+	public FoodPrefab getPrefab() {
 		return prefab;
 	}
 }

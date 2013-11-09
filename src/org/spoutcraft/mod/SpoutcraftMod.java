@@ -9,6 +9,7 @@ import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.network.NetworkMod;
 import org.spoutcraft.api.Spoutcraft;
 import org.spoutcraft.api.block.BlockPrefab;
+import org.spoutcraft.api.item.FoodPrefab;
 import org.spoutcraft.api.item.ItemPrefab;
 import org.spoutcraft.api.material.MapIndex;
 import org.spoutcraft.api.material.MaterialPrefab;
@@ -59,6 +60,7 @@ public class SpoutcraftMod {
 		//Test code
 		Spoutcraft.getBlockPrefabRegistry().put(new BlockPrefab("testblock", "TestBlock", new MaterialPrefab("TestMaterial", MapIndex.DIRT)));
 		Spoutcraft.getItemPrefabRegistry().put(new ItemPrefab("testitem", "TestItem", 128));
+		Spoutcraft.getItemPrefabRegistry().put(new FoodPrefab("testfood", "TestFood", 10, 1, 0, false));
 	}
 
 	public static CustomTabs getCustomTabs() {
