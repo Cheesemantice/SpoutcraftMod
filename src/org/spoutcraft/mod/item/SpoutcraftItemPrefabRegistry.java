@@ -28,9 +28,6 @@ public class SpoutcraftItemPrefabRegistry implements PrefabRegistry<ItemPrefab> 
 	public ItemPrefab put(ItemPrefab prefab) {
 		Spoutcraft.getLogger().info("Putting item prefab into registry");
 		Spoutcraft.getLogger().info(prefab.toString());
-		if (prefab == null) {
-			throw new IllegalStateException("Attempt to add a null item prefab to the registry!");
-		}
 		final int id = ID_START + ID_COUNTER.incrementAndGet();
 		final Item item;
 		switch (prefab.getType()) {

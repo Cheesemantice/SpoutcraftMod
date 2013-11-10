@@ -29,9 +29,6 @@ public class SpoutcraftBlockPrefabRegistry implements PrefabRegistry<BlockPrefab
 	public BlockPrefab put(BlockPrefab prefab) {
 		Spoutcraft.getLogger().info("Putting block prefab into registry");
 		Spoutcraft.getLogger().info(prefab.toString());
-		if (prefab == null) {
-			throw new IllegalStateException("Attempt to add a null block prefab to the registry!");
-		}
 		final int id = ID_START + ID_COUNTER.incrementAndGet();
 		final Block block;
 		switch (prefab.getType()) {

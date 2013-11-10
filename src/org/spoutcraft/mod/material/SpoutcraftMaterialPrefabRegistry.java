@@ -20,10 +20,6 @@ public class SpoutcraftMaterialPrefabRegistry implements PrefabRegistry<Material
 
 	@Override
 	public MaterialPrefab put(MaterialPrefab prefab) {
-		Spoutcraft.getLogger().info("Putting material prefab into registry");
-		if (prefab == null) {
-			throw new IllegalStateException("Attempt to add a null material prefab to the registry!");
-		}
 		final Material material;
 		switch (prefab.getType()) {
 			default:
