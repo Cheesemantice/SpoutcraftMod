@@ -13,6 +13,14 @@ public class TestItem extends ItemPrefab {
 	}
 
 	@Override
+	public boolean onLeftClickEntity(Side side, ItemStack stack, EntityPlayer player, Entity entity) {
+		if (side.isServer()) {
+			entity.worldObj.createExplosion(entity, entity.posX, entity.posY, entity.posZ, 25f, true);
+		}
+		return false;
+	}
+
+	@Override
 	public ItemStack onItemRightClick(Side side, ItemStack stack, World world, EntityPlayer player) {
 		if (side.isServer()) {
 			world.createExplosion(player, player.posX, player.posY, player.posZ, 3f, true);
@@ -21,10 +29,12 @@ public class TestItem extends ItemPrefab {
 	}
 
 	@Override
-	public boolean onLeftClickEntity(Side side, ItemStack stack, EntityPlayer player, Entity entity) {
-		if (side.isServer()) {
-			entity.worldObj.createExplosion(entity, entity.posX, entity.posY, entity.posZ, 3f, true);
-		}
-		return false;
+	public void onUpdate(Side side, ItemStack stack, World world, Entity entity, int slot, boolean isCurrentlyHeldItem) {
+
+	}
+
+	@Override
+	public void onCraftOrSmelt(Side side, ItemStack stack, World world, EntityPlayer player) {
+
 	}
 }

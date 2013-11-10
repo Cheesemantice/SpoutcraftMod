@@ -35,9 +35,13 @@ public abstract class ItemPrefab extends Prefab {
 		return maxStackSize;
 	}
 
+	public abstract boolean onLeftClickEntity(Side side, ItemStack stack, EntityPlayer player, Entity entity);
+
 	public abstract ItemStack onItemRightClick(Side side, ItemStack stack, World world, EntityPlayer player);
 
-	public abstract boolean onLeftClickEntity(Side side, ItemStack stack, EntityPlayer player, Entity entity);
+	public abstract void onUpdate(Side side, ItemStack stack, World world, Entity entity, int slot, boolean isCurrentlyHeldItem);
+
+	public abstract void onCraftOrSmelt(Side side, ItemStack stack, World world, EntityPlayer player);
 
 	@Override
 	public String toString() {

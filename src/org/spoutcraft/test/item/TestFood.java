@@ -13,6 +13,11 @@ public class TestFood extends FoodPrefab {
 	}
 
 	@Override
+	public boolean onLeftClickEntity(Side side, ItemStack stack, EntityPlayer player, Entity entity) {
+		return false;
+	}
+
+	@Override
 	public ItemStack onItemRightClick(Side side, ItemStack stack, World world, EntityPlayer player) {
 		if (side.isServer()) {
 			player.addChatMessage("You right click'd with the prefab: " + getIdentifier());
@@ -21,8 +26,13 @@ public class TestFood extends FoodPrefab {
 	}
 
 	@Override
-	public boolean onLeftClickEntity(Side side, ItemStack stack, EntityPlayer player, Entity entity) {
-		return false;
+	public void onUpdate(Side side, ItemStack stack, World world, Entity entity, int slot, boolean isCurrentlyHeldItem) {
+
+	}
+
+	@Override
+	public void onCraftOrSmelt(Side side, ItemStack stack, World world, EntityPlayer player) {
+
 	}
 
 	@Override
