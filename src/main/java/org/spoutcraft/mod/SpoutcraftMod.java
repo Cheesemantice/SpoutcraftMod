@@ -47,7 +47,7 @@ public class SpoutcraftMod {
 		try {
 			((SpoutcraftFileSystem) Spoutcraft.getFileSystem()).init();
 		} catch (IOException ioe) {
-			throw new IllegalStateException("Failure to initialize file system");
+			ioe.printStackTrace();
 		}
 
 		//Setup creative tab
@@ -58,6 +58,8 @@ public class SpoutcraftMod {
 		Spoutcraft.getItemPrefabRegistry().put(new TestItem());
 		Spoutcraft.getItemPrefabRegistry().put(new TestFood());
 		Spoutcraft.getBlockPrefabRegistry().put(new TestSand());
+
+		SpoutcraftPrefabs.init();
 	}
 
 	public static CustomTabs getCustomTabs() {
