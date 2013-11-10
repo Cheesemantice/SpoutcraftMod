@@ -1,6 +1,7 @@
 package org.spoutcraft.mod.item;
 
 import cpw.mods.fml.common.FMLCommonHandler;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -28,5 +29,11 @@ public class CustomItem extends Item {
 	public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer) {
 		super.onItemRightClick(par1ItemStack, par2World, par3EntityPlayer);
 		return prefab.onItemRightClick(FMLCommonHandler.instance().getEffectiveSide(), par1ItemStack, par2World, par3EntityPlayer);
+	}
+
+	@Override
+	public boolean onLeftClickEntity(ItemStack stack, EntityPlayer player, Entity entity) {
+		super.onLeftClickEntity(stack, player, entity);
+		return prefab.onLeftClickEntity(FMLCommonHandler.instance().getEffectiveSide(), stack, player, entity);
 	}
 }
