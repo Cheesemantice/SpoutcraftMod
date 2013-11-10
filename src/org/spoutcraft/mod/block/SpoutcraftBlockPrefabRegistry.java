@@ -1,61 +1,65 @@
 package org.spoutcraft.mod.block;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
-import gnu.trove.map.hash.TIntObjectHashMap;
-import gnu.trove.procedure.TIntObjectProcedure;
+import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.network.INetworkManager;
+import org.spoutcraft.api.PrefabRegistry;
 import org.spoutcraft.api.Spoutcraft;
 import org.spoutcraft.api.block.BlockPrefab;
-import org.spoutcraft.api.block.BlockPrefabRegistry;
-import org.spoutcraft.api.resource.type.Texture;
 import org.spoutcraft.mod.material.CustomMaterial;
 import org.spoutcraft.mod.protocol.SpoutcraftPacket;
-import org.spoutcraft.mod.protocol.message.UpdateBlockMessage;
+import org.spoutcraft.mod.protocol.message.UpdatePrefabMessage;
 
-public class SpoutcraftBlockPrefabRegistry implements BlockPrefabRegistry {
-	// ID -> Block
-	private final TIntObjectHashMap<BlockPrefab> registry = new TIntObjectHashMap<>();
-	private final AtomicInteger idCounter = new AtomicInteger(0);
+public class SpoutcraftBlockPrefabRegistry implements PrefabRegistry<BlockPrefab> {
+	private static final ArrayList<BlockPrefab> REGISTRY = new ArrayList<>();
+	private static final AtomicInteger ID_COUNTER = new AtomicInteger(0);
+	//INTERNAL
+	private static final HashMap<BlockPrefab, Block> PREFAB_BY_BLOCK = new HashMap<>();
+	private static final int ID_START = 2000;
 
 	@Override
-	public BlockPrefab put(BlockPrefab blockPrefab) {
-		Spoutcraft.getLogger().info("Putting blockPrefab: " + blockPrefab + " into registry");
-		if (blockPrefab == null) {
-			throw new IllegalStateException("Attempt to add a null blockPrefab to the registry!");
+	public BlockPrefab put(BlockPrefab prefab) {
+		Spoutcraft.getLogger().info("Putting block prefab into registry");
+		Spoutcraft.getLogger().info(prefab.toString());
+		if (prefab == null) {
+			throw new IllegalStateException("Attempt to add a null block prefab to the registry!");
 		}
-		if (contains(blockPrefab.getName())) {
-			throw new IllegalStateException("An attempt was made to put a duplicate named blockPrefab in the registry!");
+		final int id = ID_START + ID_COUNTER.incrementAndGet();
+		final Block block;
+		switch (prefab.getType()) {
+			case SAND:
+				block = new CustomSand(id, prefab, new CustomMaterial(prefab.getMaterialPrefab()));
+				break;
+			default:
+				block = new CustomBlock(id, prefab, new CustomMaterial(prefab.getMaterialPrefab()));
 		}
-		final int id = 2000 + idCounter.incrementAndGet();
-		final CustomBlock customBlock = new CustomBlock(id, blockPrefab, new CustomMaterial(blockPrefab.getMaterialPrefab()));
-		GameRegistry.registerBlock(customBlock, ItemBlock.class, blockPrefab.getName(), "Spoutcraft");
-		LanguageRegistry.addName(customBlock, blockPrefab.getDisplayName());
-		registry.put(id, blockPrefab);
+		REGISTRY.add(prefab);
+		PREFAB_BY_BLOCK.put(prefab, block);
+		//TODO Link ItemPrefab to BlockPrefab as an option
+		GameRegistry.registerBlock(block, ItemBlock.class, prefab.getIdentifier(), "Spoutcraft");
+		LanguageRegistry.addName(block, prefab.getDisplayName());
 		if (FMLCommonHandler.instance().getEffectiveSide().isServer()) {
-			PacketDispatcher.sendPacketToAllPlayers(new SpoutcraftPacket(new UpdateBlockMessage(id, blockPrefab)));
+			PacketDispatcher.sendPacketToAllPlayers(new SpoutcraftPacket(new UpdatePrefabMessage(prefab)));
 		}
-		return blockPrefab;
+		return prefab;
 	}
 
 	@Override
-	public BlockPrefab get(String name) {
-		for (BlockPrefab blockPrefab : registry.valueCollection()) {
-			if (blockPrefab.getName().equals(name)) {
-				return blockPrefab;
+	public BlockPrefab get(String identifier) {
+		for (BlockPrefab prefab : REGISTRY) {
+			if (prefab.getIdentifier().equals(identifier)) {
+				return prefab;
 			}
 		}
 		return null;
-	}
-
-	@Override
-	public boolean contains(String name) {
-		return get(name) != null;
 	}
 
 	/**
@@ -65,17 +69,11 @@ public class SpoutcraftBlockPrefabRegistry implements BlockPrefabRegistry {
 	 */
 	public void sync(final INetworkManager network) {
 		Spoutcraft.getLogger().info("Preparing to sync block registry");
-		registry.forEachEntry(new TIntObjectProcedure<BlockPrefab>() {
-			@Override
-			public boolean execute(int i, BlockPrefab blockPrefab) {
-				Spoutcraft.getLogger().info("Sending blockPrefab: " + blockPrefab + " to network: " + network);
-				network.addToSendQueue(new SpoutcraftPacket(new UpdateBlockMessage(i, blockPrefab)));
-				return true;
-			}
-		});
-	}
-
-	public <R extends Texture> void prepareForRendering(R resource, BlockPrefab blockPrefab) {
-
+		//TODO Scheduler and sending
+		for (BlockPrefab prefab : REGISTRY) {
+			Spoutcraft.getLogger().info("Syncing block prefab to client");
+			Spoutcraft.getLogger().info(prefab.toString());
+			network.addToSendQueue(new SpoutcraftPacket(new UpdatePrefabMessage(prefab)));
+		}
 	}
 }

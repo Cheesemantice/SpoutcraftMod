@@ -1,9 +1,9 @@
 package org.spoutcraft.api;
 
-import org.spoutcraft.api.block.BlockPrefabRegistry;
-import org.spoutcraft.api.item.ItemPrefabRegistry;
+import org.spoutcraft.api.block.BlockPrefab;
+import org.spoutcraft.api.item.ItemPrefab;
 import org.spoutcraft.api.logger.AbstractLogger;
-import org.spoutcraft.api.material.MaterialPrefabRegistry;
+import org.spoutcraft.api.material.MaterialPrefab;
 import org.spoutcraft.api.resource.FileSystem;
 
 /**
@@ -11,29 +11,24 @@ import org.spoutcraft.api.resource.FileSystem;
  */
 public final class Spoutcraft {
 	private static AbstractLogger logger;
-	private static BlockPrefabRegistry blockPrefabRegistry;
-	private static ItemPrefabRegistry itemPrefabRegistry;
-	private static MaterialPrefabRegistry materialPrefabRegistry;
+	private static PrefabRegistry<? extends BlockPrefab> blockPrefabRegistry;
+	private static PrefabRegistry<? extends ItemPrefab> itemPrefabRegistry;
+	private static PrefabRegistry<? extends MaterialPrefab> materialPrefabRegistry;
 	private static FileSystem fileSystem;
-	private static boolean enabled = false;
-
-	public static boolean isSpoutcraftEnabled() {
-		return enabled;
-	}
 
 	public static AbstractLogger getLogger() {
 		return logger;
 	}
 
-	public static BlockPrefabRegistry getBlockPrefabRegistry() {
+	public static PrefabRegistry getBlockPrefabRegistry() {
 		return blockPrefabRegistry;
 	}
 
-	public static ItemPrefabRegistry getItemPrefabRegistry() {
+	public static PrefabRegistry getItemPrefabRegistry() {
 		return itemPrefabRegistry;
 	}
 
-	public static MaterialPrefabRegistry getMaterialPrefabRegistry() {
+	public static PrefabRegistry getMaterialPrefabRegistry() {
 		return materialPrefabRegistry;
 	}
 
@@ -42,29 +37,25 @@ public final class Spoutcraft {
 	}
 
 	/**
-	 * INTERNAL USE ONLY *
+	 * INTERNAL USE ONLY
 	 */
-	public static void enable() {
-		enabled = true; //TODO Discover a better way to do this
-	}
-
 	public static AbstractLogger setLogger(AbstractLogger logger) {
 		Spoutcraft.logger = logger;
 		return logger;
 	}
 
-	public static BlockPrefabRegistry setBlockRegistry(BlockPrefabRegistry blockPrefabRegistry) {
+	public static PrefabRegistry setBlockRegistry(PrefabRegistry<? extends BlockPrefab> prefabRegistry) {
 		if (Spoutcraft.blockPrefabRegistry != null) {
 			throw new IllegalStateException("Attempt to assign block registry twice!");
 		}
-		if (blockPrefabRegistry == null) {
+		if (prefabRegistry == null) {
 			throw new IllegalStateException("Attempt to assign a null block registry!");
 		}
-		Spoutcraft.blockPrefabRegistry = blockPrefabRegistry;
-		return blockPrefabRegistry;
+		Spoutcraft.blockPrefabRegistry = prefabRegistry;
+		return prefabRegistry;
 	}
 
-	public static ItemPrefabRegistry setItemPrefabRegistry(ItemPrefabRegistry itemPrefabRegistry) {
+	public static PrefabRegistry setItemPrefabRegistry(PrefabRegistry<? extends ItemPrefab> itemPrefabRegistry) {
 		if (Spoutcraft.itemPrefabRegistry != null) {
 			throw new IllegalStateException("Attempt to assign item prefab registry twice!");
 		}
@@ -75,7 +66,7 @@ public final class Spoutcraft {
 		return itemPrefabRegistry;
 	}
 
-	public static MaterialPrefabRegistry setMaterialRegistry(MaterialPrefabRegistry materialPrefabRegistry) {
+	public static PrefabRegistry setMaterialRegistry(PrefabRegistry<? extends MaterialPrefab> materialPrefabRegistry) {
 		if (Spoutcraft.materialPrefabRegistry != null) {
 			throw new IllegalStateException("Attempt to assign material registry twice!");
 		}

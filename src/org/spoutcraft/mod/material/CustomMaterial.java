@@ -5,14 +5,14 @@ import net.minecraft.block.material.Material;
 import org.spoutcraft.api.material.MaterialPrefab;
 
 public class CustomMaterial extends Material {
-	private final MaterialPrefab apiMaterialPrefab;
+	private final MaterialPrefab prefab;
 
-	public CustomMaterial(MaterialPrefab apiMaterialPrefab) {
-		super(MapColor.mapColorArray[apiMaterialPrefab.getMapColorIndex().getIndex()]);
-		this.apiMaterialPrefab = apiMaterialPrefab;
+	public CustomMaterial(MaterialPrefab prefab) {
+		super(MapColor.mapColorArray[prefab.getMapIndex().getIndex()]);
+		this.prefab = prefab;
 	}
 
-	public MaterialPrefab getApiPrefab() {
-		return apiMaterialPrefab;
+	public MaterialPrefab getPrefab() {
+		return prefab;
 	}
 }

@@ -1,26 +1,48 @@
 package org.spoutcraft.api.material;
 
-import java.io.Serializable;
+import org.spoutcraft.api.Prefab;
 
-public class MaterialPrefab implements Serializable {
-	private final String name;
-	private final MapIndex color;
+public class MaterialPrefab extends Prefab {
+	private final MaterialType type;
+	private final MapIndex index;
 
-	public MaterialPrefab(String name, MapIndex color) {
-		this.name = name;
-		this.color = color;
+	public MaterialPrefab(String identifier, MapIndex index) {
+		this(identifier, MaterialType.GENERIC, index);
 	}
 
-	public String getName() {
-		return name;
+	public MaterialPrefab(String identifier, MaterialType type, MapIndex index) {
+		super(identifier);
+		this.type = type;
+		this.index = index;
 	}
 
-	public MapIndex getMapColorIndex() {
-		return color;
+	public MaterialType getType() {
+		return type;
+	}
+
+	public MapIndex getMapIndex() {
+		return index;
 	}
 
 	@Override
 	public String toString() {
-		return "MaterialPrefab {name= " + name + ", color= " + color.name() + "}";
+		final String NEW_LINE = System.getProperty("line.separator");
+		final String parent = super.toString();
+		final StringBuilder builder;
+		if (parent.endsWith("}")) {
+			builder = new StringBuilder(parent.substring(0, parent.length() - 2) + NEW_LINE); //TODO CHECK THIS
+			builder.insert(builder.indexOf("Identifier: " + super.getIdentifier()), " ");
+			builder
+					.append("  Type: " + type.name() + NEW_LINE)
+					.append("  Map Index: " + index.name() + NEW_LINE)
+					.append(" }");
+		} else {
+			builder = new StringBuilder(parent.substring(0, parent.length() - 1) + NEW_LINE);
+			builder
+					.append(" Type: " + type.name() + NEW_LINE)
+					.append(" Map Index: " + index.name() + NEW_LINE)
+					.append("}");
+		}
+		return builder.toString();
 	}
 }

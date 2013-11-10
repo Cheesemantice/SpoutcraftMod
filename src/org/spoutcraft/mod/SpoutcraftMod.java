@@ -7,6 +7,7 @@ import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.network.NetworkMod;
+import net.minecraft.block.material.MapColor;
 import org.spoutcraft.api.Spoutcraft;
 import org.spoutcraft.api.block.BlockPrefab;
 import org.spoutcraft.api.item.FoodPrefab;
@@ -23,17 +24,15 @@ import org.spoutcraft.mod.protocol.SpoutcraftProtocol;
 import org.spoutcraft.mod.resource.SpoutcraftFileSystem;
 
 @Mod (modid = "Spoutcraft")
-@NetworkMod (clientSideRequired = true, serverSideRequired = true, channels = {"SPC-AddResource", "SPC-UpdateBlock"}, packetHandler = SpoutcraftPacketHandler.class)
+@NetworkMod (clientSideRequired = true, serverSideRequired = true, channels = {"SPC-AddResource", "SPC-UpdatePrefab"}, packetHandler = SpoutcraftPacketHandler.class)
 public class SpoutcraftMod {
 	@Instance (value = "Spoutcraft")
 	public static SpoutcraftMod instance;
 	private static CustomTabs customTabs;
 
 	@EventHandler
+	@SuppressWarnings ("unchecked")
 	public void onLoad(FMLPostInitializationEvent event) {
-		//Let the API know Spoutcraft is enabled
-		Spoutcraft.enable();
-
 		//Setup logger
 		Spoutcraft.setLogger(new SpoutcraftLogger());
 		Spoutcraft.getLogger().init();
@@ -58,6 +57,7 @@ public class SpoutcraftMod {
 		customTabs = new CustomTabs();
 
 		//Test code
+		//TODO Look into fixing generics so suppression isn't needed
 		Spoutcraft.getBlockPrefabRegistry().put(new BlockPrefab("testblock", "TestBlock", new MaterialPrefab("TestMaterial", MapIndex.DIRT)));
 		Spoutcraft.getItemPrefabRegistry().put(new ItemPrefab("testitem", "TestItem", 128));
 		Spoutcraft.getItemPrefabRegistry().put(new FoodPrefab("testfood", "TestFood", 10, 1, 0, false));
