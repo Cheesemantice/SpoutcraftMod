@@ -1,6 +1,10 @@
 package org.spoutcraft.api.item;
 
-public class FoodPrefab extends ItemPrefab {
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.world.World;
+
+public abstract class FoodPrefab extends ItemPrefab {
 	private final int healAmount;
 	private final int saturationModifier;
 	private final boolean wolfFavorite;
@@ -23,6 +27,8 @@ public class FoodPrefab extends ItemPrefab {
 	public boolean isWolfFavorite() {
 		return wolfFavorite;
 	}
+
+	public abstract ItemStack onEaten(ItemStack stack, World world, EntityPlayer player);
 
 	@Override
 	public String toString() {
