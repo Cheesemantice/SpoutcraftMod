@@ -23,7 +23,6 @@ public class SpoutcraftFileSystem implements FileSystem {
 	public static final Path BLOCK_TEXTURES_DIR = Paths.get(TEXTURES_DIR.toString(), "blocks");
 	public static final Path ITEM_TEXTURES_DIR = Paths.get(TEXTURES_DIR.toString(), "items");
 	//Special
-	public static final Path SPOUTCRAFT_EMBLEM_PNG = Paths.get(ITEM_TEXTURES_DIR.toString(), "spoutcraft_emblem.png");
 	private final Map<URI, Object> loadedResources = new HashMap<>();
 
 	public void init() throws IOException {
@@ -35,14 +34,6 @@ public class SpoutcraftFileSystem implements FileSystem {
 		}
 		if (!Files.exists(ITEM_TEXTURES_DIR)) {
 			Files.createDirectories(ITEM_TEXTURES_DIR);
-		}
-		if (!Files.exists(SPOUTCRAFT_EMBLEM_PNG)) {
-			Path parent = Paths.get(new File("").getAbsolutePath()).getParent().getParent().getParent();
-			Path child = Paths.get(parent.toString(), "SpoutcraftMod" + File.separator + "src" + File.separator + "main" + File.separator + "resources" + File.separator);
-			Spoutcraft.getLogger().info(child.toString());
-			Path emblem = Paths.get(child.toString(), "spoutcraft_emblem.png");
-			Spoutcraft.getLogger().info(emblem.toString());
-			FileUtils.moveFile(emblem.toFile(), new File(ITEM_TEXTURES_DIR.toFile(), "spoutcraft_emblem.png"));
 		}
 	}
 
