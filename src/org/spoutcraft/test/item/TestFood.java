@@ -1,6 +1,7 @@
 package org.spoutcraft.test.item;
 
 import cpw.mods.fml.relauncher.Side;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
@@ -17,6 +18,11 @@ public class TestFood extends FoodPrefab {
 			player.addChatMessage("You right click'd with the prefab: " + getIdentifier());
 		}
 		return stack;
+	}
+
+	@Override
+	public boolean onLeftClickEntity(Side side, ItemStack stack, EntityPlayer player, Entity entity) {
+		return false;
 	}
 
 	@Override

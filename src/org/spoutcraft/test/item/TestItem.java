@@ -1,6 +1,7 @@
 package org.spoutcraft.test.item;
 
 import cpw.mods.fml.relauncher.Side;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
@@ -17,5 +18,13 @@ public class TestItem extends ItemPrefab {
 			world.createExplosion(player, player.posX, player.posY, player.posZ, 3f, true);
 		}
 		return stack;
+	}
+
+	@Override
+	public boolean onLeftClickEntity(Side side, ItemStack stack, EntityPlayer player, Entity entity) {
+		if (side.isServer()) {
+			entity.worldObj.createExplosion(entity, entity.posX, entity.posY, entity.posZ, 3f, true);
+		}
+		return false;
 	}
 }

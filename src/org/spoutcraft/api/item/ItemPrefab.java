@@ -1,6 +1,7 @@
 package org.spoutcraft.api.item;
 
 import cpw.mods.fml.relauncher.Side;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
@@ -35,6 +36,8 @@ public abstract class ItemPrefab extends Prefab {
 	}
 
 	public abstract ItemStack onItemRightClick(Side side, ItemStack stack, World world, EntityPlayer player);
+
+	public abstract boolean onLeftClickEntity(Side side, ItemStack stack, EntityPlayer player, Entity entity);
 
 	@Override
 	public String toString() {
