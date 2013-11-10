@@ -14,6 +14,7 @@ public class CustomBlock extends Block {
 		setUnlocalizedName(prefab.getIdentifier());
 		setCreativeTab(SpoutcraftMod.getCustomTabs());
 		setTextureName("spoutcraft:" + prefab.getIdentifier());
+		setHardness(prefab.getHardness());
 	}
 
 	public BlockPrefab getPrefab() {

@@ -7,16 +7,18 @@ public class BlockPrefab extends Prefab {
 	private final BlockType type;
 	private final String displayName;
 	private final MaterialPrefab prefab;
+	private final float hardness;
 
-	public BlockPrefab(final String identifier, final String displayName, final MaterialPrefab prefab) {
-		this(identifier, BlockType.GENERIC, displayName, prefab);
+	public BlockPrefab(String identifier, String displayName, MaterialPrefab prefab, float hardness) {
+		this(identifier, BlockType.GENERIC, displayName, prefab, hardness);
 	}
 
-	public BlockPrefab(String identifier, BlockType type, String displayName, MaterialPrefab prefab) {
+	public BlockPrefab(String identifier, BlockType type, String displayName, MaterialPrefab prefab, float hardness) {
 		super(identifier);
 		this.type = type;
 		this.displayName = displayName;
 		this.prefab = prefab;
+		this.hardness = hardness;
 	}
 
 	public BlockType getType() {
@@ -31,6 +33,10 @@ public class BlockPrefab extends Prefab {
 		return prefab;
 	}
 
+	public float getHardness() {
+		return hardness;
+	}
+
 	@Override
 	public String toString() {
 		final String NEW_LINE = System.getProperty("line.separator");
@@ -40,6 +46,7 @@ public class BlockPrefab extends Prefab {
 				.append(" Type: " + type.name() + NEW_LINE)
 				.append(" Display Name: " + displayName + NEW_LINE)
 				.append(" " + prefab.toString() + NEW_LINE)
+				.append(" Hardness: " + hardness + NEW_LINE)
 				.append("}");
 		return builder.toString();
 	}

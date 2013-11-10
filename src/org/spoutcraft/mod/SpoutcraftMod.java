@@ -10,6 +10,7 @@ import cpw.mods.fml.common.network.NetworkMod;
 import net.minecraft.block.material.MapColor;
 import org.spoutcraft.api.Spoutcraft;
 import org.spoutcraft.api.block.BlockPrefab;
+import org.spoutcraft.api.block.BlockType;
 import org.spoutcraft.api.item.FoodPrefab;
 import org.spoutcraft.api.item.ItemPrefab;
 import org.spoutcraft.api.material.MapIndex;
@@ -58,9 +59,11 @@ public class SpoutcraftMod {
 
 		//Test code
 		//TODO Look into fixing generics so suppression isn't needed
-		Spoutcraft.getBlockPrefabRegistry().put(new BlockPrefab("testblock", "TestBlock", new MaterialPrefab("TestMaterial", MapIndex.DIRT)));
+		final MaterialPrefab testMaterial = new MaterialPrefab("TestMaterial", MapIndex.DIRT);
+		Spoutcraft.getBlockPrefabRegistry().put(new BlockPrefab("testblock", "TestBlock", testMaterial, 0.5F));
 		Spoutcraft.getItemPrefabRegistry().put(new ItemPrefab("testitem", "TestItem", 128));
 		Spoutcraft.getItemPrefabRegistry().put(new FoodPrefab("testfood", "TestFood", 10, 1, 0, false));
+		Spoutcraft.getBlockPrefabRegistry().put(new BlockPrefab("testsand", BlockType.SAND, "TestSand", testMaterial, 0.5F));
 	}
 
 	public static CustomTabs getCustomTabs() {
