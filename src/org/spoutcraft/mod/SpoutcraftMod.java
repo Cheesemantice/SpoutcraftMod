@@ -7,17 +7,9 @@ import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.network.NetworkMod;
-import cpw.mods.fml.relauncher.Side;
-import net.minecraft.block.material.MapColor;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ChatMessageComponent;
-import net.minecraft.world.World;
 import org.spoutcraft.api.Spoutcraft;
 import org.spoutcraft.api.block.BlockPrefab;
 import org.spoutcraft.api.block.BlockType;
-import org.spoutcraft.api.item.FoodPrefab;
-import org.spoutcraft.api.item.ItemPrefab;
 import org.spoutcraft.api.material.MapIndex;
 import org.spoutcraft.api.material.MaterialPrefab;
 import org.spoutcraft.mod.block.SpoutcraftBlockPrefabRegistry;
@@ -28,6 +20,9 @@ import org.spoutcraft.mod.material.SpoutcraftMaterialPrefabRegistry;
 import org.spoutcraft.mod.protocol.SpoutcraftPacketHandler;
 import org.spoutcraft.mod.protocol.SpoutcraftProtocol;
 import org.spoutcraft.mod.resource.SpoutcraftFileSystem;
+import org.spoutcraft.test.block.TestSand;
+import org.spoutcraft.test.item.TestFood;
+import org.spoutcraft.test.item.TestItem;
 
 @Mod (modid = "Spoutcraft")
 @NetworkMod (clientSideRequired = true, serverSideRequired = true, channels = {"SPC-AddResource", "SPC-UpdatePrefab"}, packetHandler = SpoutcraftPacketHandler.class)
@@ -64,35 +59,9 @@ public class SpoutcraftMod {
 
 		//Test code
 		//TODO Look into fixing generics so suppression isn't needed
-		final MaterialPrefab testMaterial = new MaterialPrefab("TestMaterial", MapIndex.DIRT);
-		Spoutcraft.getBlockPrefabRegistry().put(new BlockPrefab("testblock", "TestBlock", testMaterial, 0.5F));
-		Spoutcraft.getItemPrefabRegistry().put(new ItemPrefab("testitem", "TestItem", 128) {
-			@Override
-			public ItemStack onItemRightClick(Side side, ItemStack stack, World world, EntityPlayer player) {
-				if (side.isServer()) {
-					player.addChatMessage("You right click'd with the prefab: " + getIdentifier());
-				}
-				return stack;
-			}
-		});
-		Spoutcraft.getItemPrefabRegistry().put(new FoodPrefab("testfood", "TestFood", 10, 1, 0, false) {
-			@Override
-			public ItemStack onItemRightClick(Side side, ItemStack stack, World world, EntityPlayer player) {
-				if (side.isServer()) {
-					player.addChatMessage("You right click'd with the prefab: " + getIdentifier());
-				}
-				return stack;
-			}
-
-			@Override
-			public ItemStack onEaten(Side side, ItemStack stack, World world, EntityPlayer player) {
-				if (side.isServer()) {
-					player.addChatMessage("Thanks for eating a test item!");
-				}
-				return stack;
-			}
-		});
-		Spoutcraft.getBlockPrefabRegistry().put(new BlockPrefab("testsand", BlockType.SAND, "TestSand", testMaterial, 0.5F));
+		Spoutcraft.getItemPrefabRegistry().put(new TestItem());
+		Spoutcraft.getItemPrefabRegistry().put(new TestFood());
+		Spoutcraft.getBlockPrefabRegistry().put(new TestSand());
 	}
 
 	public static CustomTabs getCustomTabs() {
