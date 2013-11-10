@@ -6,14 +6,10 @@ import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import cpw.mods.fml.common.FMLCommonHandler;
-import org.apache.commons.io.FileUtils;
-import org.spoutcraft.api.Spoutcraft;
 import org.spoutcraft.api.resource.FileSystem;
 import org.spoutcraft.api.resource.ResourceHandler;
 
@@ -22,8 +18,6 @@ public class SpoutcraftFileSystem implements FileSystem {
 	public static final Path TEXTURES_DIR = Paths.get(ASSETS_DIR.toString(), "textures");
 	public static final Path BLOCK_TEXTURES_DIR = Paths.get(TEXTURES_DIR.toString(), "blocks");
 	public static final Path ITEM_TEXTURES_DIR = Paths.get(TEXTURES_DIR.toString(), "items");
-	//Special
-	private final Map<URI, Object> loadedResources = new HashMap<>();
 
 	public void init() throws IOException {
 		if (!Files.exists(TEXTURES_DIR)) {
