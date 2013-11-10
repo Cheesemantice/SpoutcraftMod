@@ -1,6 +1,10 @@
 package org.spoutcraft.mod.item;
 
+import cpw.mods.fml.common.FMLCommonHandler;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.world.World;
 import org.spoutcraft.api.item.ItemPrefab;
 import org.spoutcraft.mod.SpoutcraftMod;
 
@@ -18,5 +22,11 @@ public class CustomItem extends Item {
 
 	public ItemPrefab getPrefab() {
 		return prefab;
+	}
+
+	@Override
+	public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer) {
+		super.onItemRightClick(par1ItemStack, par2World, par3EntityPlayer);
+		return prefab.onItemRightClick(FMLCommonHandler.instance().getEffectiveSide(), par1ItemStack, par2World, par3EntityPlayer);
 	}
 }

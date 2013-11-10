@@ -7,6 +7,7 @@ import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.network.NetworkMod;
+import cpw.mods.fml.relauncher.Side;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -65,11 +66,29 @@ public class SpoutcraftMod {
 		//TODO Look into fixing generics so suppression isn't needed
 		final MaterialPrefab testMaterial = new MaterialPrefab("TestMaterial", MapIndex.DIRT);
 		Spoutcraft.getBlockPrefabRegistry().put(new BlockPrefab("testblock", "TestBlock", testMaterial, 0.5F));
-		Spoutcraft.getItemPrefabRegistry().put(new ItemPrefab("testitem", "TestItem", 128));
+		Spoutcraft.getItemPrefabRegistry().put(new ItemPrefab("testitem", "TestItem", 128) {
+			@Override
+			public ItemStack onItemRightClick(Side side, ItemStack stack, World world, EntityPlayer player) {
+				if (side.isServer()) {
+					player.addChatMessage("You right click'd with the prefab: " + getIdentifier());
+				}
+				return stack;
+			}
+		});
 		Spoutcraft.getItemPrefabRegistry().put(new FoodPrefab("testfood", "TestFood", 10, 1, 0, false) {
 			@Override
-			public ItemStack onEaten(ItemStack stack, World world, EntityPlayer player) {
-				player.addChatMessage("Thanks for eating a test item!");
+			public ItemStack onItemRightClick(Side side, ItemStack stack, World world, EntityPlayer player) {
+				if (side.isServer()) {
+					player.addChatMessage("You right click'd with the prefab: " + getIdentifier());
+				}
+				return stack;
+			}
+
+			@Override
+			public ItemStack onEaten(Side side, ItemStack stack, World world, EntityPlayer player) {
+				if (side.isServer()) {
+					player.addChatMessage("Thanks for eating a test item!");
+				}
 				return stack;
 			}
 		});

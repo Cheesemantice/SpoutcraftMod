@@ -1,8 +1,12 @@
 package org.spoutcraft.api.item;
 
+import cpw.mods.fml.relauncher.Side;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.world.World;
 import org.spoutcraft.api.Prefab;
 
-public class ItemPrefab extends Prefab {
+public abstract class ItemPrefab extends Prefab {
 	private final ItemType type;
 	private final String displayName;
 	private final int maxStackSize;
@@ -29,6 +33,8 @@ public class ItemPrefab extends Prefab {
 	public int getMaxStackSize() {
 		return maxStackSize;
 	}
+
+	public abstract ItemStack onItemRightClick(Side side, ItemStack stack, World world, EntityPlayer player);
 
 	@Override
 	public String toString() {

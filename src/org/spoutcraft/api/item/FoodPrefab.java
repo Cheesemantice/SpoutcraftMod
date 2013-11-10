@@ -1,5 +1,6 @@
 package org.spoutcraft.api.item;
 
+import cpw.mods.fml.relauncher.Side;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
@@ -28,7 +29,7 @@ public abstract class FoodPrefab extends ItemPrefab {
 		return wolfFavorite;
 	}
 
-	public abstract ItemStack onEaten(ItemStack stack, World world, EntityPlayer player);
+	public abstract ItemStack onEaten(Side side, ItemStack stack, World world, EntityPlayer player);
 
 	@Override
 	public String toString() {
