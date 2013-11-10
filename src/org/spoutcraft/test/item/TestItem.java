@@ -37,4 +37,9 @@ public class TestItem extends ItemPrefab {
 	public void onCraftOrSmelt(Side side, ItemStack stack, World world, EntityPlayer player) {
 
 	}
+
+	@Override
+	public void onPlayerStoppedUsing(Side side, ItemStack stack, World world, EntityPlayer player, int ticksItemHasBeenUsed) {
+
+	}
 }

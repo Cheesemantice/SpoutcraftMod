@@ -43,6 +43,8 @@ public abstract class ItemPrefab extends Prefab {
 
 	public abstract void onCraftOrSmelt(Side side, ItemStack stack, World world, EntityPlayer player);
 
+	public abstract void onPlayerStoppedUsing(Side side, ItemStack stack, World world, EntityPlayer player, int ticksItemHasBeenUsed);
+
 	@Override
 	public String toString() {
 		final String NEW_LINE = System.getProperty("line.separator");
