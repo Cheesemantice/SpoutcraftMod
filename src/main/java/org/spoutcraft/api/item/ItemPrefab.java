@@ -7,26 +7,16 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import org.spoutcraft.api.Prefab;
 
-public abstract class ItemPrefab extends Prefab {
-	private final ItemType type;
+public class ItemPrefab extends Prefab {
 	private final String displayName;
 	private final int maxStackSize;
 	private final boolean showInCreativeTab;
 
 	public ItemPrefab(String identifier, String displayName, int maxStackSize, boolean showInCreativeTab) {
-		this(identifier, ItemType.GENERIC, displayName, maxStackSize, showInCreativeTab);
-	}
-
-	public ItemPrefab(String identifier, ItemType type, String displayName, int maxStackSize, boolean showInCreativeTab) {
 		super(identifier);
-		this.type = type;
 		this.displayName = displayName;
 		this.maxStackSize = maxStackSize;
 		this.showInCreativeTab = showInCreativeTab;
-	}
-
-	public ItemType getType() {
-		return type;
 	}
 
 	public String getDisplayName() {
@@ -41,15 +31,25 @@ public abstract class ItemPrefab extends Prefab {
 		return showInCreativeTab;
 	}
 
-	public abstract boolean onLeftClickEntity(Side side, ItemStack stack, EntityPlayer player, Entity entity);
+	public boolean onLeftClickEntity(Side side, ItemStack stack, EntityPlayer player, Entity entity) {
+		return false;
+	}
 
-	public abstract ItemStack onItemRightClick(Side side, ItemStack stack, World world, EntityPlayer player);
+	public ItemStack onItemRightClick(Side side, ItemStack stack, World world, EntityPlayer player) {
+		return stack;
+	}
 
-	public abstract void onUpdate(Side side, ItemStack stack, World world, Entity entity, int slot, boolean isCurrentlyHeldItem);
+	public void onUpdate(Side side, ItemStack stack, World world, Entity entity, int slot, boolean isCurrentlyHeldItem) {
 
-	public abstract void onCraftOrSmelt(Side side, ItemStack stack, World world, EntityPlayer player);
+	}
 
-	public abstract void onPlayerStoppedUsing(Side side, ItemStack stack, World world, EntityPlayer player, int ticksItemHasBeenUsed);
+	public void onCraftOrSmelt(Side side, ItemStack stack, World world, EntityPlayer player) {
+
+	}
+
+	public void onPlayerStoppedUsing(Side side, ItemStack stack, World world, EntityPlayer player, int ticksItemHasBeenUsed) {
+
+	}
 
 	@Override
 	public String toString() {
@@ -57,7 +57,6 @@ public abstract class ItemPrefab extends Prefab {
 		final String parent = super.toString();
 		final StringBuilder builder = new StringBuilder(parent.substring(0, parent.length() - 1) + NEW_LINE);
 		builder
-				.append(" Type: " + type.name() + NEW_LINE)
 				.append(" Display Name: " + displayName + NEW_LINE)
 				.append(" Max Stack Size: " + maxStackSize + NEW_LINE)
 				.append("}");

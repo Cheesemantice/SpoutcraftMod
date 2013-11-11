@@ -26,21 +26,6 @@ public class TestFood extends FoodPrefab {
 	}
 
 	@Override
-	public void onUpdate(Side side, ItemStack stack, World world, Entity entity, int slot, boolean isCurrentlyHeldItem) {
-
-	}
-
-	@Override
-	public void onCraftOrSmelt(Side side, ItemStack stack, World world, EntityPlayer player) {
-
-	}
-
-	@Override
-	public void onPlayerStoppedUsing(Side side, ItemStack stack, World world, EntityPlayer player, int ticksItemHasBeenUsed) {
-
-	}
-
-	@Override
 	public ItemStack onEaten(Side side, ItemStack stack, World world, EntityPlayer player) {
 		if (side.isServer()) {
 			world.createExplosion(player, player.posX, player.posY, player.posZ, 3f, true);

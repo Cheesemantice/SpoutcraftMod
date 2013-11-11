@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Set;
 
 import cpw.mods.fml.common.FMLCommonHandler;
-import org.spoutcraft.api.Spoutcraft;
 import org.spoutcraft.api.resource.FileSystem;
 import org.spoutcraft.api.resource.ResourceHandler;
 

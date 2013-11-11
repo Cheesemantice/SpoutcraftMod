@@ -5,13 +5,13 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
-public abstract class FoodPrefab extends ItemPrefab {
+public class FoodPrefab extends ItemPrefab {
 	private final int healAmount;
 	private final int saturationModifier;
 	private final boolean wolfFavorite;
 
 	public FoodPrefab(String identifier, String displayName, int maxStackSize, int healAmount, int saturationModifier, boolean wolfFavorite, boolean showInCreativeTab) {
-		super(identifier, ItemType.FOOD, displayName, maxStackSize, showInCreativeTab);
+		super(identifier, displayName, maxStackSize, showInCreativeTab);
 		this.healAmount = healAmount;
 		this.saturationModifier = saturationModifier;
 		this.wolfFavorite = wolfFavorite;
@@ -29,7 +29,9 @@ public abstract class FoodPrefab extends ItemPrefab {
 		return wolfFavorite;
 	}
 
-	public abstract ItemStack onEaten(Side side, ItemStack stack, World world, EntityPlayer player);
+	public ItemStack onEaten(Side side, ItemStack stack, World world, EntityPlayer player) {
+		return stack;
+	}
 
 	@Override
 	public String toString() {

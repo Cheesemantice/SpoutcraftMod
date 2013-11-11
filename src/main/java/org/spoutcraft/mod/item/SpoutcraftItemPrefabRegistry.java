@@ -2,6 +2,7 @@ package org.spoutcraft.mod.item;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import cpw.mods.fml.common.FMLCommonHandler;
@@ -17,7 +18,7 @@ import org.spoutcraft.api.item.ItemPrefab;
 import org.spoutcraft.mod.protocol.SpoutcraftPacket;
 import org.spoutcraft.mod.protocol.message.UpdatePrefabMessage;
 
-public class SpoutcraftItemPrefabRegistry implements PrefabRegistry<ItemPrefab> {
+public class SpoutcraftItemPrefabRegistry implements PrefabRegistry<ItemPrefab, Item> {
 	private static final ArrayList<ItemPrefab> REGISTRY = new ArrayList<>();
 	private static final AtomicInteger ID_COUNTER = new AtomicInteger(0);
 	//INTERNAL
@@ -26,25 +27,34 @@ public class SpoutcraftItemPrefabRegistry implements PrefabRegistry<ItemPrefab> 
 
 	@Override
 	public ItemPrefab put(ItemPrefab prefab) {
-		Spoutcraft.getLogger().info("Putting item prefab into registry");
-		Spoutcraft.getLogger().info(prefab.toString());
+		create(prefab);
+		return prefab;
+	}
+
+	@Override
+	public Item create(ItemPrefab prefab) {
+		if (prefab == null) {
+			throw new IllegalStateException("Attempt made to put null item prefab into registry!");
+		}
+
 		final int id = ID_START + ID_COUNTER.incrementAndGet();
 		final Item item;
-		switch (prefab.getType()) {
-			case FOOD:
-				item = new CustomFood(id, (FoodPrefab) prefab);
-				break;
-			default:
-				item = new CustomItem(id, prefab);
+		if (prefab instanceof FoodPrefab) {
+			item = new CustomFood(id, (FoodPrefab) prefab);
+		} else {
+			item = new CustomItem(id, prefab);
 		}
+
 		REGISTRY.add(prefab);
 		PREFAB_BY_ITEM.put(prefab, item);
+
 		GameRegistry.registerItem(item, prefab.getIdentifier(), "Spoutcraft");
 		LanguageRegistry.addName(item, prefab.getDisplayName());
 		if (FMLCommonHandler.instance().getEffectiveSide().isServer()) {
 			PacketDispatcher.sendPacketToAllPlayers(new SpoutcraftPacket(new UpdatePrefabMessage(prefab)));
 		}
-		return prefab;
+
+		return item;
 	}
 
 	@Override
@@ -52,6 +62,23 @@ public class SpoutcraftItemPrefabRegistry implements PrefabRegistry<ItemPrefab> 
 		for (ItemPrefab prefab : REGISTRY) {
 			if (prefab.getIdentifier().equals(identifier)) {
 				return prefab;
+			}
+		}
+		return null;
+	}
+
+	@Override
+	public Item find(ItemPrefab prefab) {
+		return prefab == null ? null : PREFAB_BY_ITEM.get(prefab);
+	}
+
+	@Override
+	public Item find(String identifier) {
+		if (identifier != null && !identifier.isEmpty()) {
+			for (Map.Entry<ItemPrefab, Item> entry : PREFAB_BY_ITEM.entrySet()) {
+				if (entry.getKey().getIdentifier().equals(identifier)) {
+					return entry.getValue();
+				}
 			}
 		}
 		return null;

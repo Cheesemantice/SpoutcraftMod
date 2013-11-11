@@ -27,19 +27,4 @@ public class TestItem extends ItemPrefab {
 		}
 		return stack;
 	}
-
-	@Override
-	public void onUpdate(Side side, ItemStack stack, World world, Entity entity, int slot, boolean isCurrentlyHeldItem) {
-
-	}
-
-	@Override
-	public void onCraftOrSmelt(Side side, ItemStack stack, World world, EntityPlayer player) {
-
-	}
-
-	@Override
-	public void onPlayerStoppedUsing(Side side, ItemStack stack, World world, EntityPlayer player, int ticksItemHasBeenUsed) {
-
-	}
 }

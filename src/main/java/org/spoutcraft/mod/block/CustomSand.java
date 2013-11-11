@@ -1,14 +1,14 @@
 package org.spoutcraft.mod.block;
 
 import net.minecraft.block.BlockSand;
-import org.spoutcraft.api.block.BlockPrefab;
+import org.spoutcraft.api.block.MovingPrefab;
 import org.spoutcraft.mod.SpoutcraftMod;
 import org.spoutcraft.mod.material.CustomMaterial;
 
 public class CustomSand extends BlockSand {
-	private final BlockPrefab prefab;
+	private final MovingPrefab prefab;
 
-	public CustomSand(int id, BlockPrefab prefab, CustomMaterial material) {
+	public CustomSand(int id, MovingPrefab prefab, CustomMaterial material) {
 		super(id, material);
 		this.prefab = prefab;
 		setUnlocalizedName(prefab.getIdentifier());
@@ -20,7 +20,7 @@ public class CustomSand extends BlockSand {
 		}
 	}
 
-	public BlockPrefab getPrefab() {
+	public MovingPrefab getPrefab() {
 		return prefab;
 	}
 }
