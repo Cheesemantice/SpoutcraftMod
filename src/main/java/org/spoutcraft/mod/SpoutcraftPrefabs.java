@@ -9,7 +9,7 @@ public class SpoutcraftPrefabs {
 	public static final VanillaEmblem VANILLA_EMBLEM = new VanillaEmblem();
 
 	public static void init() {
-		Spoutcraft.getBlockPrefabRegistry().put(VANILLA_EMBLEM);
+		Spoutcraft.getItemPrefabRegistry().put(VANILLA_EMBLEM);
 		Spoutcraft.getItemPrefabRegistry().put(SPOUTCRAFT_EMBLEM);
 	}
 }

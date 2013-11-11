@@ -8,17 +8,19 @@ public class BlockPrefab extends Prefab {
 	private final String displayName;
 	private final MaterialPrefab prefab;
 	private final float hardness;
+	private final boolean showInCreativeTab;
 
-	public BlockPrefab(String identifier, String displayName, MaterialPrefab prefab, float hardness) {
-		this(identifier, BlockType.GENERIC, displayName, prefab, hardness);
+	public BlockPrefab(String identifier, String displayName, MaterialPrefab prefab, float hardness, boolean showInCreativeTab) {
+		this(identifier, BlockType.GENERIC, displayName, prefab, hardness, showInCreativeTab);
 	}
 
-	public BlockPrefab(String identifier, BlockType type, String displayName, MaterialPrefab prefab, float hardness) {
+	public BlockPrefab(String identifier, BlockType type, String displayName, MaterialPrefab prefab, float hardness, boolean showInCreativeTab) {
 		super(identifier);
 		this.type = type;
 		this.displayName = displayName;
 		this.prefab = prefab;
 		this.hardness = hardness;
+		this.showInCreativeTab = showInCreativeTab;
 	}
 
 	public BlockType getType() {
@@ -35,6 +37,10 @@ public class BlockPrefab extends Prefab {
 
 	public float getHardness() {
 		return hardness;
+	}
+
+	public boolean shouldShowInCreativeTab() {
+		return showInCreativeTab;
 	}
 
 	@Override

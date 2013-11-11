@@ -11,16 +11,18 @@ public abstract class ItemPrefab extends Prefab {
 	private final ItemType type;
 	private final String displayName;
 	private final int maxStackSize;
+	private final boolean showInCreativeTab;
 
-	public ItemPrefab(String identifier, String displayName, int maxStackSize) {
-		this(identifier, ItemType.GENERIC, displayName, maxStackSize);
+	public ItemPrefab(String identifier, String displayName, int maxStackSize, boolean showInCreativeTab) {
+		this(identifier, ItemType.GENERIC, displayName, maxStackSize, showInCreativeTab);
 	}
 
-	public ItemPrefab(String identifier, ItemType type, String displayName, int maxStackSize) {
+	public ItemPrefab(String identifier, ItemType type, String displayName, int maxStackSize, boolean showInCreativeTab) {
 		super(identifier);
 		this.type = type;
 		this.displayName = displayName;
 		this.maxStackSize = maxStackSize;
+		this.showInCreativeTab = showInCreativeTab;
 	}
 
 	public ItemType getType() {
@@ -33,6 +35,10 @@ public abstract class ItemPrefab extends Prefab {
 
 	public int getMaxStackSize() {
 		return maxStackSize;
+	}
+
+	public boolean shouldShowInCreativeTab() {
+		return showInCreativeTab;
 	}
 
 	public abstract boolean onLeftClickEntity(Side side, ItemStack stack, EntityPlayer player, Entity entity);

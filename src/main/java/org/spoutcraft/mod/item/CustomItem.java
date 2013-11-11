@@ -15,10 +15,13 @@ public class CustomItem extends Item {
 	public CustomItem(int id, ItemPrefab prefab) {
 		super(id);
 		this.prefab = prefab;
-		setCreativeTab(SpoutcraftMod.getCustomTabs());
 		setUnlocalizedName("spoutcraft:" + prefab.getIdentifier());
 		setTextureName("spoutcraft:" + prefab.getIdentifier());
 		setMaxStackSize(prefab.getMaxStackSize());
+
+		if (prefab.shouldShowInCreativeTab()) {
+			setCreativeTab(SpoutcraftMod.getCustomTabs());
+		}
 	}
 
 	public ItemPrefab getPrefab() {

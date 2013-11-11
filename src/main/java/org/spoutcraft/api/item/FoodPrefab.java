@@ -10,8 +10,8 @@ public abstract class FoodPrefab extends ItemPrefab {
 	private final int saturationModifier;
 	private final boolean wolfFavorite;
 
-	public FoodPrefab(String identifier, String displayName, int maxStackSize, int healAmount, int saturationModifier, boolean wolfFavorite) {
-		super(identifier, ItemType.FOOD, displayName, maxStackSize);
+	public FoodPrefab(String identifier, String displayName, int maxStackSize, int healAmount, int saturationModifier, boolean wolfFavorite, boolean showInCreativeTab) {
+		super(identifier, ItemType.FOOD, displayName, maxStackSize, showInCreativeTab);
 		this.healAmount = healAmount;
 		this.saturationModifier = saturationModifier;
 		this.wolfFavorite = wolfFavorite;

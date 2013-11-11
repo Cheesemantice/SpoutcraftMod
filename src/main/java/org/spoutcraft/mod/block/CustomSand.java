@@ -12,9 +12,12 @@ public class CustomSand extends BlockSand {
 		super(id, material);
 		this.prefab = prefab;
 		setUnlocalizedName(prefab.getIdentifier());
-		setCreativeTab(SpoutcraftMod.getCustomTabs());
 		setTextureName("spoutcraft:" + prefab.getIdentifier());
 		setHardness(prefab.getHardness());
+
+		if (prefab.shouldShowInCreativeTab()) {
+			setCreativeTab(SpoutcraftMod.getCustomTabs());
+		}
 	}
 
 	public BlockPrefab getPrefab() {

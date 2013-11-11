@@ -9,7 +9,7 @@ import org.spoutcraft.api.item.FoodPrefab;
 
 public class VanillaEmblem extends FoodPrefab {
 	public VanillaEmblem() {
-		super("vanilla_emblem", "Vanilla Emblem", 64, 5, 5, true);
+		super("vanilla_emblem", "Vanilla Emblem", 64, 5, 5, true, true);
 	}
 
 	@Override

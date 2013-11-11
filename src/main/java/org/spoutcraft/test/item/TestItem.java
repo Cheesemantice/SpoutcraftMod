@@ -9,7 +9,7 @@ import org.spoutcraft.api.item.ItemPrefab;
 
 public class TestItem extends ItemPrefab {
 	public TestItem() {
-		super("testitem", "Test Item", 100);
+		super("testitem", "Test Item", 100, true);
 	}
 
 	@Override

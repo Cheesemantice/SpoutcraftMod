@@ -7,6 +7,6 @@ import org.spoutcraft.api.material.MaterialPrefab;
 
 public class TestSand extends BlockPrefab {
 	public TestSand() {
-		super("testsand", BlockType.SAND, "Test Sand", new MaterialPrefab("testmaterial", MapIndex.DIRT), 0.5f);
+		super("testsand", BlockType.SAND, "Test Sand", new MaterialPrefab("testmaterial", MapIndex.DIRT), 0.5f, true);
 	}
 }

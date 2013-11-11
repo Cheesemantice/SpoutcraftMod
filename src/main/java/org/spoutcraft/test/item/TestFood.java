@@ -9,7 +9,7 @@ import org.spoutcraft.api.item.FoodPrefab;
 
 public class TestFood extends FoodPrefab {
 	public TestFood() {
-		super("testfood", "Test Food", 5, 2, 10, false);
+		super("testfood", "Test Food", 5, 2, 10, false, true);
 	}
 
 	@Override

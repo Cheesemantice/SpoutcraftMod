@@ -15,10 +15,13 @@ public class CustomFood extends ItemFood {
 	public CustomFood(int id, FoodPrefab prefab) {
 		super(id, prefab.getHealAmount(), prefab.getSaturationModifier(), prefab.isWolfFavorite());
 		this.prefab = prefab;
-		setCreativeTab(SpoutcraftMod.getCustomTabs());
 		setUnlocalizedName("spoutcraft:" + prefab.getIdentifier());
 		setTextureName("spoutcraft:" + prefab.getIdentifier());
 		setMaxStackSize(prefab.getMaxStackSize());
+
+		if (prefab.shouldShowInCreativeTab()) {
+			setCreativeTab(SpoutcraftMod.getCustomTabs());
+		}
 	}
 
 	public FoodPrefab getPrefab() {
