@@ -6,10 +6,10 @@ import net.minecraft.network.INetworkManager;
 import org.spoutcraft.api.Prefab;
 import org.spoutcraft.api.Spoutcraft;
 
-public class UpdatePrefabMessage implements Message {
+public class AddPrefabMessage implements Message {
 	private final Prefab prefab;
 
-	public UpdatePrefabMessage(Prefab Prefab) {
+	public AddPrefabMessage(Prefab Prefab) {
 		this.prefab = Prefab;
 	}
 
@@ -19,9 +19,6 @@ public class UpdatePrefabMessage implements Message {
 
 	@Override
 	public void handle(Side side, INetworkManager manager, Player player) {
-		if (side.isServer()) {
-			throw new IllegalStateException("The server is not allowed to receive prefabs");
-		}
 		Spoutcraft.getLogger().info("Received prefab from the server");
 		Spoutcraft.getLogger().info(prefab.toString());
 	}

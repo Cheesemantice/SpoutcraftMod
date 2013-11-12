@@ -6,9 +6,8 @@ import java.util.concurrent.ConcurrentMap;
 
 import cpw.mods.fml.common.network.NetworkRegistry;
 import org.spoutcraft.mod.protocol.codec.Codec;
-import org.spoutcraft.mod.protocol.codec.UpdatePrefabCodec;
+import org.spoutcraft.mod.protocol.message.AddPrefabMessage;
 import org.spoutcraft.mod.protocol.message.Message;
-import org.spoutcraft.mod.protocol.message.UpdatePrefabMessage;
 
 public class SpoutcraftProtocol {
 	private static final ConcurrentMap<Class<? extends Message>, Codec<?>> table;
@@ -19,7 +18,7 @@ public class SpoutcraftProtocol {
 
 	public static void init() {
 		NetworkRegistry.instance().registerConnectionHandler(new SpoutcraftConnectionHandler());
-		register(UpdatePrefabMessage.class, UpdatePrefabCodec.class);
+		register(AddPrefabMessage.class, org.spoutcraft.mod.protocol.codec.AddPrefabCodec.class);
 	}
 
 	public static <T extends Message, C extends Codec<T>> void register(Class<T> clazz, Class<C> clazzz) {

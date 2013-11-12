@@ -1,6 +1,6 @@
 package org.spoutcraft.api;
 
-public interface PrefabRegistry <T extends Prefab> {
+public interface PrefabRegistry<T extends Prefab> {
 	/**
 	 * Puts a new {@link Prefab} into the registry.
 	 *

@@ -13,13 +13,12 @@ import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.network.INetworkManager;
 import org.spoutcraft.api.LinkedPrefabRegistry;
-import org.spoutcraft.api.PrefabRegistry;
 import org.spoutcraft.api.Spoutcraft;
 import org.spoutcraft.api.block.BlockPrefab;
 import org.spoutcraft.api.block.MovingPrefab;
 import org.spoutcraft.mod.material.CustomMaterial;
 import org.spoutcraft.mod.protocol.SpoutcraftPacket;
-import org.spoutcraft.mod.protocol.message.UpdatePrefabMessage;
+import org.spoutcraft.mod.protocol.message.AddPrefabMessage;
 
 public class SpoutcraftBlockPrefabRegistry implements LinkedPrefabRegistry<BlockPrefab, Block> {
 	private static final ArrayList<BlockPrefab> REGISTRY = new ArrayList<>();
@@ -60,7 +59,7 @@ public class SpoutcraftBlockPrefabRegistry implements LinkedPrefabRegistry<Block
 		GameRegistry.registerBlock(block, ItemBlock.class, prefab.getIdentifier(), "Spoutcraft");
 		LanguageRegistry.addName(block, prefab.getDisplayName());
 		if (FMLCommonHandler.instance().getEffectiveSide().isServer()) {
-			PacketDispatcher.sendPacketToAllPlayers(new SpoutcraftPacket(new UpdatePrefabMessage(prefab)));
+			PacketDispatcher.sendPacketToAllPlayers(new SpoutcraftPacket(new AddPrefabMessage(prefab)));
 		}
 
 		return block;
@@ -106,7 +105,7 @@ public class SpoutcraftBlockPrefabRegistry implements LinkedPrefabRegistry<Block
 		for (BlockPrefab prefab : REGISTRY) {
 			Spoutcraft.getLogger().info("Syncing block prefab to client");
 			Spoutcraft.getLogger().info(prefab.toString());
-			network.addToSendQueue(new SpoutcraftPacket(new UpdatePrefabMessage(prefab)));
+			network.addToSendQueue(new SpoutcraftPacket(new AddPrefabMessage(prefab)));
 		}
 	}
 }

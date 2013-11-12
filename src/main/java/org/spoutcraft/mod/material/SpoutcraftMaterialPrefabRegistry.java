@@ -9,11 +9,10 @@ import cpw.mods.fml.common.network.PacketDispatcher;
 import net.minecraft.block.material.Material;
 import net.minecraft.network.INetworkManager;
 import org.spoutcraft.api.LinkedPrefabRegistry;
-import org.spoutcraft.api.PrefabRegistry;
 import org.spoutcraft.api.Spoutcraft;
 import org.spoutcraft.api.material.MaterialPrefab;
 import org.spoutcraft.mod.protocol.SpoutcraftPacket;
-import org.spoutcraft.mod.protocol.message.UpdatePrefabMessage;
+import org.spoutcraft.mod.protocol.message.AddPrefabMessage;
 
 public class SpoutcraftMaterialPrefabRegistry implements LinkedPrefabRegistry<MaterialPrefab, Material> {
 	private static final ArrayList<MaterialPrefab> REGISTRY = new ArrayList<>();
@@ -38,7 +37,7 @@ public class SpoutcraftMaterialPrefabRegistry implements LinkedPrefabRegistry<Ma
 
 		//TODO Materials need to be registered?
 		if (FMLCommonHandler.instance().getEffectiveSide().isServer()) {
-			PacketDispatcher.sendPacketToAllPlayers(new SpoutcraftPacket(new UpdatePrefabMessage(prefab)));
+			PacketDispatcher.sendPacketToAllPlayers(new SpoutcraftPacket(new AddPrefabMessage(prefab)));
 		}
 		return material;
 	}
@@ -81,7 +80,7 @@ public class SpoutcraftMaterialPrefabRegistry implements LinkedPrefabRegistry<Ma
 		for (MaterialPrefab prefab : REGISTRY) {
 			Spoutcraft.getLogger().info("Syncing material prefab to client");
 			Spoutcraft.getLogger().info(prefab.toString());
-			network.addToSendQueue(new SpoutcraftPacket(new UpdatePrefabMessage(prefab)));
+			network.addToSendQueue(new SpoutcraftPacket(new AddPrefabMessage(prefab)));
 		}
 	}
 }

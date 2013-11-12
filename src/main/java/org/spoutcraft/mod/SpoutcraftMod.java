@@ -21,7 +21,7 @@ import org.spoutcraft.test.item.TestFood;
 import org.spoutcraft.test.item.TestItem;
 
 @Mod (modid = "Spoutcraft")
-@NetworkMod (clientSideRequired = true, serverSideRequired = true, channels = {"SPC-AddResource", "SPC-UpdatePrefab"}, packetHandler = SpoutcraftPacketHandler.class)
+@NetworkMod (clientSideRequired = true, serverSideRequired = true, channels = {"SPC-AddResource", "SPC-AddPrefab", "SPC-AddonList"}, packetHandler = SpoutcraftPacketHandler.class)
 public class SpoutcraftMod {
 	@Instance (value = "Spoutcraft")
 	public static SpoutcraftMod instance;

@@ -12,12 +12,11 @@ import cpw.mods.fml.common.registry.LanguageRegistry;
 import net.minecraft.item.Item;
 import net.minecraft.network.INetworkManager;
 import org.spoutcraft.api.LinkedPrefabRegistry;
-import org.spoutcraft.api.PrefabRegistry;
 import org.spoutcraft.api.Spoutcraft;
 import org.spoutcraft.api.item.FoodPrefab;
 import org.spoutcraft.api.item.ItemPrefab;
 import org.spoutcraft.mod.protocol.SpoutcraftPacket;
-import org.spoutcraft.mod.protocol.message.UpdatePrefabMessage;
+import org.spoutcraft.mod.protocol.message.AddPrefabMessage;
 
 public class SpoutcraftItemPrefabRegistry implements LinkedPrefabRegistry<ItemPrefab, Item> {
 	private static final ArrayList<ItemPrefab> REGISTRY = new ArrayList<>();
@@ -52,7 +51,7 @@ public class SpoutcraftItemPrefabRegistry implements LinkedPrefabRegistry<ItemPr
 		GameRegistry.registerItem(item, prefab.getIdentifier(), "Spoutcraft");
 		LanguageRegistry.addName(item, prefab.getDisplayName());
 		if (FMLCommonHandler.instance().getEffectiveSide().isServer()) {
-			PacketDispatcher.sendPacketToAllPlayers(new SpoutcraftPacket(new UpdatePrefabMessage(prefab)));
+			PacketDispatcher.sendPacketToAllPlayers(new SpoutcraftPacket(new AddPrefabMessage(prefab)));
 		}
 
 		return item;
@@ -96,7 +95,7 @@ public class SpoutcraftItemPrefabRegistry implements LinkedPrefabRegistry<ItemPr
 		for (ItemPrefab prefab : REGISTRY) {
 			Spoutcraft.getLogger().info("Syncing item prefab to client");
 			Spoutcraft.getLogger().info(prefab.toString());
-			network.addToSendQueue(new SpoutcraftPacket(new UpdatePrefabMessage(prefab)));
+			network.addToSendQueue(new SpoutcraftPacket(new AddPrefabMessage(prefab)));
 		}
 	}
 }

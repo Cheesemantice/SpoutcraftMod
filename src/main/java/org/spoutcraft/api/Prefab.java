@@ -10,6 +10,7 @@ import java.io.Serializable;
  * Prefabs are sent over the wire and constructed into real Minecraft classes.
  */
 public abstract class Prefab implements Serializable {
+	private static final long serialVersionUID = 1L;
 	private final String identifier;
 
 	public Prefab(String identifier) {
