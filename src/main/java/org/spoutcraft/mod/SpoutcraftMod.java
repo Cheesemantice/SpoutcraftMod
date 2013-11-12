@@ -58,8 +58,6 @@ public class SpoutcraftMod {
 		Spoutcraft.getItemPrefabRegistry().put(new TestItem());
 		Spoutcraft.getItemPrefabRegistry().put(new TestFood());
 		Spoutcraft.getBlockPrefabRegistry().put(new TestSand());
-
-		SpoutcraftItems.init();
 	}
 
 	public static CustomTabs getCustomTabs() {
