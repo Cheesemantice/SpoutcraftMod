@@ -9,6 +9,7 @@ import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.Map;
 
 public class SerializableHashMap<E extends Serializable, T extends Serializable> extends HashMap<E, T> implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -20,32 +21,9 @@ public class SerializableHashMap<E extends Serializable, T extends Serializable>
 		putAll(deserialize(serialized));
 	}
 
-	private void writeObject(ObjectOutputStream out) throws IOException {
-		out.writeInt(size());
-
-		for (E key : keySet()) {
-			out.writeObject(key);
-			out.writeObject(get(key));
-		}
-	}
-
-	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
-		int num = in.readInt();
-
-		for (int i = 0; i < num; i++) {
-			@SuppressWarnings ("unchecked")
-			E key = (E) in.readObject();
-			@SuppressWarnings ("unchecked")
-			T val = (T) in.readObject();
-
-			put(key, val);
-		}
-	}
-
 	public byte[] serialize() throws IOException {
-		ObjectOutput out;
 		ByteArrayOutputStream bos = new ByteArrayOutputStream();
-		out = new ObjectOutputStream(bos);
+		ObjectOutput out = new ObjectOutputStream(bos);
 		out.writeObject(this);
 		out.close();
 
@@ -54,9 +32,29 @@ public class SerializableHashMap<E extends Serializable, T extends Serializable>
 
 	@SuppressWarnings ("unchecked")
 	private SerializableHashMap<E, T> deserialize(byte[] serialized) throws IOException, ClassNotFoundException {
-		ByteArrayInputStream bosin = new ByteArrayInputStream(serialized);
-		ObjectInput in = new ObjectInputStream(bosin);
+		ObjectInput in = new ObjectInputStream(new ByteArrayInputStream(serialized));
 
 		return (SerializableHashMap<E, T>) in.readObject();
+	}
+
+	private void writeObject(ObjectOutputStream out) throws IOException {
+		out.writeInt(size());
+
+		for (Map.Entry<E, T> entry : entrySet()) {
+			out.writeObject(entry.getKey());
+			out.writeObject(entry.getValue());
+		}
+	}
+
+	@SuppressWarnings ("unchecked")
+	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+		int num = in.readInt();
+
+		for (int i = 0; i < num; i++) {
+			E key = (E) in.readObject();
+			T val = (T) in.readObject();
+
+			put(key, val);
+		}
 	}
 }
