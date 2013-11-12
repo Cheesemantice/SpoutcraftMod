@@ -33,7 +33,7 @@ public class SpoutcraftMod {
 	@SuppressWarnings ("unchecked")
 	public void onLoad(FMLPostInitializationEvent event) {
 		//Setup logger
-		Spoutcraft.setLogger(new SpoutcraftLogger(null));
+		Spoutcraft.setLogger(new SpoutcraftLogger());
 		Spoutcraft.getLogger().init();
 
 		//Setup registries
