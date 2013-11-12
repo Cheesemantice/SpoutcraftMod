@@ -12,6 +12,7 @@ import cpw.mods.fml.common.registry.LanguageRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.network.INetworkManager;
+import org.spoutcraft.api.LinkedPrefabRegistry;
 import org.spoutcraft.api.PrefabRegistry;
 import org.spoutcraft.api.Spoutcraft;
 import org.spoutcraft.api.block.BlockPrefab;
@@ -20,7 +21,7 @@ import org.spoutcraft.mod.material.CustomMaterial;
 import org.spoutcraft.mod.protocol.SpoutcraftPacket;
 import org.spoutcraft.mod.protocol.message.UpdatePrefabMessage;
 
-public class SpoutcraftBlockPrefabRegistry implements PrefabRegistry<BlockPrefab, Block> {
+public class SpoutcraftBlockPrefabRegistry implements LinkedPrefabRegistry<BlockPrefab, Block> {
 	private static final ArrayList<BlockPrefab> REGISTRY = new ArrayList<>();
 	private static final AtomicInteger ID_COUNTER = new AtomicInteger(0);
 	//INTERNAL

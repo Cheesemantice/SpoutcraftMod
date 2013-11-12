@@ -11,6 +11,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 import net.minecraft.item.Item;
 import net.minecraft.network.INetworkManager;
+import org.spoutcraft.api.LinkedPrefabRegistry;
 import org.spoutcraft.api.PrefabRegistry;
 import org.spoutcraft.api.Spoutcraft;
 import org.spoutcraft.api.item.FoodPrefab;
@@ -18,7 +19,7 @@ import org.spoutcraft.api.item.ItemPrefab;
 import org.spoutcraft.mod.protocol.SpoutcraftPacket;
 import org.spoutcraft.mod.protocol.message.UpdatePrefabMessage;
 
-public class SpoutcraftItemPrefabRegistry implements PrefabRegistry<ItemPrefab, Item> {
+public class SpoutcraftItemPrefabRegistry implements LinkedPrefabRegistry<ItemPrefab, Item> {
 	private static final ArrayList<ItemPrefab> REGISTRY = new ArrayList<>();
 	private static final AtomicInteger ID_COUNTER = new AtomicInteger(0);
 	//INTERNAL

@@ -11,24 +11,24 @@ import org.spoutcraft.api.resource.FileSystem;
  */
 public final class Spoutcraft {
 	private static AbstractLogger logger;
-	private static PrefabRegistry<? extends BlockPrefab> blockPrefabRegistry;
-	private static PrefabRegistry<? extends ItemPrefab> itemPrefabRegistry;
-	private static PrefabRegistry<? extends MaterialPrefab> materialPrefabRegistry;
+	private static LinkedPrefabRegistry<? extends BlockPrefab, ?> blockPrefabRegistry;
+	private static LinkedPrefabRegistry<? extends ItemPrefab, ?> itemPrefabRegistry;
+	private static LinkedPrefabRegistry<? extends MaterialPrefab, ?> materialPrefabRegistry;
 	private static FileSystem fileSystem;
 
 	public static AbstractLogger getLogger() {
 		return logger;
 	}
 
-	public static PrefabRegistry getBlockPrefabRegistry() {
+	public static LinkedPrefabRegistry getBlockPrefabRegistry() {
 		return blockPrefabRegistry;
 	}
 
-	public static PrefabRegistry getItemPrefabRegistry() {
+	public static LinkedPrefabRegistry getItemPrefabRegistry() {
 		return itemPrefabRegistry;
 	}
 
-	public static PrefabRegistry getMaterialPrefabRegistry() {
+	public static LinkedPrefabRegistry getMaterialPrefabRegistry() {
 		return materialPrefabRegistry;
 	}
 
@@ -44,7 +44,7 @@ public final class Spoutcraft {
 		return logger;
 	}
 
-	public static PrefabRegistry setBlockRegistry(PrefabRegistry<? extends BlockPrefab> prefabRegistry) {
+	public static LinkedPrefabRegistry setBlockRegistry(LinkedPrefabRegistry<? extends BlockPrefab, ?> prefabRegistry) {
 		if (Spoutcraft.blockPrefabRegistry != null) {
 			throw new IllegalStateException("Attempt to assign block registry twice!");
 		}
@@ -55,7 +55,7 @@ public final class Spoutcraft {
 		return prefabRegistry;
 	}
 
-	public static PrefabRegistry setItemPrefabRegistry(PrefabRegistry<? extends ItemPrefab> itemPrefabRegistry) {
+	public static LinkedPrefabRegistry setItemPrefabRegistry(LinkedPrefabRegistry<? extends ItemPrefab, ?> itemPrefabRegistry) {
 		if (Spoutcraft.itemPrefabRegistry != null) {
 			throw new IllegalStateException("Attempt to assign item prefab registry twice!");
 		}
@@ -66,7 +66,7 @@ public final class Spoutcraft {
 		return itemPrefabRegistry;
 	}
 
-	public static PrefabRegistry setMaterialRegistry(PrefabRegistry<? extends MaterialPrefab> materialPrefabRegistry) {
+	public static LinkedPrefabRegistry setMaterialRegistry(LinkedPrefabRegistry<? extends MaterialPrefab, ?> materialPrefabRegistry) {
 		if (Spoutcraft.materialPrefabRegistry != null) {
 			throw new IllegalStateException("Attempt to assign material registry twice!");
 		}

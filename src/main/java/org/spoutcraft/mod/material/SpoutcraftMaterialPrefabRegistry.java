@@ -8,13 +8,14 @@ import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.network.PacketDispatcher;
 import net.minecraft.block.material.Material;
 import net.minecraft.network.INetworkManager;
+import org.spoutcraft.api.LinkedPrefabRegistry;
 import org.spoutcraft.api.PrefabRegistry;
 import org.spoutcraft.api.Spoutcraft;
 import org.spoutcraft.api.material.MaterialPrefab;
 import org.spoutcraft.mod.protocol.SpoutcraftPacket;
 import org.spoutcraft.mod.protocol.message.UpdatePrefabMessage;
 
-public class SpoutcraftMaterialPrefabRegistry implements PrefabRegistry<MaterialPrefab, Material> {
+public class SpoutcraftMaterialPrefabRegistry implements LinkedPrefabRegistry<MaterialPrefab, Material> {
 	private static final ArrayList<MaterialPrefab> REGISTRY = new ArrayList<>();
 	//INTERNAL
 	private static final HashMap<MaterialPrefab, Material> PREFAB_BY_MATERIAL = new HashMap<>();

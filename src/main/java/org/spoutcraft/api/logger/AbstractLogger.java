@@ -4,7 +4,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public abstract class AbstractLogger {
-	protected final Logger logger = Logger.getLogger("Spoutcraft");
+	protected final Logger logger;
+
+	public AbstractLogger(Logger logger) {
+		this.logger = logger;
+	}
 
 	public abstract void init();
 
