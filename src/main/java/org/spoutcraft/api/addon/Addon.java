@@ -34,13 +34,13 @@ import cpw.mods.fml.relauncher.Side;
  * The power of addons lie in the ability to use Spoutcraft API and Forge without needing to make a new Mod.
  */
 public abstract class Addon {
-	private AddonPrefabRegistry loader;
+	private AddonLoader loader;
 	private AddonPrefab prefab;
 	private AddonClassLoader classLoader;
 	private Path dataPath, root;
 	private boolean enabled = false;
 
-	public void initialize(AddonPrefabRegistry loader, AddonPrefab prefab, AddonClassLoader classLoader, Path dataPath, Path root) {
+	public void initialize(AddonLoader loader, AddonPrefab prefab, AddonClassLoader classLoader, Path dataPath, Path root) {
 		this.loader = loader;
 		this.prefab = prefab;
 		this.classLoader = classLoader;

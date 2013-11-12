@@ -1,8 +1,7 @@
 /**
- * This file is a part of Spoutcraft.
+ * This file is a part of Spoutcraft
  *
- * Copyright (c) 2013 SpoutcraftDev <http://spoutcraft.org>
- * Spoutcraft is licensed under the MIT License.
+ * Copyright (c) 2013 SpoutcraftDev
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,31 +21,32 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.spoutcraft.mod.item.special;
+package org.spoutcraft.api.addon;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import cpw.mods.fml.relauncher.Side;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.world.Explosion;
-import org.spoutcraft.api.Spoutcraft;
-import org.spoutcraft.api.item.ItemPrefab;
+import org.spoutcraft.api.exception.InvalidAddonException;
+import org.spoutcraft.api.exception.InvalidPrefabException;
 
-public class SpoutcraftEmblem extends ItemPrefab {
-	public SpoutcraftEmblem() {
-		super("spoutcraft_emblem", "Spoutcraft Emblem", 1, true);
+public class AddonLoader {
+	private final Side side;
+	private final Map<String, AddonClassLoader> loaders = new HashMap<>();
+
+	public AddonLoader(Side side) {
+		this.side = side;
 	}
 
-	@Override
-	public boolean onLeftClickEntity(Side side, ItemStack stack, EntityPlayer player, Entity entity) {
-		if (side.isServer()) {
-			Explosion explosion = entity.worldObj.newExplosion(entity, entity.posX, entity.posY, entity.posZ, 25f, true, true);
-			explosion.isFlaming = true;
-			explosion.isSmoking = true;
-			explosion.doExplosionA();
-			Spoutcraft.getLogger().info("Test this");
-			explosion.doExplosionB(true);
-		}
-		return false;
+	public void enable(Addon addon) {
+
+	}
+
+	public void disable(Addon addon) {
+
+	}
+
+	public void load(Addon addon) {
+
 	}
 }

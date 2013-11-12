@@ -22,37 +22,46 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.spoutcraft.api.addon;
+package org.spoutcraft.api.exception;
 
-import org.spoutcraft.api.LinkedPrefabRegistry;
+public class InvalidAddonException extends Exception {
+	private static final long serialVersionUID = 1L;
+	private final String message;
+	private final Throwable cause;
 
-public class AddonPrefabRegistry implements LinkedPrefabRegistry<AddonPrefab, Addon> {
-	@Override
-	public AddonPrefab put(AddonPrefab prefab) {
-		return null;
+	public InvalidAddonException(String message, Throwable cause) {
+		this.message = message;
+		this.cause = cause;
 	}
 
 	@Override
-	public AddonPrefab get(String identifier) {
-		return null;
+	public String getMessage() {
+		return message;
 	}
 
 	@Override
-	public Addon create(AddonPrefab prefab) {
-		return null;
+	public Throwable getCause() {
+		return cause;
 	}
 
 	@Override
-	public Addon find(AddonPrefab prefab) {
-		return null;
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		}
+		if (o == null || getClass() != o.getClass()) {
+			return false;
+		}
+
+		final InvalidAddonException that = (InvalidAddonException) o;
+
+		return !(cause != null ? !cause.equals(that.cause) : that.cause != null) && !(message != null ? !message.equals(that.message) : that.message != null);
 	}
 
 	@Override
-	public Addon find(String identifier) {
-		return null;
-	}
-
-	public void enable(Addon addon) {
-
+	public int hashCode() {
+		int result = message != null ? message.hashCode() : 0;
+		result = 31 * result + (cause != null ? cause.hashCode() : 0);
+		return result;
 	}
 }
