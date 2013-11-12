@@ -11,6 +11,8 @@ import org.spoutcraft.api.Spoutcraft;
 import org.spoutcraft.mod.block.SpoutcraftBlockPrefabRegistry;
 import org.spoutcraft.mod.game.CustomTabs;
 import org.spoutcraft.mod.item.SpoutcraftItemPrefabRegistry;
+import org.spoutcraft.mod.item.special.SpoutcraftEmblem;
+import org.spoutcraft.mod.item.special.VanillaEmblem;
 import org.spoutcraft.mod.logger.SpoutcraftLogger;
 import org.spoutcraft.mod.material.SpoutcraftMaterialPrefabRegistry;
 import org.spoutcraft.mod.protocol.SpoutcraftPacketHandler;
@@ -31,7 +33,7 @@ public class SpoutcraftMod {
 	@SuppressWarnings ("unchecked")
 	public void onLoad(FMLPostInitializationEvent event) {
 		//Setup logger
-		Spoutcraft.setLogger(new SpoutcraftLogger());
+		Spoutcraft.setLogger(new SpoutcraftLogger(null));
 		Spoutcraft.getLogger().init();
 
 		//Setup registries
@@ -58,6 +60,9 @@ public class SpoutcraftMod {
 		Spoutcraft.getItemPrefabRegistry().put(new TestItem());
 		Spoutcraft.getItemPrefabRegistry().put(new TestFood());
 		Spoutcraft.getBlockPrefabRegistry().put(new TestSand());
+
+        Spoutcraft.getItemPrefabRegistry().create(new SpoutcraftEmblem());
+        Spoutcraft.getItemPrefabRegistry().create(new VanillaEmblem());
 	}
 
 	public static CustomTabs getCustomTabs() {
