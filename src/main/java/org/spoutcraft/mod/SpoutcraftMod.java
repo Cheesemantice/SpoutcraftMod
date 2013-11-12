@@ -55,14 +55,15 @@ public class SpoutcraftMod {
 		//Setup creative tab
 		customTabs = new CustomTabs();
 
+		//Special
+		Spoutcraft.getItemPrefabRegistry().create(new SpoutcraftEmblem());
+		Spoutcraft.getItemPrefabRegistry().create(new VanillaEmblem());
+
 		//Test code
 		//TODO Look into fixing generics so suppression isn't needed
 		Spoutcraft.getItemPrefabRegistry().put(new TestItem());
 		Spoutcraft.getItemPrefabRegistry().put(new TestFood());
 		Spoutcraft.getBlockPrefabRegistry().put(new TestSand());
-
-        Spoutcraft.getItemPrefabRegistry().create(new SpoutcraftEmblem());
-        Spoutcraft.getItemPrefabRegistry().create(new VanillaEmblem());
 	}
 
 	public static CustomTabs getCustomTabs() {

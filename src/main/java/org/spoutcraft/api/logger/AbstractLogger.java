@@ -6,9 +6,6 @@ import java.util.logging.Logger;
 public abstract class AbstractLogger {
 	protected final Logger logger = Logger.getLogger("Spoutcraft");
 
-	public AbstractLogger(Logger logger) {
-	}
-
 	public abstract void init();
 
 	public void log(Level level, String message) {

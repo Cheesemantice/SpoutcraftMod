@@ -12,14 +12,15 @@ public class SpoutcraftEmblem extends ItemPrefab {
 		super("spoutcraft_emblem", "Spoutcraft Emblem", 1, true);
 	}
 
-    public boolean onLeftClickEntity(Side side, ItemStack stack, EntityPlayer player, Entity entity) {
-        if (side.isServer()) {
-            Explosion explosion = entity.worldObj.newExplosion(entity, entity.posX, entity.posY, entity.posZ, 25f, true, true);
-            explosion.isFlaming = true;
-            explosion.isSmoking = true;
-            explosion.doExplosionA();
-            explosion.doExplosionB(true);
-        }
-        return false;
-    }
+	@Override
+	public boolean onLeftClickEntity(Side side, ItemStack stack, EntityPlayer player, Entity entity) {
+		if (side.isServer()) {
+			Explosion explosion = entity.worldObj.newExplosion(entity, entity.posX, entity.posY, entity.posZ, 25f, true, true);
+			explosion.isFlaming = true;
+			explosion.isSmoking = true;
+			explosion.doExplosionA();
+			explosion.doExplosionB(true);
+		}
+		return false;
+	}
 }
