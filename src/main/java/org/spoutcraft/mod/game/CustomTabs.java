@@ -4,6 +4,7 @@ import cpw.mods.fml.common.registry.LanguageRegistry;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import org.spoutcraft.mod.SpoutcraftItems;
 
 public class CustomTabs extends CreativeTabs {
 	public CustomTabs() {
@@ -13,6 +14,6 @@ public class CustomTabs extends CreativeTabs {
 
 	@Override
 	public ItemStack getIconItemStack() {
-		return new ItemStack(Item.appleRed, 1, 0);
+		return new ItemStack(SpoutcraftItems.SPOUTCRAFT_EMBLEM, 1, 0);
 	}
 }
