@@ -24,6 +24,7 @@
  */
 package org.spoutcraft.api;
 
+import org.spoutcraft.api.addon.AddonManager;
 import org.spoutcraft.api.block.BlockPrefab;
 import org.spoutcraft.api.item.ItemPrefab;
 import org.spoutcraft.api.logger.AbstractLogger;
@@ -35,6 +36,7 @@ import org.spoutcraft.api.resource.FileSystem;
  */
 public final class Spoutcraft {
 	private static AbstractLogger logger;
+	private static AddonManager addonManager;
 	private static LinkedPrefabRegistry<? extends BlockPrefab, ?> blockPrefabRegistry;
 	private static LinkedPrefabRegistry<? extends ItemPrefab, ?> itemPrefabRegistry;
 	private static LinkedPrefabRegistry<? extends MaterialPrefab, ?> materialPrefabRegistry;
@@ -42,6 +44,10 @@ public final class Spoutcraft {
 
 	public static AbstractLogger getLogger() {
 		return logger;
+	}
+
+	public static AddonManager getAddonManager() {
+		return addonManager;
 	}
 
 	public static LinkedPrefabRegistry getBlockPrefabRegistry() {
@@ -64,8 +70,19 @@ public final class Spoutcraft {
 	 * INTERNAL USE ONLY
 	 */
 	public static AbstractLogger setLogger(AbstractLogger logger) {
+		if (Spoutcraft.logger != null) {
+			throw new IllegalStateException("Attempt to assign logger twice!");
+		}
 		Spoutcraft.logger = logger;
 		return logger;
+	}
+
+	public static AddonManager setAddonManager(AddonManager manager) {
+		if (Spoutcraft.addonManager != null) {
+			throw new IllegalStateException("Attempt to assign addon manager twice!");
+		}
+		Spoutcraft.addonManager = manager;
+		return manager;
 	}
 
 	public static LinkedPrefabRegistry setBlockRegistry(LinkedPrefabRegistry<? extends BlockPrefab, ?> prefabRegistry) {

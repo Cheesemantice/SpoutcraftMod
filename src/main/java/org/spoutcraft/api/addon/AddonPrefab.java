@@ -73,7 +73,7 @@ public class AddonPrefab extends Prefab {
 	}
 
 	public boolean isValidMode(Side side) {
-		switch(mode) {
+		switch (mode) {
 			case CLIENT:
 				if (side.isClient()) {
 					return true;
@@ -91,7 +91,6 @@ public class AddonPrefab extends Prefab {
 		return false;
 	}
 }
-
 
 final class AddonJsonDeserializer implements JsonDeserializer<AddonPrefab> {
 	@Override

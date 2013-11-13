@@ -26,16 +26,17 @@ package org.spoutcraft.mod;
 
 import java.io.IOException;
 
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
-import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.network.NetworkMod;
-import cpw.mods.fml.common.registry.TickRegistry;
-import cpw.mods.fml.relauncher.Side;
 import org.spoutcraft.api.Spoutcraft;
+import org.spoutcraft.mod.addon.ClientAddonManager;
+import org.spoutcraft.mod.addon.ServerAddonManager;
 import org.spoutcraft.mod.block.SpoutcraftBlockPrefabRegistry;
 import org.spoutcraft.mod.game.CustomTabs;
 import org.spoutcraft.mod.item.SpoutcraftItemPrefabRegistry;
@@ -46,7 +47,6 @@ import org.spoutcraft.mod.material.SpoutcraftMaterialPrefabRegistry;
 import org.spoutcraft.mod.protocol.SpoutcraftPacketHandler;
 import org.spoutcraft.mod.protocol.SpoutcraftProtocol;
 import org.spoutcraft.mod.resource.SpoutcraftFileSystem;
-import org.spoutcraft.mod.tick.SpoutcraftMainMenuTicker;
 import org.spoutcraft.test.block.TestSand;
 import org.spoutcraft.test.item.TestFood;
 import org.spoutcraft.test.item.TestItem;
@@ -65,11 +65,23 @@ public class SpoutcraftMod {
 	}
 
 	@EventHandler
+	public void onServerReady(FMLServerStartingEvent event) {
+		Spoutcraft.setLogger(new SpoutcraftLogger());
+		Spoutcraft.getLogger().init();
+
+		final ServerAddonManager manager = (ServerAddonManager) Spoutcraft.setAddonManager(new ServerAddonManager());
+		//TODO Provide the correct path for the /mods/spoutcraft/addons folder
+		//manager.loadAddons()
+
+	}
+	@EventHandler
 	@SuppressWarnings ("unchecked")
 	public void onLoad(FMLPostInitializationEvent event) {
 		//Setup logger
 		Spoutcraft.setLogger(new SpoutcraftLogger());
 		Spoutcraft.getLogger().init();
+
+		Spoutcraft.setAddonManager(new ClientAddonManager());
 
 		//Setup registries
 		Spoutcraft.setFileSystem(new SpoutcraftFileSystem());
