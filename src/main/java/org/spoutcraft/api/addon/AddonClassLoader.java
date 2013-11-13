@@ -1,8 +1,7 @@
 /**
- * This file is a part of Spoutcraft.
+ * This file is a part of Spoutcraft
  *
- * Copyright (c) 2013 SpoutcraftDev <http://spoutcraft.org>
- * Spoutcraft is licensed under the MIT License.
+ * Copyright (c) 2013 SpoutcraftDev
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -45,6 +44,11 @@ public class AddonClassLoader extends URLClassLoader {
 		this.loader = loader;
 	}
 
+	@Override
+	protected void addURL(URL url) {
+		super.addURL(url);
+	}
+
 	protected void setAddon(Addon addon) {
 		if (addon != null) {
 			throw new IllegalStateException("Cannot set an addon of an addon class loader twice!");
@@ -68,7 +72,7 @@ public class AddonClassLoader extends URLClassLoader {
 			}
 
 			if (result == null && checkOtherAddons) {
-				//result = loader.getClassByName(name, this);
+				result = loader.getClassByName(name, this);
 			}
 
 			if (result != null) {

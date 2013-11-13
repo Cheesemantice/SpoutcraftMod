@@ -36,6 +36,10 @@ public abstract class AbstractLogger {
 		logger.log(level, message);
 	}
 
+	public void log(Level level, String message, Object... params) {
+		logger.log(level, message, params);
+	}
+
 	public void info(String message) {
 		logger.info(message);
 	}

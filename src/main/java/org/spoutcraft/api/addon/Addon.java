@@ -40,24 +40,12 @@ public abstract class Addon {
 	private Path dataPath, root;
 	private boolean enabled = false;
 
-	public void initialize(AddonLoader loader, AddonPrefab prefab, AddonClassLoader classLoader, Path dataPath, Path root) {
-		this.loader = loader;
-		this.prefab = prefab;
-		this.classLoader = classLoader;
-		this.dataPath = dataPath;
-		this.root = root;
-	}
-
-	public void onLoad(Side side) {
-
-	}
-
 	public void onEnable(Side side) {
 
 	}
 
-	public AddonPrefab getPrefab() {
-		return prefab;
+	public void onDisable(Side side) {
+
 	}
 
 	protected void enable() {
@@ -66,5 +54,37 @@ public abstract class Addon {
 
 	protected void disable() {
 		this.enabled = false;
+	}
+
+	protected void initialize(AddonLoader loader, AddonPrefab prefab, AddonClassLoader classLoader, Path dataPath, Path root) {
+		this.loader = loader;
+		this.prefab = prefab;
+		this.classLoader = classLoader;
+		this.dataPath = dataPath;
+		this.root = root;
+	}
+
+	public boolean isEnabled() {
+		return enabled;
+	}
+
+	public AddonPrefab getPrefab() {
+		return prefab;
+	}
+
+	public AddonLoader getLoader() {
+		return loader;
+	}
+
+	public AddonClassLoader getClassLoader() {
+		return classLoader;
+	}
+
+	public Path getDataPath() {
+		return dataPath;
+	}
+
+	public Path getPath() {
+		return root;
 	}
 }
