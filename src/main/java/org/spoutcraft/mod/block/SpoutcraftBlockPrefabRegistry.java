@@ -40,6 +40,7 @@ import org.spoutcraft.api.LinkedPrefabRegistry;
 import org.spoutcraft.api.Spoutcraft;
 import org.spoutcraft.api.block.BlockPrefab;
 import org.spoutcraft.api.block.MovingPrefab;
+import org.spoutcraft.api.util.LanguageUtil;
 import org.spoutcraft.mod.material.CustomMaterial;
 import org.spoutcraft.mod.protocol.SpoutcraftPacket;
 import org.spoutcraft.mod.protocol.message.AddPrefabMessage;
@@ -81,7 +82,7 @@ public class SpoutcraftBlockPrefabRegistry implements LinkedPrefabRegistry<Block
 
 		//TODO Link ItemPrefab to BlockPrefab as an option
 		GameRegistry.registerBlock(block, ItemBlock.class, prefab.getIdentifier(), "Spoutcraft");
-		LanguageRegistry.addName(block, prefab.getDisplayName());
+		LanguageUtil.name(block, prefab.getDisplayName());
 		if (FMLCommonHandler.instance().getEffectiveSide().isServer()) {
 			PacketDispatcher.sendPacketToAllPlayers(new SpoutcraftPacket(new AddPrefabMessage(prefab)));
 		}
@@ -124,7 +125,6 @@ public class SpoutcraftBlockPrefabRegistry implements LinkedPrefabRegistry<Block
 	 * @param network The connected network
 	 */
 	public void sync(final INetworkManager network) {
-		Spoutcraft.getLogger().info("Preparing to sync block registry");
 		//TODO Scheduler and sending
 		for (BlockPrefab prefab : REGISTRY) {
 			Spoutcraft.getLogger().info("Syncing block prefab to client");

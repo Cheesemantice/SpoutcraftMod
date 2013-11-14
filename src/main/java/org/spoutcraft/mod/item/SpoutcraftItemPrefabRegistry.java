@@ -39,6 +39,7 @@ import org.spoutcraft.api.LinkedPrefabRegistry;
 import org.spoutcraft.api.Spoutcraft;
 import org.spoutcraft.api.item.FoodPrefab;
 import org.spoutcraft.api.item.ItemPrefab;
+import org.spoutcraft.api.util.LanguageUtil;
 import org.spoutcraft.mod.protocol.SpoutcraftPacket;
 import org.spoutcraft.mod.protocol.message.AddPrefabMessage;
 
@@ -73,7 +74,7 @@ public class SpoutcraftItemPrefabRegistry implements LinkedPrefabRegistry<ItemPr
 		PREFAB_BY_ITEM.put(prefab, item);
 
 		GameRegistry.registerItem(item, prefab.getIdentifier(), "Spoutcraft");
-		LanguageRegistry.addName(item, prefab.getDisplayName());
+		LanguageUtil.name(item, prefab.getDisplayName());
 		if (FMLCommonHandler.instance().getEffectiveSide().isServer()) {
 			PacketDispatcher.sendPacketToAllPlayers(new SpoutcraftPacket(new AddPrefabMessage(prefab)));
 		}

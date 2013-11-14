@@ -38,7 +38,6 @@ import org.spoutcraft.mod.block.SpoutcraftBlockPrefabRegistry;
 public class SpoutcraftConnectionHandler implements IConnectionHandler {
 	@Override
 	public void playerLoggedIn(Player player, NetHandler netHandler, INetworkManager manager) {
-		Spoutcraft.getLogger().info(FMLCommonHandler.instance().getEffectiveSide().toString());
 		((SpoutcraftBlockPrefabRegistry) Spoutcraft.getBlockPrefabRegistry()).sync(manager);
 	}
 
