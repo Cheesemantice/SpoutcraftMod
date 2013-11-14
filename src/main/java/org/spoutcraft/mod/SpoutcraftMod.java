@@ -24,16 +24,13 @@
  */
 package org.spoutcraft.mod;
 
-import java.io.IOException;
-
-import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
-import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.network.NetworkMod;
+import net.minecraft.server.integrated.IntegratedServer;
 import org.spoutcraft.api.Spoutcraft;
 import org.spoutcraft.mod.addon.ClientAddonManager;
 import org.spoutcraft.mod.addon.ServerAddonManager;
@@ -46,7 +43,6 @@ import org.spoutcraft.mod.logger.SpoutcraftLogger;
 import org.spoutcraft.mod.material.SpoutcraftMaterialPrefabRegistry;
 import org.spoutcraft.mod.protocol.SpoutcraftPacketHandler;
 import org.spoutcraft.mod.protocol.SpoutcraftProtocol;
-import org.spoutcraft.mod.resource.SpoutcraftFileSystem;
 import org.spoutcraft.test.block.TestSand;
 import org.spoutcraft.test.item.TestFood;
 import org.spoutcraft.test.item.TestItem;
@@ -60,31 +56,22 @@ public class SpoutcraftMod {
 
 	@EventHandler
 	public void onPreLoad(FMLInitializationEvent event) {
-		//TODO This code needs to be enabled to show the main menu
-		//TickRegistry.registerTickHandler(new SpoutcraftMainMenuTicker(), Side.CLIENT);
-	}
-
-	@EventHandler
-	public void onServerReady(FMLServerStartingEvent event) {
-		Spoutcraft.setLogger(new SpoutcraftLogger());
-		Spoutcraft.getLogger().init();
-
-		final ServerAddonManager manager = (ServerAddonManager) Spoutcraft.setAddonManager(new ServerAddonManager());
-		//TODO Provide the correct path for the /mods/spoutcraft/addons folder
-		//manager.loadAddons()
-
-	}
-	@EventHandler
-	@SuppressWarnings ("unchecked")
-	public void onLoad(FMLPostInitializationEvent event) {
 		//Setup logger
 		Spoutcraft.setLogger(new SpoutcraftLogger());
 		Spoutcraft.getLogger().init();
 
 		Spoutcraft.setAddonManager(new ClientAddonManager());
 
-		//Setup registries
-		Spoutcraft.setFileSystem(new SpoutcraftFileSystem());
+		//Setup creative tab
+		customTabs = new CustomTabs();
+
+		//TODO This code needs to be enabled to show the main menu
+		//TickRegistry.registerTickHandler(new SpoutcraftMainMenuTicker(), Side.CLIENT);
+	}
+
+	@EventHandler
+	@SuppressWarnings ("unchecked")
+	public void onServerReady(FMLServerStartingEvent event) {
 		Spoutcraft.setBlockRegistry(new SpoutcraftBlockPrefabRegistry());
 		Spoutcraft.setItemPrefabRegistry(new SpoutcraftItemPrefabRegistry());
 		Spoutcraft.setMaterialRegistry(new SpoutcraftMaterialPrefabRegistry());
@@ -92,15 +79,15 @@ public class SpoutcraftMod {
 		//Init protocol
 		SpoutcraftProtocol.init();
 
-		//Init file system
-		try {
-			((SpoutcraftFileSystem) Spoutcraft.getFileSystem()).init();
-		} catch (IOException ioe) {
-			ioe.printStackTrace();
-		}
+		if (!(event.getServer() instanceof IntegratedServer)) {
+			Spoutcraft.setLogger(new SpoutcraftLogger());
+			Spoutcraft.getLogger().init();
 
-		//Setup creative tab
-		customTabs = new CustomTabs();
+			Spoutcraft.setAddonManager(new ServerAddonManager());
+
+			//TODO Provide the correct path for the /mods/spoutcraft/addons folder
+			//manager.loadAddons()
+		}
 
 		//Special
 		Spoutcraft.getItemPrefabRegistry().create(new SpoutcraftEmblem());

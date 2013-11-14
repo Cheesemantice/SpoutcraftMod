@@ -62,8 +62,7 @@ public class ServerAddonManager implements AddonManager {
 			public boolean accept(Path entry) {
 				return !Files.isDirectory(entry) && entry.endsWith(".jar");
 			}
-			}))
-		{
+		})) {
 			Addon addon = null;
 			try {
 				addon = loadAddon(jar);
