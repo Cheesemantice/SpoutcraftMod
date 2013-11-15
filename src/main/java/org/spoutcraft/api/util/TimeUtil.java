@@ -24,21 +24,21 @@
  */
 package org.spoutcraft.api.util;
 
-import cpw.mods.fml.common.registry.LanguageRegistry;
+import java.util.Calendar;
 
-public class LanguageUtil {
-	public static void add(String raw, String display) {
-		LanguageRegistry.instance().addStringLocalization(raw, "en_US", display);
-		LanguageRegistry.instance().addStringLocalization(raw, "en_GB", display);
-		LanguageRegistry.instance().addStringLocalization(raw, "en_CA", display);
-		LanguageRegistry.instance().addStringLocalization(raw, "en_AU", display);
-		LanguageRegistry.instance().addStringLocalization(raw, "en_PT", display);
-		LanguageRegistry.instance().addStringLocalization(raw, "es_ES", display);
-		LanguageRegistry.instance().addStringLocalization(raw, "en_MX", display);
-		LanguageRegistry.instance().addStringLocalization(raw, "fr_FR", display);
-	}
+public class TimeUtil {
 
-	public static void name(Object obj, String name) {
-		LanguageRegistry.addName(obj, name);
+	public static String getTime() {
+		int hours = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+
+		if (hours < 6) {
+			return "night";
+		} else if (hours < 12) {
+			return "day";
+		} else if (hours < 20) {
+			return "evening";
+		} else {
+			return "night";
+		}
 	}
 }

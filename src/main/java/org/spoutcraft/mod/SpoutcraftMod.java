@@ -24,21 +24,32 @@
  */
 package org.spoutcraft.mod;
 
+import java.util.EnumSet;
+
+import cpw.mods.fml.common.ITickHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
+import cpw.mods.fml.common.TickType;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.network.NetworkMod;
+import cpw.mods.fml.common.registry.TickRegistry;
+import cpw.mods.fml.relauncher.Side;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiMainMenu;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.integrated.IntegratedServer;
+import org.lwjgl.opengl.Display;
 import org.spoutcraft.api.Spoutcraft;
 import org.spoutcraft.api.util.LanguageUtil;
 import org.spoutcraft.mod.addon.ClientAddonManager;
 import org.spoutcraft.mod.addon.ServerAddonManager;
 import org.spoutcraft.mod.block.SpoutcraftBlockPrefabRegistry;
+import org.spoutcraft.mod.gui.SpoutcraftMainMenu;
 import org.spoutcraft.mod.item.SpoutcraftItemPrefabRegistry;
 import org.spoutcraft.mod.item.special.SpoutcraftEmblem;
 import org.spoutcraft.mod.item.special.VanillaEmblem;
@@ -59,26 +70,53 @@ public class SpoutcraftMod {
 
 	@EventHandler
 	public void onClientStarting(FMLInitializationEvent event) {
-		//Setup logger
+		// Setup logger
 		Spoutcraft.setLogger(new SpoutcraftLogger());
 		Spoutcraft.getLogger().init();
 
-		//Init protocol
+		// Init protocol
 		SpoutcraftProtocol.init();
 
-		//TODO Load client addons
+		// TODO Load client addons
 		Spoutcraft.setAddonManager(new ClientAddonManager());
 
-		//Setup registries
+		// Setup registries
 		Spoutcraft.setBlockRegistry(new SpoutcraftBlockPrefabRegistry());
 		Spoutcraft.setItemPrefabRegistry(new SpoutcraftItemPrefabRegistry());
 		Spoutcraft.setMaterialRegistry(new SpoutcraftMaterialPrefabRegistry());
 
-		//Setup creative tab
+		// Setup creative tab
 		customTabs = new CustomTabs();
 
-		//TODO This code needs to be enabled to show the main menu
-		/* TickRegistry.registerTickHandler(new ITickHandler() {
+		// Use our main menu
+		TickRegistry.registerTickHandler(new ITickHandler() {
+			@Override
+			public void tickStart(EnumSet<TickType> type, Object... tickData) {
+				if (type.equals(EnumSet.of(TickType.CLIENT))) {
+					final GuiScreen current = Minecraft.getMinecraft().currentScreen;
+					if (current.getClass() == GuiMainMenu.class && current.getClass() != SpoutcraftMainMenu.class) {
+						Minecraft.getMinecraft().displayGuiScreen(new SpoutcraftMainMenu());
+					}
+				}
+			}
+
+			@Override
+			public void tickEnd(EnumSet<TickType> type, Object... tickData) {
+			}
+
+			@Override
+			public EnumSet<TickType> ticks() {
+				return EnumSet.of(TickType.CLIENT);
+			}
+
+			@Override
+			public String getLabel() {
+				return null;
+			}
+		}, Side.CLIENT);
+
+		// Show our main menu
+		TickRegistry.registerTickHandler(new ITickHandler() {
 			@Override
 			public void tickStart(EnumSet<TickType> type, Object... tickData) {
 				if (type.equals(EnumSet.of(TickType.CLIENT))) {
@@ -103,8 +141,7 @@ public class SpoutcraftMod {
 				return null;
 			}
 		}, Side.CLIENT);
-		*/
-		//Special
+
 		Spoutcraft.getItemPrefabRegistry().put(new SpoutcraftEmblem());
 		Spoutcraft.getItemPrefabRegistry().put(new VanillaEmblem());
 	}
@@ -113,7 +150,7 @@ public class SpoutcraftMod {
 	@SuppressWarnings ("unchecked")
 	public void onServerStarting(FMLServerStartingEvent event) {
 		if (!(event.getServer() instanceof IntegratedServer)) {
-			//Setup registries
+			// Setup registries
 			Spoutcraft.setBlockRegistry(new SpoutcraftBlockPrefabRegistry());
 			Spoutcraft.setItemPrefabRegistry(new SpoutcraftItemPrefabRegistry());
 			Spoutcraft.setMaterialRegistry(new SpoutcraftMaterialPrefabRegistry());
@@ -121,16 +158,16 @@ public class SpoutcraftMod {
 			Spoutcraft.setLogger(new SpoutcraftLogger());
 			Spoutcraft.getLogger().init();
 
-			//Init protocol
+			// Init protocol
 			SpoutcraftProtocol.init();
 
-			//Set addon manager
-			//TODO Load server addons
+			// Set addon manager
+			// TODO Load server addons
 			Spoutcraft.setAddonManager(new ServerAddonManager());
-			//TODO Reflect GameRegistry and remove Spoutcraft blocks/items from clients when they disconnect...
+			// TODO Reflect GameRegistry and remove Spoutcraft blocks/items from clients when they disconnect...
 
-			//Test code
-			//TODO Look into fixing generics so suppression isn't needed
+			// Test code
+			// TODO Look into fixing generics so suppression isn't needed
 			Spoutcraft.getItemPrefabRegistry().put(new TestItem());
 			Spoutcraft.getItemPrefabRegistry().put(new TestFood());
 			Spoutcraft.getBlockPrefabRegistry().put(new TestSand());

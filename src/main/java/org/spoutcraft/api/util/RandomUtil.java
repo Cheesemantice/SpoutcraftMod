@@ -24,21 +24,12 @@
  */
 package org.spoutcraft.api.util;
 
-import cpw.mods.fml.common.registry.LanguageRegistry;
+import java.util.Random;
 
-public class LanguageUtil {
-	public static void add(String raw, String display) {
-		LanguageRegistry.instance().addStringLocalization(raw, "en_US", display);
-		LanguageRegistry.instance().addStringLocalization(raw, "en_GB", display);
-		LanguageRegistry.instance().addStringLocalization(raw, "en_CA", display);
-		LanguageRegistry.instance().addStringLocalization(raw, "en_AU", display);
-		LanguageRegistry.instance().addStringLocalization(raw, "en_PT", display);
-		LanguageRegistry.instance().addStringLocalization(raw, "es_ES", display);
-		LanguageRegistry.instance().addStringLocalization(raw, "en_MX", display);
-		LanguageRegistry.instance().addStringLocalization(raw, "fr_FR", display);
-	}
+public class RandomUtil {
+	private static final Random random = new Random();
 
-	public static void name(Object obj, String name) {
-		LanguageRegistry.addName(obj, name);
+	public static int inclusive(int lowerInclusive, int higherInclusive) {
+		return random.nextInt(higherInclusive - lowerInclusive) + 1;
 	}
 }

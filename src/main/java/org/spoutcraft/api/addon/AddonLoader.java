@@ -1,7 +1,8 @@
 /**
- * This file is a part of Spoutcraft
+ * This file is a part of Spoutcraft.
  *
- * Copyright (c) 2013 SpoutcraftDev
+ * Copyright (c) 2013 SpoutcraftDev <http://spoutcraft.org>
+ * Spoutcraft is licensed under the MIT License.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
