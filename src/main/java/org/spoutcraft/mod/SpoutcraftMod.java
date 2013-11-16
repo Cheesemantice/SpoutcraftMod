@@ -76,7 +76,7 @@ public class SpoutcraftMod {
 
 	@EventHandler
 	public void onClientStarting(FMLInitializationEvent event) {
-		Display.setTitle("Spoutcraft 1.6.");
+		Display.setTitle("Spoutcraft 1.6.4");
 
 		// Setup logger
 		Spoutcraft.setLogger(new SpoutcraftLogger());
