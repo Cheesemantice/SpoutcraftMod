@@ -27,7 +27,6 @@ package org.spoutcraft.api.util;
 import java.util.Calendar;
 
 public class TimeUtil {
-
 	public static String getTime() {
 		int hours = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
 

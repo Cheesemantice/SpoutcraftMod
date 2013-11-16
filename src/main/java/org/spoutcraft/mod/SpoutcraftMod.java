@@ -44,8 +44,6 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.integrated.IntegratedServer;
-import org.lwjgl.opengl.Display;
-
 import org.spoutcraft.api.LinkedPrefabRegistry;
 import org.spoutcraft.api.Spoutcraft;
 import org.spoutcraft.api.block.MovingPrefab;
@@ -95,7 +93,6 @@ public class SpoutcraftMod {
 		customTabs = new CustomTabs();
 
 		//registerHandlers();
-
 
 		Spoutcraft.getItemPrefabRegistry().put(new SpoutcraftEmblem());
 		Spoutcraft.getItemPrefabRegistry().put(new VanillaEmblem());
@@ -179,6 +176,7 @@ public class SpoutcraftMod {
 			}
 		}, Side.CLIENT);
 	}
+
 	private class CustomTabs extends CreativeTabs {
 		public CustomTabs() {
 			super("Spoutcraft");

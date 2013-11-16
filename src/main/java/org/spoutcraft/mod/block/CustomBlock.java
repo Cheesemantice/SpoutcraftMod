@@ -52,8 +52,7 @@ public class CustomBlock extends Block {
 	}
 
 	@Override
-	public int getLightOpacity(World world, int x, int y, int z)
-	{
+	public int getLightOpacity(World world, int x, int y, int z) {
 		return prefab.getLightOpacity(world, x, y, z);
 	}
 

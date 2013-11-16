@@ -33,10 +33,10 @@ import net.minecraft.client.gui.GuiSelectWorld;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.ResourceLocation;
-
-import org.lwjgl.opengl.GL11;
 import org.spoutcraft.api.util.RandomUtil;
 import org.spoutcraft.api.util.TimeUtil;
+
+import org.lwjgl.opengl.GL11;
 
 public class SpoutcraftMainMenu extends GuiScreen {
 	private static ResourceLocation backgroundImage;

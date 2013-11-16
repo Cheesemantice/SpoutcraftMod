@@ -60,7 +60,7 @@ public class BlockPrefab extends Prefab {
 	}
 
 	public int getLightValue(IBlockAccess world, int x, int y, int z) {
-		return 13;
+		return 1;
 	}
 
 	public int getLightOpacity(World world, int x, int y, int z) {
