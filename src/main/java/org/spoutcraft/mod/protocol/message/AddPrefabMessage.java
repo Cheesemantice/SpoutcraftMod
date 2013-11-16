@@ -24,6 +24,7 @@
  */
 package org.spoutcraft.mod.protocol.message;
 
+import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.network.Player;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 import cpw.mods.fml.relauncher.Side;
@@ -46,6 +47,5 @@ public class AddPrefabMessage implements Message {
 	public void handle(Side side, INetworkManager manager, Player player) {
 		Spoutcraft.getLogger().info("Received prefab from the server");
 		Spoutcraft.getLogger().info(prefab.toString());
-		LanguageRegistry.reloadLanguageTable();
 	}
 }

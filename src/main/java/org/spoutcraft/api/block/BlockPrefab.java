@@ -24,6 +24,8 @@
  */
 package org.spoutcraft.api.block;
 
+import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.World;
 import org.spoutcraft.api.Prefab;
 import org.spoutcraft.api.material.MaterialPrefab;
 
@@ -55,6 +57,14 @@ public class BlockPrefab extends Prefab {
 
 	public boolean shouldShowInCreativeTab() {
 		return showInCreativeTab;
+	}
+
+	public int getLightValue(IBlockAccess world, int x, int y, int z) {
+		return 13;
+	}
+
+	public int getLightOpacity(World world, int x, int y, int z) {
+		return 255;
 	}
 
 	@Override

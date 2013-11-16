@@ -26,6 +26,7 @@ package org.spoutcraft.mod;
 
 import java.util.EnumSet;
 
+import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.ITickHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -44,7 +45,12 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.integrated.IntegratedServer;
 import org.lwjgl.opengl.Display;
+
+import org.spoutcraft.api.LinkedPrefabRegistry;
 import org.spoutcraft.api.Spoutcraft;
+import org.spoutcraft.api.block.MovingPrefab;
+import org.spoutcraft.api.material.MapIndex;
+import org.spoutcraft.api.material.MaterialPrefab;
 import org.spoutcraft.api.util.LanguageUtil;
 import org.spoutcraft.mod.addon.ClientAddonManager;
 import org.spoutcraft.mod.addon.ServerAddonManager;
@@ -88,62 +94,33 @@ public class SpoutcraftMod {
 		// Setup creative tab
 		customTabs = new CustomTabs();
 
-		// Use our main menu
-		TickRegistry.registerTickHandler(new ITickHandler() {
-			@Override
-			public void tickStart(EnumSet<TickType> type, Object... tickData) {
-				if (type.equals(EnumSet.of(TickType.CLIENT))) {
-					final GuiScreen current = Minecraft.getMinecraft().currentScreen;
-					if (current.getClass() == GuiMainMenu.class && current.getClass() != SpoutcraftMainMenu.class) {
-						Minecraft.getMinecraft().displayGuiScreen(new SpoutcraftMainMenu());
-					}
-				}
-			}
+		//registerHandlers();
 
-			@Override
-			public void tickEnd(EnumSet<TickType> type, Object... tickData) {
-			}
-
-			@Override
-			public EnumSet<TickType> ticks() {
-				return EnumSet.of(TickType.CLIENT);
-			}
-
-			@Override
-			public String getLabel() {
-				return null;
-			}
-		}, Side.CLIENT);
-
-		// Show our main menu
-		TickRegistry.registerTickHandler(new ITickHandler() {
-			@Override
-			public void tickStart(EnumSet<TickType> type, Object... tickData) {
-				if (type.equals(EnumSet.of(TickType.CLIENT))) {
-					final GuiScreen current = Minecraft.getMinecraft().currentScreen;
-					if (current instanceof GuiMainMenu && current.getClass() != SpoutcraftMainMenu.class) {
-						Minecraft.getMinecraft().displayGuiScreen(new SpoutcraftMainMenu());
-					}
-				}
-			}
-
-			@Override
-			public void tickEnd(EnumSet<TickType> type, Object... tickData) {
-			}
-
-			@Override
-			public EnumSet<TickType> ticks() {
-				return EnumSet.of(TickType.CLIENT);
-			}
-
-			@Override
-			public String getLabel() {
-				return null;
-			}
-		}, Side.CLIENT);
 
 		Spoutcraft.getItemPrefabRegistry().put(new SpoutcraftEmblem());
 		Spoutcraft.getItemPrefabRegistry().put(new VanillaEmblem());
+
+		final LinkedPrefabRegistry registry = Spoutcraft.getBlockPrefabRegistry();
+		registry.put(new MovingPrefab("0b", "0 (Black)", new MaterialPrefab("testmaterial", MapIndex.DIRT), 0.5f, true));
+		registry.put(new MovingPrefab("0w", "0 (White)", new MaterialPrefab("testmaterial", MapIndex.DIRT), 0.5f, true));
+		registry.put(new MovingPrefab("1b", "1 (Black)", new MaterialPrefab("testmaterial", MapIndex.DIRT), 0.5f, true));
+		registry.put(new MovingPrefab("1w", "1 (White)", new MaterialPrefab("testmaterial", MapIndex.DIRT), 0.5f, true));
+		registry.put(new MovingPrefab("2b", "2 (Black)", new MaterialPrefab("testmaterial", MapIndex.DIRT), 0.5f, true));
+		registry.put(new MovingPrefab("2w", "2 (White)", new MaterialPrefab("testmaterial", MapIndex.DIRT), 0.5f, true));
+		registry.put(new MovingPrefab("3b", "3 (Black)", new MaterialPrefab("testmaterial", MapIndex.DIRT), 0.5f, true));
+		registry.put(new MovingPrefab("3w", "3 (White)", new MaterialPrefab("testmaterial", MapIndex.DIRT), 0.5f, true));
+		registry.put(new MovingPrefab("4b", "4 (Black)", new MaterialPrefab("testmaterial", MapIndex.DIRT), 0.5f, true));
+		registry.put(new MovingPrefab("4w", "4 (White)", new MaterialPrefab("testmaterial", MapIndex.DIRT), 0.5f, true));
+		registry.put(new MovingPrefab("5b", "5 (Black)", new MaterialPrefab("testmaterial", MapIndex.DIRT), 0.5f, true));
+		registry.put(new MovingPrefab("5w", "5 (White)", new MaterialPrefab("testmaterial", MapIndex.DIRT), 0.5f, true));
+		registry.put(new MovingPrefab("6b", "6 (Black)", new MaterialPrefab("testmaterial", MapIndex.DIRT), 0.5f, true));
+		registry.put(new MovingPrefab("6w", "6 (White)", new MaterialPrefab("testmaterial", MapIndex.DIRT), 0.5f, true));
+		registry.put(new MovingPrefab("7b", "7 (Black)", new MaterialPrefab("testmaterial", MapIndex.DIRT), 0.5f, true));
+		registry.put(new MovingPrefab("7w", "7 (White)", new MaterialPrefab("testmaterial", MapIndex.DIRT), 0.5f, true));
+		registry.put(new MovingPrefab("8b", "8 (Black)", new MaterialPrefab("testmaterial", MapIndex.DIRT), 0.5f, true));
+		registry.put(new MovingPrefab("8w", "8 (White)", new MaterialPrefab("testmaterial", MapIndex.DIRT), 0.5f, true));
+		registry.put(new MovingPrefab("9b", "9 (Black)", new MaterialPrefab("testmaterial", MapIndex.DIRT), 0.5f, true));
+		registry.put(new MovingPrefab("9w", "9 (White)", new MaterialPrefab("testmaterial", MapIndex.DIRT), 0.5f, true));
 	}
 
 	@EventHandler
@@ -174,6 +151,34 @@ public class SpoutcraftMod {
 		}
 	}
 
+	private void registerHandlers() {
+		// Show our main menu
+		TickRegistry.registerTickHandler(new ITickHandler() {
+			@Override
+			public void tickStart(EnumSet<TickType> type, Object... tickData) {
+				if (type.equals(EnumSet.of(TickType.CLIENT))) {
+					final GuiScreen current = Minecraft.getMinecraft().currentScreen;
+					if (current != null && current.getClass() == GuiMainMenu.class && current.getClass() != SpoutcraftMainMenu.class) {
+						FMLClientHandler.instance().getClient().displayGuiScreen(new SpoutcraftMainMenu());
+					}
+				}
+			}
+
+			@Override
+			public void tickEnd(EnumSet<TickType> type, Object... tickData) {
+			}
+
+			@Override
+			public EnumSet<TickType> ticks() {
+				return EnumSet.of(TickType.CLIENT);
+			}
+
+			@Override
+			public String getLabel() {
+				return null;
+			}
+		}, Side.CLIENT);
+	}
 	private class CustomTabs extends CreativeTabs {
 		public CustomTabs() {
 			super("Spoutcraft");

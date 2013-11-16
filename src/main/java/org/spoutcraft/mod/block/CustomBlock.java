@@ -25,6 +25,8 @@
 package org.spoutcraft.mod.block;
 
 import net.minecraft.block.Block;
+import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.World;
 import org.spoutcraft.api.block.BlockPrefab;
 import org.spoutcraft.mod.SpoutcraftMod;
 import org.spoutcraft.mod.material.CustomMaterial;
@@ -42,6 +44,17 @@ public class CustomBlock extends Block {
 		if (prefab.shouldShowInCreativeTab()) {
 			setCreativeTab(SpoutcraftMod.getCustomTabs());
 		}
+	}
+
+	@Override
+	public int getLightValue(IBlockAccess world, int x, int y, int z) {
+		return prefab.getLightValue(world, x, y, z);
+	}
+
+	@Override
+	public int getLightOpacity(World world, int x, int y, int z)
+	{
+		return prefab.getLightOpacity(world, x, y, z);
 	}
 
 	public BlockPrefab getPrefab() {
