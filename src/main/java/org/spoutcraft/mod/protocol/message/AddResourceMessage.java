@@ -27,6 +27,7 @@ package org.spoutcraft.mod.protocol.message;
 import cpw.mods.fml.common.network.Player;
 import cpw.mods.fml.relauncher.Side;
 import net.minecraft.network.INetworkManager;
+import org.spoutcraft.api.protocol.message.Message;
 
 public class AddResourceMessage<R> implements Message {
 	private final R resource;

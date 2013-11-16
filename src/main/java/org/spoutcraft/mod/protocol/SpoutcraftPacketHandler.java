@@ -32,8 +32,9 @@ import cpw.mods.fml.common.network.Player;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet250CustomPayload;
 import org.spoutcraft.api.Spoutcraft;
-import org.spoutcraft.mod.protocol.codec.Codec;
-import org.spoutcraft.mod.protocol.message.Message;
+import org.spoutcraft.api.protocol.SpoutcraftProtocol;
+import org.spoutcraft.api.protocol.codec.Codec;
+import org.spoutcraft.api.protocol.message.Message;
 
 public class SpoutcraftPacketHandler implements IPacketHandler {
 	@Override

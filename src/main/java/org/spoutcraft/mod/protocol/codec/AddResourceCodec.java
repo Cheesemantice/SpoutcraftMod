@@ -28,6 +28,7 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 
 import cpw.mods.fml.relauncher.Side;
+import org.spoutcraft.api.protocol.codec.Codec;
 import org.spoutcraft.mod.protocol.message.AddResourceMessage;
 
 public class AddResourceCodec implements Codec<AddResourceMessage> {

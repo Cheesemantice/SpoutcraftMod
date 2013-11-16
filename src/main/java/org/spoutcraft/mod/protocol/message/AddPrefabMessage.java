@@ -29,6 +29,7 @@ import cpw.mods.fml.relauncher.Side;
 import net.minecraft.network.INetworkManager;
 import org.spoutcraft.api.Prefab;
 import org.spoutcraft.api.Spoutcraft;
+import org.spoutcraft.api.protocol.message.Message;
 
 public class AddPrefabMessage implements Message {
 	private final Prefab prefab;

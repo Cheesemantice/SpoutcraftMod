@@ -60,10 +60,12 @@ import org.spoutcraft.mod.item.special.VanillaEmblem;
 import org.spoutcraft.mod.logger.SpoutcraftLogger;
 import org.spoutcraft.mod.material.SpoutcraftMaterialPrefabRegistry;
 import org.spoutcraft.mod.protocol.SpoutcraftPacketHandler;
-import org.spoutcraft.mod.protocol.SpoutcraftProtocol;
+import org.spoutcraft.api.protocol.SpoutcraftProtocol;
 import org.spoutcraft.test.block.TestSand;
 import org.spoutcraft.test.item.TestFood;
 import org.spoutcraft.test.item.TestItem;
+
+import org.lwjgl.opengl.Display;
 
 @Mod (modid = "Spoutcraft")
 @NetworkMod (clientSideRequired = true, serverSideRequired = true, channels = {"SPC-AddResource", "SPC-AddPrefab", "SPC-AddonList"}, packetHandler = SpoutcraftPacketHandler.class)
@@ -74,6 +76,8 @@ public class SpoutcraftMod {
 
 	@EventHandler
 	public void onClientStarting(FMLInitializationEvent event) {
+		Display.setTitle("Spoutcraft 1.6.");
+
 		// Setup logger
 		Spoutcraft.setLogger(new SpoutcraftLogger());
 		Spoutcraft.getLogger().init();

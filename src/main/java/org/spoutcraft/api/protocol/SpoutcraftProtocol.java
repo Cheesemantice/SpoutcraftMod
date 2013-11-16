@@ -22,16 +22,17 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.spoutcraft.mod.protocol;
+package org.spoutcraft.api.protocol;
 
 import java.lang.reflect.Constructor;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 import cpw.mods.fml.common.network.NetworkRegistry;
-import org.spoutcraft.mod.protocol.codec.Codec;
+import org.spoutcraft.api.protocol.codec.Codec;
+import org.spoutcraft.api.protocol.message.Message;
+import org.spoutcraft.mod.protocol.SpoutcraftConnectionHandler;
 import org.spoutcraft.mod.protocol.message.AddPrefabMessage;
-import org.spoutcraft.mod.protocol.message.Message;
 
 public class SpoutcraftProtocol {
 	private static final ConcurrentMap<Class<? extends Message>, Codec<?>> table;
