@@ -1,7 +1,5 @@
 package org.spoutcraft.api.gui;
 
-import net.minecraft.client.gui.GuiIngame;
-import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.util.Color;
@@ -21,7 +19,6 @@ public class Label extends Widget {
 	public Label(int x, int y, int heightBound, int widthBound, String text, Color textColor, Color hoverColor, Color disableColor, ResourceLocation background) {
 		super(x, y, heightBound, widthBound);
 		this.text = text;
-		Tessellator
 		this.textColor = textColor;
 		this.hoverColor = hoverColor;
 		this.disableColor = disableColor;
