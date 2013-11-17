@@ -35,6 +35,7 @@ import cpw.mods.fml.common.TickType;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.network.NetworkMod;
+import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.TickRegistry;
 import cpw.mods.fml.relauncher.Side;
 import net.minecraft.client.Minecraft;
@@ -49,6 +50,7 @@ import org.spoutcraft.api.Spoutcraft;
 import org.spoutcraft.api.block.MovingPrefab;
 import org.spoutcraft.api.material.MapIndex;
 import org.spoutcraft.api.material.MaterialPrefab;
+import org.spoutcraft.api.protocol.Protocol;
 import org.spoutcraft.api.util.LanguageUtil;
 import org.spoutcraft.mod.addon.ClientAddonManager;
 import org.spoutcraft.mod.addon.ServerAddonManager;
@@ -59,8 +61,9 @@ import org.spoutcraft.mod.item.special.SpoutcraftEmblem;
 import org.spoutcraft.mod.item.special.VanillaEmblem;
 import org.spoutcraft.mod.logger.SpoutcraftLogger;
 import org.spoutcraft.mod.material.SpoutcraftMaterialPrefabRegistry;
+import org.spoutcraft.mod.protocol.SpoutcraftConnectionHandler;
 import org.spoutcraft.mod.protocol.SpoutcraftPacketHandler;
-import org.spoutcraft.api.protocol.SpoutcraftProtocol;
+import org.spoutcraft.mod.protocol.message.AddPrefabMessage;
 import org.spoutcraft.test.block.TestSand;
 import org.spoutcraft.test.item.TestFood;
 import org.spoutcraft.test.item.TestItem;
@@ -76,14 +79,14 @@ public class SpoutcraftMod {
 
 	@EventHandler
 	public void onClientStarting(FMLInitializationEvent event) {
-		Display.setTitle("Spoutcraft 1.6.4");
+		Display.setTitle("Spoutcraft");
 
 		// Setup logger
 		Spoutcraft.setLogger(new SpoutcraftLogger());
 		Spoutcraft.getLogger().init();
 
-		// Init protocol
-		SpoutcraftProtocol.init();
+		// Prepare protocol
+		bindCodecMessages();
 
 		// TODO Load client addons
 		Spoutcraft.setAddonManager(new ClientAddonManager());
@@ -136,8 +139,8 @@ public class SpoutcraftMod {
 			Spoutcraft.setLogger(new SpoutcraftLogger());
 			Spoutcraft.getLogger().init();
 
-			// Init protocol
-			SpoutcraftProtocol.init();
+			// Prepare protocol
+			bindCodecMessages();
 
 			// Set addon manager
 			// TODO Load server addons
@@ -176,9 +179,14 @@ public class SpoutcraftMod {
 
 			@Override
 			public String getLabel() {
-				return null;
+				return "Spoutcraft - Main Menu Hotswap";
 			}
 		}, Side.CLIENT);
+	}
+
+	private void bindCodecMessages() {
+		NetworkRegistry.instance().registerConnectionHandler(new SpoutcraftConnectionHandler());
+		Protocol.register(AddPrefabMessage.class, org.spoutcraft.mod.protocol.codec.AddPrefabCodec.class);
 	}
 
 	private class CustomTabs extends CreativeTabs {

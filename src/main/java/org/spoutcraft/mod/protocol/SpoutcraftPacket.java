@@ -29,14 +29,14 @@ import java.io.IOException;
 import cpw.mods.fml.common.FMLCommonHandler;
 import net.minecraft.network.packet.Packet250CustomPayload;
 import org.spoutcraft.api.Spoutcraft;
-import org.spoutcraft.api.protocol.SpoutcraftProtocol;
+import org.spoutcraft.api.protocol.Protocol;
 import org.spoutcraft.api.protocol.codec.Codec;
 import org.spoutcraft.api.protocol.message.Message;
 
 public class SpoutcraftPacket extends Packet250CustomPayload {
 	@SuppressWarnings ("unchecked")
 	public SpoutcraftPacket(Message toSend) {
-		final Codec codec = SpoutcraftProtocol.find(toSend.getClass());
+		final Codec codec = Protocol.find(toSend.getClass());
 		try {
 			Spoutcraft.getLogger().info("Encoding codec: " + codec);
 			super.channel = codec.getChannel();
