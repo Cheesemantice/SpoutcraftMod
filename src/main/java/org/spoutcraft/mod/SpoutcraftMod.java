@@ -26,7 +26,6 @@ package org.spoutcraft.mod;
 
 import java.util.EnumSet;
 
-import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.ITickHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -38,7 +37,6 @@ import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.TickRegistry;
 import cpw.mods.fml.relauncher.Side;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiMainMenu;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.creativetab.CreativeTabs;
@@ -164,9 +162,9 @@ public class SpoutcraftMod {
 		TickRegistry.registerTickHandler(new ITickHandler() {
 			@Override
 			public void tickStart(EnumSet<TickType> type, Object... tickData) {
-				final GuiScreen current = Minecraft.getMinecraft().currentScreen;
+				final GuiScreen current = RenderUtil.MINECRAFT.currentScreen;
 				if (current != null && current.getClass() == GuiMainMenu.class && current.getClass() != SpoutcraftMainMenu.class) {
-					FMLClientHandler.instance().getClient().displayGuiScreen(new SpoutcraftMainMenu());
+					RenderUtil.MINECRAFT.displayGuiScreen(new SpoutcraftMainMenu());
 				}
 			}
 
