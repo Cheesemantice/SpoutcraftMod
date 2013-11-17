@@ -45,6 +45,8 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.integrated.IntegratedServer;
+import net.minecraft.util.ResourceLocation;
+import org.lwjgl.opengl.GL11;
 import org.spoutcraft.api.LinkedPrefabRegistry;
 import org.spoutcraft.api.Spoutcraft;
 import org.spoutcraft.api.block.MovingPrefab;
@@ -52,6 +54,7 @@ import org.spoutcraft.api.material.MapIndex;
 import org.spoutcraft.api.material.MaterialPrefab;
 import org.spoutcraft.api.protocol.Protocol;
 import org.spoutcraft.api.util.LanguageUtil;
+import org.spoutcraft.api.util.RenderUtil;
 import org.spoutcraft.mod.addon.ClientAddonManager;
 import org.spoutcraft.mod.addon.ServerAddonManager;
 import org.spoutcraft.mod.block.SpoutcraftBlockPrefabRegistry;
@@ -79,6 +82,7 @@ public class SpoutcraftMod {
 
 	@EventHandler
 	public void onClientStarting(FMLInitializationEvent event) {
+		// Set the frame title
 		Display.setTitle("Spoutcraft");
 
 		// Setup logger
@@ -99,7 +103,7 @@ public class SpoutcraftMod {
 		// Setup creative tab
 		customTabs = new CustomTabs();
 
-		//registerHandlers();
+		registerHandlers();
 
 		Spoutcraft.getItemPrefabRegistry().put(new SpoutcraftEmblem());
 		Spoutcraft.getItemPrefabRegistry().put(new VanillaEmblem());
@@ -160,11 +164,9 @@ public class SpoutcraftMod {
 		TickRegistry.registerTickHandler(new ITickHandler() {
 			@Override
 			public void tickStart(EnumSet<TickType> type, Object... tickData) {
-				if (type.equals(EnumSet.of(TickType.CLIENT))) {
-					final GuiScreen current = Minecraft.getMinecraft().currentScreen;
-					if (current != null && current.getClass() == GuiMainMenu.class && current.getClass() != SpoutcraftMainMenu.class) {
-						FMLClientHandler.instance().getClient().displayGuiScreen(new SpoutcraftMainMenu());
-					}
+				final GuiScreen current = Minecraft.getMinecraft().currentScreen;
+				if (current != null && current.getClass() == GuiMainMenu.class && current.getClass() != SpoutcraftMainMenu.class) {
+					FMLClientHandler.instance().getClient().displayGuiScreen(new SpoutcraftMainMenu());
 				}
 			}
 
@@ -180,6 +182,52 @@ public class SpoutcraftMod {
 			@Override
 			public String getLabel() {
 				return "Spoutcraft - Main Menu Hotswap";
+			}
+		}, Side.CLIENT);
+
+		// Draw our watermark ingame
+		TickRegistry.registerTickHandler(new ITickHandler() {
+			@Override
+			public void tickStart(EnumSet<TickType> type, Object... tickData) {
+			}
+
+			@Override
+			public void tickEnd(EnumSet<TickType> type, Object... tickData) {
+				final GuiScreen current = RenderUtil.MINECRAFT.currentScreen;
+				if (current == null) {
+					// Draw Spoutcraft logo
+					GL11.glPushMatrix();
+					RenderUtil.MINECRAFT.getTextureManager().bindTexture(new ResourceLocation("spoutcraft", "textures/gui/title/spoutcraft.png"));
+					GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+					int width = RenderUtil.MINECRAFT.displayWidth;
+					int height = RenderUtil.MINECRAFT.displayHeight;
+					GL11.glEnable(GL11.GL_BLEND);
+					GL11.glTranslatef((width / 2) - 45, (height / 2) - 13, 0.0f);
+					GL11.glScalef(0.17f, 0.17f, 1.0f);
+					GL11.glTranslatef((-width / 2) + 45, -(height / 2) + 13, 0.0f);
+					RenderUtil.create2DRectangleModal((width / 2) - 45, (height / 2) - 13, 256, 67, 0);
+					RenderUtil.TESSELLATOR.draw();
+					GL11.glDisable(GL11.GL_BLEND);
+					GL11.glPopMatrix();
+
+					// Draw milestone string
+					GL11.glPushMatrix();
+					GL11.glTranslatef((width / 2) - 14, (height / 2) - 8, 0.0f);
+					GL11.glScalef(0.50f, 0.50f, 1.0f);
+					GL11.glTranslatef(-(width / 2) + 14, -(height / 2) + 8, 0.0f);
+					RenderUtil.MINECRAFT.fontRenderer.drawString("Alpha", (width / 2) - 14, (height / 2) - 3, 16776960);
+					GL11.glPopMatrix();
+				}
+			}
+
+			@Override
+			public EnumSet<TickType> ticks() {
+				return EnumSet.of(TickType.RENDER);
+			}
+
+			@Override
+			public String getLabel() {
+				return "Spoutcraft - Watermark";
 			}
 		}, Side.CLIENT);
 	}
