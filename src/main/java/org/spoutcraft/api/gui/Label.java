@@ -5,15 +5,14 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.util.Color;
 
 public class Label extends Widget {
-	private static final Color DEFAULT_TEXT_COLOR = new Color(Color.WHITE);
-	private static final Color DEFAULT_DISABLED_COLOR = new Color(Color.LTGREY);
-	private static final ResourceLocation DEFAULT_BACKGROUND = new ResourceLocation("spoutcraft", "textures/gui/label_background.png");
+	public static final Color DEFAULT_TEXT_COLOR = new Color(Color.WHITE);
+	public static final Color DEFAULT_DISABLED_COLOR = new Color(Color.LTGREY);
 	private String text;
 	private Color textColor, hoverColor, disableColor;
 	private ResourceLocation background;
 
 	public Label(int x, int y, int heightBound, int widthBound, String text) {
-		this(x, y, heightBound, widthBound, text, DEFAULT_TEXT_COLOR, DEFAULT_TEXT_COLOR, DEFAULT_DISABLED_COLOR, DEFAULT_BACKGROUND);
+		this(x, y, heightBound, widthBound, text, DEFAULT_TEXT_COLOR, DEFAULT_TEXT_COLOR, DEFAULT_DISABLED_COLOR, null);
 	}
 
 	public Label(int x, int y, int heightBound, int widthBound, String text, Color textColor, Color hoverColor, Color disableColor, ResourceLocation background) {
