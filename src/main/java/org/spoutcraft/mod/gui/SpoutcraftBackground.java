@@ -32,7 +32,7 @@ import org.spoutcraft.api.util.RenderUtil;
 import org.spoutcraft.api.util.TimeUtil;
 
 public class SpoutcraftBackground extends Gui {
-	private static final ResourceLocation location = selectBackground();
+	private static ResourceLocation location = selectBackground();
 
 	private static ResourceLocation selectBackground() {
 		switch (TimeUtil.getTime()) {

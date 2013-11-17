@@ -34,6 +34,7 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 import org.spoutcraft.api.util.RenderUtil;
+import org.spoutcraft.mod.gui.button.SpoutcraftSimpleButton;
 
 public class SpoutcraftMainMenu extends GuiScreen {
 	private static ResourceLocation spoutcraftLogo = new ResourceLocation("spoutcraft", "textures/gui/title/spoutcraft.png");
@@ -86,7 +87,9 @@ public class SpoutcraftMainMenu extends GuiScreen {
 			case 4: // Mods
 				RenderUtil.MINECRAFT.displayGuiScreen(new GuiModList(this));
 				break;
-			case 5: // Quit
+			case 5: // Addons
+				break;
+			case 6: // Quit
 				RenderUtil.MINECRAFT.shutdown();
 				break;
 		}

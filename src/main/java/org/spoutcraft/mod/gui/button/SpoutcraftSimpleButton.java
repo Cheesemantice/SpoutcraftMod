@@ -22,7 +22,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.spoutcraft.mod.gui;
+package org.spoutcraft.mod.gui.button;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
