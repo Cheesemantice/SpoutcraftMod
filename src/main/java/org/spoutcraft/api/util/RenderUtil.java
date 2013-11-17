@@ -12,7 +12,7 @@ public class RenderUtil {
 		TESSELLATOR.startDrawingQuads();
 		TESSELLATOR.addVertexWithUV(x + 0, y + height, zLevel, 0, 1);
 		TESSELLATOR.addVertexWithUV(x + width, y + height, zLevel, 1, 1);
-		TESSELLATOR.addVertexWithUV(x + width, y + 0, zLevel, 1,0);
+		TESSELLATOR.addVertexWithUV(x + width, y + 0, zLevel, 1, 0);
 		TESSELLATOR.addVertexWithUV(x + 0, y + 0, zLevel, 0, 0);
 	}
 }
