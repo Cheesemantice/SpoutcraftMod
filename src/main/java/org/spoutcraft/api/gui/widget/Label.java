@@ -1,4 +1,4 @@
-package org.spoutcraft.api.gui;
+package org.spoutcraft.api.gui.widget;
 
 import net.minecraft.util.ResourceLocation;
 

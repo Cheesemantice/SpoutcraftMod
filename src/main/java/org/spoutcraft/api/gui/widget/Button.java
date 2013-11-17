@@ -1,12 +1,12 @@
-package org.spoutcraft.api.gui;
+package org.spoutcraft.api.gui.widget;
 
 import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.util.Color;
 
-public abstract class Button extends Label {
+public class Button extends Label {
 	public static final ResourceLocation DEFAULT_BACKGROUND = new ResourceLocation("spoutcraft", "textures/gui/button_background.png");
-	public static final ResourceLocation DEFAULT_CLICKED_BACKGROUND = new ResourceLocation("spoutcraft:textures/gui/button_clicked_background.png");
+	public static final ResourceLocation DEFAULT_CLICKED_BACKGROUND = new ResourceLocation("spoutcraft", "textures/gui/button_clicked_background.png");
 	private ResourceLocation clickedBackground;
 
 	public Button(int x, int y, int heightBound, int widthBound, String text) {

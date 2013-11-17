@@ -22,7 +22,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.spoutcraft.mod.gui;
+package org.spoutcraft.mod.gui.builtin;
 
 import cpw.mods.fml.client.GuiModList;
 import net.minecraft.client.gui.GuiButton;
@@ -34,6 +34,7 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 import org.spoutcraft.api.util.RenderUtil;
+import org.spoutcraft.mod.gui.SpoutcraftBackground;
 import org.spoutcraft.mod.gui.button.SpoutcraftSimpleButton;
 
 public class SpoutcraftMainMenu extends GuiScreen {

@@ -56,7 +56,7 @@ import org.spoutcraft.api.util.RenderUtil;
 import org.spoutcraft.mod.addon.ClientAddonManager;
 import org.spoutcraft.mod.addon.ServerAddonManager;
 import org.spoutcraft.mod.block.SpoutcraftBlockPrefabRegistry;
-import org.spoutcraft.mod.gui.SpoutcraftMainMenu;
+import org.spoutcraft.mod.gui.builtin.SpoutcraftMainMenu;
 import org.spoutcraft.mod.item.SpoutcraftItemPrefabRegistry;
 import org.spoutcraft.mod.item.special.SpoutcraftEmblem;
 import org.spoutcraft.mod.item.special.VanillaEmblem;
@@ -243,7 +243,7 @@ public class SpoutcraftMod {
 
 		@Override
 		public ItemStack getIconItemStack() {
-			return new ItemStack((Item) Spoutcraft.getItemPrefabRegistry().find("spoutcraft_emblem"), 1, 0);
+			return new ItemStack((Item) Spoutcraft.getItemPrefabRegistry().find("spout_emblem"), 1, 0);
 		}
 	}
 

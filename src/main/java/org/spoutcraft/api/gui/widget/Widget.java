@@ -1,4 +1,7 @@
-package org.spoutcraft.api.gui;
+package org.spoutcraft.api.gui.widget;
+
+import org.spoutcraft.api.gui.ClickAction;
+import org.spoutcraft.api.gui.FocusReason;
 
 public abstract class Widget {
 	private int x, y, heightBound, widthBound;
