@@ -28,22 +28,14 @@ import java.lang.reflect.Constructor;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-import cpw.mods.fml.common.network.NetworkRegistry;
 import org.spoutcraft.api.protocol.codec.Codec;
 import org.spoutcraft.api.protocol.message.Message;
-import org.spoutcraft.mod.protocol.SpoutcraftConnectionHandler;
-import org.spoutcraft.mod.protocol.message.AddPrefabMessage;
 
-public class SpoutcraftProtocol {
+public class Protocol {
 	private static final ConcurrentMap<Class<? extends Message>, Codec<?>> table;
 
 	static {
 		table = new ConcurrentHashMap<>(5, 1.0f);
-	}
-
-	public static void init() {
-		NetworkRegistry.instance().registerConnectionHandler(new SpoutcraftConnectionHandler());
-		register(AddPrefabMessage.class, org.spoutcraft.mod.protocol.codec.AddPrefabCodec.class);
 	}
 
 	public static <T extends Message, C extends Codec<T>> void register(Class<T> clazz, Class<C> clazzz) {
