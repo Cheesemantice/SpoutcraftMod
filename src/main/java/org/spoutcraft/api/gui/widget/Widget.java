@@ -1,7 +1,7 @@
 package org.spoutcraft.api.gui.widget;
 
-import org.spoutcraft.api.gui.ClickAction;
-import org.spoutcraft.api.gui.FocusReason;
+import org.spoutcraft.api.gui.action.ClickAction;
+import org.spoutcraft.api.gui.action.FocusAction;
 
 public abstract class Widget {
 	private final String identifier;
@@ -112,7 +112,7 @@ public abstract class Widget {
 
 	}
 
-	public void onFocus(FocusReason reason) {
+	public void onFocus(FocusAction reason) {
 
 	}
 }
