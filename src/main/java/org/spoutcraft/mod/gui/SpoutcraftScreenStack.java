@@ -61,7 +61,7 @@ public class SpoutcraftScreenStack extends ScreenStack {
 		Screen found = null;
 		if (addonScreens != null && !addonScreens.isEmpty()) {
 			Iterator<Screen> addonScreensIterator = addonScreens.iterator();
-			while(addonScreensIterator.hasNext()) {
+			while (addonScreensIterator.hasNext()) {
 				found = addonScreensIterator.next();
 				if (found.getIdentifier().equals(identifier)) {
 					addonScreensIterator.remove();
