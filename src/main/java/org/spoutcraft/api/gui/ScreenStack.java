@@ -3,6 +3,7 @@ package org.spoutcraft.api.gui;
 import java.util.LinkedList;
 
 import org.spoutcraft.api.addon.Addon;
+import org.spoutcraft.api.gui.result.FocusResult;
 
 public abstract class ScreenStack {
 	private Screen focused = null;
@@ -21,12 +22,29 @@ public abstract class ScreenStack {
 
 	public abstract void show(Class<? extends Addon> clazz, String identifier);
 
-	public boolean focus(Class<? extends Addon> clazz, String identifier) {
-		onScreenFocus(focused);
-		return (focused = get(clazz, identifier)) != null;
+	public void focus(Class<? extends Addon> clazz, String identifier) {
+		final Screen found = get(clazz, identifier);
+		//No screen found
+		if (found == null) {
+			return;
+		}
+		//Trying to focus a screen that already has focus
+		if (focused != null && focused.equals(found)) {
+			return;
+		}
+		//A screen already has focus, fire callback for focus lost
+		if (focused != null) {
+			onFocusChange(FocusResult.LOST, focused);
+		}
+		//Fire callback for screen that just gained focus
+		onFocusChange(FocusResult.GAINED, found);
 	}
 
-	public void onScreenFocus(Screen previous) {
+	public Screen getFocusedScreen() {
+		return focused;
+	}
+
+	public void onFocusChange(FocusResult result, Screen screen) {
 
 	}
 }
