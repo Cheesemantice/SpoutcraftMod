@@ -11,12 +11,12 @@ public class Label extends Widget {
 	private Color textColor, hoverColor, disableColor;
 	private ResourceLocation background;
 
-	public Label(int x, int y, int heightBound, int widthBound, String text) {
-		this(x, y, heightBound, widthBound, text, DEFAULT_TEXT_COLOR, DEFAULT_TEXT_COLOR, DEFAULT_DISABLED_COLOR, null);
+	public Label(String identifier, int x, int y, int heightBound, int widthBound, String text) {
+		this(identifier, x, y, heightBound, widthBound, text, DEFAULT_TEXT_COLOR, DEFAULT_TEXT_COLOR, DEFAULT_DISABLED_COLOR, null);
 	}
 
-	public Label(int x, int y, int heightBound, int widthBound, String text, Color textColor, Color hoverColor, Color disableColor, ResourceLocation background) {
-		super(x, y, heightBound, widthBound);
+	public Label(String identifier, int x, int y, int heightBound, int widthBound, String text, Color textColor, Color hoverColor, Color disableColor, ResourceLocation background) {
+		super(identifier, x, y, heightBound, widthBound);
 		this.text = text;
 		this.textColor = textColor;
 		this.hoverColor = hoverColor;

@@ -44,7 +44,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.integrated.IntegratedServer;
 import net.minecraft.util.ResourceLocation;
-import org.lwjgl.opengl.GL11;
 import org.spoutcraft.api.LinkedPrefabRegistry;
 import org.spoutcraft.api.Spoutcraft;
 import org.spoutcraft.api.block.MovingPrefab;
@@ -70,6 +69,7 @@ import org.spoutcraft.test.item.TestFood;
 import org.spoutcraft.test.item.TestItem;
 
 import org.lwjgl.opengl.Display;
+import org.lwjgl.opengl.GL11;
 
 @Mod (modid = "Spoutcraft")
 @NetworkMod (clientSideRequired = true, serverSideRequired = true, channels = {"SPC-AddResource", "SPC-AddPrefab", "SPC-AddonList"}, packetHandler = SpoutcraftPacketHandler.class)

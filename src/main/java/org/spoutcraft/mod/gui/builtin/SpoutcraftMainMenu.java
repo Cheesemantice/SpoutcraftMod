@@ -32,10 +32,11 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiSelectWorld;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.ResourceLocation;
-import org.lwjgl.opengl.GL11;
 import org.spoutcraft.api.util.RenderUtil;
 import org.spoutcraft.mod.gui.SpoutcraftBackground;
 import org.spoutcraft.mod.gui.button.SpoutcraftSimpleButton;
+
+import org.lwjgl.opengl.GL11;
 
 public class SpoutcraftMainMenu extends GuiScreen {
 	private static ResourceLocation spoutcraftLogo = new ResourceLocation("spoutcraft", "textures/gui/title/spoutcraft.png");

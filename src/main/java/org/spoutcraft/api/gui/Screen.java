@@ -1,36 +1,23 @@
 package org.spoutcraft.api.gui;
 
 import java.util.Collection;
-import java.util.LinkedList;
 
-import org.spoutcraft.api.addon.Addon;
 import org.spoutcraft.api.gui.widget.Widget;
 
-public abstract class Screen<T extends Addon> {
-	private final Class<T> addonClass;
-	private final LinkedList<Widget> widgets = new LinkedList<>();
+public interface Screen {
+	public String getIdentifier();
 
-	public Screen(Class<T> addonClass) {
-		this.addonClass = addonClass;
-	}
+	public void add(Widget widget);
 
-	public Class<T> getAddon() {
-		return addonClass;
-	}
+	public void addAll(Collection<Widget> widgets);
 
-	public void add(Widget widget) {
-		widgets.add(widget);
-	}
+	public void remove(Widget widget);
 
-	public void addAll(Collection<Widget> widgets) {
-		widgets.addAll(widgets);
-	}
+	public void remove(String identifier);
 
-	public void onTick(float dt) {
+	public boolean isTickable(boolean tickable);
 
-	}
+	public void onTick(float dt);
 
-	public void onRender() {
-
-	}
+	public void onRender();
 }

@@ -4,14 +4,20 @@ import org.spoutcraft.api.gui.ClickAction;
 import org.spoutcraft.api.gui.FocusReason;
 
 public abstract class Widget {
+	private final String identifier;
 	private int x, y, heightBound, widthBound;
 	private boolean focused, shown, enabled;
 
-	public Widget(int x, int y, int heightBound, int widthBound) {
+	public Widget(String identifier, int x, int y, int heightBound, int widthBound) {
+		this.identifier = identifier;
 		this.x = x;
 		this.y = y;
 		this.heightBound = heightBound;
 		this.widthBound = widthBound;
+	}
+
+	public String getIdentifier() {
+		return identifier;
 	}
 
 	public int getX() {
