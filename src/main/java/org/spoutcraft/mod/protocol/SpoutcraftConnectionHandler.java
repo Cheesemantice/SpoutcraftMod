@@ -32,12 +32,12 @@ import net.minecraft.network.packet.NetHandler;
 import net.minecraft.network.packet.Packet1Login;
 import net.minecraft.server.MinecraftServer;
 import org.spoutcraft.api.Spoutcraft;
-import org.spoutcraft.mod.block.SpoutcraftBlockPrefabRegistry;
+import org.spoutcraft.mod.block.BlockPrefabRegistry;
 
 public class SpoutcraftConnectionHandler implements IConnectionHandler {
 	@Override
 	public void playerLoggedIn(Player player, NetHandler netHandler, INetworkManager manager) {
-		((SpoutcraftBlockPrefabRegistry) Spoutcraft.getBlockPrefabRegistry()).sync(manager);
+		((BlockPrefabRegistry) Spoutcraft.getBlockPrefabRegistry()).sync(manager);
 	}
 
 	@Override

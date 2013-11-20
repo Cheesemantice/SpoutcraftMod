@@ -29,10 +29,10 @@ import org.spoutcraft.api.block.MovingPrefab;
 import org.spoutcraft.mod.SpoutcraftMod;
 import org.spoutcraft.mod.material.CustomMaterial;
 
-public class CustomSand extends BlockSand {
+public class CustomMovingBlock extends BlockSand {
 	private final MovingPrefab prefab;
 
-	public CustomSand(int id, MovingPrefab prefab, CustomMaterial material) {
+	public CustomMovingBlock(int id, MovingPrefab prefab, CustomMaterial material) {
 		super(id, material);
 		this.prefab = prefab;
 		setUnlocalizedName(prefab.getIdentifier());

@@ -60,7 +60,7 @@ public class AddonLoader {
 		try {
 			final String nameVersion = addon.getPrefab().getName() + " v" + addon.getPrefab().getVersion();
 			Spoutcraft.getLogger().info("Enabling <" + nameVersion + ">...");
-			addon.onEnable(side);
+			addon.onEnable();
 			addon.enable();
 			Spoutcraft.getLogger().info("<" + nameVersion + "> enabled");
 		} catch (Throwable t) {
@@ -79,7 +79,7 @@ public class AddonLoader {
 			addon.disable();
 			final String nameVersion = addon.getPrefab().getName() + " v" + addon.getPrefab().getVersion();
 			Spoutcraft.getLogger().info("Disabling <" + nameVersion + ">...");
-			addon.onDisable(side);
+			addon.onDisable();
 			Spoutcraft.getLogger().info("<" + nameVersion + "> disabled");
 		} catch (Throwable t) {
 			Spoutcraft.getLogger().log(Level.SEVERE, "Exception caught while disabling addon <" + addon.getPrefab().getIdentifier() + "> -> " + t.getMessage(), t);
@@ -100,7 +100,7 @@ public class AddonLoader {
 				Class<? extends Addon> addonClass = addonMain.asSubclass(Addon.class);
 				Constructor<? extends Addon> constructor = addonClass.getConstructor();
 				addon = constructor.newInstance();
-				addon.initialize(this, prefab, loader, dataPath, path);
+				addon.initialize(side, this, prefab, loader, dataPath, path);
 			} catch (Exception e) {
 				throw new InvalidAddonException(e);
 			}

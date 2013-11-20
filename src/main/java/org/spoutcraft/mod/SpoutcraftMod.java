@@ -54,13 +54,13 @@ import org.spoutcraft.api.util.LanguageUtil;
 import org.spoutcraft.api.util.RenderUtil;
 import org.spoutcraft.mod.addon.ClientAddonManager;
 import org.spoutcraft.mod.addon.ServerAddonManager;
-import org.spoutcraft.mod.block.SpoutcraftBlockPrefabRegistry;
+import org.spoutcraft.mod.block.BlockPrefabRegistry;
 import org.spoutcraft.mod.gui.builtin.SpoutcraftMainMenu;
-import org.spoutcraft.mod.item.SpoutcraftItemPrefabRegistry;
+import org.spoutcraft.mod.item.ItemPrefabRegistry;
 import org.spoutcraft.mod.item.special.SpoutcraftEmblem;
 import org.spoutcraft.mod.item.special.VanillaEmblem;
 import org.spoutcraft.mod.logger.SpoutcraftLogger;
-import org.spoutcraft.mod.material.SpoutcraftMaterialPrefabRegistry;
+import org.spoutcraft.mod.material.MaterialPrefabRegistry;
 import org.spoutcraft.mod.protocol.SpoutcraftConnectionHandler;
 import org.spoutcraft.mod.protocol.SpoutcraftPacketHandler;
 import org.spoutcraft.mod.protocol.message.AddPrefabMessage;
@@ -94,9 +94,9 @@ public class SpoutcraftMod {
 		Spoutcraft.setAddonManager(new ClientAddonManager());
 
 		// Setup registries
-		Spoutcraft.setBlockRegistry(new SpoutcraftBlockPrefabRegistry());
-		Spoutcraft.setItemPrefabRegistry(new SpoutcraftItemPrefabRegistry());
-		Spoutcraft.setMaterialRegistry(new SpoutcraftMaterialPrefabRegistry());
+		Spoutcraft.setBlockRegistry(new BlockPrefabRegistry());
+		Spoutcraft.setItemPrefabRegistry(new ItemPrefabRegistry());
+		Spoutcraft.setMaterialRegistry(new MaterialPrefabRegistry());
 
 		// Setup creative tab
 		customTabs = new CustomTabs();
@@ -134,9 +134,9 @@ public class SpoutcraftMod {
 	public void onServerStarting(FMLServerStartingEvent event) {
 		if (!(event.getServer() instanceof IntegratedServer)) {
 			// Setup registries
-			Spoutcraft.setBlockRegistry(new SpoutcraftBlockPrefabRegistry());
-			Spoutcraft.setItemPrefabRegistry(new SpoutcraftItemPrefabRegistry());
-			Spoutcraft.setMaterialRegistry(new SpoutcraftMaterialPrefabRegistry());
+			Spoutcraft.setBlockRegistry(new BlockPrefabRegistry());
+			Spoutcraft.setItemPrefabRegistry(new ItemPrefabRegistry());
+			Spoutcraft.setMaterialRegistry(new MaterialPrefabRegistry());
 
 			Spoutcraft.setLogger(new SpoutcraftLogger());
 			Spoutcraft.getLogger().init();

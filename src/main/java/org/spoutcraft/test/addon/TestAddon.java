@@ -24,12 +24,16 @@
  */
 package org.spoutcraft.test.addon;
 
-import cpw.mods.fml.relauncher.Side;
 import org.spoutcraft.api.addon.Addon;
 
 public class TestAddon extends Addon {
 	@Override
-	public void onEnable(Side side) {
+	public void onDisable() {
+		//Any code needed to run during disabling here
+	}
 
+	@Override
+	public void onEnable() {
+		//Any code needed to run during enabling here
 	}
 }

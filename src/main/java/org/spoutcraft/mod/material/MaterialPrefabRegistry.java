@@ -22,68 +22,53 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.spoutcraft.mod.item;
+package org.spoutcraft.mod.material;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.network.PacketDispatcher;
-import cpw.mods.fml.common.registry.GameRegistry;
-import net.minecraft.item.Item;
+import net.minecraft.block.material.Material;
 import net.minecraft.network.INetworkManager;
 import org.spoutcraft.api.LinkedPrefabRegistry;
 import org.spoutcraft.api.Spoutcraft;
-import org.spoutcraft.api.item.FoodPrefab;
-import org.spoutcraft.api.item.ItemPrefab;
-import org.spoutcraft.api.util.LanguageUtil;
+import org.spoutcraft.api.material.MaterialPrefab;
 import org.spoutcraft.mod.protocol.SpoutcraftPacket;
 import org.spoutcraft.mod.protocol.message.AddPrefabMessage;
 
-public class SpoutcraftItemPrefabRegistry implements LinkedPrefabRegistry<ItemPrefab, Item> {
-	private static final ArrayList<ItemPrefab> REGISTRY = new ArrayList<>();
-	private static final AtomicInteger ID_COUNTER = new AtomicInteger(0);
+public class MaterialPrefabRegistry implements LinkedPrefabRegistry<MaterialPrefab, Material> {
+	private static final ArrayList<MaterialPrefab> REGISTRY = new ArrayList<>();
 	//INTERNAL
-	private static final HashMap<ItemPrefab, Item> PREFAB_BY_ITEM = new HashMap<>();
-	private static final int ID_START = 200;
+	private static final HashMap<MaterialPrefab, Material> PREFAB_BY_MATERIAL = new HashMap<>();
 
 	@Override
-	public ItemPrefab put(ItemPrefab prefab) {
+	public MaterialPrefab put(MaterialPrefab prefab) {
 		create(prefab);
 		return prefab;
 	}
 
 	@Override
-	public Item create(ItemPrefab prefab) {
+	public Material create(MaterialPrefab prefab) {
 		if (prefab == null) {
-			throw new IllegalStateException("Attempt made to put null item prefab into registry!");
+			throw new IllegalStateException("Attempt made to put null material prefab into registry!");
 		}
 
-		final int id = ID_START + ID_COUNTER.incrementAndGet();
-		final Item item;
-		if (prefab instanceof FoodPrefab) {
-			item = new CustomFood(id, (FoodPrefab) prefab);
-		} else {
-			item = new CustomItem(id, prefab);
-		}
-
+		final Material material = new CustomMaterial(prefab);
 		REGISTRY.add(prefab);
-		PREFAB_BY_ITEM.put(prefab, item);
+		PREFAB_BY_MATERIAL.put(prefab, material);
 
-		GameRegistry.registerItem(item, prefab.getIdentifier(), "Spoutcraft");
-		LanguageUtil.name(item, prefab.getDisplayName());
+		//TODO Materials need to be registered?
 		if (FMLCommonHandler.instance().getEffectiveSide().isServer()) {
 			PacketDispatcher.sendPacketToAllPlayers(new SpoutcraftPacket(new AddPrefabMessage(prefab)));
 		}
-
-		return item;
+		return material;
 	}
 
 	@Override
-	public ItemPrefab get(String identifier) {
-		for (ItemPrefab prefab : REGISTRY) {
+	public MaterialPrefab get(String identifier) {
+		for (MaterialPrefab prefab : REGISTRY) {
 			if (prefab.getIdentifier().equals(identifier)) {
 				return prefab;
 			}
@@ -92,14 +77,14 @@ public class SpoutcraftItemPrefabRegistry implements LinkedPrefabRegistry<ItemPr
 	}
 
 	@Override
-	public Item find(ItemPrefab prefab) {
-		return prefab == null ? null : PREFAB_BY_ITEM.get(prefab);
+	public Material find(MaterialPrefab prefab) {
+		return prefab == null ? null : PREFAB_BY_MATERIAL.get(prefab);
 	}
 
 	@Override
-	public Item find(String identifier) {
+	public Material find(String identifier) {
 		if (identifier != null && !identifier.isEmpty()) {
-			for (Map.Entry<ItemPrefab, Item> entry : PREFAB_BY_ITEM.entrySet()) {
+			for (Map.Entry<MaterialPrefab, Material> entry : PREFAB_BY_MATERIAL.entrySet()) {
 				if (entry.getKey().getIdentifier().equals(identifier)) {
 					return entry.getValue();
 				}
@@ -114,10 +99,10 @@ public class SpoutcraftItemPrefabRegistry implements LinkedPrefabRegistry<ItemPr
 	 * @param network The connected network
 	 */
 	public void sync(final INetworkManager network) {
-		Spoutcraft.getLogger().info("Preparing to sync item registry");
+		Spoutcraft.getLogger().info("Preparing to sync material registry");
 		//TODO Scheduler and sending
-		for (ItemPrefab prefab : REGISTRY) {
-			Spoutcraft.getLogger().info("Syncing item prefab to client");
+		for (MaterialPrefab prefab : REGISTRY) {
+			Spoutcraft.getLogger().info("Syncing material prefab to client");
 			Spoutcraft.getLogger().info(prefab.toString());
 			network.addToSendQueue(new SpoutcraftPacket(new AddPrefabMessage(prefab)));
 		}

@@ -44,7 +44,7 @@ import org.spoutcraft.mod.material.CustomMaterial;
 import org.spoutcraft.mod.protocol.SpoutcraftPacket;
 import org.spoutcraft.mod.protocol.message.AddPrefabMessage;
 
-public class SpoutcraftBlockPrefabRegistry implements LinkedPrefabRegistry<BlockPrefab, Block> {
+public class BlockPrefabRegistry implements LinkedPrefabRegistry<BlockPrefab, Block> {
 	private static final ArrayList<BlockPrefab> REGISTRY = new ArrayList<>();
 	private static final AtomicInteger ID_COUNTER = new AtomicInteger(0);
 	//INTERNAL
@@ -71,7 +71,7 @@ public class SpoutcraftBlockPrefabRegistry implements LinkedPrefabRegistry<Block
 		final int id = ID_START + ID_COUNTER.incrementAndGet();
 		final Block block;
 		if (prefab instanceof MovingPrefab) {
-			block = new CustomSand(id, (MovingPrefab) prefab, material);
+			block = new CustomMovingBlock(id, (MovingPrefab) prefab, material);
 		} else {
 			block = new CustomBlock(id, prefab, material);
 		}
