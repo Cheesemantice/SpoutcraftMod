@@ -81,7 +81,7 @@ public class SpoutcraftMod {
 	private static CustomTabs customTabs;
 
 	@EventHandler
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings ("unchecked")
 	public void onClientStarting(FMLInitializationEvent event) {
 		// Set the frame title
 		Display.setTitle("Spoutcraft");
