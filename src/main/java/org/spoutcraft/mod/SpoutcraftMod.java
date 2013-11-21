@@ -81,18 +81,19 @@ public class SpoutcraftMod {
 	private static CustomTabs customTabs;
 
 	@EventHandler
+	@SuppressWarnings("unchecked")
 	public void onClientStarting(FMLInitializationEvent event) {
 		// Set the frame title
 		Display.setTitle("Spoutcraft");
 
 		// Setup logger
-		Spoutcraft.setLogger(new SpoutcraftLogger());
-		Spoutcraft.getLogger().init();
+		final SpoutcraftLogger logger = (SpoutcraftLogger) Spoutcraft.setLogger(new SpoutcraftLogger());
+		logger.init();
 
 		// Prepare protocol
 		bindCodecMessages();
 
-		SpoutcraftFileSystem fileSystem = (SpoutcraftFileSystem) Spoutcraft.setFileSystem(new SpoutcraftFileSystem());
+		final SpoutcraftFileSystem fileSystem = (SpoutcraftFileSystem) Spoutcraft.setFileSystem(new SpoutcraftFileSystem());
 		try {
 			fileSystem.init();
 		} catch (Exception e) {
@@ -151,13 +152,13 @@ public class SpoutcraftMod {
 			Spoutcraft.setItemPrefabRegistry(new ItemPrefabRegistry());
 			Spoutcraft.setMaterialRegistry(new MaterialPrefabRegistry());
 
-			Spoutcraft.setLogger(new SpoutcraftLogger());
-			Spoutcraft.getLogger().init();
+			final SpoutcraftLogger logger = (SpoutcraftLogger) Spoutcraft.setLogger(new SpoutcraftLogger());
+			logger.init();
 
 			// Prepare protocol
 			bindCodecMessages();
 
-			SpoutcraftFileSystem fileSystem = (SpoutcraftFileSystem) Spoutcraft.setFileSystem(new SpoutcraftFileSystem());
+			final SpoutcraftFileSystem fileSystem = (SpoutcraftFileSystem) Spoutcraft.setFileSystem(new SpoutcraftFileSystem());
 			try {
 				fileSystem.init();
 			} catch (Exception e) {
