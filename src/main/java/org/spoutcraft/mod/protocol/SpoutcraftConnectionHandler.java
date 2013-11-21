@@ -26,18 +26,22 @@ package org.spoutcraft.mod.protocol;
 
 import cpw.mods.fml.common.network.IConnectionHandler;
 import cpw.mods.fml.common.network.Player;
+import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.network.NetLoginHandler;
 import net.minecraft.network.packet.NetHandler;
 import net.minecraft.network.packet.Packet1Login;
 import net.minecraft.server.MinecraftServer;
 import org.spoutcraft.api.Spoutcraft;
+import org.spoutcraft.api.util.RenderUtil;
 import org.spoutcraft.mod.block.BlockPrefabRegistry;
 
 public class SpoutcraftConnectionHandler implements IConnectionHandler {
 	@Override
 	public void playerLoggedIn(Player player, NetHandler netHandler, INetworkManager manager) {
-		((BlockPrefabRegistry) Spoutcraft.getBlockPrefabRegistry()).sync(manager);
+		if (!RenderUtil.MINECRAFT.isIntegratedServerRunning()) {
+			((BlockPrefabRegistry) Spoutcraft.getBlockPrefabRegistry()).sync(manager);
+		}
 	}
 
 	@Override
