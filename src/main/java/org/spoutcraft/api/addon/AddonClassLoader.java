@@ -51,7 +51,7 @@ public class AddonClassLoader extends URLClassLoader {
 	}
 
 	protected void setAddon(Addon addon) {
-		if (addon != null) {
+		if (this.addon != null) {
 			throw new IllegalStateException("Cannot set an addon of an addon class loader twice!");
 		}
 		this.addon = addon;
