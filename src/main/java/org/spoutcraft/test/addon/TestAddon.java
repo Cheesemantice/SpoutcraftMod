@@ -29,11 +29,11 @@ import org.spoutcraft.api.addon.Addon;
 public class TestAddon extends Addon {
 	@Override
 	public void onDisable() {
-		//Any code needed to run during disabling here
+		getLogger().info("Goodbye world");
 	}
 
 	@Override
 	public void onEnable() {
-		//Any code needed to run during enabling here
+		getLogger().info("Hello world");
 	}
 }

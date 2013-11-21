@@ -38,6 +38,7 @@ public abstract class Addon {
 	private AddonLoader loader;
 	private AddonPrefab prefab;
 	private AddonClassLoader classLoader;
+	private AddonLogger logger;
 	private Path dataPath, root;
 	private boolean enabled = false;
 
@@ -62,6 +63,7 @@ public abstract class Addon {
 		this.loader = loader;
 		this.prefab = prefab;
 		this.classLoader = classLoader;
+		this.logger = new AddonLogger(this);
 		this.dataPath = dataPath;
 		this.root = root;
 	}
@@ -84,6 +86,10 @@ public abstract class Addon {
 
 	public AddonClassLoader getClassLoader() {
 		return classLoader;
+	}
+
+	public AddonLogger getLogger() {
+		return logger;
 	}
 
 	public Path getDataPath() {

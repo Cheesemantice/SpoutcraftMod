@@ -48,6 +48,7 @@ import net.minecraft.util.ResourceLocation;
 import org.spoutcraft.api.LinkedPrefabRegistry;
 import org.spoutcraft.api.Spoutcraft;
 import org.spoutcraft.api.block.MovingPrefab;
+import org.spoutcraft.api.logger.SpoutcraftLogger;
 import org.spoutcraft.api.material.MapIndex;
 import org.spoutcraft.api.material.MaterialPrefab;
 import org.spoutcraft.api.protocol.Protocol;
@@ -60,7 +61,6 @@ import org.spoutcraft.mod.gui.builtin.SpoutcraftMainMenu;
 import org.spoutcraft.mod.item.ItemPrefabRegistry;
 import org.spoutcraft.mod.item.special.SpoutcraftEmblem;
 import org.spoutcraft.mod.item.special.VanillaEmblem;
-import org.spoutcraft.mod.logger.SpoutcraftLogger;
 import org.spoutcraft.mod.material.MaterialPrefabRegistry;
 import org.spoutcraft.mod.protocol.SpoutcraftConnectionHandler;
 import org.spoutcraft.mod.protocol.SpoutcraftPacketHandler;
@@ -87,12 +87,12 @@ public class SpoutcraftMod {
 		Display.setTitle("Spoutcraft");
 
 		// Setup logger
-		final SpoutcraftLogger logger = (SpoutcraftLogger) Spoutcraft.setLogger(new SpoutcraftLogger());
-		logger.init();
+		Spoutcraft.setLogger(new SpoutcraftLogger());
 
-		// Prepare protocol
+		// Setup protocol
 		bindCodecMessages();
 
+		// Setup file system
 		final SpoutcraftFileSystem fileSystem = (SpoutcraftFileSystem) Spoutcraft.setFileSystem(new SpoutcraftFileSystem());
 		try {
 			fileSystem.init();
@@ -100,6 +100,7 @@ public class SpoutcraftMod {
 			Spoutcraft.getLogger().log(Level.SEVERE, "Exception caught on initializing file system", e);
 		}
 
+		// Setup addon manager
 		final ClientAddonManager manager = (ClientAddonManager) Spoutcraft.setAddonManager(new ClientAddonManager());
 		try {
 			manager.loadAddons(SpoutcraftFileSystem.ADDONS_DIR);
@@ -147,17 +148,13 @@ public class SpoutcraftMod {
 	@SuppressWarnings ("unchecked")
 	public void onServerStarting(FMLServerStartingEvent event) {
 		if (!(event.getServer() instanceof IntegratedServer)) {
-			// Setup registries
-			Spoutcraft.setBlockRegistry(new BlockPrefabRegistry());
-			Spoutcraft.setItemPrefabRegistry(new ItemPrefabRegistry());
-			Spoutcraft.setMaterialRegistry(new MaterialPrefabRegistry());
+			// Set logger
+			Spoutcraft.setLogger(new SpoutcraftLogger());
 
-			final SpoutcraftLogger logger = (SpoutcraftLogger) Spoutcraft.setLogger(new SpoutcraftLogger());
-			logger.init();
-
-			// Prepare protocol
+			// Setup protocol
 			bindCodecMessages();
 
+			// Setup file system
 			final SpoutcraftFileSystem fileSystem = (SpoutcraftFileSystem) Spoutcraft.setFileSystem(new SpoutcraftFileSystem());
 			try {
 				fileSystem.init();
@@ -165,7 +162,12 @@ public class SpoutcraftMod {
 				Spoutcraft.getLogger().log(Level.SEVERE, "Exception caught on initializing file system", e);
 			}
 
-			// Set addon manager
+			// Setup registries
+			Spoutcraft.setBlockRegistry(new BlockPrefabRegistry());
+			Spoutcraft.setItemPrefabRegistry(new ItemPrefabRegistry());
+			Spoutcraft.setMaterialRegistry(new MaterialPrefabRegistry());
+
+			// Setup addon manager
 			final ServerAddonManager manager = (ServerAddonManager) Spoutcraft.setAddonManager(new ServerAddonManager());
 			try {
 				manager.loadAddons(SpoutcraftFileSystem.ADDONS_DIR);

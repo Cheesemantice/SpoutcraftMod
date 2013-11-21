@@ -48,9 +48,6 @@ public class SpoutcraftFileSystem implements FileSystem {
 	public static final Path ITEM_TEXTURES_DIR = Paths.get(TEXTURES_DIR.toString(), "items");
 
 	public void init() throws IOException {
-		if (!Files.exists(TEXTURES_DIR)) {
-			Files.createDirectories(TEXTURES_DIR);
-		}
 		if (!Files.exists(BLOCK_TEXTURES_DIR)) {
 			Files.createDirectories(BLOCK_TEXTURES_DIR);
 		}

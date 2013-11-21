@@ -105,7 +105,7 @@ final class AddonJsonDeserializer implements JsonDeserializer<AddonPrefab> {
 		try {
 			mode = AddonMode.valueOf(modeRaw);
 		} catch (Exception e) {
-			return null;
+			throw new JsonParseException(modeRaw + " is not a valid addon mode [CLIENT, SERVER, BOTH]");
 		}
 		return new AddonPrefab(identifier, name, version, mode, main);
 	}

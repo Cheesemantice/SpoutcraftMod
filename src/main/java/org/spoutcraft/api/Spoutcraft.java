@@ -27,7 +27,7 @@ package org.spoutcraft.api;
 import org.spoutcraft.api.addon.AddonManager;
 import org.spoutcraft.api.block.BlockPrefab;
 import org.spoutcraft.api.item.ItemPrefab;
-import org.spoutcraft.api.logger.AbstractLogger;
+import org.spoutcraft.api.logger.SpoutcraftLogger;
 import org.spoutcraft.api.material.MaterialPrefab;
 import org.spoutcraft.api.resource.FileSystem;
 
@@ -35,14 +35,14 @@ import org.spoutcraft.api.resource.FileSystem;
  * Represents the Spoutcraft core with access to necessary registries
  */
 public final class Spoutcraft {
-	private static AbstractLogger logger;
+	private static SpoutcraftLogger logger;
 	private static AddonManager addonManager;
 	private static LinkedPrefabRegistry<? extends BlockPrefab, ?> blockPrefabRegistry;
 	private static LinkedPrefabRegistry<? extends ItemPrefab, ?> itemPrefabRegistry;
 	private static LinkedPrefabRegistry<? extends MaterialPrefab, ?> materialPrefabRegistry;
 	private static FileSystem fileSystem;
 
-	public static AbstractLogger getLogger() {
+	public static SpoutcraftLogger getLogger() {
 		return logger;
 	}
 
@@ -69,7 +69,7 @@ public final class Spoutcraft {
 	/**
 	 * INTERNAL USE ONLY
 	 */
-	public static AbstractLogger setLogger(AbstractLogger logger) {
+	public static SpoutcraftLogger setLogger(SpoutcraftLogger logger) {
 		if (Spoutcraft.logger != null) {
 			throw new IllegalStateException("Attempt to assign logger twice!");
 		}
