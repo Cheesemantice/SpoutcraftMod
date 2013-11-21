@@ -25,6 +25,7 @@
 package org.spoutcraft.mod;
 
 import java.util.EnumSet;
+import java.util.logging.Level;
 
 import cpw.mods.fml.common.ITickHandler;
 import cpw.mods.fml.common.Mod;
@@ -64,6 +65,7 @@ import org.spoutcraft.mod.material.MaterialPrefabRegistry;
 import org.spoutcraft.mod.protocol.SpoutcraftConnectionHandler;
 import org.spoutcraft.mod.protocol.SpoutcraftPacketHandler;
 import org.spoutcraft.mod.protocol.message.AddPrefabMessage;
+import org.spoutcraft.mod.resource.SpoutcraftFileSystem;
 import org.spoutcraft.test.block.TestSand;
 import org.spoutcraft.test.item.TestFood;
 import org.spoutcraft.test.item.TestItem;
@@ -90,8 +92,19 @@ public class SpoutcraftMod {
 		// Prepare protocol
 		bindCodecMessages();
 
-		// TODO Load client addons
-		Spoutcraft.setAddonManager(new ClientAddonManager());
+		SpoutcraftFileSystem fileSystem = (SpoutcraftFileSystem) Spoutcraft.setFileSystem(new SpoutcraftFileSystem());
+		try {
+			fileSystem.init();
+		} catch (Exception e) {
+			Spoutcraft.getLogger().log(Level.SEVERE, "Exception caught on initializing file system", e);
+		}
+
+		final ClientAddonManager manager = (ClientAddonManager) Spoutcraft.setAddonManager(new ClientAddonManager());
+		try {
+			manager.loadAddons(SpoutcraftFileSystem.ADDONS_DIR);
+		} catch (Exception e) {
+			Spoutcraft.getLogger().log(Level.SEVERE, "Exception caught on enabling an addon (Is it up to date lol?)", e);
+		}
 
 		// Setup registries
 		Spoutcraft.setBlockRegistry(new BlockPrefabRegistry());
@@ -144,9 +157,20 @@ public class SpoutcraftMod {
 			// Prepare protocol
 			bindCodecMessages();
 
+			SpoutcraftFileSystem fileSystem = (SpoutcraftFileSystem) Spoutcraft.setFileSystem(new SpoutcraftFileSystem());
+			try {
+				fileSystem.init();
+			} catch (Exception e) {
+				Spoutcraft.getLogger().log(Level.SEVERE, "Exception caught on initializing file system", e);
+			}
+
 			// Set addon manager
-			// TODO Load server addons
-			Spoutcraft.setAddonManager(new ServerAddonManager());
+			final ServerAddonManager manager = (ServerAddonManager) Spoutcraft.setAddonManager(new ServerAddonManager());
+			try {
+				manager.loadAddons(SpoutcraftFileSystem.ADDONS_DIR);
+			} catch (Exception e) {
+				Spoutcraft.getLogger().log(Level.SEVERE, "Exception caught on enabling an addon (Is it up to date lol?)", e);
+			}
 			// TODO Reflect GameRegistry and remove Spoutcraft blocks/items from clients when they disconnect...
 
 			// Test code
@@ -183,7 +207,7 @@ public class SpoutcraftMod {
 			}
 		}, Side.CLIENT);
 
-		// Draw our watermark ingame
+		// Draw our watermark in game
 		TickRegistry.registerTickHandler(new ITickHandler() {
 			@Override
 			public void tickStart(EnumSet<TickType> type, Object... tickData) {

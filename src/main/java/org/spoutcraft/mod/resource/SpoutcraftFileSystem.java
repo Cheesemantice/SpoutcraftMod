@@ -36,9 +36,13 @@ import java.util.Set;
 import cpw.mods.fml.common.FMLCommonHandler;
 import org.spoutcraft.api.resource.FileSystem;
 import org.spoutcraft.api.resource.ResourceHandler;
+import org.spoutcraft.api.util.RenderUtil;
 
 public class SpoutcraftFileSystem implements FileSystem {
-	public static final Path ASSETS_DIR = Paths.get(System.getProperty("user.dir"), "assets" + File.separator + "spoutcraft");
+	public static final Path BASE_DIR = Paths.get(RenderUtil.MINECRAFT.mcDataDir.getAbsolutePath());
+	public static final Path MODS_DIR = Paths.get(BASE_DIR.toString(), "mods");
+	public static final Path ADDONS_DIR = Paths.get(MODS_DIR.toString(), "spoutcraft" + File.separator + "addons");
+	public static final Path ASSETS_DIR = Paths.get(BASE_DIR.toString(), "assets" + File.separator + "spoutcraft");
 	public static final Path TEXTURES_DIR = Paths.get(ASSETS_DIR.toString(), "textures");
 	public static final Path BLOCK_TEXTURES_DIR = Paths.get(TEXTURES_DIR.toString(), "blocks");
 	public static final Path ITEM_TEXTURES_DIR = Paths.get(TEXTURES_DIR.toString(), "items");
@@ -52,6 +56,9 @@ public class SpoutcraftFileSystem implements FileSystem {
 		}
 		if (!Files.exists(ITEM_TEXTURES_DIR)) {
 			Files.createDirectories(ITEM_TEXTURES_DIR);
+		}
+		if (!Files.exists(ADDONS_DIR)) {
+			Files.createDirectories(ADDONS_DIR);
 		}
 	}
 
