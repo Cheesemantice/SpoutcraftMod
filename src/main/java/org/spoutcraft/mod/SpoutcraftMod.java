@@ -63,7 +63,6 @@ import org.spoutcraft.mod.item.special.SpoutcraftEmblem;
 import org.spoutcraft.mod.item.special.VanillaEmblem;
 import org.spoutcraft.mod.material.MaterialPrefabRegistry;
 import org.spoutcraft.mod.protocol.SpoutcraftConnectionHandler;
-import org.spoutcraft.mod.protocol.SpoutcraftPacketHandler;
 import org.spoutcraft.mod.protocol.message.AddPrefabMessage;
 import org.spoutcraft.mod.resource.SpoutcraftFileSystem;
 import org.spoutcraft.test.block.TestSand;
@@ -74,7 +73,7 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 
 @Mod (modid = "Spoutcraft")
-@NetworkMod (clientSideRequired = true, serverSideRequired = true, channels = {"SPC-AddResource", "SPC-AddPrefab", "SPC-AddonList"}, packetHandler = SpoutcraftPacketHandler.class)
+@NetworkMod (clientSideRequired = true, serverSideRequired = true)
 public class SpoutcraftMod {
 	@Instance (value = "Spoutcraft")
 	public static SpoutcraftMod instance;

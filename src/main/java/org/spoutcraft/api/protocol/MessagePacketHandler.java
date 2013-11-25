@@ -22,7 +22,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.spoutcraft.mod.protocol;
+package org.spoutcraft.api.protocol;
 
 import java.nio.ByteBuffer;
 
@@ -32,11 +32,10 @@ import cpw.mods.fml.common.network.Player;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet250CustomPayload;
 import org.spoutcraft.api.Spoutcraft;
-import org.spoutcraft.api.protocol.Protocol;
 import org.spoutcraft.api.protocol.codec.Codec;
 import org.spoutcraft.api.protocol.message.Message;
 
-public class SpoutcraftPacketHandler implements IPacketHandler {
+public class MessagePacketHandler implements IPacketHandler {
 	@Override
 	public void onPacketData(INetworkManager manager, Packet250CustomPayload packet, Player player) {
 		final Codec codec = Protocol.find(packet.channel);

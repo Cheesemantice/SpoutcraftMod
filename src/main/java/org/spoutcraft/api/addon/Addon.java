@@ -29,7 +29,7 @@ import java.nio.file.Path;
 import cpw.mods.fml.relauncher.Side;
 
 /**
- * An addon is like a Mod or a Plugin (from Bukkit). It is the bridge between external code and Spoutcraft API's framework.
+ * An addon is like a Mod or a Plugin (from Bukkit). It is the bridge between external code and SpoutcraftAPI's framework.
  *
  * The power of addons lie in the ability to use Spoutcraft API and Forge without needing to make a new Mod.
  */
