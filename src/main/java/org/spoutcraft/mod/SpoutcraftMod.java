@@ -86,9 +86,10 @@ public class SpoutcraftMod {
 	public void onClientStarting(FMLInitializationEvent event) {
 		// Set the frame title
 		Display.setTitle("Spoutcraft");
-		final ByteBuffer icon = RenderUtil.createImageBufferFrom(new ResourceLocation("spoutcraft", "textures" + File.separator + "icon.png"), true);
-		if (icon != null) {
-			Display.setIcon(new ByteBuffer[] {icon});
+		final ByteBuffer windowIcon = RenderUtil.createImageBufferFrom(new ResourceLocation("spoutcraft", "textures" + File.separator + "window_icon.png"), true);
+		final ByteBuffer taskbarIcon = RenderUtil.createImageBufferFrom(new ResourceLocation("spoutcraft", "textures" + File.separator + "taskbar_icon.png"), true);
+		if (windowIcon != null && taskbarIcon != null) {
+			Display.setIcon(new ByteBuffer[] {windowIcon, taskbarIcon});
 		}
 
 		// Setup logger
