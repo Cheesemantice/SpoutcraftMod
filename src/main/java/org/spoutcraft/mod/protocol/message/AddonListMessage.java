@@ -28,7 +28,7 @@ import cpw.mods.fml.common.network.Player;
 import cpw.mods.fml.relauncher.Side;
 import net.minecraft.network.INetworkManager;
 import org.spoutcraft.api.protocol.message.Message;
-import org.spoutcraft.api.util.SerializableHashMap;
+import org.spoutcraft.api.util.map.SerializableHashMap;
 
 public class AddonListMessage implements Message {
 	// Addon Identifier -> MD5

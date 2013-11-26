@@ -29,7 +29,7 @@ import java.nio.ByteBuffer;
 
 import cpw.mods.fml.relauncher.Side;
 import org.spoutcraft.api.protocol.codec.Codec;
-import org.spoutcraft.api.util.SerializableHashMap;
+import org.spoutcraft.api.util.map.SerializableHashMap;
 import org.spoutcraft.mod.protocol.message.AddonListMessage;
 
 public class AddonListCodec implements Codec<AddonListMessage> {

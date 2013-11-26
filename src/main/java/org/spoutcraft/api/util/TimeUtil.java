@@ -28,13 +28,13 @@ import java.util.Calendar;
 
 public class TimeUtil {
 	public static String getTime() {
-		int hours = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+		int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
 
-		if (hours < 6) {
-			return "night";
-		} else if (hours < 12) {
+		if (hour < 6) {
+			return "morning";
+		} else if (hour < 12) {
 			return "day";
-		} else if (hours < 20) {
+		} else if (hour < 20) {
 			return "evening";
 		} else {
 			return "night";
