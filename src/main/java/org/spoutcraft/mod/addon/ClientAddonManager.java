@@ -38,14 +38,14 @@ import org.spoutcraft.api.Spoutcraft;
 import org.spoutcraft.api.addon.Addon;
 import org.spoutcraft.api.addon.AddonLoader;
 import org.spoutcraft.api.addon.AddonManager;
+import org.spoutcraft.api.addon.SpoutcraftAddon;
 import org.spoutcraft.api.exception.InvalidAddonException;
 import org.spoutcraft.api.exception.InvalidPrefabException;
 
-//TODO: Since we can allow Addons to be CLIENT only, those addons can be allowed to loaded on client init. Otherwise, addons would be loaded from the server when connecting to a server
-//TODO: Might need some additional thought...
 public class ClientAddonManager implements AddonManager {
 	private final AddonLoader loader;
 	private final Collection<Addon> addons = new ArrayList<>();
+	private final SpoutcraftAddon spoutcraftAddon = new SpoutcraftAddon(Side.CLIENT);
 
 	public ClientAddonManager() {
 		this.loader = new AddonLoader(Side.CLIENT);
@@ -83,6 +83,7 @@ public class ClientAddonManager implements AddonManager {
 			throw new IllegalArgumentException("Path " + path + " is not a directory!");
 		}
 
+		addons.add(spoutcraftAddon);
 		for (Path jar : Files.newDirectoryStream(path, new DirectoryStream.Filter<Path>() {
 			@Override
 			public boolean accept(Path entry) {
@@ -110,6 +111,13 @@ public class ClientAddonManager implements AddonManager {
 			} catch (Exception e) {
 				Spoutcraft.getLogger().log(Level.SEVERE, "An error occurred while enabling <" + addon.getPrefab().getIdentifier() + "> -> " + e.getMessage(), e);
 			}
+		}
+	}
+
+	@Override
+	public void enable() {
+		for (Addon addon : addons) {
+			enable(addon);
 		}
 	}
 

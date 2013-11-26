@@ -66,14 +66,14 @@ import org.spoutcraft.mod.item.special.VanillaEmblem;
 import org.spoutcraft.mod.material.MaterialPrefabRegistry;
 import org.spoutcraft.mod.protocol.SpoutcraftConnectionHandler;
 import org.spoutcraft.mod.protocol.message.AddPrefabMessage;
-import org.spoutcraft.mod.resource.SpoutcraftFileSystem;
-import org.spoutcraft.test.block.TestSand;
-import org.spoutcraft.test.item.TestFood;
-import org.spoutcraft.test.item.TestItem;
+import org.spoutcraft.mod.resource.ClientFileSystem;
+import org.spoutcraft.mod.resource.ServerFileSystem;
 
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 
+// TODO: Reflect GameRegistry, LanguageRegistry, NetworkRegistry and remove addon content on server leave
+// TODO: Fix generics?
 @Mod (modid = "Spoutcraft")
 @NetworkMod (clientSideRequired = true, serverSideRequired = true)
 public class SpoutcraftMod {
@@ -83,9 +83,11 @@ public class SpoutcraftMod {
 
 	@EventHandler
 	@SuppressWarnings ("unchecked")
-	public void onClientStarting(FMLInitializationEvent event) {
+	public void onInitialize(FMLInitializationEvent event) {
 		// Set the frame title
 		Display.setTitle("Spoutcraft");
+
+		// Set the icon
 		final ByteBuffer windowIcon = RenderUtil.createImageBufferFrom(new ResourceLocation("spoutcraft", "textures" + File.separator + "window_icon.png"), true);
 		final ByteBuffer taskbarIcon = RenderUtil.createImageBufferFrom(new ResourceLocation("spoutcraft", "textures" + File.separator + "taskbar_icon.png"), true);
 		if (windowIcon != null && taskbarIcon != null) {
@@ -99,7 +101,7 @@ public class SpoutcraftMod {
 		bindCodecMessages();
 
 		// Setup file system
-		final SpoutcraftFileSystem fileSystem = (SpoutcraftFileSystem) Spoutcraft.setFileSystem(new SpoutcraftFileSystem());
+		final ClientFileSystem fileSystem = (ClientFileSystem) Spoutcraft.setFileSystem(new ClientFileSystem());
 		try {
 			fileSystem.init();
 		} catch (Exception e) {
@@ -109,10 +111,12 @@ public class SpoutcraftMod {
 		// Setup addon manager
 		final ClientAddonManager manager = (ClientAddonManager) Spoutcraft.setAddonManager(new ClientAddonManager());
 		try {
-			manager.loadAddons(SpoutcraftFileSystem.ADDONS_DIR);
+			manager.loadAddons(ClientFileSystem.ADDONS_DIR);
 		} catch (Exception e) {
-			Spoutcraft.getLogger().log(Level.SEVERE, "Exception caught on enabling an addon (Is it up to date lol?)", e);
+			Spoutcraft.getLogger().log(Level.SEVERE, "Exception caught on loading an addon", e);
 		}
+
+		manager.enable();
 
 		// Setup registries
 		Spoutcraft.setBlockRegistry(new BlockPrefabRegistry());
@@ -127,6 +131,7 @@ public class SpoutcraftMod {
 		Spoutcraft.getItemPrefabRegistry().put(new SpoutcraftEmblem());
 		Spoutcraft.getItemPrefabRegistry().put(new VanillaEmblem());
 
+		//TODO Move test code to an accompanying addon
 		final LinkedPrefabRegistry registry = Spoutcraft.getBlockPrefabRegistry();
 		registry.put(new MovingPrefab("0b", "0 (Black)", new MaterialPrefab("testmaterial", MapIndex.DIRT), 0.5f, true));
 		registry.put(new MovingPrefab("0w", "0 (White)", new MaterialPrefab("testmaterial", MapIndex.DIRT), 0.5f, true));
@@ -161,7 +166,7 @@ public class SpoutcraftMod {
 			bindCodecMessages();
 
 			// Setup file system
-			final SpoutcraftFileSystem fileSystem = (SpoutcraftFileSystem) Spoutcraft.setFileSystem(new SpoutcraftFileSystem());
+			final ServerFileSystem fileSystem = (ServerFileSystem) Spoutcraft.setFileSystem(new ServerFileSystem());
 			try {
 				fileSystem.init();
 			} catch (Exception e) {
@@ -176,17 +181,12 @@ public class SpoutcraftMod {
 			// Setup addon manager
 			final ServerAddonManager manager = (ServerAddonManager) Spoutcraft.setAddonManager(new ServerAddonManager());
 			try {
-				manager.loadAddons(SpoutcraftFileSystem.ADDONS_DIR);
+				manager.loadAddons(ClientFileSystem.ADDONS_DIR);
 			} catch (Exception e) {
 				Spoutcraft.getLogger().log(Level.SEVERE, "Exception caught on enabling an addon (Is it up to date lol?)", e);
 			}
-			// TODO Reflect GameRegistry and remove Spoutcraft blocks/items from clients when they disconnect...
 
-			// Test code
-			// TODO Look into fixing generics so suppression isn't needed
-			Spoutcraft.getItemPrefabRegistry().put(new TestItem());
-			Spoutcraft.getItemPrefabRegistry().put(new TestFood());
-			Spoutcraft.getBlockPrefabRegistry().put(new TestSand());
+			manager.enable();
 		}
 	}
 

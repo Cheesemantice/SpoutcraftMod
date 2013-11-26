@@ -38,12 +38,14 @@ import org.spoutcraft.api.Spoutcraft;
 import org.spoutcraft.api.addon.Addon;
 import org.spoutcraft.api.addon.AddonLoader;
 import org.spoutcraft.api.addon.AddonManager;
+import org.spoutcraft.api.addon.SpoutcraftAddon;
 import org.spoutcraft.api.exception.InvalidAddonException;
 import org.spoutcraft.api.exception.InvalidPrefabException;
 
 public class ServerAddonManager implements AddonManager {
 	private final AddonLoader loader;
 	private final Collection<Addon> addons = new ArrayList<>();
+	private final SpoutcraftAddon spoutcraftAddon = new SpoutcraftAddon(Side.SERVER);
 
 	public ServerAddonManager() {
 		this.loader = new AddonLoader(Side.SERVER);
@@ -81,6 +83,9 @@ public class ServerAddonManager implements AddonManager {
 			throw new IllegalArgumentException("Path " + path + " is not a directory!");
 		}
 
+		//Internal addon
+		addons.add(spoutcraftAddon);
+
 		for (Path jar : Files.newDirectoryStream(path, new DirectoryStream.Filter<Path>() {
 			@Override
 			public boolean accept(Path entry) {
@@ -108,6 +113,13 @@ public class ServerAddonManager implements AddonManager {
 			} catch (Exception e) {
 				Spoutcraft.getLogger().log(Level.SEVERE, "An error occurred while enabling <" + addon.getPrefab().getIdentifier() + "> -> " + e.getMessage(), e);
 			}
+		}
+	}
+
+	@Override
+	public void enable() {
+		for (Addon addon : addons) {
+			enable(addon);
 		}
 	}
 

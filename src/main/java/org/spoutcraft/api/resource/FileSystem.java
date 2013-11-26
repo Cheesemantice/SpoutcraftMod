@@ -24,29 +24,20 @@
  */
 package org.spoutcraft.api.resource;
 
-import java.net.URI;
 import java.nio.file.Path;
-import java.util.List;
-import java.util.Set;
+import java.util.Collection;
+import java.util.Map;
+
+import org.spoutcraft.api.addon.Addon;
 
 public interface FileSystem {
-	public <R> R get(Path path);
+	public void send(Class<? extends Addon> clazz, Path path);
 
-	public <R> R get(String uri);
+	public void send(Class<? extends Addon> clazz, String uri);
 
-	public <R> R get(URI uri);
+	public <R> R get(Class<? extends Addon> clazz, String name);
 
-	public <R> List<R> getResources(Path path);
+	public <R> Collection<R> getAllFor(Class<? extends Addon> clazz);
 
-	public <R> List<R> getResources(String uri);
-
-	public <R> List<R> getResources(URI uri);
-
-	public ResourceHandler getHandler(String token);
-
-	public Set<ResourceHandler> getHandlers();
-
-	public void register(ResourceHandler handler);
-
-	public <R> void send(R resource);
+	public <R> Map<Class<? extends Addon>, R> getAll();
 }

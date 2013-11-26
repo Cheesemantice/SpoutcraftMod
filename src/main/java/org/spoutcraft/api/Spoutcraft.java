@@ -35,6 +35,7 @@ import org.spoutcraft.api.resource.FileSystem;
  * Represents the Spoutcraft core with access to necessary registries
  */
 public final class Spoutcraft {
+	public static final String VERSION = "1.0.0-alpha-SNAPSHOT";
 	private static SpoutcraftLogger logger;
 	private static AddonManager addonManager;
 	private static LinkedPrefabRegistry<? extends BlockPrefab, ?> blockPrefabRegistry;

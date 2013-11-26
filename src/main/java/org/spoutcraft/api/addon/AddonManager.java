@@ -42,6 +42,8 @@ public interface AddonManager {
 
 	public void enable(Addon addon);
 
+	public void enable();
+
 	public void disable(Addon addon);
 
 	public void disable();

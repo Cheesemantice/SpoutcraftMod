@@ -22,24 +22,18 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.spoutcraft.api.resource;
+package org.spoutcraft.api.addon;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import cpw.mods.fml.relauncher.Side;
+import org.spoutcraft.api.Spoutcraft;
 
-public abstract class ResourceHandler<R> {
-	private final String token;
-
-	public ResourceHandler(String token) {
-		this.token = token;
-	}
-
-	public abstract R load(InputStream in) throws IOException;
-
-	public abstract OutputStream save(R resource);
-
-	public String getToken() {
-		return token;
+public final class SpoutcraftAddon extends Addon {
+	public SpoutcraftAddon(Side side) {
+		this.side = side;
+		root = null;
+		dataPath = null;
+		prefab = new AddonPrefab("spoutcraft", "Spoutcraft", Spoutcraft.VERSION, AddonMode.BOTH, null);
+		logger = new AddonLogger(this);
+		enable();
 	}
 }
