@@ -33,7 +33,7 @@ import javax.imageio.ImageIO;
 
 public class Texture implements Serializable {
 	private static final long serialVersionUID = 1L;
-	private BufferedImage image = null;
+	private transient BufferedImage image = null;
 
 	public Texture() {
 	}
