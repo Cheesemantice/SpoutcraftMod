@@ -29,11 +29,13 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import javax.imageio.ImageIO;
 
 import cpw.mods.fml.client.FMLClientHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.BufferUtils;
 
@@ -49,12 +51,12 @@ public class RenderUtil {
 		TESSELLATOR.addVertexWithUV(x + 0, y + 0, zLevel, 0, 0);
 	}
 
-	public static ByteBuffer createImageBufferFrom(Path path, boolean alpha) {
+	public static ByteBuffer createImageBufferFrom(ResourceLocation location, boolean alpha) {
 		ByteBuffer buffer = null;
 		//TODO Does this check directories?
-		if (Files.isRegularFile(path)) {
+		if (!Files.isDirectory(Paths.get(location.getResourcePath()))) {
 			try {
-				final BufferedImage image = ImageIO.read(path.toFile());
+				final BufferedImage image = ImageIO.read(MINECRAFT.getResourceManager().getResource(location).getInputStream());
 				final int[] pixels = new int[image.getWidth() * image.getHeight()];
 				image.getRGB(0, 0, image.getWidth(), image.getHeight(), pixels, 0, image.getWidth());
 				buffer = BufferUtils.createByteBuffer(image.getWidth() * image.getHeight() * ((alpha) ? 4 : 3)); // <-- 4 for RGBA, 3 for RGB

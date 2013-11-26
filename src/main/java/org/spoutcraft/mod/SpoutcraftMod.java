@@ -24,6 +24,8 @@
  */
 package org.spoutcraft.mod;
 
+import java.io.File;
+import java.nio.ByteBuffer;
 import java.util.EnumSet;
 import java.util.logging.Level;
 
@@ -84,6 +86,10 @@ public class SpoutcraftMod {
 	public void onClientStarting(FMLInitializationEvent event) {
 		// Set the frame title
 		Display.setTitle("Spoutcraft");
+		final ByteBuffer icon = RenderUtil.createImageBufferFrom(new ResourceLocation("spoutcraft", "textures" + File.separator + "icon.png"), true);
+		if (icon != null) {
+			Display.setIcon(new ByteBuffer[] {icon});
+		}
 
 		// Setup logger
 		Spoutcraft.setLogger(new SpoutcraftLogger());
