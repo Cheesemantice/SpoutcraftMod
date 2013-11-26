@@ -22,7 +22,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.spoutcraft.api.resource.type;
+package org.spoutcraft.api.resource;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -33,7 +33,10 @@ import javax.imageio.ImageIO;
 
 public class Texture implements Serializable {
 	private static final long serialVersionUID = 1L;
-	private BufferedImage image;
+	private BufferedImage image = null;
+
+	public Texture() {
+	}
 
 	public Texture(BufferedImage image) {
 		this.image = image;
@@ -44,8 +47,11 @@ public class Texture implements Serializable {
 	}
 
 	private void writeObject(ObjectOutputStream out) throws IOException {
+		if (image == null) {
+			throw new IOException("Attempt to serialize Texture with null image data");
+		}
 		out.defaultWriteObject();
-		ImageIO.write(image, "png", out);
+		ImageIO.write(image, "png", out); //PNG is lossless so its safe to use even if it isn't PNG in reality
 	}
 
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
