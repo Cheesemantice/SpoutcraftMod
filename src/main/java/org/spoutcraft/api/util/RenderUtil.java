@@ -24,9 +24,18 @@
  */
 package org.spoutcraft.api.util;
 
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import javax.imageio.ImageIO;
+
 import cpw.mods.fml.client.FMLClientHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.Tessellator;
+
+import org.lwjgl.BufferUtils;
 
 public class RenderUtil {
 	public static final Tessellator TESSELLATOR = Tessellator.instance;
@@ -38,5 +47,32 @@ public class RenderUtil {
 		TESSELLATOR.addVertexWithUV(x + width, y + height, zLevel, 1, 1);
 		TESSELLATOR.addVertexWithUV(x + width, y + 0, zLevel, 1, 0);
 		TESSELLATOR.addVertexWithUV(x + 0, y + 0, zLevel, 0, 0);
+	}
+
+	public static ByteBuffer createImageBufferFrom(Path path, boolean alpha) {
+		ByteBuffer buffer = null;
+		//TODO Does this check directories?
+		if (Files.isRegularFile(path)) {
+			try {
+				final BufferedImage image = ImageIO.read(path.toFile());
+				final int[] pixels = new int[image.getWidth() * image.getHeight()];
+				image.getRGB(0, 0, image.getWidth(), image.getHeight(), pixels, 0, image.getWidth());
+				buffer = BufferUtils.createByteBuffer(image.getWidth() * image.getHeight() * ((alpha) ? 4 : 3)); // <-- 4 for RGBA, 3 for RGB
+
+				for (int y = 0; y < image.getHeight(); y++){
+					for (int x = 0; x < image.getWidth(); x++){
+						int pixel = pixels[y * image.getWidth() + x];
+						buffer.put((byte) ((pixel >> 16) & 0xFF));
+						buffer.put((byte) ((pixel >> 8) & 0xFF));
+						buffer.put((byte) (pixel & 0xFF));
+						buffer.put((byte) ((pixel >> 24) & 0xFF));
+					}
+				}
+
+				buffer.flip();
+			} catch (IOException ignore) {
+			}
+		}
+		return buffer;
 	}
 }
