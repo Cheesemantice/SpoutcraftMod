@@ -88,8 +88,8 @@ public class SpoutcraftMod {
 		Display.setTitle("Spoutcraft");
 
 		// Set the icon
-		final ByteBuffer windowIcon = RenderUtil.createImageBufferFrom(new ResourceLocation("spoutcraft", "textures" + File.separator + "window_icon.png"), true);
-		final ByteBuffer taskbarIcon = RenderUtil.createImageBufferFrom(new ResourceLocation("spoutcraft", "textures" + File.separator + "taskbar_icon.png"), true);
+		final ByteBuffer windowIcon = RenderUtil.createImageBufferFrom(new ResourceLocation("spoutcraft", "textures/window_icon.png"), true);
+		final ByteBuffer taskbarIcon = RenderUtil.createImageBufferFrom(new ResourceLocation("spoutcraft", "textures/taskbar_icon.png"), true);
 		if (windowIcon != null && taskbarIcon != null) {
 			Display.setIcon(new ByteBuffer[] {windowIcon, taskbarIcon});
 		}
