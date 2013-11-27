@@ -42,6 +42,7 @@ import cpw.mods.fml.common.registry.TickRegistry;
 import cpw.mods.fml.relauncher.Side;
 import net.minecraft.client.gui.GuiMainMenu;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -226,27 +227,29 @@ public class SpoutcraftMod {
 			public void tickEnd(EnumSet<TickType> type, Object... tickData) {
 				final GuiScreen current = RenderUtil.MINECRAFT.currentScreen;
 				if (current == null) {
+					ScaledResolution scaledResolution = new ScaledResolution(RenderUtil.MINECRAFT.gameSettings, RenderUtil.MINECRAFT.displayWidth, RenderUtil.MINECRAFT.displayHeight);
+					int width = scaledResolution.getScaledWidth();
+					int height = scaledResolution.getScaledHeight();
+
 					// Draw Spoutcraft logo
 					GL11.glPushMatrix();
 					RenderUtil.MINECRAFT.getTextureManager().bindTexture(new ResourceLocation("spoutcraft", "textures/gui/title/spoutcraft.png"));
 					GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-					int width = RenderUtil.MINECRAFT.displayWidth;
-					int height = RenderUtil.MINECRAFT.displayHeight;
 					GL11.glEnable(GL11.GL_BLEND);
-					GL11.glTranslatef((width / 2) - 45, (height / 2) - 13, 0.0f);
+					GL11.glTranslatef(width - 45, height - 13, 0.0f);
 					GL11.glScalef(0.17f, 0.17f, 1.0f);
-					GL11.glTranslatef((-width / 2) + 45, -(height / 2) + 13, 0.0f);
-					RenderUtil.create2DRectangleModal((width / 2) - 45, (height / 2) - 13, 256, 67, 0);
+					GL11.glTranslatef(-width + 45, -height + 13, 0.0f);
+					RenderUtil.create2DRectangleModal(width - 45, height - 13, 256, 67, 0);
 					RenderUtil.TESSELLATOR.draw();
 					GL11.glDisable(GL11.GL_BLEND);
 					GL11.glPopMatrix();
 
 					// Draw milestone string
 					GL11.glPushMatrix();
-					GL11.glTranslatef((width / 2) - 14, (height / 2) - 8, 0.0f);
+					GL11.glTranslatef(width - 14, height - 8, 0.0f);
 					GL11.glScalef(0.50f, 0.50f, 1.0f);
-					GL11.glTranslatef(-(width / 2) + 14, -(height / 2) + 8, 0.0f);
-					RenderUtil.MINECRAFT.fontRenderer.drawString("Alpha", (width / 2) - 14, (height / 2) - 3, 16776960);
+					GL11.glTranslatef(-width + 14, -height + 8, 0.0f);
+					RenderUtil.MINECRAFT.fontRenderer.drawString("Alpha", width - 14, height - 3, 16776960);
 					GL11.glPopMatrix();
 				}
 			}
