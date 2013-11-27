@@ -61,6 +61,7 @@ Thumbs.db
 .idea
 .project
 .settings
+.gradle
 nbproject
 atlassian-ide-plugin.xml
 build.xml
@@ -74,6 +75,7 @@ nb-configuration.xml
 /cache
 /config
 /data
+/eclipse
 /natives
 /plugins
 /resources
