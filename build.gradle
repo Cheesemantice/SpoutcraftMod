@@ -28,6 +28,6 @@ processResources
 {
     from(sourceSets.main.java.srcDirs) {
         include 'mcmod.info'
-        include 'assets'
+        include 'assets/**'
     }
 }
