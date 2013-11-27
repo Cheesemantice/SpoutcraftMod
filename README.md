@@ -12,7 +12,7 @@ Spoutcraft is a mod for Forge that has the ability to add more features to Minec
 If you are using Git, use this command to clone the project: `git clone git@github.com:AlmuraDev/SpoutcraftMod.git`
 
 ## Setup
-__Note:__ If you do not have [Gradle](http://www.gradle.org) installed you can use the included gradlew files included with the project in place of 'gradle' in the following commands. If you are using Unix/OS X then use 'gradlew', if you are using Windows then use 'gradlew.bat'.
+__Note:__ If you do not have [Gradle](http://www.gradle.org) installed you can use the gradlew files included with the project in place of 'gradle' in the following commands. If you are using Unix/OS X then use 'gradlew', if you are using Windows then use 'gradlew.bat'.
 
 __For [Eclipse](http://www.eclipse.org)__<br>
 1. Run `gradle setupDevWorkspace eclipse`<br>
@@ -25,6 +25,6 @@ __For [IntelliJ](http://www.jetbrains.com/idea/)__<br>
 3. Get to work!
 
 ## Build
-__Note:__ If you do not have [Gradle](http://www.gradle.org) installed you can use the included gradlew files included with the project in place of 'gradle' in the following commands. If you are using Unix/OS X then use 'gradlew', if you are using Windows then use 'gradlew.bat'.
+__Note:__ If you do not have [Gradle](http://www.gradle.org) installed you can use the gradlew files included with the project in place of 'gradle' in the following commands. If you are using Unix/OS X then use 'gradlew', if you are using Windows then use 'gradlew.bat'.
 
 Run `gradle build`

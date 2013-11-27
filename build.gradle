@@ -17,7 +17,7 @@ sourceCompatibility = "1.7"
 targetCompatibility = "1.7"
 
 version = "1.0.0-SNAPSHOT"
-group = "org.spoutcraft.spoutcraft"
+group = "org.spoutcraft.mod"
 archivesBaseName = "spoutcraft"
 
 minecraft {
