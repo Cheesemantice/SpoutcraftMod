@@ -35,98 +35,98 @@ import org.spoutcraft.api.resource.FileSystem;
  * Represents the Spoutcraft core with access to necessary registries
  */
 public final class Spoutcraft {
-    public static final String VERSION = "1.0.0-alpha-SNAPSHOT";
-    private static SpoutcraftLogger logger;
-    private static AddonManager addonManager;
-    private static LinkedPrefabRegistry<? extends BlockPrefab, ?> blockPrefabRegistry;
-    private static LinkedPrefabRegistry<? extends ItemPrefab, ?> itemPrefabRegistry;
-    private static LinkedPrefabRegistry<? extends MaterialPrefab, ?> materialPrefabRegistry;
-    private static FileSystem fileSystem;
+	public static final String VERSION = "1.0.0-alpha-SNAPSHOT";
+	private static SpoutcraftLogger logger;
+	private static AddonManager addonManager;
+	private static LinkedPrefabRegistry<? extends BlockPrefab, ?> blockPrefabRegistry;
+	private static LinkedPrefabRegistry<? extends ItemPrefab, ?> itemPrefabRegistry;
+	private static LinkedPrefabRegistry<? extends MaterialPrefab, ?> materialPrefabRegistry;
+	private static FileSystem fileSystem;
 
-    public static SpoutcraftLogger getLogger() {
-        return logger;
-    }
+	public static SpoutcraftLogger getLogger() {
+		return logger;
+	}
 
-    public static AddonManager getAddonManager() {
-        return addonManager;
-    }
+	public static AddonManager getAddonManager() {
+		return addonManager;
+	}
 
-    public static LinkedPrefabRegistry getBlockPrefabRegistry() {
-        return blockPrefabRegistry;
-    }
+	public static LinkedPrefabRegistry getBlockPrefabRegistry() {
+		return blockPrefabRegistry;
+	}
 
-    public static LinkedPrefabRegistry getItemPrefabRegistry() {
-        return itemPrefabRegistry;
-    }
+	public static LinkedPrefabRegistry getItemPrefabRegistry() {
+		return itemPrefabRegistry;
+	}
 
-    public static LinkedPrefabRegistry getMaterialPrefabRegistry() {
-        return materialPrefabRegistry;
-    }
+	public static LinkedPrefabRegistry getMaterialPrefabRegistry() {
+		return materialPrefabRegistry;
+	}
 
-    public static FileSystem getFileSystem() {
-        return fileSystem;
-    }
+	public static FileSystem getFileSystem() {
+		return fileSystem;
+	}
 
-    /**
-     * INTERNAL USE ONLY
-     */
-    public static SpoutcraftLogger setLogger(SpoutcraftLogger logger) {
-        if (Spoutcraft.logger != null) {
-            throw new IllegalStateException("Attempt to assign logger twice!");
-        }
-        Spoutcraft.logger = logger;
-        return logger;
-    }
+	/**
+	 * INTERNAL USE ONLY
+	 */
+	public static SpoutcraftLogger setLogger(SpoutcraftLogger logger) {
+		if (Spoutcraft.logger != null) {
+			throw new IllegalStateException("Attempt to assign logger twice!");
+		}
+		Spoutcraft.logger = logger;
+		return logger;
+	}
 
-    public static AddonManager setAddonManager(AddonManager manager) {
-        if (Spoutcraft.addonManager != null) {
-            throw new IllegalStateException("Attempt to assign addon manager twice!");
-        }
-        Spoutcraft.addonManager = manager;
-        return manager;
-    }
+	public static AddonManager setAddonManager(AddonManager manager) {
+		if (Spoutcraft.addonManager != null) {
+			throw new IllegalStateException("Attempt to assign addon manager twice!");
+		}
+		Spoutcraft.addonManager = manager;
+		return manager;
+	}
 
-    public static LinkedPrefabRegistry setBlockRegistry(LinkedPrefabRegistry<? extends BlockPrefab, ?> prefabRegistry) {
-        if (Spoutcraft.blockPrefabRegistry != null) {
-            throw new IllegalStateException("Attempt to assign block registry twice!");
-        }
-        if (prefabRegistry == null) {
-            throw new IllegalStateException("Attempt to assign a null block registry!");
-        }
-        Spoutcraft.blockPrefabRegistry = prefabRegistry;
-        return prefabRegistry;
-    }
+	public static LinkedPrefabRegistry setBlockRegistry(LinkedPrefabRegistry<? extends BlockPrefab, ?> prefabRegistry) {
+		if (Spoutcraft.blockPrefabRegistry != null) {
+			throw new IllegalStateException("Attempt to assign block registry twice!");
+		}
+		if (prefabRegistry == null) {
+			throw new IllegalStateException("Attempt to assign a null block registry!");
+		}
+		Spoutcraft.blockPrefabRegistry = prefabRegistry;
+		return prefabRegistry;
+	}
 
-    public static LinkedPrefabRegistry setItemPrefabRegistry(LinkedPrefabRegistry<? extends ItemPrefab, ?> itemPrefabRegistry) {
-        if (Spoutcraft.itemPrefabRegistry != null) {
-            throw new IllegalStateException("Attempt to assign item prefab registry twice!");
-        }
-        if (itemPrefabRegistry == null) {
-            throw new IllegalStateException("Attempt to assign a null item prefab registry!");
-        }
-        Spoutcraft.itemPrefabRegistry = itemPrefabRegistry;
-        return itemPrefabRegistry;
-    }
+	public static LinkedPrefabRegistry setItemPrefabRegistry(LinkedPrefabRegistry<? extends ItemPrefab, ?> itemPrefabRegistry) {
+		if (Spoutcraft.itemPrefabRegistry != null) {
+			throw new IllegalStateException("Attempt to assign item prefab registry twice!");
+		}
+		if (itemPrefabRegistry == null) {
+			throw new IllegalStateException("Attempt to assign a null item prefab registry!");
+		}
+		Spoutcraft.itemPrefabRegistry = itemPrefabRegistry;
+		return itemPrefabRegistry;
+	}
 
-    public static LinkedPrefabRegistry setMaterialRegistry(LinkedPrefabRegistry<? extends MaterialPrefab, ?> materialPrefabRegistry) {
-        if (Spoutcraft.materialPrefabRegistry != null) {
-            throw new IllegalStateException("Attempt to assign material registry twice!");
-        }
-        if (materialPrefabRegistry == null) {
-            throw new IllegalStateException("Attempt to assign a null material registry!");
-        }
-        Spoutcraft.materialPrefabRegistry = materialPrefabRegistry;
-        return materialPrefabRegistry;
-    }
+	public static LinkedPrefabRegistry setMaterialRegistry(LinkedPrefabRegistry<? extends MaterialPrefab, ?> materialPrefabRegistry) {
+		if (Spoutcraft.materialPrefabRegistry != null) {
+			throw new IllegalStateException("Attempt to assign material registry twice!");
+		}
+		if (materialPrefabRegistry == null) {
+			throw new IllegalStateException("Attempt to assign a null material registry!");
+		}
+		Spoutcraft.materialPrefabRegistry = materialPrefabRegistry;
+		return materialPrefabRegistry;
+	}
 
-    public static FileSystem setFileSystem(FileSystem fileSystem) {
-        if (Spoutcraft.fileSystem != null) {
-            throw new IllegalStateException("Attempt to assign file system twice!");
-        }
-        if (fileSystem == null) {
-            throw new IllegalStateException("Attempt to assign a null file system!");
-        }
-        Spoutcraft.fileSystem = fileSystem;
-        return fileSystem;
-    }
+	public static FileSystem setFileSystem(FileSystem fileSystem) {
+		if (Spoutcraft.fileSystem != null) {
+			throw new IllegalStateException("Attempt to assign file system twice!");
+		}
+		if (fileSystem == null) {
+			throw new IllegalStateException("Attempt to assign a null file system!");
+		}
+		Spoutcraft.fileSystem = fileSystem;
+		return fileSystem;
+	}
 }

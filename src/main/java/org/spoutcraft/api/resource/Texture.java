@@ -32,30 +32,30 @@ import java.io.Serializable;
 import javax.imageio.ImageIO;
 
 public class Texture implements Serializable {
-    private static final long serialVersionUID = 1L;
-    private transient BufferedImage image = null;
+	private static final long serialVersionUID = 1L;
+	private transient BufferedImage image = null;
 
-    public Texture() {
-    }
+	public Texture() {
+	}
 
-    public Texture(BufferedImage image) {
-        this.image = image;
-    }
+	public Texture(BufferedImage image) {
+		this.image = image;
+	}
 
-    public BufferedImage getData() {
-        return image;
-    }
+	public BufferedImage getData() {
+		return image;
+	}
 
-    private void writeObject(ObjectOutputStream out) throws IOException {
-        if (image == null) {
-            throw new IOException("Attempt to serialize Texture with null image data");
-        }
-        out.defaultWriteObject();
-        ImageIO.write(image, "png", out); //PNG is lossless so its safe to use even if it isn't PNG in reality
-    }
+	private void writeObject(ObjectOutputStream out) throws IOException {
+		if (image == null) {
+			throw new IOException("Attempt to serialize Texture with null image data");
+		}
+		out.defaultWriteObject();
+		ImageIO.write(image, "png", out); //PNG is lossless so its safe to use even if it isn't PNG in reality
+	}
 
-    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
-        in.defaultReadObject();
-        image = ImageIO.read(in);
-    }
+	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+		in.defaultReadObject();
+		image = ImageIO.read(in);
+	}
 }

@@ -31,18 +31,18 @@ import org.spoutcraft.api.protocol.message.Message;
 import org.spoutcraft.api.util.map.SerializableHashMap;
 
 public class AddonListMessage implements Message {
-    // Addon Identifier -> MD5
-    private final SerializableHashMap<String, String> map;
+	// Addon Identifier -> MD5
+	private final SerializableHashMap<String, String> map;
 
-    public AddonListMessage(SerializableHashMap<String, String> map) {
-        this.map = map;
-    }
+	public AddonListMessage(SerializableHashMap<String, String> map) {
+		this.map = map;
+	}
 
-    public SerializableHashMap<String, String> getMap() {
-        return map;
-    }
+	public SerializableHashMap<String, String> getMap() {
+		return map;
+	}
 
-    @Override
-    public void handle(Side side, INetworkManager manager, Player player) {
-    }
+	@Override
+	public void handle(Side side, INetworkManager manager, Player player) {
+	}
 }

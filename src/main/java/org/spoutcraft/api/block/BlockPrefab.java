@@ -30,53 +30,53 @@ import org.spoutcraft.api.Prefab;
 import org.spoutcraft.api.material.MaterialPrefab;
 
 public class BlockPrefab extends Prefab {
-    private final String displayName;
-    private final MaterialPrefab prefab;
-    private final float hardness;
-    private final boolean showInCreativeTab;
+	private final String displayName;
+	private final MaterialPrefab prefab;
+	private final float hardness;
+	private final boolean showInCreativeTab;
 
-    public BlockPrefab(String identifier, String displayName, MaterialPrefab prefab, float hardness, boolean showInCreativeTab) {
-        super(identifier);
-        this.displayName = displayName;
-        this.prefab = prefab;
-        this.hardness = hardness;
-        this.showInCreativeTab = showInCreativeTab;
-    }
+	public BlockPrefab(String identifier, String displayName, MaterialPrefab prefab, float hardness, boolean showInCreativeTab) {
+		super(identifier);
+		this.displayName = displayName;
+		this.prefab = prefab;
+		this.hardness = hardness;
+		this.showInCreativeTab = showInCreativeTab;
+	}
 
-    public String getDisplayName() {
-        return displayName;
-    }
+	public String getDisplayName() {
+		return displayName;
+	}
 
-    public MaterialPrefab getMaterialPrefab() {
-        return prefab;
-    }
+	public MaterialPrefab getMaterialPrefab() {
+		return prefab;
+	}
 
-    public float getHardness() {
-        return hardness;
-    }
+	public float getHardness() {
+		return hardness;
+	}
 
-    public boolean shouldShowInCreativeTab() {
-        return showInCreativeTab;
-    }
+	public boolean shouldShowInCreativeTab() {
+		return showInCreativeTab;
+	}
 
-    public int getLightValue(IBlockAccess world, int x, int y, int z) {
-        return 1;
-    }
+	public int getLightValue(IBlockAccess world, int x, int y, int z) {
+		return 1;
+	}
 
-    public int getLightOpacity(World world, int x, int y, int z) {
-        return 255;
-    }
+	public int getLightOpacity(World world, int x, int y, int z) {
+		return 255;
+	}
 
-    @Override
-    public String toString() {
-        final String NEW_LINE = System.getProperty("line.separator");
-        final String parent = super.toString();
-        final StringBuilder builder = new StringBuilder(parent.substring(0, parent.length() - 1));
-        builder
-                .append(" Display Name: " + displayName + NEW_LINE)
-                .append(" " + prefab.toString() + NEW_LINE)
-                .append(" Hardness: " + hardness + NEW_LINE)
-                .append("}");
-        return builder.toString();
-    }
+	@Override
+	public String toString() {
+		final String NEW_LINE = System.getProperty("line.separator");
+		final String parent = super.toString();
+		final StringBuilder builder = new StringBuilder(parent.substring(0, parent.length() - 1));
+		builder
+				.append(" Display Name: " + displayName + NEW_LINE)
+				.append(" " + prefab.toString() + NEW_LINE)
+				.append(" Hardness: " + hardness + NEW_LINE)
+				.append("}");
+		return builder.toString();
+	}
 }

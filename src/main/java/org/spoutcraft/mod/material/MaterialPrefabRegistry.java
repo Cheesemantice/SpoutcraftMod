@@ -39,72 +39,72 @@ import org.spoutcraft.mod.protocol.SpoutcraftPacket;
 import org.spoutcraft.mod.protocol.message.AddPrefabMessage;
 
 public class MaterialPrefabRegistry implements LinkedPrefabRegistry<MaterialPrefab, Material> {
-    private static final ArrayList<MaterialPrefab> REGISTRY = new ArrayList<>();
-    //INTERNAL
-    private static final HashMap<MaterialPrefab, Material> PREFAB_BY_MATERIAL = new HashMap<>();
+	private static final ArrayList<MaterialPrefab> REGISTRY = new ArrayList<>();
+	//INTERNAL
+	private static final HashMap<MaterialPrefab, Material> PREFAB_BY_MATERIAL = new HashMap<>();
 
-    @Override
-    public MaterialPrefab put(MaterialPrefab prefab) {
-        create(prefab);
-        return prefab;
-    }
+	@Override
+	public MaterialPrefab put(MaterialPrefab prefab) {
+		create(prefab);
+		return prefab;
+	}
 
-    @Override
-    public Material create(MaterialPrefab prefab) {
-        if (prefab == null) {
-            throw new IllegalStateException("Attempt made to put null material prefab into registry!");
-        }
+	@Override
+	public Material create(MaterialPrefab prefab) {
+		if (prefab == null) {
+			throw new IllegalStateException("Attempt made to put null material prefab into registry!");
+		}
 
-        final Material material = new CustomMaterial(prefab);
-        REGISTRY.add(prefab);
-        PREFAB_BY_MATERIAL.put(prefab, material);
+		final Material material = new CustomMaterial(prefab);
+		REGISTRY.add(prefab);
+		PREFAB_BY_MATERIAL.put(prefab, material);
 
-        //TODO Materials need to be registered?
-        if (FMLCommonHandler.instance().getEffectiveSide().isServer()) {
-            PacketDispatcher.sendPacketToAllPlayers(new SpoutcraftPacket(new AddPrefabMessage(prefab)));
-        }
-        return material;
-    }
+		//TODO Materials need to be registered?
+		if (FMLCommonHandler.instance().getEffectiveSide().isServer()) {
+			PacketDispatcher.sendPacketToAllPlayers(new SpoutcraftPacket(new AddPrefabMessage(prefab)));
+		}
+		return material;
+	}
 
-    @Override
-    public MaterialPrefab get(String identifier) {
-        for (MaterialPrefab prefab : REGISTRY) {
-            if (prefab.getIdentifier().equals(identifier)) {
-                return prefab;
-            }
-        }
-        return null;
-    }
+	@Override
+	public MaterialPrefab get(String identifier) {
+		for (MaterialPrefab prefab : REGISTRY) {
+			if (prefab.getIdentifier().equals(identifier)) {
+				return prefab;
+			}
+		}
+		return null;
+	}
 
-    @Override
-    public Material find(MaterialPrefab prefab) {
-        return prefab == null ? null : PREFAB_BY_MATERIAL.get(prefab);
-    }
+	@Override
+	public Material find(MaterialPrefab prefab) {
+		return prefab == null ? null : PREFAB_BY_MATERIAL.get(prefab);
+	}
 
-    @Override
-    public Material find(String identifier) {
-        if (identifier != null && !identifier.isEmpty()) {
-            for (Map.Entry<MaterialPrefab, Material> entry : PREFAB_BY_MATERIAL.entrySet()) {
-                if (entry.getKey().getIdentifier().equals(identifier)) {
-                    return entry.getValue();
-                }
-            }
-        }
-        return null;
-    }
+	@Override
+	public Material find(String identifier) {
+		if (identifier != null && !identifier.isEmpty()) {
+			for (Map.Entry<MaterialPrefab, Material> entry : PREFAB_BY_MATERIAL.entrySet()) {
+				if (entry.getKey().getIdentifier().equals(identifier)) {
+					return entry.getValue();
+				}
+			}
+		}
+		return null;
+	}
 
-    /**
-     * Syncs the entire block registry to the client
-     *
-     * @param network The connected network
-     */
-    public void sync(final INetworkManager network) {
-        Spoutcraft.getLogger().info("Preparing to sync material registry");
-        //TODO Scheduler and sending
-        for (MaterialPrefab prefab : REGISTRY) {
-            Spoutcraft.getLogger().info("Syncing material prefab to client");
-            Spoutcraft.getLogger().info(prefab.toString());
-            network.addToSendQueue(new SpoutcraftPacket(new AddPrefabMessage(prefab)));
-        }
-    }
+	/**
+	 * Syncs the entire block registry to the client
+	 *
+	 * @param network The connected network
+	 */
+	public void sync(final INetworkManager network) {
+		Spoutcraft.getLogger().info("Preparing to sync material registry");
+		//TODO Scheduler and sending
+		for (MaterialPrefab prefab : REGISTRY) {
+			Spoutcraft.getLogger().info("Syncing material prefab to client");
+			Spoutcraft.getLogger().info(prefab.toString());
+			network.addToSendQueue(new SpoutcraftPacket(new AddPrefabMessage(prefab)));
+		}
+	}
 }

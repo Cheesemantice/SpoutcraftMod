@@ -38,37 +38,37 @@ import org.spoutcraft.mod.item.ItemPrefabRegistry;
 import org.spoutcraft.mod.material.MaterialPrefabRegistry;
 
 public class SpoutcraftConnectionHandler implements IConnectionHandler {
-    @Override
-    public void playerLoggedIn(Player player, NetHandler netHandler, INetworkManager manager) {
-        if (!RenderUtil.MINECRAFT.isIntegratedServerRunning()) {
-            ((MaterialPrefabRegistry) Spoutcraft.getMaterialPrefabRegistry()).sync(manager);
-            ((ItemPrefabRegistry) Spoutcraft.getItemPrefabRegistry()).sync(manager);
-            ((BlockPrefabRegistry) Spoutcraft.getBlockPrefabRegistry()).sync(manager);
-        }
-    }
+	@Override
+	public void playerLoggedIn(Player player, NetHandler netHandler, INetworkManager manager) {
+		if (!RenderUtil.MINECRAFT.isIntegratedServerRunning()) {
+			((MaterialPrefabRegistry) Spoutcraft.getMaterialPrefabRegistry()).sync(manager);
+			((ItemPrefabRegistry) Spoutcraft.getItemPrefabRegistry()).sync(manager);
+			((BlockPrefabRegistry) Spoutcraft.getBlockPrefabRegistry()).sync(manager);
+		}
+	}
 
-    @Override
-    public String connectionReceived(NetLoginHandler netHandler, INetworkManager manager) {
-        return "";
-    }
+	@Override
+	public String connectionReceived(NetLoginHandler netHandler, INetworkManager manager) {
+		return "";
+	}
 
-    @Override
-    public void connectionOpened(NetHandler netClientHandler, String server, int port, INetworkManager manager) {
+	@Override
+	public void connectionOpened(NetHandler netClientHandler, String server, int port, INetworkManager manager) {
 
-    }
+	}
 
-    @Override
-    public void connectionOpened(NetHandler netClientHandler, MinecraftServer server, INetworkManager manager) {
+	@Override
+	public void connectionOpened(NetHandler netClientHandler, MinecraftServer server, INetworkManager manager) {
 
-    }
+	}
 
-    @Override
-    public void connectionClosed(INetworkManager manager) {
+	@Override
+	public void connectionClosed(INetworkManager manager) {
 
-    }
+	}
 
-    @Override
-    public void clientLoggedIn(NetHandler clientHandler, INetworkManager manager, Packet1Login login) {
+	@Override
+	public void clientLoggedIn(NetHandler clientHandler, INetworkManager manager, Packet1Login login) {
 
-    }
+	}
 }

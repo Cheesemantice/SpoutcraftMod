@@ -37,36 +37,36 @@ import org.spoutcraft.api.resource.FileSystem;
 import org.spoutcraft.api.util.RenderUtil;
 
 public class ServerFileSystem implements FileSystem {
-    public static final Path BASE_DIR = Paths.get(RenderUtil.MINECRAFT.mcDataDir.getAbsolutePath());
-    public static final Path MODS_DIR = Paths.get(BASE_DIR.toString(), "mods");
-    public static final Path ADDONS_DIR = Paths.get(MODS_DIR.toString(), "spoutcraft" + File.separator + "addons");
+	public static final Path BASE_DIR = Paths.get(RenderUtil.MINECRAFT.mcDataDir.getAbsolutePath());
+	public static final Path MODS_DIR = Paths.get(BASE_DIR.toString(), "mods");
+	public static final Path ADDONS_DIR = Paths.get(MODS_DIR.toString(), "spoutcraft" + File.separator + "addons");
 
-    public void init() throws IOException {
-        if (!Files.exists(ADDONS_DIR)) {
-            Files.createDirectories(ADDONS_DIR);
-        }
-    }
+	public void init() throws IOException {
+		if (!Files.exists(ADDONS_DIR)) {
+			Files.createDirectories(ADDONS_DIR);
+		}
+	}
 
-    @Override
-    public void send(Class<? extends Addon> clazz, Path path) {
-    }
+	@Override
+	public void send(Class<? extends Addon> clazz, Path path) {
+	}
 
-    @Override
-    public void send(Class<? extends Addon> clazz, String uri) {
-    }
+	@Override
+	public void send(Class<? extends Addon> clazz, String uri) {
+	}
 
-    @Override
-    public <R> R get(Class<? extends Addon> clazz, String name) {
-        throw new IllegalStateException("Server does not get resources, it only sends them");
-    }
+	@Override
+	public <R> R get(Class<? extends Addon> clazz, String name) {
+		throw new IllegalStateException("Server does not get resources, it only sends them");
+	}
 
-    @Override
-    public <R> Collection<R> getAllFor(Class<? extends Addon> clazz) {
-        throw new IllegalStateException("Server does not get resources, it only sends them");
-    }
+	@Override
+	public <R> Collection<R> getAllFor(Class<? extends Addon> clazz) {
+		throw new IllegalStateException("Server does not get resources, it only sends them");
+	}
 
-    @Override
-    public <R> Map<Class<? extends Addon>, R> getAll() {
-        throw new IllegalStateException("Server does not get resources, it only sends them");
-    }
+	@Override
+	public <R> Map<Class<? extends Addon>, R> getAll() {
+		throw new IllegalStateException("Server does not get resources, it only sends them");
+	}
 }

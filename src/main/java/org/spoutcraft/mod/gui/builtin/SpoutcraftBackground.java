@@ -24,50 +24,38 @@
  */
 package org.spoutcraft.mod.gui.builtin;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.util.ResourceLocation;
-import org.lwjgl.opengl.GL11;
 import org.spoutcraft.api.util.RandomUtil;
 import org.spoutcraft.api.util.RenderUtil;
 import org.spoutcraft.api.util.TimeUtil;
 
-@SideOnly (Side.CLIENT)
+import org.lwjgl.opengl.GL11;
+
 public class SpoutcraftBackground extends Gui {
-    private ResourceLocation location;
+	private static ResourceLocation location = selectBackground();
 
-    public void selectBackground() {
-        switch (TimeUtil.getTime()) {
-            case "day":
-                location = new ResourceLocation("spoutcraft", "textures/gui/title/background/day/background_" + RandomUtil.inclusive(1, 29) + ".jpg");
-            case "evening":
-                location = new ResourceLocation("spoutcraft", "textures/gui/title/background/day/background_" + RandomUtil.inclusive(1, 29) + ".jpg");
-            case "night":
-                location = new ResourceLocation("spoutcraft", "textures/gui/title/background/day/background_" + RandomUtil.inclusive(1, 29) + ".jpg");
-            default:
-                location = new ResourceLocation("spoutcraft", "textures/gui/title/background/day/background_" + RandomUtil.inclusive(1, 29) + ".jpg");
-        }
-    }
+	private static ResourceLocation selectBackground() {
+		switch (TimeUtil.getTime()) {
+			case "day":
+				return new ResourceLocation("spoutcraft", "textures/gui/title/background/day/background_" + RandomUtil.inclusive(1, 29) + ".jpg");
+			case "evening":
+				return new ResourceLocation("spoutcraft", "textures/gui/title/background/day/background_" + RandomUtil.inclusive(1, 29) + ".jpg");
+			case "night":
+				return new ResourceLocation("spoutcraft", "textures/gui/title/background/day/background_" + RandomUtil.inclusive(1, 29) + ".jpg");
+			default:
+				return new ResourceLocation("spoutcraft", "textures/gui/title/background/day/background_" + RandomUtil.inclusive(1, 29) + ".jpg");
+		}
+	}
 
-    public void drawBackground(int x, int y, int width, int height) {
-        if (location == null) {
-            selectBackground();
-        }
-        RenderUtil.MINECRAFT.getTextureManager().bindTexture(location);
-        GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-        RenderUtil.create2DRectangleModal(x, y, width, height, 0);
-        RenderUtil.TESSELLATOR.draw();
-    }
+	public void drawBackground(int x, int y, int width, int height, boolean overlay) {
+		RenderUtil.MINECRAFT.getTextureManager().bindTexture(location);
+		GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+		RenderUtil.create2DRectangleModal(x, y, width, height, 0);
+		RenderUtil.TESSELLATOR.draw();
 
-    public void drawBackground(int x, int y, int width, int height, int overlayTopColor, int overlayBottomColor) {
-        if (location == null) {
-            selectBackground();
-        }
-        RenderUtil.MINECRAFT.getTextureManager().bindTexture(location);
-        GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-        RenderUtil.create2DRectangleModal(x, y, width, height, 0);
-        RenderUtil.TESSELLATOR.draw();
-        drawGradientRect(x, y, width, height, overlayTopColor, overlayBottomColor);
-    }
+		if (overlay) {
+			drawGradientRect(0, 0, width, height, Integer.MAX_VALUE, 0);
+		}
+	}
 }

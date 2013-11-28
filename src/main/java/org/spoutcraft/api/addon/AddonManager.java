@@ -32,21 +32,21 @@ import org.spoutcraft.api.exception.InvalidAddonException;
 import org.spoutcraft.api.exception.InvalidPrefabException;
 
 public interface AddonManager {
-    public Addon getAddon(String identifier);
+	public Addon getAddon(String identifier);
 
-    public Collection<Addon> getAddons();
+	public Collection<Addon> getAddons();
 
-    public Addon loadAddon(Path path) throws InvalidAddonException, InvalidPrefabException;
+	public Addon loadAddon(Path path) throws InvalidAddonException, InvalidPrefabException;
 
-    public Collection<Addon> loadAddons(Path path) throws IOException;
+	public Collection<Addon> loadAddons(Path path) throws IOException;
 
-    public void enable(Addon addon);
+	public void enable(Addon addon);
 
-    public void enable();
+	public void enable();
 
-    public void disable(Addon addon);
+	public void disable(Addon addon);
 
-    public void disable();
+	public void disable();
 
-    public void clear();
+	public void clear();
 }
