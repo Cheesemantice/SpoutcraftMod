@@ -33,43 +33,43 @@ import org.spoutcraft.api.protocol.codec.Codec;
 import org.spoutcraft.api.protocol.message.Message;
 
 public class Protocol {
-	private static final MessagePacketHandler HANDLER;
-	private static final ConcurrentMap<Class<? extends Message>, Codec<?>> TABLE;
+    private static final MessagePacketHandler HANDLER;
+    private static final ConcurrentMap<Class<? extends Message>, Codec<?>> TABLE;
 
-	static {
-		HANDLER = new MessagePacketHandler();
-		TABLE = new ConcurrentHashMap<>(5, 1.0f);
-	}
+    static {
+        HANDLER = new MessagePacketHandler();
+        TABLE = new ConcurrentHashMap<>(5, 1.0f);
+    }
 
-	public static <T extends Message, C extends Codec<T>> void register(Class<T> clazz, Class<C> clazzz) {
-		Constructor<C> constructor;
-		try {
-			constructor = clazzz.getConstructor();
-		} catch (NoSuchMethodException e) {
-			throw new IllegalStateException("Attempt to register codec with non-empty constructor!");
-		}
-		final C c;
-		try {
-			c = constructor.newInstance();
-		} catch (Exception e) {
-			throw new IllegalStateException("Could not create instance of codec: " + clazzz);
-		}
-		TABLE.put(clazz, c);
-		NetworkRegistry.instance().registerChannel(HANDLER, c.getChannel());
-	}
+    public static <T extends Message, C extends Codec<T>> void register(Class<T> clazz, Class<C> clazzz) {
+        Constructor<C> constructor;
+        try {
+            constructor = clazzz.getConstructor();
+        } catch (NoSuchMethodException e) {
+            throw new IllegalStateException("Attempt to register codec with non-empty constructor!");
+        }
+        final C c;
+        try {
+            c = constructor.newInstance();
+        } catch (Exception e) {
+            throw new IllegalStateException("Could not create instance of codec: " + clazzz);
+        }
+        TABLE.put(clazz, c);
+        NetworkRegistry.instance().registerChannel(HANDLER, c.getChannel());
+    }
 
-	@SuppressWarnings ("unchecked")
-	public static <T extends Message> Codec<T> find(Class<T> clazz) {
-		return (Codec<T>) TABLE.get(clazz);
-	}
+    @SuppressWarnings ("unchecked")
+    public static <T extends Message> Codec<T> find(Class<T> clazz) {
+        return (Codec<T>) TABLE.get(clazz);
+    }
 
-	@SuppressWarnings ("unchecked")
-	public static <T extends Message> Codec<T> find(String channel) {
-		for (Codec codec : TABLE.values()) {
-			if (codec.getChannel().equals(channel)) {
-				return codec;
-			}
-		}
-		return null;
-	}
+    @SuppressWarnings ("unchecked")
+    public static <T extends Message> Codec<T> find(String channel) {
+        for (Codec codec : TABLE.values()) {
+            if (codec.getChannel().equals(channel)) {
+                return codec;
+            }
+        }
+        return null;
+    }
 }

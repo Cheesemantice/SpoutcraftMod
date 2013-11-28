@@ -30,17 +30,17 @@ import net.minecraft.network.INetworkManager;
 import org.spoutcraft.api.protocol.message.Message;
 
 public class AddResourceMessage<R> implements Message {
-	private final R resource;
+    private final R resource;
 
-	public AddResourceMessage(R resource) {
-		this.resource = resource;
-	}
+    public AddResourceMessage(R resource) {
+        this.resource = resource;
+    }
 
-	public R getResource() {
-		return resource;
-	}
+    public R getResource() {
+        return resource;
+    }
 
-	@Override
-	public void handle(Side side, INetworkManager manager, Player player) {
-	}
+    @Override
+    public void handle(Side side, INetworkManager manager, Player player) {
+    }
 }

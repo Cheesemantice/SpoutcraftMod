@@ -24,7 +24,6 @@
  */
 package org.spoutcraft.mod;
 
-import java.io.File;
 import java.nio.ByteBuffer;
 import java.util.EnumSet;
 import java.util.logging.Level;
@@ -48,6 +47,8 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.integrated.IntegratedServer;
 import net.minecraft.util.ResourceLocation;
+import org.lwjgl.opengl.Display;
+import org.lwjgl.opengl.GL11;
 import org.spoutcraft.api.LinkedPrefabRegistry;
 import org.spoutcraft.api.Spoutcraft;
 import org.spoutcraft.api.block.MovingPrefab;
@@ -70,220 +71,217 @@ import org.spoutcraft.mod.protocol.message.AddPrefabMessage;
 import org.spoutcraft.mod.resource.ClientFileSystem;
 import org.spoutcraft.mod.resource.ServerFileSystem;
 
-import org.lwjgl.opengl.Display;
-import org.lwjgl.opengl.GL11;
-
 // TODO: Reflect GameRegistry, LanguageRegistry, NetworkRegistry and remove addon content on server leave
 // TODO: Fix generics?
 @Mod (modid = "Spoutcraft")
 @NetworkMod (clientSideRequired = true, serverSideRequired = true)
 public class SpoutcraftMod {
-	@Instance (value = "Spoutcraft")
-	public static SpoutcraftMod instance;
-	private static CustomTabs customTabs;
+    @Instance (value = "Spoutcraft")
+    public static SpoutcraftMod instance;
+    private static CustomTabs customTabs;
 
-	@EventHandler
-	@SuppressWarnings ("unchecked")
-	public void onInitialize(FMLInitializationEvent event) {
-		// Set the frame title
-		Display.setTitle("Spoutcraft");
+    @EventHandler
+    @SuppressWarnings ("unchecked")
+    public void onInitialize(FMLInitializationEvent event) {
+        // Set the frame title
+        Display.setTitle("Spoutcraft");
 
-		// Set the icon
-		final ByteBuffer windowIcon = RenderUtil.createImageBufferFrom(new ResourceLocation("spoutcraft", "textures/window_icon.png"), true);
-		final ByteBuffer taskbarIcon = RenderUtil.createImageBufferFrom(new ResourceLocation("spoutcraft", "textures/taskbar_icon.png"), true);
-		if (windowIcon != null && taskbarIcon != null) {
-			Display.setIcon(new ByteBuffer[] {windowIcon, taskbarIcon});
-		}
+        // Set the icon
+        final ByteBuffer windowIcon = RenderUtil.createImageBufferFrom(new ResourceLocation("spoutcraft", "textures/window_icon.png"), true);
+        final ByteBuffer taskbarIcon = RenderUtil.createImageBufferFrom(new ResourceLocation("spoutcraft", "textures/taskbar_icon.png"), true);
+        if (windowIcon != null && taskbarIcon != null) {
+            Display.setIcon(new ByteBuffer[] {windowIcon, taskbarIcon});
+        }
 
-		// Setup logger
-		Spoutcraft.setLogger(new SpoutcraftLogger());
+        // Setup logger
+        Spoutcraft.setLogger(new SpoutcraftLogger());
 
-		// Setup protocol
-		bindCodecMessages();
+        // Setup protocol
+        bindCodecMessages();
 
-		// Setup file system
-		final ClientFileSystem fileSystem = (ClientFileSystem) Spoutcraft.setFileSystem(new ClientFileSystem());
-		try {
-			fileSystem.init();
-		} catch (Exception e) {
-			Spoutcraft.getLogger().log(Level.SEVERE, "Exception caught on initializing file system", e);
-		}
+        // Setup file system
+        final ClientFileSystem fileSystem = (ClientFileSystem) Spoutcraft.setFileSystem(new ClientFileSystem());
+        try {
+            fileSystem.init();
+        } catch (Exception e) {
+            Spoutcraft.getLogger().log(Level.SEVERE, "Exception caught on initializing file system", e);
+        }
 
-		// Setup addon manager
-		final ClientAddonManager manager = (ClientAddonManager) Spoutcraft.setAddonManager(new ClientAddonManager());
-		try {
-			manager.loadAddons(ClientFileSystem.ADDONS_DIR);
-		} catch (Exception e) {
-			Spoutcraft.getLogger().log(Level.SEVERE, "Exception caught on loading an addon", e);
-		}
+        // Setup addon manager
+        final ClientAddonManager manager = (ClientAddonManager) Spoutcraft.setAddonManager(new ClientAddonManager());
+        try {
+            manager.loadAddons(ClientFileSystem.ADDONS_DIR);
+        } catch (Exception e) {
+            Spoutcraft.getLogger().log(Level.SEVERE, "Exception caught on loading an addon", e);
+        }
 
-		manager.enable();
+        manager.enable();
 
-		// Setup registries
-		Spoutcraft.setBlockRegistry(new BlockPrefabRegistry());
-		Spoutcraft.setItemPrefabRegistry(new ItemPrefabRegistry());
-		Spoutcraft.setMaterialRegistry(new MaterialPrefabRegistry());
+        // Setup registries
+        Spoutcraft.setBlockRegistry(new BlockPrefabRegistry());
+        Spoutcraft.setItemPrefabRegistry(new ItemPrefabRegistry());
+        Spoutcraft.setMaterialRegistry(new MaterialPrefabRegistry());
 
-		// Setup creative tab
-		customTabs = new CustomTabs();
+        // Setup creative tab
+        customTabs = new CustomTabs();
 
-		registerHandlers();
+        registerHandlers();
 
-		Spoutcraft.getItemPrefabRegistry().put(new SpoutcraftEmblem());
-		Spoutcraft.getItemPrefabRegistry().put(new VanillaEmblem());
+        Spoutcraft.getItemPrefabRegistry().put(new SpoutcraftEmblem());
+        Spoutcraft.getItemPrefabRegistry().put(new VanillaEmblem());
 
-		//TODO Move test code to an accompanying addon
-		final LinkedPrefabRegistry registry = Spoutcraft.getBlockPrefabRegistry();
-		registry.put(new MovingPrefab("0b", "0 (Black)", new MaterialPrefab("testmaterial", MapIndex.DIRT), 0.5f, true));
-		registry.put(new MovingPrefab("0w", "0 (White)", new MaterialPrefab("testmaterial", MapIndex.DIRT), 0.5f, true));
-		registry.put(new MovingPrefab("1b", "1 (Black)", new MaterialPrefab("testmaterial", MapIndex.DIRT), 0.5f, true));
-		registry.put(new MovingPrefab("1w", "1 (White)", new MaterialPrefab("testmaterial", MapIndex.DIRT), 0.5f, true));
-		registry.put(new MovingPrefab("2b", "2 (Black)", new MaterialPrefab("testmaterial", MapIndex.DIRT), 0.5f, true));
-		registry.put(new MovingPrefab("2w", "2 (White)", new MaterialPrefab("testmaterial", MapIndex.DIRT), 0.5f, true));
-		registry.put(new MovingPrefab("3b", "3 (Black)", new MaterialPrefab("testmaterial", MapIndex.DIRT), 0.5f, true));
-		registry.put(new MovingPrefab("3w", "3 (White)", new MaterialPrefab("testmaterial", MapIndex.DIRT), 0.5f, true));
-		registry.put(new MovingPrefab("4b", "4 (Black)", new MaterialPrefab("testmaterial", MapIndex.DIRT), 0.5f, true));
-		registry.put(new MovingPrefab("4w", "4 (White)", new MaterialPrefab("testmaterial", MapIndex.DIRT), 0.5f, true));
-		registry.put(new MovingPrefab("5b", "5 (Black)", new MaterialPrefab("testmaterial", MapIndex.DIRT), 0.5f, true));
-		registry.put(new MovingPrefab("5w", "5 (White)", new MaterialPrefab("testmaterial", MapIndex.DIRT), 0.5f, true));
-		registry.put(new MovingPrefab("6b", "6 (Black)", new MaterialPrefab("testmaterial", MapIndex.DIRT), 0.5f, true));
-		registry.put(new MovingPrefab("6w", "6 (White)", new MaterialPrefab("testmaterial", MapIndex.DIRT), 0.5f, true));
-		registry.put(new MovingPrefab("7b", "7 (Black)", new MaterialPrefab("testmaterial", MapIndex.DIRT), 0.5f, true));
-		registry.put(new MovingPrefab("7w", "7 (White)", new MaterialPrefab("testmaterial", MapIndex.DIRT), 0.5f, true));
-		registry.put(new MovingPrefab("8b", "8 (Black)", new MaterialPrefab("testmaterial", MapIndex.DIRT), 0.5f, true));
-		registry.put(new MovingPrefab("8w", "8 (White)", new MaterialPrefab("testmaterial", MapIndex.DIRT), 0.5f, true));
-		registry.put(new MovingPrefab("9b", "9 (Black)", new MaterialPrefab("testmaterial", MapIndex.DIRT), 0.5f, true));
-		registry.put(new MovingPrefab("9w", "9 (White)", new MaterialPrefab("testmaterial", MapIndex.DIRT), 0.5f, true));
-	}
+        //TODO Move test code to an accompanying addon
+        final LinkedPrefabRegistry registry = Spoutcraft.getBlockPrefabRegistry();
+        registry.put(new MovingPrefab("0b", "0 (Black)", new MaterialPrefab("testmaterial", MapIndex.DIRT), 0.5f, true));
+        registry.put(new MovingPrefab("0w", "0 (White)", new MaterialPrefab("testmaterial", MapIndex.DIRT), 0.5f, true));
+        registry.put(new MovingPrefab("1b", "1 (Black)", new MaterialPrefab("testmaterial", MapIndex.DIRT), 0.5f, true));
+        registry.put(new MovingPrefab("1w", "1 (White)", new MaterialPrefab("testmaterial", MapIndex.DIRT), 0.5f, true));
+        registry.put(new MovingPrefab("2b", "2 (Black)", new MaterialPrefab("testmaterial", MapIndex.DIRT), 0.5f, true));
+        registry.put(new MovingPrefab("2w", "2 (White)", new MaterialPrefab("testmaterial", MapIndex.DIRT), 0.5f, true));
+        registry.put(new MovingPrefab("3b", "3 (Black)", new MaterialPrefab("testmaterial", MapIndex.DIRT), 0.5f, true));
+        registry.put(new MovingPrefab("3w", "3 (White)", new MaterialPrefab("testmaterial", MapIndex.DIRT), 0.5f, true));
+        registry.put(new MovingPrefab("4b", "4 (Black)", new MaterialPrefab("testmaterial", MapIndex.DIRT), 0.5f, true));
+        registry.put(new MovingPrefab("4w", "4 (White)", new MaterialPrefab("testmaterial", MapIndex.DIRT), 0.5f, true));
+        registry.put(new MovingPrefab("5b", "5 (Black)", new MaterialPrefab("testmaterial", MapIndex.DIRT), 0.5f, true));
+        registry.put(new MovingPrefab("5w", "5 (White)", new MaterialPrefab("testmaterial", MapIndex.DIRT), 0.5f, true));
+        registry.put(new MovingPrefab("6b", "6 (Black)", new MaterialPrefab("testmaterial", MapIndex.DIRT), 0.5f, true));
+        registry.put(new MovingPrefab("6w", "6 (White)", new MaterialPrefab("testmaterial", MapIndex.DIRT), 0.5f, true));
+        registry.put(new MovingPrefab("7b", "7 (Black)", new MaterialPrefab("testmaterial", MapIndex.DIRT), 0.5f, true));
+        registry.put(new MovingPrefab("7w", "7 (White)", new MaterialPrefab("testmaterial", MapIndex.DIRT), 0.5f, true));
+        registry.put(new MovingPrefab("8b", "8 (Black)", new MaterialPrefab("testmaterial", MapIndex.DIRT), 0.5f, true));
+        registry.put(new MovingPrefab("8w", "8 (White)", new MaterialPrefab("testmaterial", MapIndex.DIRT), 0.5f, true));
+        registry.put(new MovingPrefab("9b", "9 (Black)", new MaterialPrefab("testmaterial", MapIndex.DIRT), 0.5f, true));
+        registry.put(new MovingPrefab("9w", "9 (White)", new MaterialPrefab("testmaterial", MapIndex.DIRT), 0.5f, true));
+    }
 
-	@EventHandler
-	@SuppressWarnings ("unchecked")
-	public void onServerStarting(FMLServerStartingEvent event) {
-		if (!(event.getServer() instanceof IntegratedServer)) {
-			// Set logger
-			Spoutcraft.setLogger(new SpoutcraftLogger());
+    @EventHandler
+    @SuppressWarnings ("unchecked")
+    public void onServerStarting(FMLServerStartingEvent event) {
+        if (!(event.getServer() instanceof IntegratedServer)) {
+            // Set logger
+            Spoutcraft.setLogger(new SpoutcraftLogger());
 
-			// Setup protocol
-			bindCodecMessages();
+            // Setup protocol
+            bindCodecMessages();
 
-			// Setup file system
-			final ServerFileSystem fileSystem = (ServerFileSystem) Spoutcraft.setFileSystem(new ServerFileSystem());
-			try {
-				fileSystem.init();
-			} catch (Exception e) {
-				Spoutcraft.getLogger().log(Level.SEVERE, "Exception caught on initializing file system", e);
-			}
+            // Setup file system
+            final ServerFileSystem fileSystem = (ServerFileSystem) Spoutcraft.setFileSystem(new ServerFileSystem());
+            try {
+                fileSystem.init();
+            } catch (Exception e) {
+                Spoutcraft.getLogger().log(Level.SEVERE, "Exception caught on initializing file system", e);
+            }
 
-			// Setup registries
-			Spoutcraft.setBlockRegistry(new BlockPrefabRegistry());
-			Spoutcraft.setItemPrefabRegistry(new ItemPrefabRegistry());
-			Spoutcraft.setMaterialRegistry(new MaterialPrefabRegistry());
+            // Setup registries
+            Spoutcraft.setBlockRegistry(new BlockPrefabRegistry());
+            Spoutcraft.setItemPrefabRegistry(new ItemPrefabRegistry());
+            Spoutcraft.setMaterialRegistry(new MaterialPrefabRegistry());
 
-			// Setup addon manager
-			final ServerAddonManager manager = (ServerAddonManager) Spoutcraft.setAddonManager(new ServerAddonManager());
-			try {
-				manager.loadAddons(ClientFileSystem.ADDONS_DIR);
-			} catch (Exception e) {
-				Spoutcraft.getLogger().log(Level.SEVERE, "Exception caught on enabling an addon (Is it up to date lol?)", e);
-			}
+            // Setup addon manager
+            final ServerAddonManager manager = (ServerAddonManager) Spoutcraft.setAddonManager(new ServerAddonManager());
+            try {
+                manager.loadAddons(ClientFileSystem.ADDONS_DIR);
+            } catch (Exception e) {
+                Spoutcraft.getLogger().log(Level.SEVERE, "Exception caught on enabling an addon (Is it up to date lol?)", e);
+            }
 
-			manager.enable();
-		}
-	}
+            manager.enable();
+        }
+    }
 
-	private void registerHandlers() {
-		// Show our main menu
-		TickRegistry.registerTickHandler(new ITickHandler() {
-			@Override
-			public void tickStart(EnumSet<TickType> type, Object... tickData) {
-				final GuiScreen current = RenderUtil.MINECRAFT.currentScreen;
-				if (current != null && current.getClass() == GuiMainMenu.class && current.getClass() != SpoutcraftMainMenu.class) {
-					RenderUtil.MINECRAFT.displayGuiScreen(new SpoutcraftMainMenu());
-				}
-			}
+    private void registerHandlers() {
+        // Show our main menu
+        TickRegistry.registerTickHandler(new ITickHandler() {
+            @Override
+            public void tickStart(EnumSet<TickType> type, Object... tickData) {
+                final GuiScreen current = RenderUtil.MINECRAFT.currentScreen;
+                if (current != null && current.getClass() == GuiMainMenu.class && current.getClass() != SpoutcraftMainMenu.class) {
+                    RenderUtil.MINECRAFT.displayGuiScreen(new SpoutcraftMainMenu());
+                }
+            }
 
-			@Override
-			public void tickEnd(EnumSet<TickType> type, Object... tickData) {
-			}
+            @Override
+            public void tickEnd(EnumSet<TickType> type, Object... tickData) {
+            }
 
-			@Override
-			public EnumSet<TickType> ticks() {
-				return EnumSet.of(TickType.CLIENT);
-			}
+            @Override
+            public EnumSet<TickType> ticks() {
+                return EnumSet.of(TickType.CLIENT);
+            }
 
-			@Override
-			public String getLabel() {
-				return "Spoutcraft - Main Menu Hotswap";
-			}
-		}, Side.CLIENT);
+            @Override
+            public String getLabel() {
+                return "Spoutcraft - Main Menu Hotswap";
+            }
+        }, Side.CLIENT);
 
-		// Draw our watermark in game
-		TickRegistry.registerTickHandler(new ITickHandler() {
-			@Override
-			public void tickStart(EnumSet<TickType> type, Object... tickData) {
-			}
+        // Draw our watermark in game
+        TickRegistry.registerTickHandler(new ITickHandler() {
+            @Override
+            public void tickStart(EnumSet<TickType> type, Object... tickData) {
+            }
 
-			@Override
-			public void tickEnd(EnumSet<TickType> type, Object... tickData) {
-				final GuiScreen current = RenderUtil.MINECRAFT.currentScreen;
-				if (current == null) {
-					ScaledResolution scaledResolution = new ScaledResolution(RenderUtil.MINECRAFT.gameSettings, RenderUtil.MINECRAFT.displayWidth, RenderUtil.MINECRAFT.displayHeight);
-					int width = scaledResolution.getScaledWidth();
-					int height = scaledResolution.getScaledHeight();
+            @Override
+            public void tickEnd(EnumSet<TickType> type, Object... tickData) {
+                final GuiScreen current = RenderUtil.MINECRAFT.currentScreen;
+                if (current == null) {
+                    ScaledResolution scaledResolution = new ScaledResolution(RenderUtil.MINECRAFT.gameSettings, RenderUtil.MINECRAFT.displayWidth, RenderUtil.MINECRAFT.displayHeight);
+                    int width = scaledResolution.getScaledWidth();
+                    int height = scaledResolution.getScaledHeight();
 
-					// Draw Spoutcraft logo
-					GL11.glPushMatrix();
-					RenderUtil.MINECRAFT.getTextureManager().bindTexture(new ResourceLocation("spoutcraft", "textures/gui/title/spoutcraft.png"));
-					GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-					GL11.glEnable(GL11.GL_BLEND);
-					GL11.glTranslatef(width - 45, height - 13, 0.0f);
-					GL11.glScalef(0.17f, 0.17f, 1.0f);
-					GL11.glTranslatef(-width + 45, -height + 13, 0.0f);
-					RenderUtil.create2DRectangleModal(width - 45, height - 13, 256, 67, 0);
-					RenderUtil.TESSELLATOR.draw();
-					GL11.glDisable(GL11.GL_BLEND);
-					GL11.glPopMatrix();
+                    // Draw Spoutcraft logo
+                    GL11.glPushMatrix();
+                    RenderUtil.MINECRAFT.getTextureManager().bindTexture(new ResourceLocation("spoutcraft", "textures/gui/title/spoutcraft.png"));
+                    GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+                    GL11.glEnable(GL11.GL_BLEND);
+                    GL11.glTranslatef(width - 45, height - 13, 0.0f);
+                    GL11.glScalef(0.17f, 0.17f, 1.0f);
+                    GL11.glTranslatef(-width + 45, -height + 13, 0.0f);
+                    RenderUtil.create2DRectangleModal(width - 45, height - 13, 256, 67, 0);
+                    RenderUtil.TESSELLATOR.draw();
+                    GL11.glDisable(GL11.GL_BLEND);
+                    GL11.glPopMatrix();
 
-					// Draw milestone string
-					GL11.glPushMatrix();
-					GL11.glTranslatef(width - 14, height - 8, 0.0f);
-					GL11.glScalef(0.50f, 0.50f, 1.0f);
-					GL11.glTranslatef(-width + 14, -height + 8, 0.0f);
-					RenderUtil.MINECRAFT.fontRenderer.drawString("Alpha", width - 14, height - 3, 16776960);
-					GL11.glPopMatrix();
-				}
-			}
+                    // Draw milestone string
+                    GL11.glPushMatrix();
+                    GL11.glTranslatef(width - 14, height - 8, 0.0f);
+                    GL11.glScalef(0.50f, 0.50f, 1.0f);
+                    GL11.glTranslatef(-width + 14, -height + 8, 0.0f);
+                    RenderUtil.MINECRAFT.fontRenderer.drawString("Alpha", width - 14, height - 3, 16776960);
+                    GL11.glPopMatrix();
+                }
+            }
 
-			@Override
-			public EnumSet<TickType> ticks() {
-				return EnumSet.of(TickType.RENDER);
-			}
+            @Override
+            public EnumSet<TickType> ticks() {
+                return EnumSet.of(TickType.RENDER);
+            }
 
-			@Override
-			public String getLabel() {
-				return "Spoutcraft - Watermark";
-			}
-		}, Side.CLIENT);
-	}
+            @Override
+            public String getLabel() {
+                return "Spoutcraft - Watermark";
+            }
+        }, Side.CLIENT);
+    }
 
-	private void bindCodecMessages() {
-		NetworkRegistry.instance().registerConnectionHandler(new SpoutcraftConnectionHandler());
-		Protocol.register(AddPrefabMessage.class, org.spoutcraft.mod.protocol.codec.AddPrefabCodec.class);
-	}
+    private void bindCodecMessages() {
+        NetworkRegistry.instance().registerConnectionHandler(new SpoutcraftConnectionHandler());
+        Protocol.register(AddPrefabMessage.class, org.spoutcraft.mod.protocol.codec.AddPrefabCodec.class);
+    }
 
-	private class CustomTabs extends CreativeTabs {
-		public CustomTabs() {
-			super("Spoutcraft");
-			LanguageUtil.add("itemGroup.Spoutcraft", "Spoutcraft");
-		}
+    private class CustomTabs extends CreativeTabs {
+        public CustomTabs() {
+            super("Spoutcraft");
+            LanguageUtil.add("itemGroup.Spoutcraft", "Spoutcraft");
+        }
 
-		@Override
-		public ItemStack getIconItemStack() {
-			return new ItemStack((Item) Spoutcraft.getItemPrefabRegistry().find("spout_emblem"), 1, 0);
-		}
-	}
+        @Override
+        public ItemStack getIconItemStack() {
+            return new ItemStack((Item) Spoutcraft.getItemPrefabRegistry().find("spout_emblem"), 1, 0);
+        }
+    }
 
-	public static CustomTabs getCustomTabs() {
-		return customTabs;
-	}
+    public static CustomTabs getCustomTabs() {
+        return customTabs;
+    }
 }

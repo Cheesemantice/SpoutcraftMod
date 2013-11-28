@@ -27,13 +27,13 @@ package org.spoutcraft.test.addon;
 import org.spoutcraft.api.addon.Addon;
 
 public class TestAddon extends Addon {
-	@Override
-	public void onDisable() {
-		getLogger().info("Goodbye world");
-	}
+    @Override
+    public void onDisable() {
+        getLogger().info("Goodbye world");
+    }
 
-	@Override
-	public void onEnable() {
-		getLogger().info("Hello world");
-	}
+    @Override
+    public void onEnable() {
+        getLogger().info("Hello world");
+    }
 }

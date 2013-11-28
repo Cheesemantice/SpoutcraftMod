@@ -27,58 +27,69 @@ package org.spoutcraft.mod.gui.builtin;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
+import org.lwjgl.opengl.GL11;
 import org.spoutcraft.api.util.RenderUtil;
 
-import org.lwjgl.opengl.GL11;
-
 public class SpoutcraftSimpleButton extends GuiButton {
-	private int fontColor, normalFontColor, hoverFontColor, disabledFontColor, buttonWidth, buttonHeight;
-	private FontRenderer fontRenderer = RenderUtil.MINECRAFT.fontRenderer;
+    private int fontColor, normalFontColor, hoverFontColor, disabledFontColor, buttonWidth, buttonHeight;
+    private FontRenderer fontRenderer = RenderUtil.MINECRAFT.fontRenderer;
 
-	public SpoutcraftSimpleButton(int id, int x, int y, String text) {
-		super(id, x, y, text);
-	}
+    public SpoutcraftSimpleButton(int id, int x, int y, String text) {
+        super(id, x, y, text);
+        this.normalFontColor = 14737632;
+        this.hoverFontColor = 5479876;
+        this.disabledFontColor = -6250336;
+        this.buttonWidth = fontRenderer.getStringWidth(text);
+        this.buttonHeight = fontRenderer.FONT_HEIGHT;
+    }
 
-	public SpoutcraftSimpleButton(int id, int x, int y, String text, int normalFontColor, int hoverFontColor, int disabledFontColor) {
-		this(id, x, y, text);
-		this.normalFontColor = normalFontColor;
-		this.hoverFontColor = hoverFontColor;
-		this.disabledFontColor = disabledFontColor;
-	}
+    public SpoutcraftSimpleButton(int id, int x, int y, String text, int normalFontColor, int hoverFontColor, int disabledFontColor) {
+        this(id, x, y, text);
+        this.normalFontColor = normalFontColor;
+        this.hoverFontColor = hoverFontColor;
+        this.disabledFontColor = disabledFontColor;
+        this.buttonWidth = fontRenderer.getStringWidth(text);
+        this.buttonHeight = fontRenderer.FONT_HEIGHT;
+    }
 
-	public SpoutcraftSimpleButton(int id, int x, int y, int width, int height, String text) {
-		super(id, x, y, width, height, text);
-	}
+    public SpoutcraftSimpleButton(int id, int x, int y, int width, int height, String text) {
+        super(id, x, y, width, height, text);
+        this.normalFontColor = 14737632;
+        this.hoverFontColor = 5479876;
+        this.disabledFontColor = -6250336;
+        this.buttonWidth = width;
+        this.buttonHeight = height;
+    }
 
-	public SpoutcraftSimpleButton(int id, int x, int y, int width, int height, String text, int normalFontColor, int hoverFontColor, int disabledFontColor) {
-		this(id, x, y, width, height, text);
-		this.normalFontColor = normalFontColor;
-		this.hoverFontColor = hoverFontColor;
-		this.disabledFontColor = disabledFontColor;
-	}
+    public SpoutcraftSimpleButton(int id, int x, int y, int width, int height, String text, int normalFontColor, int hoverFontColor, int disabledFontColor) {
+        this(id, x, y, width, height, text);
+        this.normalFontColor = normalFontColor;
+        this.hoverFontColor = hoverFontColor;
+        this.disabledFontColor = disabledFontColor;
+        this.buttonWidth = width;
+        this.buttonHeight = height;
+    }
 
-	@Override
-	public void drawButton(Minecraft mc, int x, int y) {
-		if (this.drawButton) {
-			fontColor = normalFontColor;
-			buttonWidth = fontRenderer.getStringWidth(displayString);
-			buttonHeight = fontRenderer.FONT_HEIGHT;
-			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-			field_82253_i = x >= xPosition && y >= yPosition && x < xPosition + buttonWidth && y < yPosition + buttonHeight;
-			mouseDragged(mc, x, y);
+    @Override
+    public void drawButton(Minecraft mc, int x, int y) {
+        if (this.drawButton) {
+            fontColor = normalFontColor;
+            GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+            field_82253_i = x >= xPosition && y >= yPosition && x < xPosition + buttonWidth && y < yPosition + buttonHeight;
+            mouseDragged(mc, x, y);
 
-			if (!enabled) {
-				fontColor = disabledFontColor;
-			} else if (field_82253_i) {
-				fontColor = hoverFontColor;
-			}
+            if (!enabled) {
+                fontColor = disabledFontColor;
+            } else if (field_82253_i) {
+                fontColor = hoverFontColor;
+            }
 
-			drawCenteredString(fontRenderer, displayString, xPosition + buttonWidth / 2, yPosition + (buttonHeight - 8) / 2, fontColor);
-		}
-	}
+            drawCenteredString(fontRenderer, displayString, xPosition + buttonWidth / 2, yPosition + (buttonHeight - 8) / 2, fontColor);
+        }
+    }
 
-	@Override
-	public boolean mousePressed(Minecraft mc, int x, int y) {
-		return enabled && drawButton && x >= xPosition && y >= yPosition && x < xPosition + buttonWidth && y < yPosition + buttonHeight;
-	}
+    @Override
+    public boolean mousePressed(Minecraft mc, int x, int y) {
+        return enabled && drawButton && x >= xPosition && y >= yPosition && x < xPosition + buttonWidth && y < yPosition + buttonHeight;
+    }
 }

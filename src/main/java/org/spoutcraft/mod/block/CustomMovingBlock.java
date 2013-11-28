@@ -30,21 +30,21 @@ import org.spoutcraft.mod.SpoutcraftMod;
 import org.spoutcraft.mod.material.CustomMaterial;
 
 public class CustomMovingBlock extends BlockSand {
-	private final MovingPrefab prefab;
+    private final MovingPrefab prefab;
 
-	public CustomMovingBlock(int id, MovingPrefab prefab, CustomMaterial material) {
-		super(id, material);
-		this.prefab = prefab;
-		setUnlocalizedName(prefab.getIdentifier());
-		setTextureName("spoutcraft:" + prefab.getIdentifier());
-		setHardness(prefab.getHardness());
+    public CustomMovingBlock(int id, MovingPrefab prefab, CustomMaterial material) {
+        super(id, material);
+        this.prefab = prefab;
+        setUnlocalizedName(prefab.getIdentifier());
+        setTextureName("spoutcraft:" + prefab.getIdentifier());
+        setHardness(prefab.getHardness());
 
-		if (prefab.shouldShowInCreativeTab()) {
-			setCreativeTab(SpoutcraftMod.getCustomTabs());
-		}
-	}
+        if (prefab.shouldShowInCreativeTab()) {
+            setCreativeTab(SpoutcraftMod.getCustomTabs());
+        }
+    }
 
-	public MovingPrefab getPrefab() {
-		return prefab;
-	}
+    public MovingPrefab getPrefab() {
+        return prefab;
+    }
 }
