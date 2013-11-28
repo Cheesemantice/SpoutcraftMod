@@ -44,122 +44,122 @@ import org.spoutcraft.api.exception.InvalidAddonException;
 import org.spoutcraft.api.exception.InvalidPrefabException;
 
 public class AddonLoader {
-	private static final String ADDON_GSON = "addon.info";
-	private final Side side;
-	private final Map<String, AddonClassLoader> loaders = new HashMap<>();
+    private static final String ADDON_GSON = "addon.info";
+    private final Side side;
+    private final Map<String, AddonClassLoader> loaders = new HashMap<>();
 
-	public AddonLoader(Side side) {
-		this.side = side;
-	}
+    public AddonLoader(Side side) {
+        this.side = side;
+    }
 
-	public void enable(Addon addon) {
-		if (addon.isEnabled()) {
-			throw new IllegalStateException("Cannot enable addon <" + addon.getPrefab().getIdentifier() + ">, it has already been enabled.");
-		}
+    public void enable(Addon addon) {
+        if (addon.isEnabled()) {
+            throw new IllegalStateException("Cannot enable addon <" + addon.getPrefab().getIdentifier() + ">, it has already been enabled.");
+        }
 
-		try {
-			final String nameVersion = addon.getPrefab().getName() + " v" + addon.getPrefab().getVersion();
-			Spoutcraft.getLogger().info("Enabling <" + nameVersion + ">...");
-			addon.onEnable();
-			addon.enable();
-			Spoutcraft.getLogger().info("<" + nameVersion + "> enabled");
-		} catch (Throwable t) {
-			Spoutcraft.getLogger().log(Level.SEVERE, "Exception caught while enabling addon <" + addon.getPrefab().getIdentifier() + "> -> " + t.getMessage(), t);
-		}
+        try {
+            final String nameVersion = addon.getPrefab().getName() + " v" + addon.getPrefab().getVersion();
+            Spoutcraft.getLogger().info("Enabling <" + nameVersion + ">...");
+            addon.onEnable();
+            addon.enable();
+            Spoutcraft.getLogger().info("<" + nameVersion + "> enabled");
+        } catch (Throwable t) {
+            Spoutcraft.getLogger().log(Level.SEVERE, "Exception caught while enabling addon <" + addon.getPrefab().getIdentifier() + "> -> " + t.getMessage(), t);
+        }
 
-		loaders.put(addon.getPrefab().getName(), addon.getClassLoader());
-	}
+        loaders.put(addon.getPrefab().getName(), addon.getClassLoader());
+    }
 
-	public void disable(Addon addon) {
-		if (!addon.isEnabled()) {
-			throw new IllegalStateException("Cannot disable addon <" + addon.getPrefab().getIdentifier() + ">, it has never been enabled.");
-		}
+    public void disable(Addon addon) {
+        if (!addon.isEnabled()) {
+            throw new IllegalStateException("Cannot disable addon <" + addon.getPrefab().getIdentifier() + ">, it has never been enabled.");
+        }
 
-		try {
-			addon.disable();
-			final String nameVersion = addon.getPrefab().getName() + " v" + addon.getPrefab().getVersion();
-			Spoutcraft.getLogger().info("Disabling <" + nameVersion + ">...");
-			addon.onDisable();
-			Spoutcraft.getLogger().info("<" + nameVersion + "> disabled");
-		} catch (Throwable t) {
-			Spoutcraft.getLogger().log(Level.SEVERE, "Exception caught while disabling addon <" + addon.getPrefab().getIdentifier() + "> -> " + t.getMessage(), t);
-		}
-	}
+        try {
+            addon.disable();
+            final String nameVersion = addon.getPrefab().getName() + " v" + addon.getPrefab().getVersion();
+            Spoutcraft.getLogger().info("Disabling <" + nameVersion + ">...");
+            addon.onDisable();
+            Spoutcraft.getLogger().info("<" + nameVersion + "> disabled");
+        } catch (Throwable t) {
+            Spoutcraft.getLogger().log(Level.SEVERE, "Exception caught while disabling addon <" + addon.getPrefab().getIdentifier() + "> -> " + t.getMessage(), t);
+        }
+    }
 
-	public Addon load(Path path) throws InvalidAddonException, InvalidPrefabException {
-		final AddonPrefab prefab = create(path);
-		Addon addon = null;
-		AddonClassLoader loader;
+    public Addon load(Path path) throws InvalidAddonException, InvalidPrefabException {
+        final AddonPrefab prefab = create(path);
+        Addon addon = null;
+        AddonClassLoader loader;
 
-		if (prefab.isValidMode(side)) {
-			final Path dataPath = Paths.get(path.getParent().toString(), prefab.getIdentifier()); //TODO breakpoint this
-			try {
-				loader = new AddonClassLoader(this.getClass().getClassLoader(), this);
-				loader.addURL(path.toUri().toURL());
-				Class<?> addonMain = Class.forName(prefab.getMain(), true, loader);
-				Class<? extends Addon> addonClass = addonMain.asSubclass(Addon.class);
-				Constructor<? extends Addon> constructor = addonClass.getConstructor();
-				addon = constructor.newInstance();
-				addon.initialize(side, this, prefab, loader, dataPath, path);
-			} catch (Exception e) {
-				throw new InvalidAddonException(e);
-			}
-			loader.setAddon(addon);
-			loaders.put(prefab.getIdentifier(), loader);
-		}
-		return addon;
-	}
+        if (prefab.isValidMode(side)) {
+            final Path dataPath = Paths.get(path.getParent().toString(), prefab.getIdentifier()); //TODO breakpoint this
+            try {
+                loader = new AddonClassLoader(this.getClass().getClassLoader(), this);
+                loader.addURL(path.toUri().toURL());
+                Class<?> addonMain = Class.forName(prefab.getMain(), true, loader);
+                Class<? extends Addon> addonClass = addonMain.asSubclass(Addon.class);
+                Constructor<? extends Addon> constructor = addonClass.getConstructor();
+                addon = constructor.newInstance();
+                addon.initialize(side, this, prefab, loader, dataPath, path);
+            } catch (Exception e) {
+                throw new InvalidAddonException(e);
+            }
+            loader.setAddon(addon);
+            loaders.put(prefab.getIdentifier(), loader);
+        }
+        return addon;
+    }
 
-	protected static AddonPrefab create(Path path) throws InvalidAddonException, InvalidPrefabException {
-		if (!Files.exists(path)) {
-			throw new InvalidAddonException(path.getFileName() + " does not exist!");
-		}
+    protected static AddonPrefab create(Path path) throws InvalidAddonException, InvalidPrefabException {
+        if (!Files.exists(path)) {
+            throw new InvalidAddonException(path.getFileName() + " does not exist!");
+        }
 
-		AddonPrefab prefab;
-		JarFile jar = null;
-		try {
-			jar = new JarFile(path.toFile());
-			JarEntry entry = jar.getJarEntry(ADDON_GSON);
+        AddonPrefab prefab;
+        JarFile jar = null;
+        try {
+            jar = new JarFile(path.toFile());
+            JarEntry entry = jar.getJarEntry(ADDON_GSON);
 
-			if (entry == null) {
-				throw new InvalidPrefabException("Attempt to create an addon prefab failed because " + ADDON_GSON + " was not found in " + jar.getName());
-			}
+            if (entry == null) {
+                throw new InvalidPrefabException("Attempt to create an addon prefab failed because " + ADDON_GSON + " was not found in " + jar.getName());
+            }
 
-			final GsonBuilder builder = new GsonBuilder();
-			builder.registerTypeAdapter(AddonPrefab.class, new AddonJsonDeserializer());
-			final Gson gson = builder.create();
-			prefab = gson.fromJson(new InputStreamReader(jar.getInputStream(entry)), AddonPrefab.class);
-			if (prefab == null) {
-				throw new InvalidPrefabException("Failed to parse " + entry + " as addon prefab");
-			}
-		} catch (IOException e) {
-			throw new InvalidAddonException(e);
-		} finally {
-			if (jar != null) {
-				try {
-					jar.close();
-				} catch (IOException e) {
-					Spoutcraft.getLogger().log(Level.WARNING, "Problem closing jar input stream", e);
-				}
-			}
-		}
-		return prefab;
-	}
+            final GsonBuilder builder = new GsonBuilder();
+            builder.registerTypeAdapter(AddonPrefab.class, new AddonJsonDeserializer());
+            final Gson gson = builder.create();
+            prefab = gson.fromJson(new InputStreamReader(jar.getInputStream(entry)), AddonPrefab.class);
+            if (prefab == null) {
+                throw new InvalidPrefabException("Failed to parse " + entry + " as addon prefab");
+            }
+        } catch (IOException e) {
+            throw new InvalidAddonException(e);
+        } finally {
+            if (jar != null) {
+                try {
+                    jar.close();
+                } catch (IOException e) {
+                    Spoutcraft.getLogger().log(Level.WARNING, "Problem closing jar input stream", e);
+                }
+            }
+        }
+        return prefab;
+    }
 
-	protected Class<?> getClassByName(final String name, final AddonClassLoader commonLoader) {
-		for (String current : loaders.keySet()) {
-			AddonClassLoader loader = loaders.get(current);
-			if (loader == commonLoader) {
-				continue;
-			}
-			try {
-				Class<?> clazz = loader.findClass(name, false);
-				if (clazz != null) {
-					return clazz;
-				}
-			} catch (ClassNotFoundException ignored) {
-			}
-		}
-		return null;
-	}
+    protected Class<?> getClassByName(final String name, final AddonClassLoader commonLoader) {
+        for (String current : loaders.keySet()) {
+            AddonClassLoader loader = loaders.get(current);
+            if (loader == commonLoader) {
+                continue;
+            }
+            try {
+                Class<?> clazz = loader.findClass(name, false);
+                if (clazz != null) {
+                    return clazz;
+                }
+            } catch (ClassNotFoundException ignored) {
+            }
+        }
+        return null;
+    }
 }

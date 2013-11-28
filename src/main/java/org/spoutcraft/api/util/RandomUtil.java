@@ -27,9 +27,9 @@ package org.spoutcraft.api.util;
 import java.util.Random;
 
 public class RandomUtil {
-	private static final Random random = new Random();
+    private static final Random random = new Random();
 
-	public static int inclusive(int lowerInclusive, int higherInclusive) {
-		return random.nextInt(higherInclusive - lowerInclusive) + 1;
-	}
+    public static int inclusive(int lowerInclusive, int higherInclusive) {
+        return random.nextInt(higherInclusive - lowerInclusive) + 1;
+    }
 }

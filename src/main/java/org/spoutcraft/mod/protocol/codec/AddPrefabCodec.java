@@ -34,26 +34,26 @@ import org.spoutcraft.api.protocol.codec.Codec;
 import org.spoutcraft.mod.protocol.message.AddPrefabMessage;
 
 public class AddPrefabCodec implements Codec<AddPrefabMessage> {
-	@Override
-	public String getChannel() {
-		return "SPC-AddPrefab";
-	}
+    @Override
+    public String getChannel() {
+        return "SPC-AddPrefab";
+    }
 
-	@Override
-	public AddPrefabMessage decode(Side side, ByteBuffer buffer) throws IOException {
-		if (side.isServer()) {
-			throw new IllegalStateException("The server is not allowed to receive prefabs");
-		}
-		final byte[] data = new byte[buffer.remaining()];
-		buffer.get(data, 0, buffer.remaining());
-		return new AddPrefabMessage((Prefab) SerializationUtils.deserialize(data));
-	}
+    @Override
+    public AddPrefabMessage decode(Side side, ByteBuffer buffer) throws IOException {
+        if (side.isServer()) {
+            throw new IllegalStateException("The server is not allowed to receive prefabs");
+        }
+        final byte[] data = new byte[buffer.remaining()];
+        buffer.get(data, 0, buffer.remaining());
+        return new AddPrefabMessage((Prefab) SerializationUtils.deserialize(data));
+    }
 
-	@Override
-	public ByteBuffer encode(Side side, AddPrefabMessage message) throws IOException {
-		if (side.isClient()) {
-			throw new IllegalStateException("The client is not allowed to send prefabs");
-		}
-		return ByteBuffer.wrap(SerializationUtils.serialize(message.getPrefab()));
-	}
+    @Override
+    public ByteBuffer encode(Side side, AddPrefabMessage message) throws IOException {
+        if (side.isClient()) {
+            throw new IllegalStateException("The client is not allowed to send prefabs");
+        }
+        return ByteBuffer.wrap(SerializationUtils.serialize(message.getPrefab()));
+    }
 }

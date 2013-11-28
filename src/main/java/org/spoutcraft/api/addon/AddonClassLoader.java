@@ -34,81 +34,81 @@ import java.util.Map;
 import java.util.Set;
 
 public class AddonClassLoader extends URLClassLoader {
-	private Addon addon;
-	private final AddonLoader loader;
-	private final Map<String, Class<?>> namesByClasses = new HashMap<>();
-	private static final Map<String, Addon> CLASSES_IN_ADDONS = new HashMap<>();
-	private static final Set<AddonClassLoader> LOADERS = new HashSet<>();
+    private Addon addon;
+    private final AddonLoader loader;
+    private final Map<String, Class<?>> namesByClasses = new HashMap<>();
+    private static final Map<String, Addon> CLASSES_IN_ADDONS = new HashMap<>();
+    private static final Set<AddonClassLoader> LOADERS = new HashSet<>();
 
-	public AddonClassLoader(ClassLoader forge, AddonLoader loader) {
-		super(new URL[0], forge);
-		this.loader = loader;
-	}
+    public AddonClassLoader(ClassLoader forge, AddonLoader loader) {
+        super(new URL[0], forge);
+        this.loader = loader;
+    }
 
-	@Override
-	protected void addURL(URL url) {
-		super.addURL(url);
-	}
+    @Override
+    protected void addURL(URL url) {
+        super.addURL(url);
+    }
 
-	protected void setAddon(Addon addon) {
-		if (this.addon != null) {
-			throw new IllegalStateException("Cannot set an addon of an addon class loader twice!");
-		}
-		if (addon == null) {
-			throw new IllegalStateException("Attempt to set addon of classloader to nulL!");
-		}
-		this.addon = addon;
-		CLASSES_IN_ADDONS.put(addon.getClass().getName(), addon);
-	}
+    protected void setAddon(Addon addon) {
+        if (this.addon != null) {
+            throw new IllegalStateException("Cannot set an addon of an addon class loader twice!");
+        }
+        if (addon == null) {
+            throw new IllegalStateException("Attempt to set addon of classloader to nulL!");
+        }
+        this.addon = addon;
+        CLASSES_IN_ADDONS.put(addon.getClass().getName(), addon);
+    }
 
-	@Override
-	protected Class<?> findClass(String name) throws ClassNotFoundException {
-		return findClass(name, true);
-	}
+    @Override
+    protected Class<?> findClass(String name) throws ClassNotFoundException {
+        return findClass(name, true);
+    }
 
-	protected Class<?> findClass(String name, boolean checkOtherAddons) throws ClassNotFoundException {
-		Class<?> result = namesByClasses.get(name);
+    protected Class<?> findClass(String name, boolean checkOtherAddons) throws ClassNotFoundException {
+        Class<?> result = namesByClasses.get(name);
 
-		if (result == null) {
-			try {
-				result = super.findClass(name);
-			} catch (ClassNotFoundException ignored) {
-			}
+        if (result == null) {
+            try {
+                result = super.findClass(name);
+            } catch (ClassNotFoundException ignored) {
+            }
 
-			if (result == null && checkOtherAddons) {
-				result = loader.getClassByName(name, this);
-			}
+            if (result == null && checkOtherAddons) {
+                result = loader.getClassByName(name, this);
+            }
 
-			if (result != null) {
-				namesByClasses.put(name, result);
-				CLASSES_IN_ADDONS.put(name, addon);
-			} else {
-				throw new ClassNotFoundException(name);
-			}
-		}
+            if (result != null) {
+                namesByClasses.put(name, result);
+                CLASSES_IN_ADDONS.put(name, addon);
+            } else {
+                throw new ClassNotFoundException(name);
+            }
+        }
 
-		return result;
-	}
+        return result;
+    }
 
-	public Set<String> getClassNames() {
-		return Collections.unmodifiableSet(namesByClasses.keySet());
-	}
+    public Set<String> getClassNames() {
+        return Collections.unmodifiableSet(namesByClasses.keySet());
+    }
 
-	public Collection<Class<?>> getClasses() {
-		return Collections.unmodifiableCollection(namesByClasses.values());
-	}
+    public Collection<Class<?>> getClasses() {
+        return Collections.unmodifiableCollection(namesByClasses.values());
+    }
 
-	public static Addon getAddon(String className) {
-		return CLASSES_IN_ADDONS.get(className);
-	}
+    public static Addon getAddon(String className) {
+        return CLASSES_IN_ADDONS.get(className);
+    }
 
-	public static Class<?> findAddonClass(String name) throws ClassNotFoundException {
-		for (AddonClassLoader loader : LOADERS) {
-			Class<?> clazz = loader.findClass(name);
-			if (clazz != null) {
-				return clazz;
-			}
-		}
-		throw new ClassNotFoundException("Class " + name + " was unable to be found");
-	}
+    public static Class<?> findAddonClass(String name) throws ClassNotFoundException {
+        for (AddonClassLoader loader : LOADERS) {
+            Class<?> clazz = loader.findClass(name);
+            if (clazz != null) {
+                return clazz;
+            }
+        }
+        throw new ClassNotFoundException("Class " + name + " was unable to be found");
+    }
 }

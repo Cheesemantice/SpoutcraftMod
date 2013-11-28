@@ -35,78 +35,78 @@ import cpw.mods.fml.relauncher.Side;
 import org.spoutcraft.api.Prefab;
 
 public class AddonPrefab extends Prefab {
-	private String name;
-	private String version;
-	private AddonMode mode;
-	private String mainClassName;
+    private String name;
+    private String version;
+    private AddonMode mode;
+    private String mainClassName;
 
-	public AddonPrefab(String identifier, String name, String version, AddonMode mode, String mainClassName) {
-		super(identifier);
-		this.name = name;
-		this.version = version;
-		this.mode = mode;
-		this.mainClassName = mainClassName;
-	}
+    public AddonPrefab(String identifier, String name, String version, AddonMode mode, String mainClassName) {
+        super(identifier);
+        this.name = name;
+        this.version = version;
+        this.mode = mode;
+        this.mainClassName = mainClassName;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public String getVersion() {
-		return version;
-	}
+    public String getVersion() {
+        return version;
+    }
 
-	public String getMain() {
-		return mainClassName;
-	}
+    public String getMain() {
+        return mainClassName;
+    }
 
-	@Override
-	public String toString() {
-		final String NEW_LINE = System.getProperty("line.separator");
-		final String parent = super.toString();
-		final StringBuilder builder = new StringBuilder(parent.substring(0, parent.length() - 1));
-		builder
-				.append(" Name: " + name + NEW_LINE)
-				.append(" Version: " + version + NEW_LINE)
-				.append("}");
-		return builder.toString();
-	}
+    @Override
+    public String toString() {
+        final String NEW_LINE = System.getProperty("line.separator");
+        final String parent = super.toString();
+        final StringBuilder builder = new StringBuilder(parent.substring(0, parent.length() - 1));
+        builder
+                .append(" Name: " + name + NEW_LINE)
+                .append(" Version: " + version + NEW_LINE)
+                .append("}");
+        return builder.toString();
+    }
 
-	public boolean isValidMode(Side side) {
-		switch (mode) {
-			case CLIENT:
-				if (side.isClient()) {
-					return true;
-				}
-				break;
-			case SERVER:
-				if (side.isServer()) {
-					return true;
-				}
-				break;
-			case BOTH:
-				return true;
-		}
+    public boolean isValidMode(Side side) {
+        switch (mode) {
+            case CLIENT:
+                if (side.isClient()) {
+                    return true;
+                }
+                break;
+            case SERVER:
+                if (side.isServer()) {
+                    return true;
+                }
+                break;
+            case BOTH:
+                return true;
+        }
 
-		return false;
-	}
+        return false;
+    }
 }
 
 final class AddonJsonDeserializer implements JsonDeserializer<AddonPrefab> {
-	@Override
-	public AddonPrefab deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-		JsonObject jsonObject = json.getAsJsonObject();
-		final String identifier = jsonObject.get("identifier").getAsString();
-		final String name = jsonObject.get("name").getAsString();
-		final String version = jsonObject.get("version").getAsString();
-		final String main = jsonObject.get("main").getAsString();
-		final String modeRaw = jsonObject.get("mode").getAsString();
-		AddonMode mode;
-		try {
-			mode = AddonMode.valueOf(modeRaw);
-		} catch (Exception e) {
-			throw new JsonParseException(modeRaw + " is not a valid addon mode [CLIENT, SERVER, BOTH]");
-		}
-		return new AddonPrefab(identifier, name, version, mode, main);
-	}
+    @Override
+    public AddonPrefab deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+        JsonObject jsonObject = json.getAsJsonObject();
+        final String identifier = jsonObject.get("identifier").getAsString();
+        final String name = jsonObject.get("name").getAsString();
+        final String version = jsonObject.get("version").getAsString();
+        final String main = jsonObject.get("main").getAsString();
+        final String modeRaw = jsonObject.get("mode").getAsString();
+        AddonMode mode;
+        try {
+            mode = AddonMode.valueOf(modeRaw);
+        } catch (Exception e) {
+            throw new JsonParseException(modeRaw + " is not a valid addon mode [CLIENT, SERVER, BOTH]");
+        }
+        return new AddonPrefab(identifier, name, version, mode, main);
+    }
 }

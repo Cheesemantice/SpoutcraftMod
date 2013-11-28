@@ -27,17 +27,17 @@ package org.spoutcraft.api.util;
 import java.util.Calendar;
 
 public class TimeUtil {
-	public static String getTime() {
-		int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+    public static String getTime() {
+        int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
 
-		if (hour < 6) {
-			return "morning";
-		} else if (hour < 12) {
-			return "day";
-		} else if (hour < 20) {
-			return "evening";
-		} else {
-			return "night";
-		}
-	}
+        if (hour < 6) {
+            return "morning";
+        } else if (hour < 12) {
+            return "day";
+        } else if (hour < 20) {
+            return "evening";
+        } else {
+            return "night";
+        }
+    }
 }

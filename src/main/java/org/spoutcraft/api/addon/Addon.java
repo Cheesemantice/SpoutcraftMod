@@ -34,69 +34,69 @@ import cpw.mods.fml.relauncher.Side;
  * The power of addons lie in the ability to use Spoutcraft API and Forge without needing to make a new Mod.
  */
 public abstract class Addon {
-	protected Side side;
-	protected AddonLoader loader;
-	protected AddonPrefab prefab;
-	protected AddonClassLoader classLoader;
-	protected AddonLogger logger;
-	protected Path dataPath, root;
-	protected boolean enabled = false;
+    protected Side side;
+    protected AddonLoader loader;
+    protected AddonPrefab prefab;
+    protected AddonClassLoader classLoader;
+    protected AddonLogger logger;
+    protected Path dataPath, root;
+    protected boolean enabled = false;
 
-	public void onEnable() {
+    public void onEnable() {
 
-	}
+    }
 
-	public void onDisable() {
+    public void onDisable() {
 
-	}
+    }
 
-	protected void enable() {
-		this.enabled = true;
-	}
+    protected void enable() {
+        this.enabled = true;
+    }
 
-	protected void disable() {
-		this.enabled = false;
-	}
+    protected void disable() {
+        this.enabled = false;
+    }
 
-	protected void initialize(Side side, AddonLoader loader, AddonPrefab prefab, AddonClassLoader classLoader, Path dataPath, Path root) {
-		this.side = side;
-		this.loader = loader;
-		this.prefab = prefab;
-		this.classLoader = classLoader;
-		this.logger = new AddonLogger(this);
-		this.dataPath = dataPath;
-		this.root = root;
-	}
+    protected void initialize(Side side, AddonLoader loader, AddonPrefab prefab, AddonClassLoader classLoader, Path dataPath, Path root) {
+        this.side = side;
+        this.loader = loader;
+        this.prefab = prefab;
+        this.classLoader = classLoader;
+        this.logger = new AddonLogger(this);
+        this.dataPath = dataPath;
+        this.root = root;
+    }
 
-	public Side getSide() {
-		return side;
-	}
+    public Side getSide() {
+        return side;
+    }
 
-	public boolean isEnabled() {
-		return enabled;
-	}
+    public boolean isEnabled() {
+        return enabled;
+    }
 
-	public AddonPrefab getPrefab() {
-		return prefab;
-	}
+    public AddonPrefab getPrefab() {
+        return prefab;
+    }
 
-	public AddonLoader getLoader() {
-		return loader;
-	}
+    public AddonLoader getLoader() {
+        return loader;
+    }
 
-	public AddonClassLoader getClassLoader() {
-		return classLoader;
-	}
+    public AddonClassLoader getClassLoader() {
+        return classLoader;
+    }
 
-	public AddonLogger getLogger() {
-		return logger;
-	}
+    public AddonLogger getLogger() {
+        return logger;
+    }
 
-	public Path getDataPath() {
-		return dataPath;
-	}
+    public Path getDataPath() {
+        return dataPath;
+    }
 
-	public Path getPath() {
-		return root;
-	}
+    public Path getPath() {
+        return root;
+    }
 }

@@ -28,12 +28,12 @@ import cpw.mods.fml.relauncher.Side;
 import org.spoutcraft.api.Spoutcraft;
 
 public final class SpoutcraftAddon extends Addon {
-	public SpoutcraftAddon(Side side) {
-		this.side = side;
-		root = null;
-		dataPath = null;
-		prefab = new AddonPrefab("spoutcraft", "Spoutcraft", Spoutcraft.VERSION, AddonMode.BOTH, null);
-		logger = new AddonLogger(this);
-		enable();
-	}
+    public SpoutcraftAddon(Side side) {
+        this.side = side;
+        root = null;
+        dataPath = null;
+        prefab = new AddonPrefab("spoutcraft", "Spoutcraft", Spoutcraft.VERSION, AddonMode.BOTH, null);
+        logger = new AddonLogger(this);
+        enable();
+    }
 }

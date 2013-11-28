@@ -34,48 +34,48 @@ import java.io.Serializable;
  * Prefabs are sent over the wire and constructed into real Minecraft classes.
  */
 public abstract class Prefab implements Serializable {
-	private static final long serialVersionUID = 1L;
-	private final String identifier;
+    private static final long serialVersionUID = 1L;
+    private final String identifier;
 
-	public Prefab(String identifier) {
-		this.identifier = identifier;
-	}
+    public Prefab(String identifier) {
+        this.identifier = identifier;
+    }
 
-	public String getIdentifier() {
-		return identifier;
-	}
+    public String getIdentifier() {
+        return identifier;
+    }
 
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) {
-			return true;
-		}
-		if (!(o instanceof Prefab)) {
-			return false;
-		}
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Prefab)) {
+            return false;
+        }
 
-		final Prefab prefab = (Prefab) o;
+        final Prefab prefab = (Prefab) o;
 
-		if (!identifier.equals(prefab.identifier)) {
-			return false;
-		}
+        if (!identifier.equals(prefab.identifier)) {
+            return false;
+        }
 
-		return true;
-	}
+        return true;
+    }
 
-	@Override
-	public int hashCode() {
-		return identifier.hashCode();
-	}
+    @Override
+    public int hashCode() {
+        return identifier.hashCode();
+    }
 
-	@Override
-	public String toString() {
-		final String NEW_LINE = System.getProperty("line.separator");
-		final StringBuilder builder = new StringBuilder();
-		builder
-				.append(getClass().getName() + " {" + NEW_LINE)
-				.append(" Identifier: " + getIdentifier() + NEW_LINE)
-				.append("}");
-		return builder.toString();
-	}
+    @Override
+    public String toString() {
+        final String NEW_LINE = System.getProperty("line.separator");
+        final StringBuilder builder = new StringBuilder();
+        builder
+                .append(getClass().getName() + " {" + NEW_LINE)
+                .append(" Identifier: " + getIdentifier() + NEW_LINE)
+                .append("}");
+        return builder.toString();
+    }
 }
