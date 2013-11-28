@@ -58,6 +58,7 @@ import org.spoutcraft.api.material.MaterialPrefab;
 import org.spoutcraft.api.protocol.Protocol;
 import org.spoutcraft.api.util.LanguageUtil;
 import org.spoutcraft.api.util.RenderUtil;
+import org.spoutcraft.api.util.TextureUtil;
 import org.spoutcraft.mod.addon.ClientAddonManager;
 import org.spoutcraft.mod.addon.ServerAddonManager;
 import org.spoutcraft.mod.block.BlockPrefabRegistry;
@@ -87,8 +88,8 @@ public class SpoutcraftMod {
         Display.setTitle("Spoutcraft");
 
         // Set the icon
-        final ByteBuffer windowIcon = RenderUtil.createImageBufferFrom(new ResourceLocation("spoutcraft", "textures/window_icon.png"), true);
-        final ByteBuffer taskbarIcon = RenderUtil.createImageBufferFrom(new ResourceLocation("spoutcraft", "textures/taskbar_icon.png"), true);
+        final ByteBuffer windowIcon = TextureUtil.createImageBufferFrom(new ResourceLocation("spoutcraft", "textures/window_icon.png"), true);
+        final ByteBuffer taskbarIcon = TextureUtil.createImageBufferFrom(new ResourceLocation("spoutcraft", "textures/taskbar_icon.png"), true);
         if (windowIcon != null && taskbarIcon != null) {
             Display.setIcon(new ByteBuffer[] {windowIcon, taskbarIcon});
         }
