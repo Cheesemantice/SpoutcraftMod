@@ -26,13 +26,27 @@ package org.spoutcraft.mod.gui.builtin;
 
 import net.minecraft.client.gui.Gui;
 import net.minecraft.util.ResourceLocation;
-import org.lwjgl.opengl.GL11;
+//import org.lwjgl.opengl.GL11;
 import org.spoutcraft.api.util.RandomUtil;
 import org.spoutcraft.api.util.RenderUtil;
 import org.spoutcraft.api.util.TimeUtil;
+import org.spoutcraft.api.util.TextureUtil;
+import java.nio.ByteBuffer;
+import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL12.*;
 
 public class SpoutcraftBackground extends Gui {
     private static ResourceLocation location = selectBackground();
+    private static final int BLUR_TEX = glGenTextures();
+
+    static {
+        TextureUtil.bind(BLUR_TEX);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, 420, 256, 0, GL_RGBA, GL_UNSIGNED_BYTE, (ByteBuffer)null);
+        TextureUtil.setMinFilter(GL_LINEAR);
+        TextureUtil.setMagFilter(GL_LINEAR);
+        TextureUtil.setWrapS(GL_CLAMP_TO_EDGE);
+        TextureUtil.setWrapT(GL_CLAMP_TO_EDGE);
+    }
 
     private static ResourceLocation selectBackground() {
         switch (TimeUtil.getTime()) {
@@ -48,13 +62,54 @@ public class SpoutcraftBackground extends Gui {
     }
 
     public void drawBackground(int x, int y, int width, int height, boolean overlay) {
-        RenderUtil.MINECRAFT.getTextureManager().bindTexture(location);
-        GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-        RenderUtil.create2DRectangleModal(x, y, width, height, 0);
-        RenderUtil.TESSELLATOR.draw();
+        //RenderUtil.MINECRAFT.getTextureManager().bindTexture(location);
+        //glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+        //RenderUtil.create2DRectangleModal(x, y, width, height, 0);
+        //RenderUtil.TESSELLATOR.draw();
+        drawBackgroundBlur(x, y, width, height);
 
         if (overlay) {
             drawGradientRect(0, 0, width, height, Integer.MAX_VALUE, 0);
         }
+    }
+
+    //Applies blur effects and whatnot
+    private void drawBackgroundBlur(int x, int y, int width, int height) {
+        RenderUtil.MINECRAFT.getTextureManager().bindTexture(location);
+        TextureUtil.setMinFilter(GL_LINEAR);
+        glColor3f(1, 1, 1);
+
+        //Setup projection matrix to custom
+        glMatrixMode(GL_PROJECTION);
+        glPushMatrix();
+        glLoadIdentity();
+        glOrtho(0, 420, 256, 0, -1, 1);
+        glMatrixMode(GL_MODELVIEW);
+        glPushMatrix();
+        glLoadIdentity();
+
+        //Setup viewport for blurring
+        glViewport(0, 0, 420, 256);
+        RenderUtil.drawTexture(0, 0, 420, 256);
+        TextureUtil.bind(BLUR_TEX);
+        glEnable(GL_BLEND);
+        glColorMask(true, true, true, false);
+        for(int i = 0; i < 8; i++) {
+            glCopyTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, 0, 0, 420, 256);
+            for(int j = -1; j <= 1; j++) {
+                glColor4f(1, 1, 1, (1 / (float)(j + 2)));
+                float texOff = (j / 420F);
+                RenderUtil.drawTexture(0, 0, 420, 256, texOff, 0, 1 + texOff, 1);
+            }
+        }
+        glColorMask(true, true, true, true);
+        glDisable(GL_BLEND);
+
+        glMatrixMode(GL_PROJECTION);
+        glPopMatrix();
+        glMatrixMode(GL_MODELVIEW);
+        glPopMatrix();
+        glViewport(0, 0, RenderUtil.MINECRAFT.displayWidth, RenderUtil.MINECRAFT.displayHeight);
+        RenderUtil.drawTexture(x, y, width, height);
     }
 }
