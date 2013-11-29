@@ -183,6 +183,16 @@ public class RenderUtil {
         //Data is already in the buffer, don't need to flip or anything
         glUnmapBuffer(GL_ARRAY_BUFFER);
 
+        glPushAttrib(GL_COLOR_BUFFER_BIT);
+        glEnable(GL_BLEND);
+
+        //MC sets this to flat,
+        //and if it's flat we get no gradient
+        glShadeModel(GL_SMOOTH);
+        //MC generally expects GL_TEXTURE_2D to be enabled
+        //We will disable it until we're done drawing
+        glDisable(GL_TEXTURE_2D);
+
         //glBindBuffer(GL_ARRAY_BUFFER, VERT_BUFF);
         glEnableClientState(GL_VERTEX_ARRAY);
         glEnableClientState(GL_COLOR_ARRAY);
@@ -191,19 +201,14 @@ public class RenderUtil {
         glColorPointer(4, GL_FLOAT, GRADIENT_STRIDE, GRADIENT_COLOR_OFF);
 
         //Actually draw the stuff!
-
-        //MC uses a flat shade model, we have to switch it
-        glShadeModel(GL_SMOOTH);
-
-        //MC generally expects GL_TEXTURE_2D to be enabled
-        //We will disable it until we're done drawing
-        glDisable(GL_TEXTURE_2D);
         glDrawArrays(GL_QUADS, 0, 4);
-        glEnable(GL_TEXTURE_2D);
-        glShadeModel(GL_FLAT);
 
         glDisableClientState(GL_VERTEX_ARRAY);
         glDisableClientState(GL_COLOR_ARRAY);
+
+        glEnable(GL_TEXTURE_2D);
+        glShadeModel(GL_FLAT);
+        glPopAttrib();
         //Unbind the buffer or OpenGL yells at us later
         glBindBuffer(GL_ARRAY_BUFFER, 0);
     }
