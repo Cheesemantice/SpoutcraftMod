@@ -48,7 +48,7 @@ public class SpoutcraftMainMenu extends GuiScreen {
 
     public SpoutcraftMainMenu() {
         try {
-            ubuntu = new CustomFont(Font.createFont(Font.TRUETYPE_FONT, SpoutcraftMod.class.getResourceAsStream("/assets/spoutcraft/fonts/ubuntu-regular.ttf")));
+            ubuntu = new CustomFont(Font.createFont(Font.TRUETYPE_FONT, SpoutcraftMod.class.getResourceAsStream("/assets/spoutcraft/fonts/ubuntu-regular.ttf")).deriveFont(36f));
         } catch (Exception e) {
             throw new RuntimeException("Could not load font", e);
         }
@@ -133,9 +133,10 @@ public class SpoutcraftMainMenu extends GuiScreen {
         GL11.glPopMatrix();
 
         // Draw the Copyright string
-        ubuntu.setSize(12);
+        GL11.glEnable(GL11.GL_BLEND);
+        ubuntu.setScale(0.25f);
         ubuntu.drawString("Copyright Mojang AB. Do not distribute!", 20, height - 50);
-
+        GL11.glDisable(GL11.GL_BLEND);
         super.drawScreen(par1, par2, par3);
     }
 
