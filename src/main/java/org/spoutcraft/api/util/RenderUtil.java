@@ -80,12 +80,28 @@ public class RenderUtil {
         TESSELLATOR.addVertexWithUV(x + 0, y + 0, zLevel, 0, 0);
     }
 
+    /**
+     * Draws a textured rectangle on the screen, stretching the
+     * current texture to fill the rectangle.
+     * @param x1 X coordinate of top left corner
+     * @param y1 Y coordinate of top left corner
+     * @param width Width of rectangle to draw
+     * @param height Height of rectangle to draw
+     */
     public static void drawTexture(float x, float y, float width, float height) {
         drawTexture(x, y, width, height, 0, 0, 1, 1);
     }
 
     /**
-     * Draws a texture on the screen
+     * Draws a textured rectangle on the screen
+     * @param x1 X coordinate of top left corner
+     * @param y1 Y coordinate of top left corner
+     * @param width Width of rectangle to draw
+     * @param height Height of rectangle to draw
+     * @param u1 U texture coordinate of top left corner
+     * @param v1 V texture coordinate of top left corner
+     * @param u2 U texture coordinate of bottom right corner
+     * @param v2 V texture coordinate of bottom right corner
      */
     public static void drawTexture(float x1, float y1, float width, float height, float u1, float v1, float u2, float v2) {
         float x2 = x1 + width, y2 = y1 + height;
@@ -218,6 +234,14 @@ public class RenderUtil {
         drawGradient(x, y, width, height, top, bottom, DIR_UPDOWN);
     }
 
+    /**
+     * Draws a colored rectangle on the screen
+     * @param x1 X coordinate of top left corner
+     * @param y1 Y coordinate of top left corner
+     * @param width Width of rectangle
+     * @param height Height of rectangle
+     * @param color Color of rectangle
+     */
     public static void drawRect(float x1, float y1, float width, float height, Color color) {
         float x2 = x1 + width, y2 = y1 + height;
         float r = color.getRF(), g = color.getGF(), b = color.getBF(), a = color.getAF();
