@@ -39,8 +39,6 @@ import org.spoutcraft.api.util.TextureUtil;
 public class CustomFont {
     public final int fontHeight;
     private final int fontTexture;
-    private final int texHeight;
-    private final int texWidth;
     private final int[] fontWidth;
     private final float[] fontWidthF;
     private float scale = 1F;
@@ -64,13 +62,10 @@ public class CustomFont {
             fontWidth[i] = (int) Math.ceil(bounds.getWidth());
             maxWidth = Math.max(maxWidth, fontWidth[i]);
             maxHeight = Math.max(maxHeight, (int) Math.ceil(bounds.getHeight()));
-            System.out.println(((char) i) + ": " + bounds);
         }
         fontHeight = maxHeight;
         int imgWidth = maxWidth * 16;
         int imgHeight = maxHeight * 16;
-        texWidth = imgWidth;
-        texHeight = imgHeight;
         for (int i = 0; i < 256; i++) {
             fontWidthF[i] = fontWidth[i] / (float) imgWidth;
         }

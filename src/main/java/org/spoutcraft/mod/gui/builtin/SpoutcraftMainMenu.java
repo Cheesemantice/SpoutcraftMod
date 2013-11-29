@@ -24,6 +24,10 @@
  */
 package org.spoutcraft.mod.gui.builtin;
 
+import java.awt.Font;
+import java.awt.FontFormatException;
+import java.io.IOException;
+
 import cpw.mods.fml.client.GuiModList;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiMultiplayer;
@@ -34,10 +38,21 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 import org.spoutcraft.api.util.RenderUtil;
+import org.spoutcraft.mod.SpoutcraftMod;
+import org.spoutcraft.mod.resource.CustomFont;
 
 public class SpoutcraftMainMenu extends GuiScreen {
     private static ResourceLocation spoutcraftLogo = new ResourceLocation("spoutcraft", "textures/gui/title/spoutcraft.png");
     private SpoutcraftBackground background = new SpoutcraftBackground();
+    private final CustomFont ubuntu;
+
+    public SpoutcraftMainMenu() {
+        try {
+            ubuntu = new CustomFont(Font.createFont(Font.TRUETYPE_FONT, SpoutcraftMod.class.getResourceAsStream("/assets/spoutcraft/fonts/ubuntu-regular.ttf")));
+        } catch (Exception e) {
+            throw new RuntimeException("Could not load font", e);
+        }
+    }
 
     public void initGui() {
         addButtons();
@@ -118,12 +133,8 @@ public class SpoutcraftMainMenu extends GuiScreen {
         GL11.glPopMatrix();
 
         // Draw the Copyright string
-        GL11.glPushMatrix();
-        GL11.glTranslatef(2f, height - 8f, 0.0f);
-        GL11.glScalef(0.85f, 0.85f, 1.0f);
-        GL11.glTranslatef(-2f, -(height - 8f), 0.0f);
-        drawString(RenderUtil.MINECRAFT.fontRenderer, "Copyright Mojang AB. Do not distribute!", 2, height - 8, 14737632);
-        GL11.glPopMatrix();
+        ubuntu.setSize(12);
+        ubuntu.drawString("Copyright Mojang AB. Do not distribute!", 20, height - 50);
 
         super.drawScreen(par1, par2, par3);
     }
