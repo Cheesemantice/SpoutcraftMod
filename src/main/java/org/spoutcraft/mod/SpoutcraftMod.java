@@ -26,7 +26,6 @@ package org.spoutcraft.mod;
 
 import java.nio.ByteBuffer;
 import java.util.EnumSet;
-import java.util.logging.Level;
 
 import cpw.mods.fml.common.ITickHandler;
 import cpw.mods.fml.common.Mod;
@@ -34,7 +33,6 @@ import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.TickType;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
-import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.TickRegistry;
@@ -45,17 +43,18 @@ import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.server.integrated.IntegratedServer;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 import org.spoutcraft.api.LinkedPrefabRegistry;
 import org.spoutcraft.api.Spoutcraft;
+import org.spoutcraft.api.addon.AddonManager;
 import org.spoutcraft.api.block.MovingPrefab;
 import org.spoutcraft.api.logger.SpoutcraftLogger;
 import org.spoutcraft.api.material.MapIndex;
 import org.spoutcraft.api.material.MaterialPrefab;
 import org.spoutcraft.api.protocol.Protocol;
+import org.spoutcraft.api.resource.FileSystem;
 import org.spoutcraft.api.util.LanguageUtil;
 import org.spoutcraft.api.util.RenderUtil;
 import org.spoutcraft.api.util.TextureUtil;
@@ -84,37 +83,49 @@ public class SpoutcraftMod {
     @EventHandler
     @SuppressWarnings ("unchecked")
     public void onInitialize(FMLInitializationEvent event) {
-        // Set the frame title
-        Display.setTitle("Spoutcraft");
-
-        // Set the icon
-        final ByteBuffer windowIcon = TextureUtil.createImageBufferFrom(new ResourceLocation("spoutcraft", "textures/window_icon.png"), true);
-        final ByteBuffer taskbarIcon = TextureUtil.createImageBufferFrom(new ResourceLocation("spoutcraft", "textures/taskbar_icon.png"), true);
-        if (windowIcon != null && taskbarIcon != null) {
-            Display.setIcon(new ByteBuffer[] {windowIcon, taskbarIcon});
-        }
-
         // Setup logger
         Spoutcraft.setLogger(new SpoutcraftLogger());
 
         // Setup protocol
         bindCodecMessages();
 
+        final FileSystem fileSystem;
+        final AddonManager manager;
+
+        switch (event.getSide()) {
+            case CLIENT:
+                // Set the title
+                Display.setTitle("Spoutcraft");
+
+                // Set the icons
+                final ByteBuffer windowIcon = TextureUtil.createImageBufferFrom(new ResourceLocation("spoutcraft", "textures/window_icon.png"), true);
+                final ByteBuffer taskbarIcon = TextureUtil.createImageBufferFrom(new ResourceLocation("spoutcraft", "textures/taskbar_icon.png"), true);
+                if (windowIcon != null && taskbarIcon != null) {
+                    Display.setIcon(new ByteBuffer[] {windowIcon, taskbarIcon});
+                }
+
+                fileSystem = Spoutcraft.setFileSystem(new ClientFileSystem());
+                manager = Spoutcraft.setAddonManager(new ClientAddonManager());
+
+                registerHandlers();
+                break;
+            case SERVER:
+                fileSystem = Spoutcraft.setFileSystem(new ServerFileSystem());
+                manager = Spoutcraft.setAddonManager(new ServerAddonManager());
+                break;
+            default:
+                throw new RuntimeException("Spoutcraft is being ran on an invalid side!");
+        }
+
         // Setup file system
-        final ClientFileSystem fileSystem = (ClientFileSystem) Spoutcraft.setFileSystem(new ClientFileSystem());
         try {
             fileSystem.init();
         } catch (Exception e) {
-            Spoutcraft.getLogger().log(Level.SEVERE, "Exception caught on initializing file system", e);
+            throw new RuntimeException("Could not initialize FileSystem", e);
         }
 
-        // Setup addon manager
-        final ClientAddonManager manager = (ClientAddonManager) Spoutcraft.setAddonManager(new ClientAddonManager());
-        try {
-            manager.loadAddons(ClientFileSystem.ADDONS_DIR);
-        } catch (Exception e) {
-            Spoutcraft.getLogger().log(Level.SEVERE, "Exception caught on loading an addon", e);
-        }
+        //Setup addon manager
+        manager.loadAddons(ServerFileSystem.ADDONS_DIR);
 
         manager.enable();
 
@@ -126,8 +137,7 @@ public class SpoutcraftMod {
         // Setup creative tab
         customTabs = new CustomTabs();
 
-        registerHandlers();
-
+        //Special
         Spoutcraft.getItemPrefabRegistry().put(new SpoutcraftEmblem());
         Spoutcraft.getItemPrefabRegistry().put(new VanillaEmblem());
 
@@ -153,41 +163,6 @@ public class SpoutcraftMod {
         registry.put(new MovingPrefab("8w", "8 (White)", new MaterialPrefab("testmaterial", MapIndex.DIRT), 0.5f, true));
         registry.put(new MovingPrefab("9b", "9 (Black)", new MaterialPrefab("testmaterial", MapIndex.DIRT), 0.5f, true));
         registry.put(new MovingPrefab("9w", "9 (White)", new MaterialPrefab("testmaterial", MapIndex.DIRT), 0.5f, true));
-    }
-
-    @EventHandler
-    @SuppressWarnings ("unchecked")
-    public void onServerStarting(FMLServerStartingEvent event) {
-        if (!(event.getServer() instanceof IntegratedServer)) {
-            // Set logger
-            Spoutcraft.setLogger(new SpoutcraftLogger());
-
-            // Setup protocol
-            bindCodecMessages();
-
-            // Setup file system
-            final ServerFileSystem fileSystem = (ServerFileSystem) Spoutcraft.setFileSystem(new ServerFileSystem());
-            try {
-                fileSystem.init();
-            } catch (Exception e) {
-                Spoutcraft.getLogger().log(Level.SEVERE, "Exception caught on initializing file system", e);
-            }
-
-            // Setup registries
-            Spoutcraft.setBlockRegistry(new BlockPrefabRegistry());
-            Spoutcraft.setItemPrefabRegistry(new ItemPrefabRegistry());
-            Spoutcraft.setMaterialRegistry(new MaterialPrefabRegistry());
-
-            // Setup addon manager
-            final ServerAddonManager manager = (ServerAddonManager) Spoutcraft.setAddonManager(new ServerAddonManager());
-            try {
-                manager.loadAddons(ClientFileSystem.ADDONS_DIR);
-            } catch (Exception e) {
-                Spoutcraft.getLogger().log(Level.SEVERE, "Exception caught on enabling an addon (Is it up to date lol?)", e);
-            }
-
-            manager.enable();
-        }
     }
 
     private void registerHandlers() {

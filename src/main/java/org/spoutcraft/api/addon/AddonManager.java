@@ -24,7 +24,6 @@
  */
 package org.spoutcraft.api.addon;
 
-import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Collection;
 
@@ -38,7 +37,7 @@ public interface AddonManager {
 
     public Addon loadAddon(Path path) throws InvalidAddonException, InvalidPrefabException;
 
-    public Collection<Addon> loadAddons(Path path) throws IOException;
+    public Collection<Addon> loadAddons(Path path);
 
     public void enable(Addon addon);
 

@@ -41,6 +41,7 @@ public class ServerFileSystem implements FileSystem {
     public static final Path MODS_DIR = Paths.get(BASE_DIR.toString(), "mods");
     public static final Path ADDONS_DIR = Paths.get(MODS_DIR.toString(), "spoutcraft" + File.separator + "addons");
 
+    @Override
     public void init() throws IOException {
         if (!Files.exists(ADDONS_DIR)) {
             Files.createDirectories(ADDONS_DIR);

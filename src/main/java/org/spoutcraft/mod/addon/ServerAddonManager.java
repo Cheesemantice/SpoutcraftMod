@@ -43,12 +43,17 @@ import org.spoutcraft.api.exception.InvalidAddonException;
 import org.spoutcraft.api.exception.InvalidPrefabException;
 
 public class ServerAddonManager implements AddonManager {
-    private final AddonLoader loader;
+    protected final AddonLoader loader;
+    protected final Addon internal;
     private final Collection<Addon> addons = new ArrayList<>();
-    private final SpoutcraftAddon spoutcraftAddon = new SpoutcraftAddon(Side.SERVER);
+
+    protected ServerAddonManager(AddonLoader loader, Addon internal) {
+        this.loader = loader;
+        this.internal = internal;
+    }
 
     public ServerAddonManager() {
-        this.loader = new AddonLoader(Side.SERVER);
+        this(new AddonLoader(Side.SERVER), new SpoutcraftAddon(Side.SERVER));
     }
 
     @Override
@@ -78,25 +83,31 @@ public class ServerAddonManager implements AddonManager {
     }
 
     @Override
-    public Collection<Addon> loadAddons(Path path) throws IOException {
+    public Collection<Addon> loadAddons(Path path) {
         if (!Files.isDirectory(path)) {
             throw new IllegalArgumentException("Path " + path + " is not a directory!");
         }
 
-        //Internal addon
-        addons.add(spoutcraftAddon);
+        addons.add(internal);
 
-        for (Path jar : Files.newDirectoryStream(path, new DirectoryStream.Filter<Path>() {
-            @Override
-            public boolean accept(Path entry) {
-                return !Files.isDirectory(entry) && entry.endsWith(".jar");
-            }
-        })) {
+        final DirectoryStream<Path> stream;
+        try {
+            stream = Files.newDirectoryStream(path, new DirectoryStream.Filter<Path>() {
+                @Override
+                public boolean accept(Path entry) {
+                    return !Files.isDirectory(entry) && entry.endsWith(".jar");
+                }
+            });
+        } catch (IOException e) {
+            throw new RuntimeException("IO error occurred while traversing addons dir", e);
+        }
+
+        for (Path jar : stream) {
             Addon addon = null;
             try {
                 addon = loadAddon(jar);
             } catch (Exception e) {
-                Spoutcraft.getLogger().log(Level.SEVERE, "Unable to load <" + jar.getFileName() + "> in directory <" + path + "> -> " + e.getMessage(), e);
+                Spoutcraft.getLogger().log(Level.SEVERE, "Unable to load [" + jar.getFileName() + "] in directory [" + path + "] -> " + e.getMessage(), e);
             }
             if (addon != null) {
                 addons.add(addon);
@@ -111,7 +122,7 @@ public class ServerAddonManager implements AddonManager {
             try {
                 addon.getLoader().enable(addon);
             } catch (Exception e) {
-                Spoutcraft.getLogger().log(Level.SEVERE, "An error occurred while enabling <" + addon.getPrefab().getIdentifier() + "> -> " + e.getMessage(), e);
+                Spoutcraft.getLogger().log(Level.SEVERE, "An error occurred while enabling [" + addon.getPrefab().getIdentifier() + "] -> " + e.getMessage(), e);
             }
         }
     }
@@ -129,7 +140,7 @@ public class ServerAddonManager implements AddonManager {
             try {
                 addon.getLoader().disable(addon);
             } catch (Exception e) {
-                Spoutcraft.getLogger().log(Level.SEVERE, "An error occurred while disabling <" + addon.getPrefab().getIdentifier() + "> -> " + e.getMessage(), e);
+                Spoutcraft.getLogger().log(Level.SEVERE, "An error occurred while disabling [" + addon.getPrefab().getIdentifier() + "] -> " + e.getMessage(), e);
             }
         }
     }

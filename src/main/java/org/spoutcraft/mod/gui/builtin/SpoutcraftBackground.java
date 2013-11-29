@@ -24,16 +24,40 @@
  */
 package org.spoutcraft.mod.gui.builtin;
 
+import java.nio.ByteBuffer;
+
 import net.minecraft.client.gui.Gui;
 import net.minecraft.util.ResourceLocation;
-//import org.lwjgl.opengl.GL11;
 import org.spoutcraft.api.util.RandomUtil;
 import org.spoutcraft.api.util.RenderUtil;
-import org.spoutcraft.api.util.TimeUtil;
 import org.spoutcraft.api.util.TextureUtil;
-import java.nio.ByteBuffer;
-import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.opengl.GL12.*;
+import org.spoutcraft.api.util.TimeUtil;
+
+import static org.lwjgl.opengl.GL11.GL_BLEND;
+import static org.lwjgl.opengl.GL11.GL_LINEAR;
+import static org.lwjgl.opengl.GL11.GL_MODELVIEW;
+import static org.lwjgl.opengl.GL11.GL_PROJECTION;
+import static org.lwjgl.opengl.GL11.GL_RGBA;
+import static org.lwjgl.opengl.GL11.GL_RGBA8;
+import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
+import static org.lwjgl.opengl.GL11.GL_UNSIGNED_BYTE;
+import static org.lwjgl.opengl.GL11.glColor3f;
+import static org.lwjgl.opengl.GL11.glColor4f;
+import static org.lwjgl.opengl.GL11.glColorMask;
+import static org.lwjgl.opengl.GL11.glCopyTexSubImage2D;
+import static org.lwjgl.opengl.GL11.glDisable;
+import static org.lwjgl.opengl.GL11.glEnable;
+import static org.lwjgl.opengl.GL11.glGenTextures;
+import static org.lwjgl.opengl.GL11.glLoadIdentity;
+import static org.lwjgl.opengl.GL11.glMatrixMode;
+import static org.lwjgl.opengl.GL11.glOrtho;
+import static org.lwjgl.opengl.GL11.glPopMatrix;
+import static org.lwjgl.opengl.GL11.glPushMatrix;
+import static org.lwjgl.opengl.GL11.glTexImage2D;
+import static org.lwjgl.opengl.GL11.glViewport;
+import static org.lwjgl.opengl.GL12.GL_CLAMP_TO_EDGE;
+
+//import org.lwjgl.opengl.GL11;
 
 public class SpoutcraftBackground extends Gui {
     private static ResourceLocation location = selectBackground();
@@ -41,7 +65,7 @@ public class SpoutcraftBackground extends Gui {
 
     static {
         TextureUtil.bind(BLUR_TEX);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, 420, 256, 0, GL_RGBA, GL_UNSIGNED_BYTE, (ByteBuffer)null);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, 420, 256, 0, GL_RGBA, GL_UNSIGNED_BYTE, (ByteBuffer) null);
         TextureUtil.setMinFilter(GL_LINEAR);
         TextureUtil.setMagFilter(GL_LINEAR);
         TextureUtil.setWrapS(GL_CLAMP_TO_EDGE);
@@ -94,10 +118,10 @@ public class SpoutcraftBackground extends Gui {
         TextureUtil.bind(BLUR_TEX);
         glEnable(GL_BLEND);
         glColorMask(true, true, true, false);
-        for(int i = 0; i < 8; i++) {
+        for (int i = 0; i < 8; i++) {
             glCopyTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, 0, 0, 420, 256);
-            for(int j = -1; j <= 1; j++) {
-                glColor4f(1, 1, 1, (1 / (float)(j + 2)));
+            for (int j = -1; j <= 1; j++) {
+                glColor4f(1, 1, 1, (1 / (float) (j + 2)));
                 float texOff = (j / 420F);
                 RenderUtil.drawTexture(0, 0, 420, 256, texOff, 0, 1 + texOff, 1);
             }

@@ -25,7 +25,6 @@
 package org.spoutcraft.api.util;
 
 public class Color {
-
     public static final Color WHITE = new Color(0xFFFFFF);
     public static final Color BLACK = new Color(0x000000);
     public static final Color RED = new Color(0xFF0000);
@@ -38,7 +37,6 @@ public class Color {
     public static final Color GRAY = new Color(0x888888);
     public static final Color LIGHT_GRAY = new Color(0xCCCCCC);
     public static final Color TRANSPARENT = new Color(0x000000, 0x00);
-
     private final int r, g, b, a;
 
     public Color(int r, int g, int b, int a) {
@@ -53,7 +51,7 @@ public class Color {
     }
 
     public Color(float r, float g, float b, float a) {
-        this((int)(r * 255), (int)(g * 255), (int)(b * 255), (int)(a * 255));
+        this((int) (r * 255), (int) (g * 255), (int) (b * 255), (int) (a * 255));
     }
 
     public Color(float r, float g, float b) {
@@ -114,17 +112,17 @@ public class Color {
 
     public float[] getRGBAF() {
         return new float[] {
-            r / 255F,
-            g / 255F,
-            b / 255F,
-            a / 255F
+                r / 255F,
+                g / 255F,
+                b / 255F,
+                a / 255F
         };
     }
 
     @Override
     public boolean equals(Object obj) {
-        if(obj instanceof Color) {
-            Color otherColor = (Color)obj;
+        if (obj instanceof Color) {
+            Color otherColor = (Color) obj;
             return r == otherColor.r && g == otherColor.g && b == otherColor.b && a == otherColor.a;
         } else {
             return false;

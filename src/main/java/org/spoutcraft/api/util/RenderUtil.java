@@ -24,34 +24,53 @@
  */
 package org.spoutcraft.api.util;
 
-import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import javax.imageio.ImageIO;
 
 import cpw.mods.fml.client.FMLClientHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.util.ResourceLocation;
 
-import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.opengl.GL15.*;
+import static org.lwjgl.opengl.GL11.GL_BLEND;
+import static org.lwjgl.opengl.GL11.GL_COLOR_ARRAY;
+import static org.lwjgl.opengl.GL11.GL_COLOR_BUFFER_BIT;
+import static org.lwjgl.opengl.GL11.GL_FLAT;
+import static org.lwjgl.opengl.GL11.GL_FLOAT;
+import static org.lwjgl.opengl.GL11.GL_QUADS;
+import static org.lwjgl.opengl.GL11.GL_SMOOTH;
+import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
+import static org.lwjgl.opengl.GL11.GL_TEXTURE_COORD_ARRAY;
+import static org.lwjgl.opengl.GL11.GL_VERTEX_ARRAY;
+import static org.lwjgl.opengl.GL11.glColor4f;
+import static org.lwjgl.opengl.GL11.glColorPointer;
+import static org.lwjgl.opengl.GL11.glDisable;
+import static org.lwjgl.opengl.GL11.glDisableClientState;
+import static org.lwjgl.opengl.GL11.glDrawArrays;
+import static org.lwjgl.opengl.GL11.glEnable;
+import static org.lwjgl.opengl.GL11.glEnableClientState;
+import static org.lwjgl.opengl.GL11.glPopAttrib;
+import static org.lwjgl.opengl.GL11.glPushAttrib;
+import static org.lwjgl.opengl.GL11.glShadeModel;
+import static org.lwjgl.opengl.GL11.glTexCoordPointer;
+import static org.lwjgl.opengl.GL11.glVertexPointer;
+import static org.lwjgl.opengl.GL15.GL_ARRAY_BUFFER;
+import static org.lwjgl.opengl.GL15.GL_STREAM_DRAW;
+import static org.lwjgl.opengl.GL15.GL_WRITE_ONLY;
+import static org.lwjgl.opengl.GL15.glBindBuffer;
+import static org.lwjgl.opengl.GL15.glBufferData;
+import static org.lwjgl.opengl.GL15.glGenBuffers;
+import static org.lwjgl.opengl.GL15.glMapBuffer;
+import static org.lwjgl.opengl.GL15.glUnmapBuffer;
 
 public class RenderUtil {
     public static final Tessellator TESSELLATOR = Tessellator.instance;
     public static final Minecraft MINECRAFT = FMLClientHandler.instance().getClient();
-
     public static final int DIR_LEFTRIGHT = 0;
     public static final int DIR_UPDOWN = 1;
     public static final int DIR_RIGHTLEFT = 2;
     public static final int DIR_DOWNUP = 3;
-
     //We'll use VBOS! We can use this for all rendering ops
     private static final int VERT_BUFF = glGenBuffers();
-
     //=====Gradient buffer constants=====
     //Stride is (x,y,r,g,b,a) * 4 bytes per float
     private static final int GRADIENT_STRIDE = (2 + 4) * 4;
@@ -59,14 +78,12 @@ public class RenderUtil {
     private static final int GRADIENT_SIZE = GRADIENT_STRIDE * 4;
     private static final int GRADIENT_VERT_OFF = 0;
     private static final int GRADIENT_COLOR_OFF = 2 * 4;
-
     //=====drawTexture buffer constants=====
     //(x,y,u,v) * 4 bytes per float
     private static final int TEX_STRIDE = (2 + 2) * 4;
     private static final int TEX_SIZE = TEX_STRIDE * 4;
     private static final int TEX_VERT_OFF = 0;
     private static final int TEX_UV_OFF = 2 * 4;
-
     //=====drawRect buffer constants=====
     //(x,y) * 4 bytes per float
     private static final int RECT_STRIDE = 2 * 4;
@@ -81,8 +98,8 @@ public class RenderUtil {
     }
 
     /**
-     * Draws a textured rectangle on the screen, stretching the
-     * current texture to fill the rectangle.
+     * Draws a textured rectangle on the screen, stretching the current texture to fill the rectangle.
+     *
      * @param x1 X coordinate of top left corner
      * @param y1 Y coordinate of top left corner
      * @param width Width of rectangle to draw
@@ -94,6 +111,7 @@ public class RenderUtil {
 
     /**
      * Draws a textured rectangle on the screen
+     *
      * @param x1 X coordinate of top left corner
      * @param y1 Y coordinate of top left corner
      * @param width Width of rectangle to draw
@@ -109,10 +127,10 @@ public class RenderUtil {
         glBufferData(GL_ARRAY_BUFFER, TEX_SIZE, GL_STREAM_DRAW);
         FloatBuffer data = glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY, TEX_SIZE, null).asFloatBuffer();
         data.put(new float[] {
-            x1, y1, u1, v1,
-            x1, y2, u1, v2,
-            x2, y2, u2, v2,
-            x2, y1, u2, v1
+                x1, y1, u1, v1,
+                x1, y2, u1, v2,
+                x2, y2, u2, v2,
+                x2, y1, u2, v1
         });
         glUnmapBuffer(GL_ARRAY_BUFFER);
 
@@ -130,6 +148,7 @@ public class RenderUtil {
 
     /**
      * Draws a gradient on the screen
+     *
      * @param x1 X coordinate of top left corner
      * @param y1 Y coordinate of top left corner
      * @param width Width of gradient
@@ -139,7 +158,7 @@ public class RenderUtil {
      * @param direction Direction of gradient, either DIR_LEFTRIGHT, DIR_UPDOWN, DIR_RIGHTLEFT, or DIR_DOWNUP
      */
     public static void drawGradient(float x1, float y1, float width, float height, Color c1, Color c2, int direction) {
-        if(direction == DIR_RIGHTLEFT || direction == DIR_DOWNUP) {
+        if (direction == DIR_RIGHTLEFT || direction == DIR_DOWNUP) {
             Color tmpCol = c1;
             c1 = c2;
             c2 = tmpCol;
@@ -147,7 +166,6 @@ public class RenderUtil {
         float x2 = x1 + width, y2 = y1 + height;
         float r1 = c1.getRF(), g1 = c1.getGF(), b1 = c1.getBF(), a1 = c1.getAF();
         float r2 = c2.getRF(), g2 = c2.getGF(), b2 = c2.getBF(), a2 = c2.getAF();
-
 
         glBindBuffer(GL_ARRAY_BUFFER, VERT_BUFF);
         //Orphan previous buffer, allocate new one
@@ -160,23 +178,23 @@ public class RenderUtil {
         //by mapping it into ram.
         ByteBuffer buff = glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY, GRADIENT_SIZE, null);
         FloatBuffer data = buff.asFloatBuffer();
-        switch(direction) {
+        switch (direction) {
             case DIR_RIGHTLEFT:
             case DIR_LEFTRIGHT:
                 data.put(new float[] {
-                    x1, y1, r1, g1, b1, a1,
-                    x1, y2, r1, g1, b1, a1,
-                    x2, y2, r2, g2, b2, a2,
-                    x2, y1, r2, g2, b2, a2
+                        x1, y1, r1, g1, b1, a1,
+                        x1, y2, r1, g1, b1, a1,
+                        x2, y2, r2, g2, b2, a2,
+                        x2, y1, r2, g2, b2, a2
                 });
                 break;
             case DIR_DOWNUP:
             case DIR_UPDOWN:
                 data.put(new float[] {
-                    x1, y1, r1, g1, b1, a1,
-                    x1, y2, r2, g2, b2, a2,
-                    x2, y2, r2, g2, b2, a2,
-                    x2, y1, r1, g1, b1, a1
+                        x1, y1, r1, g1, b1, a1,
+                        x1, y2, r2, g2, b2, a2,
+                        x2, y2, r2, g2, b2, a2,
+                        x2, y1, r1, g1, b1, a1
                 });
                 break;
         }
@@ -215,6 +233,7 @@ public class RenderUtil {
 
     /**
      * Draws a horizontal gradient on the screen
+     *
      * @param x X coordinate of top left corner
      * @param y Y coordinate of top left corner
      * @param width Width of gradient
@@ -228,6 +247,7 @@ public class RenderUtil {
 
     /**
      * Draws a vertical gradient on the screen
+     *
      * @param x X coordinate of top left corner
      * @param y Y coordinate of top left corner
      * @param width Width of gradient
@@ -241,6 +261,7 @@ public class RenderUtil {
 
     /**
      * Draws a colored rectangle on the screen
+     *
      * @param x1 X coordinate of top left corner
      * @param y1 Y coordinate of top left corner
      * @param width Width of rectangle
@@ -255,10 +276,10 @@ public class RenderUtil {
         glBufferData(GL_ARRAY_BUFFER, RECT_SIZE, GL_STREAM_DRAW);
         FloatBuffer data = glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY, GRADIENT_SIZE, null).asFloatBuffer();
         data.put(new float[] {
-            x1, y1,
-            x1, y2,
-            x2, y2,
-            x2, y1
+                x1, y1,
+                x1, y2,
+                x2, y2,
+                x2, y1
         });
         glUnmapBuffer(GL_ARRAY_BUFFER);
 

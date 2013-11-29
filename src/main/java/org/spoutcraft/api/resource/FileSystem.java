@@ -24,6 +24,7 @@
  */
 package org.spoutcraft.api.resource;
 
+import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Collection;
 import java.util.Map;
@@ -31,6 +32,8 @@ import java.util.Map;
 import org.spoutcraft.api.addon.Addon;
 
 public interface FileSystem {
+    public void init() throws IOException;
+
     public void send(Class<? extends Addon> clazz, Path path);
 
     public void send(Class<? extends Addon> clazz, String uri);
