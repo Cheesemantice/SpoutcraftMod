@@ -49,8 +49,10 @@ public class RenderUtil {
     public static final int DIR_RIGHTLEFT = 2;
     public static final int DIR_DOWNUP = 3;
 
-    //We'll use VBOS!
-    private static final int GRADIENT_BUFF = glGenBuffers();
+    //We'll use VBOS! We can use this for all rendering ops
+    private static final int VERT_BUFF = glGenBuffers();
+
+    //=====Gradient buffer constants=====
     //Stride is (x,y,r,g,b,a) * 4 bytes per float
     private static final int GRADIENT_STRIDE = (2 + 4) * 4;
     //4 vertices in the buffer
@@ -58,12 +60,72 @@ public class RenderUtil {
     private static final int GRADIENT_VERT_OFF = 0;
     private static final int GRADIENT_COLOR_OFF = 2 * 4;
 
+    //=====drawTexture buffer constants=====
+    //(x,y,u,v) * 4 bytes per float
+    private static final int TEX_STRIDE = (2 + 2) * 4;
+    private static final int TEX_SIZE = TEX_STRIDE * 4;
+    private static final int TEX_VERT_OFF = 0;
+    private static final int TEX_UV_OFF = 2 * 4;
+
+    //=====drawRect buffer constants=====
+    //(x,y) * 4 bytes per float
+    private static final int RECT_STRIDE = 2 * 4;
+    private static final int RECT_SIZE = RECT_STRIDE * 4;
+
     public static void create2DRectangleModal(double x, double y, double width, double height, double zLevel) {
         TESSELLATOR.startDrawingQuads();
         TESSELLATOR.addVertexWithUV(x + 0, y + height, zLevel, 0, 1);
         TESSELLATOR.addVertexWithUV(x + width, y + height, zLevel, 1, 1);
         TESSELLATOR.addVertexWithUV(x + width, y + 0, zLevel, 1, 0);
         TESSELLATOR.addVertexWithUV(x + 0, y + 0, zLevel, 0, 0);
+    }
+
+    /**
+     * Draws a textured rectangle on the screen, stretching the
+     * current texture to fill the rectangle.
+     * @param x1 X coordinate of top left corner
+     * @param y1 Y coordinate of top left corner
+     * @param width Width of rectangle to draw
+     * @param height Height of rectangle to draw
+     */
+    public static void drawTexture(float x, float y, float width, float height) {
+        drawTexture(x, y, width, height, 0, 0, 1, 1);
+    }
+
+    /**
+     * Draws a textured rectangle on the screen
+     * @param x1 X coordinate of top left corner
+     * @param y1 Y coordinate of top left corner
+     * @param width Width of rectangle to draw
+     * @param height Height of rectangle to draw
+     * @param u1 U texture coordinate of top left corner
+     * @param v1 V texture coordinate of top left corner
+     * @param u2 U texture coordinate of bottom right corner
+     * @param v2 V texture coordinate of bottom right corner
+     */
+    public static void drawTexture(float x1, float y1, float width, float height, float u1, float v1, float u2, float v2) {
+        float x2 = x1 + width, y2 = y1 + height;
+        glBindBuffer(GL_ARRAY_BUFFER, VERT_BUFF);
+        glBufferData(GL_ARRAY_BUFFER, TEX_SIZE, GL_STREAM_DRAW);
+        FloatBuffer data = glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY, TEX_SIZE, null).asFloatBuffer();
+        data.put(new float[] {
+            x1, y1, u1, v1,
+            x1, y2, u1, v2,
+            x2, y2, u2, v2,
+            x2, y1, u2, v1
+        });
+        glUnmapBuffer(GL_ARRAY_BUFFER);
+
+        glEnableClientState(GL_VERTEX_ARRAY);
+        glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+        glVertexPointer(2, GL_FLOAT, TEX_STRIDE, TEX_VERT_OFF);
+        glTexCoordPointer(2, GL_FLOAT, TEX_STRIDE, TEX_UV_OFF);
+
+        glDrawArrays(GL_QUADS, 0, 4);
+
+        glDisableClientState(GL_VERTEX_ARRAY);
+        glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
     }
 
     /**
@@ -87,7 +149,7 @@ public class RenderUtil {
         float r2 = c2.getRF(), g2 = c2.getGF(), b2 = c2.getBF(), a2 = c2.getAF();
 
 
-        glBindBuffer(GL_ARRAY_BUFFER, GRADIENT_BUFF);
+        glBindBuffer(GL_ARRAY_BUFFER, VERT_BUFF);
         //Orphan previous buffer, allocate new one
         //See the buffer re-specification section on
         //http://www.opengl.org/wiki/Buffer_Object_Streaming
@@ -121,7 +183,17 @@ public class RenderUtil {
         //Data is already in the buffer, don't need to flip or anything
         glUnmapBuffer(GL_ARRAY_BUFFER);
 
-        //glBindBuffer(GL_ARRAY_BUFFER, GRADIENT_BUFF);
+        glPushAttrib(GL_COLOR_BUFFER_BIT);
+        glEnable(GL_BLEND);
+
+        //MC sets this to flat,
+        //and if it's flat we get no gradient
+        glShadeModel(GL_SMOOTH);
+        //MC generally expects GL_TEXTURE_2D to be enabled
+        //We will disable it until we're done drawing
+        glDisable(GL_TEXTURE_2D);
+
+        //glBindBuffer(GL_ARRAY_BUFFER, VERT_BUFF);
         glEnableClientState(GL_VERTEX_ARRAY);
         glEnableClientState(GL_COLOR_ARRAY);
 
@@ -129,19 +201,14 @@ public class RenderUtil {
         glColorPointer(4, GL_FLOAT, GRADIENT_STRIDE, GRADIENT_COLOR_OFF);
 
         //Actually draw the stuff!
-
-        //MC uses a flat shade model, we have to switch it
-        glShadeModel(GL_SMOOTH);
-
-        //MC generally expects GL_TEXTURE_2D to be enabled
-        //We will disable it until we're done drawing
-        glDisable(GL_TEXTURE_2D);
         glDrawArrays(GL_QUADS, 0, 4);
-        glEnable(GL_TEXTURE_2D);
-        glShadeModel(GL_FLAT);
 
         glDisableClientState(GL_VERTEX_ARRAY);
         glDisableClientState(GL_COLOR_ARRAY);
+
+        glEnable(GL_TEXTURE_2D);
+        glShadeModel(GL_FLAT);
+        glPopAttrib();
         //Unbind the buffer or OpenGL yells at us later
         glBindBuffer(GL_ARRAY_BUFFER, 0);
     }
@@ -172,4 +239,44 @@ public class RenderUtil {
         drawGradient(x, y, width, height, top, bottom, DIR_UPDOWN);
     }
 
+    /**
+     * Draws a colored rectangle on the screen
+     * @param x1 X coordinate of top left corner
+     * @param y1 Y coordinate of top left corner
+     * @param width Width of rectangle
+     * @param height Height of rectangle
+     * @param color Color of rectangle
+     */
+    public static void drawRect(float x1, float y1, float width, float height, Color color) {
+        float x2 = x1 + width, y2 = y1 + height;
+        float r = color.getRF(), g = color.getGF(), b = color.getBF(), a = color.getAF();
+
+        glBindBuffer(GL_ARRAY_BUFFER, VERT_BUFF);
+        glBufferData(GL_ARRAY_BUFFER, RECT_SIZE, GL_STREAM_DRAW);
+        FloatBuffer data = glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY, GRADIENT_SIZE, null).asFloatBuffer();
+        data.put(new float[] {
+            x1, y1,
+            x1, y2,
+            x2, y2,
+            x2, y1
+        });
+        glUnmapBuffer(GL_ARRAY_BUFFER);
+
+        glPushAttrib(GL_COLOR_BUFFER_BIT);
+        glDisable(GL_TEXTURE_2D);
+        glEnable(GL_BLEND);
+
+        //Since it's a solid color, we can use glColor4f
+        //instead of putting the data in with the vertices
+        glColor4f(r, g, b, a);
+
+        glEnableClientState(GL_VERTEX_ARRAY);
+        glVertexPointer(2, GL_FLOAT, RECT_STRIDE, 0);
+        glDrawArrays(GL_QUADS, 0, 4);
+        glDisableClientState(GL_VERTEX_ARRAY);
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+        glEnable(GL_TEXTURE_2D);
+        glPopAttrib();
+    }
 }
