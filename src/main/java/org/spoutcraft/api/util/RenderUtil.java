@@ -31,36 +31,8 @@ import cpw.mods.fml.client.FMLClientHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.Tessellator;
 
-import static org.lwjgl.opengl.GL11.GL_BLEND;
-import static org.lwjgl.opengl.GL11.GL_COLOR_ARRAY;
-import static org.lwjgl.opengl.GL11.GL_COLOR_BUFFER_BIT;
-import static org.lwjgl.opengl.GL11.GL_FLAT;
-import static org.lwjgl.opengl.GL11.GL_FLOAT;
-import static org.lwjgl.opengl.GL11.GL_QUADS;
-import static org.lwjgl.opengl.GL11.GL_SMOOTH;
-import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
-import static org.lwjgl.opengl.GL11.GL_TEXTURE_COORD_ARRAY;
-import static org.lwjgl.opengl.GL11.GL_VERTEX_ARRAY;
-import static org.lwjgl.opengl.GL11.glColor4f;
-import static org.lwjgl.opengl.GL11.glColorPointer;
-import static org.lwjgl.opengl.GL11.glDisable;
-import static org.lwjgl.opengl.GL11.glDisableClientState;
-import static org.lwjgl.opengl.GL11.glDrawArrays;
-import static org.lwjgl.opengl.GL11.glEnable;
-import static org.lwjgl.opengl.GL11.glEnableClientState;
-import static org.lwjgl.opengl.GL11.glPopAttrib;
-import static org.lwjgl.opengl.GL11.glPushAttrib;
-import static org.lwjgl.opengl.GL11.glShadeModel;
-import static org.lwjgl.opengl.GL11.glTexCoordPointer;
-import static org.lwjgl.opengl.GL11.glVertexPointer;
-import static org.lwjgl.opengl.GL15.GL_ARRAY_BUFFER;
-import static org.lwjgl.opengl.GL15.GL_STREAM_DRAW;
-import static org.lwjgl.opengl.GL15.GL_WRITE_ONLY;
-import static org.lwjgl.opengl.GL15.glBindBuffer;
-import static org.lwjgl.opengl.GL15.glBufferData;
-import static org.lwjgl.opengl.GL15.glGenBuffers;
-import static org.lwjgl.opengl.GL15.glMapBuffer;
-import static org.lwjgl.opengl.GL15.glUnmapBuffer;
+import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL15.*;
 
 public class RenderUtil {
     public static final Tessellator TESSELLATOR = Tessellator.instance;
@@ -201,15 +173,14 @@ public class RenderUtil {
         //Data is already in the buffer, don't need to flip or anything
         glUnmapBuffer(GL_ARRAY_BUFFER);
 
-        glPushAttrib(GL_COLOR_BUFFER_BIT);
+        //Save flags/shade model
+        glPushAttrib(GL_ENABLE_BIT | GL_LIGHTING_BIT);
         glEnable(GL_BLEND);
-
+        glDisable(GL_ALPHA_TEST);
+        glDisable(GL_TEXTURE_2D);
         //MC sets this to flat,
         //and if it's flat we get no gradient
         glShadeModel(GL_SMOOTH);
-        //MC generally expects GL_TEXTURE_2D to be enabled
-        //We will disable it until we're done drawing
-        glDisable(GL_TEXTURE_2D);
 
         //glBindBuffer(GL_ARRAY_BUFFER, VERT_BUFF);
         glEnableClientState(GL_VERTEX_ARRAY);
@@ -224,8 +195,6 @@ public class RenderUtil {
         glDisableClientState(GL_VERTEX_ARRAY);
         glDisableClientState(GL_COLOR_ARRAY);
 
-        glEnable(GL_TEXTURE_2D);
-        glShadeModel(GL_FLAT);
         glPopAttrib();
         //Unbind the buffer or OpenGL yells at us later
         glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -283,8 +252,10 @@ public class RenderUtil {
         });
         glUnmapBuffer(GL_ARRAY_BUFFER);
 
-        glPushAttrib(GL_COLOR_BUFFER_BIT);
+        //GL_CURRENT_BIT saves current color4f
+        glPushAttrib(GL_ENABLE_BIT | GL_CURRENT_BIT);
         glDisable(GL_TEXTURE_2D);
+        glDisable(GL_ALPHA_TEST);
         glEnable(GL_BLEND);
 
         //Since it's a solid color, we can use glColor4f

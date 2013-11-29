@@ -57,8 +57,6 @@ import static org.lwjgl.opengl.GL11.glTexImage2D;
 import static org.lwjgl.opengl.GL11.glViewport;
 import static org.lwjgl.opengl.GL12.GL_CLAMP_TO_EDGE;
 
-//import org.lwjgl.opengl.GL11;
-
 public class SpoutcraftBackground extends Gui {
     private static ResourceLocation location = selectBackground();
     private static final int BLUR_TEX = glGenTextures();
@@ -99,6 +97,32 @@ public class SpoutcraftBackground extends Gui {
 
     //Applies blur effects and whatnot
     private void drawBackgroundBlur(int x, int y, int width, int height) {
+        int dispWidth = RenderUtil.MINECRAFT.displayWidth;
+        int dispHeight = RenderUtil.MINECRAFT.displayHeight;
+        int viewWidth, viewHeight;
+        if(dispWidth >= 420 && dispHeight >= 256) {
+            //Screen is large enough for us to just
+            //use the texture's size
+            viewWidth = 420;
+            viewHeight = 256;
+        } else {
+            if(dispWidth / (float)dispHeight > 420 / 256F)  {
+                //Screen skewed on x axis
+                viewWidth = (int)(dispHeight / 256F * 420F);
+                viewHeight = dispHeight;
+            } else {
+                //Screen skewed on y axis
+                viewWidth = dispWidth;
+                viewHeight = (int)(dispWidth / 420F * 256F);
+            }
+        }
+
+        //The buffer texture doesn't change size
+        //so we have to calculate what the boundaries are
+        //for the texture coordinates
+        float mU = viewWidth / 420F;
+        float mV = viewHeight / 256F;
+
         RenderUtil.MINECRAFT.getTextureManager().bindTexture(location);
         TextureUtil.setMinFilter(GL_LINEAR);
         glColor3f(1, 1, 1);
@@ -113,17 +137,17 @@ public class SpoutcraftBackground extends Gui {
         glLoadIdentity();
 
         //Setup viewport for blurring
-        glViewport(0, 0, 420, 256);
+        glViewport(0, 0, viewWidth, viewHeight);
         RenderUtil.drawTexture(0, 0, 420, 256);
         TextureUtil.bind(BLUR_TEX);
         glEnable(GL_BLEND);
         glColorMask(true, true, true, false);
-        for (int i = 0; i < 8; i++) {
-            glCopyTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, 0, 0, 420, 256);
-            for (int j = -1; j <= 1; j++) {
-                glColor4f(1, 1, 1, (1 / (float) (j + 2)));
-                float texOff = (j / 420F);
-                RenderUtil.drawTexture(0, 0, 420, 256, texOff, 0, 1 + texOff, 1);
+        for(int i = 0; i < 8; i++) {
+            glCopyTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, 0, 0, viewWidth, viewHeight);
+            for(int j = -1; j <= 1; j++) {
+                glColor4f(1, 1, 1, (1 / (float)(j + 2)));
+                float texOff = (j / (float)viewWidth);
+                RenderUtil.drawTexture(0, 0, 420, 256, texOff, 0, mU + texOff, mV);
             }
         }
         glColorMask(true, true, true, true);
@@ -133,7 +157,7 @@ public class SpoutcraftBackground extends Gui {
         glPopMatrix();
         glMatrixMode(GL_MODELVIEW);
         glPopMatrix();
-        glViewport(0, 0, RenderUtil.MINECRAFT.displayWidth, RenderUtil.MINECRAFT.displayHeight);
-        RenderUtil.drawTexture(x, y, width, height);
+        glViewport(0, 0, dispWidth, dispHeight);
+        RenderUtil.drawTexture(x, y, width, height, 0, 0, mU, mV);
     }
 }

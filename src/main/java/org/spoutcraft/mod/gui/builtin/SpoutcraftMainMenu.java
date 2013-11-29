@@ -40,6 +40,7 @@ import org.lwjgl.opengl.GL11;
 import org.spoutcraft.api.util.RenderUtil;
 import org.spoutcraft.mod.SpoutcraftMod;
 import org.spoutcraft.mod.resource.CustomFont;
+import org.spoutcraft.api.util.Color;
 
 public class SpoutcraftMainMenu extends GuiScreen {
     private static ResourceLocation spoutcraftLogo = new ResourceLocation("spoutcraft", "textures/gui/title/spoutcraft.png");
@@ -112,7 +113,25 @@ public class SpoutcraftMainMenu extends GuiScreen {
     @Override
     public void drawScreen(int par1, int par2, float par3) {
         // Draw the background with overlay
-        background.drawBackground(0, 0, width, height, true);
+        float imgAspectRatio = 420 / 240F;
+        float currentAspectRatio = width / (float)height;
+        if(currentAspectRatio > imgAspectRatio) {
+            //Skewed on x axis, expand on y axis to fix
+            //420 / 240 = width / newHeight
+            int newHeight = 240 * width / 420;
+            int newY = height / 2 - newHeight / 2;
+            background.drawBackground(0, newY, width, newHeight, false);
+        } else if(currentAspectRatio < imgAspectRatio) {
+            //Opposite of above
+            //420 / 240 = newWidth / height
+            int newWidth = 420 * height / 240;
+            int newX = width / 2 - newWidth / 2;
+            background.drawBackground(newX, 0, newWidth, height, false);
+        } else {
+            background.drawBackground(0, 0, width, height, false);
+        }
+        RenderUtil.drawGradientLeftRight(0, 0, this.width, this.height, new Color(0xFFFFFF, 0x80), new Color(0xFFFFFF, 0x00));
+        RenderUtil.drawGradientLeftRight(0, 0, this.width, this.height, new Color(0x00, 0x00), new Color(0xFFFFFF, 0xFF));
 
         // Draw sidebar gradients - draw two at full width and one at 1 pixel wide to get desired look
         drawGradientRect(width - 130, 0, width, height, Integer.MIN_VALUE, Integer.MIN_VALUE);
