@@ -36,13 +36,25 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.*;
 import org.spoutcraft.api.util.RenderUtil;
+import org.spoutcraft.api.util.TextureUtil;
 import org.spoutcraft.mod.SpoutcraftMod;
 import org.spoutcraft.api.resource.CustomFont;
 
+import static org.lwjgl.opengl.GL11.GL_LINEAR;
+import static org.lwjgl.opengl.GL12.GL_CLAMP_TO_EDGE;
+
 public class SpoutcraftMainMenu extends GuiScreen {
-    private static ResourceLocation spoutcraftLogo = new ResourceLocation("spoutcraft", "textures/gui/title/spoutcraft.png");
+    private static final int SPOUTCRAFT_LOGO_TEX = TextureUtil.loadTexture(new ResourceLocation("spoutcraft", "textures/gui/title/spoutcraft.png"));
     private SpoutcraftBackground background = new SpoutcraftBackground();
     private final CustomFont ubuntu;
+
+    static {
+        TextureUtil.bind(SPOUTCRAFT_LOGO_TEX);
+        TextureUtil.setMinFilter(GL_LINEAR);
+        TextureUtil.setMagFilter(GL_LINEAR);
+        TextureUtil.setWrapS(GL_CLAMP_TO_EDGE);
+        TextureUtil.setWrapT(GL_CLAMP_TO_EDGE);
+    }
 
     public SpoutcraftMainMenu() {
         try {
@@ -136,20 +148,19 @@ public class SpoutcraftMainMenu extends GuiScreen {
 
         // Draw the Spoutcraft logo
         GL11.glPushMatrix();
-        mc.getTextureManager().bindTexture(spoutcraftLogo);
+        TextureUtil.bind(SPOUTCRAFT_LOGO_TEX);
         GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
         GL11.glTranslatef(width - 125, 13, 0);
         GL11.glScalef(0.45f, 0.45f, 1.0f);
         GL11.glTranslatef(-width + 125, -13, 0);
         GL11.glEnable(GL11.GL_BLEND);
-        RenderUtil.create2DRectangleModal(width - 125, 13, 256, 67, 0);
-        RenderUtil.TESSELLATOR.draw();
+        RenderUtil.drawTexture(width - 125, 13, 256, 67);
         GL11.glDisable(GL11.GL_BLEND);
         GL11.glPopMatrix();
 
         // Draw the Copyright string
         ubuntu.setScale(0.17f);
-        ubuntu.drawString("Copyright Mojang AB. Do not distribute!", 2, height - 5);
+        ubuntu.drawString("Copyright Mojang AB. Do not distribute!", 4, height - 5);
         super.drawScreen(par1, par2, par3);
     }
 

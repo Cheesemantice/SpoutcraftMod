@@ -75,8 +75,8 @@ public class RenderUtil {
     /**
      * Draws a textured rectangle on the screen, stretching the current texture to fill the rectangle.
      *
-     * @param x1 X coordinate of top left corner
-     * @param y1 Y coordinate of top left corner
+     * @param x X coordinate of top left corner
+     * @param y Y coordinate of top left corner
      * @param width Width of rectangle to draw
      * @param height Height of rectangle to draw
      */
