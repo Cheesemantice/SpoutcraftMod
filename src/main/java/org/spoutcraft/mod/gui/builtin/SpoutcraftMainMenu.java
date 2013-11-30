@@ -37,7 +37,7 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.*;
 import org.spoutcraft.api.util.RenderUtil;
 import org.spoutcraft.mod.SpoutcraftMod;
-import org.spoutcraft.mod.resource.CustomFont;
+import org.spoutcraft.api.resource.CustomFont;
 
 public class SpoutcraftMainMenu extends GuiScreen {
     private static ResourceLocation spoutcraftLogo = new ResourceLocation("spoutcraft", "textures/gui/title/spoutcraft.png");

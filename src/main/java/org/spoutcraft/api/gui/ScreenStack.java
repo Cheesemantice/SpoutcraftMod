@@ -40,8 +40,6 @@ public abstract class ScreenStack {
 
     public abstract LinkedList<Screen> getAll(Class<? extends Addon> clazz);
 
-    public abstract Class<? extends Addon> getAddonClassFor(Screen screen);
-
     public abstract void show(Class<? extends Addon> clazz, Screen screen);
 
     public abstract void show(Class<? extends Addon> clazz, String identifier);

@@ -33,7 +33,7 @@ import org.spoutcraft.api.addon.Addon;
 import org.spoutcraft.api.gui.Screen;
 import org.spoutcraft.api.gui.ScreenStack;
 
-public class SpoutcraftScreenStack extends ScreenStack {
+public class CustomScreenStack extends ScreenStack {
     private static final HashMap<Class<? extends Addon>, LinkedList<Screen>> ADDONS_BY_SCREENS = new HashMap<>();
     private Screen focused = null;
 
@@ -60,7 +60,7 @@ public class SpoutcraftScreenStack extends ScreenStack {
             throw new IllegalArgumentException("Attempt to get a null addon class for the ScreenStack!");
         }
         if (identifier == null || identifier.isEmpty()) {
-            throw new IllegalArgumentException("Attempt to get a screen from the screen stack but the identifier is invalid <" + identifier + ">");
+            throw new IllegalArgumentException("Attempt to get a screen from the screen stack but the identifier is invalid [" + identifier + "]");
         }
         LinkedList<Screen> addonScreens = ADDONS_BY_SCREENS.get(clazz);
         if (addonScreens != null && !addonScreens.isEmpty()) {
@@ -79,7 +79,7 @@ public class SpoutcraftScreenStack extends ScreenStack {
             throw new IllegalArgumentException("Attempt to remove a null addon class for the ScreenStack!");
         }
         if (identifier == null || identifier.isEmpty()) {
-            throw new IllegalArgumentException("Attempt to remove a screen from the screen stack but the identifier is invalid <" + identifier + ">");
+            throw new IllegalArgumentException("Attempt to remove a screen from the screen stack but the identifier is invalid [" + identifier + "]");
         }
         LinkedList<Screen> addonScreens = ADDONS_BY_SCREENS.get(clazz);
         Screen found = null;
@@ -101,21 +101,6 @@ public class SpoutcraftScreenStack extends ScreenStack {
             throw new IllegalArgumentException("Attempt to getAll a null addon class for the ScreenStack!");
         }
         return ADDONS_BY_SCREENS.get(clazz);
-    }
-
-    @Override
-    public Class<? extends Addon> getAddonClassFor(Screen screen) {
-        if (screen == null) {
-            throw new IllegalArgumentException("Attempt to get addon class for a null screen!");
-        }
-        for (Map.Entry<Class<? extends Addon>, LinkedList<Screen>> entry : ADDONS_BY_SCREENS.entrySet()) {
-            for (Screen registered : entry.getValue()) {
-                if (registered.equals(screen)) {
-                    return entry.getKey();
-                }
-            }
-        }
-        return null;
     }
 
     @Override

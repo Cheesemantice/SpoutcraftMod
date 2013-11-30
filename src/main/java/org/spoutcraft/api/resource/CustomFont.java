@@ -22,7 +22,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.spoutcraft.mod.resource;
+package org.spoutcraft.api.resource;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -58,7 +58,7 @@ public class CustomFont {
     private int alpha = 0xFF;
 
     /**
-     * Creates a new font based on the awt Font object. <br>Will generate fontmap based on fnt's current size so resize it to the desired font size before font creation
+     * Creates a new font based on the awt Font object. <br>Will generate font map based on font's current size so resize it to the desired font size before font creation
      *
      * @param fnt Font to base font renderer off of
      */
@@ -111,7 +111,6 @@ public class CustomFont {
         TextureUtil.bind(this.fontTexture);
         TextureUtil.setMinFilter(GL_LINEAR);
         TextureUtil.setMagFilter(GL_LINEAR);
-        return;
     }
 
     /**
@@ -205,7 +204,6 @@ public class CustomFont {
 
         int charsDrawn = 0;
         float translateX = x;
-        float translateY = y;
         for (int i = 0; i < len; i++) {
             char c = str.charAt(i);
             FontChar fchar = charMap[c];
@@ -219,7 +217,7 @@ public class CustomFont {
             float v0 = c / 16 / 16F;
             float v1 = v0 + 0.0625F;
             float cx = fchar.posX * scale + translateX;
-            float cy = fchar.posY * scale + translateY;
+            float cy = fchar.posY * scale + y;
 
             data.put(new float[] {
                     cx, cy, u0, v0,
@@ -287,7 +285,20 @@ public class CustomFont {
     }
 
     @Override
-    public void finalize() {
+    public void finalize() throws Throwable {
         glDeleteTextures(fontTexture);
+        super.finalize();
+    }
+}
+
+class FontChar {
+    public float width;
+    public float height;
+    public float posX;
+    public float posY;
+    public float texWidth;
+    public float texHeight;
+
+    protected FontChar() {
     }
 }
