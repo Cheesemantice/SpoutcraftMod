@@ -152,10 +152,8 @@ public class SpoutcraftMainMenu extends GuiScreen {
         GL11.glPopMatrix();
 
         // Draw the Copyright string
-        GL11.glEnable(GL11.GL_BLEND);
         ubuntu.setScale(0.25f);
-        ubuntu.drawString("Copyright Mojang AB. Do not distribute!", 20, height - 50);
-        GL11.glDisable(GL11.GL_BLEND);
+        ubuntu.drawString("Copyright Mojang AB. Do not distribute!", 20, height - 5);
         super.drawScreen(par1, par2, par3);
     }
 

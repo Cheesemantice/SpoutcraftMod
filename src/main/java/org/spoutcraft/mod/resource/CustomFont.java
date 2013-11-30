@@ -31,68 +31,99 @@ import java.awt.RenderingHints;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+import java.awt.image.DataBufferInt;
+import java.util.Arrays;
+import java.nio.FloatBuffer;
 
 import net.minecraft.client.renderer.Tessellator;
-import org.lwjgl.opengl.GL11;
+import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL15.*;
 import org.spoutcraft.api.util.TextureUtil;
+import org.spoutcraft.api.util.RenderUtil;
 
 public class CustomFont {
-    public final int fontHeight;
-    private final int fontTexture;
-    private final int[] fontWidth;
-    private final float[] fontWidthF;
+
+    private static final int FONT_VBO = glGenBuffers();
+    //x,y,u,b
+    private static final int FONT_STRIDE = (2 + 2) * 4;
+    private static final int FONT_VERT_OFF = 0;
+    private static final int FONT_UV_OFF = 2 * 4;
+
+    public final int fontSize;
+    private int fontHeight;
+    private int fontTexture;
+    private FontChar[] charMap = new FontChar[256];
     private float scale = 1F;
     private int red = 0xFF;
     private int green = 0xFF;
     private int blue = 0xFF;
     private int alpha = 0xFF;
 
+    /**
+     * Creates a new font based on the awt Font object.
+     * <br>Will generate fontmap based on fnt's current size
+     * so resize it to the desired font size before font creation
+     * @param fnt Font to base font renderer off of
+     */
     public CustomFont(Font fnt) {
-        //Used for getting font metrics
+        fontSize = fnt.getSize();
         BufferedImage ctxImg = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
         Graphics2D ctxGfx = ctxImg.createGraphics();
         ctxGfx.setFont(fnt);
         FontRenderContext ctx = ctxGfx.getFontRenderContext();
-        fontWidth = new int[256];
-        fontWidthF = new float[256];
-        int maxWidth = 0;
-        int maxHeight = 0;
-        for (int i = 0; i < 256; i++) {
-            Rectangle2D bounds = fnt.getStringBounds(((char) i) + "", ctx);
-            fontWidth[i] = (int) Math.ceil(bounds.getWidth());
-            maxWidth = Math.max(maxWidth, fontWidth[i]);
-            maxHeight = Math.max(maxHeight, (int) Math.ceil(bounds.getHeight()));
+
+        float maxWidth = 0;
+        float maxHeight = 0;
+        for(int i = 0; i < 256; i++) {
+            char c = (char)i;
+            charMap[i] = new FontChar();
+            Rectangle2D bounds = fnt.getStringBounds(c + "", ctx);
+            charMap[i].width = (float)Math.ceil(bounds.getWidth());
+            charMap[i].height = (float)Math.ceil(bounds.getHeight());
+            charMap[i].posX = (float)Math.ceil(bounds.getX());
+            charMap[i].posY = (float)Math.ceil(bounds.getY());
+            maxWidth = Math.max(maxWidth, charMap[i].width);
+            maxHeight = Math.max(maxHeight, charMap[i].height);
         }
-        fontHeight = maxHeight;
-        int imgWidth = maxWidth * 16;
-        int imgHeight = maxHeight * 16;
-        for (int i = 0; i < 256; i++) {
-            fontWidthF[i] = fontWidth[i] / (float) imgWidth;
+        int imgWidth = (int)Math.ceil(maxWidth) * 16;
+        int imgHeight = (int)Math.ceil(maxHeight) * 16;
+        int cellWidth = imgWidth / 16;
+        int cellHeight = imgHeight / 16;
+        fontHeight = cellHeight;
+        for(int i = 0; i < 256; i++) {
+            charMap[i].texWidth = charMap[i].width / (float)imgWidth;
+            charMap[i].texHeight = charMap[i].height / (float)imgHeight;
         }
         BufferedImage fontImg = new BufferedImage(imgWidth, imgHeight, BufferedImage.TYPE_INT_ARGB);
+        //We just created a TYPE_INT_ARGB image, so we know it has a DataBufferInt backing it
+        int[] imgRGB = ((DataBufferInt)fontImg.getRaster().getDataBuffer()).getData();
+        Arrays.fill(imgRGB, 0xFFFFFF);
+
         Graphics2D g2d = fontImg.createGraphics();
-        g2d.setFont(fnt);
-        g2d.setColor(new Color(1F, 1F, 1F, 0F));
-        g2d.fillRect(0, 0, imgWidth, imgHeight); //Fill image with transparent white
         g2d.setColor(Color.WHITE);
+        g2d.setFont(fnt);
         g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_GASP);
-        for (int i = 0; i < 256; i++) {
-            int x = (i % 16) * maxWidth;
-            //int y = (i / 16) * maxHeight + maxHeight - fnt.getBaselineFor((char)i);
-            //
-            //The getY() of the string bounds returns negative, I'm pretty sure it has the baseline
-            //as 0 or something. This works, so no worries. If for some reason it doesnt work, tell unknownloner
-            int y = (i / 16) * maxHeight - (int) Math.ceil(fnt.getStringBounds(((char) i) + "", ctx).getY());
-            g2d.drawString(((char) i) + "", x, y);
+        for(int i = 0; i < 256; i++) {
+            char c = (char)i;
+            int x = (int)((i % 16) * cellWidth - charMap[i].posX);
+            int y = (int)((i / 16) * cellHeight - charMap[i].posY);
+            g2d.drawString(c + "", x, y);
         }
-        ctxGfx.dispose();
         g2d.dispose();
         this.fontTexture = TextureUtil.loadTexture(fontImg);
         TextureUtil.bind(this.fontTexture);
-        TextureUtil.setMinFilter(GL11.GL_NEAREST);
-        TextureUtil.setMagFilter(GL11.GL_NEAREST);
+        TextureUtil.setMinFilter(GL_LINEAR);
+        TextureUtil.setMagFilter(GL_LINEAR);
+        return;
     }
 
+    /**
+     * Sets the filter to use when scaling the font.
+     * Filters should be either GL_LINEAR or GL_NEAREST
+     * @param min Filter to use when scaling font down
+     * @param mag Filter to use when scaling font up
+     * @return this font object, so this can be chained with the constructor
+     */
     public CustomFont setFilter(int min, int mag) {
         TextureUtil.bind(this.fontTexture);
         TextureUtil.setMinFilter(min);
@@ -100,10 +131,23 @@ public class CustomFont {
         return this;
     }
 
+    /**
+     * Sets color to use when drawing strings. Will set alpha to 100%
+     * @param r Red component, 0-255
+     * @param g Green component, 0-255
+     * @param b Blue component, 0-255
+     */
     public void setColor(int r, int g, int b) {
         setColor(r, g, b, 0xFF);
     }
 
+    /**
+     * Sets color to use when drawing strings.
+     * @param r Red component, 0-255
+     * @param g Green component, 0-255
+     * @param b Blue component, 0-255
+     * @param a Alpha component, 0-255
+     */
     public void setColor(int r, int g, int b, int a) {
         this.red = r;
         this.green = g;
@@ -111,70 +155,137 @@ public class CustomFont {
         this.alpha = a;
     }
 
-    //This is basically the size relative to the cell height
-    //So if you have a 32pt font, setting this to 16 will not
-    //give you a scale of 0.5, it'll be something different.
-    //Just try to stick with setScale
-    public void setSize(int size) {
-        this.scale = size / (float) fontHeight;
+    /**
+     * Sets color to use when drawing strings.
+     * @param color Color to use
+     */
+    public void setColor(org.spoutcraft.api.util.Color color) {
+        setColor(color.getR(), color.getG(), color.getB(), color.getA());
     }
 
+    /**
+     * Sets size of font. This only scales the existing font,
+     * so consider creating new CustomFonts for sizes
+     * which are much smaller or larger than the current one.
+     * @param size New size of font
+     */
+    public void setSize(int size) {
+        this.scale = size / (float) fontSize;
+    }
+
+    /**
+     * Sets scale of font.
+     * @param scale New scale to use, 1.0 is default
+     */
     public void setScale(float scale) {
         this.scale = scale;
     }
 
-    public void drawString(String str, int x, int y) {
+    /**
+     * Draws a string at the specific coordinates.
+     * This does work in 3d, just glTranslate for positioning
+     * on the z axis
+     * @param str String to draw
+     * @param x X coordinate of string
+     * @param y Y coordinate of string baseline
+     */
+    public void drawString(String str, float x, float y) {
         int len = str.length();
-        float height = getHeight();
+        float height = getCharHeight();
+
+        glPushAttrib(GL_ENABLE_BIT | GL_CURRENT_BIT);
+        glEnable(GL_TEXTURE_2D);
+        glEnable(GL_BLEND);
+        glDisable(GL_ALPHA_TEST);
+        glColor4f(red / 255F, green / 255F, blue / 255F, alpha / 255F);
 
         TextureUtil.bind(fontTexture);
-        Tessellator tes = Tessellator.instance;
-        tes.startDrawingQuads();
-        tes.setColorRGBA(red, green, blue, alpha);
-        tes.setTranslation(x, y, 0);
-        for (int i = 0; i < len; i++) {
+        glBindBuffer(GL_ARRAY_BUFFER, FONT_VBO);
+        glBufferData(GL_ARRAY_BUFFER, FONT_STRIDE * len * 4, GL_STREAM_DRAW);
+        FloatBuffer data = RenderUtil.mapBufferWriteUnsync(GL_ARRAY_BUFFER, FONT_STRIDE * len * 4, null).asFloatBuffer();
+
+        int charsDrawn = 0;
+        float translateX = x;
+        float translateY = y;
+        for(int i = 0; i < len; i++) {
             char c = str.charAt(i);
+            FontChar fchar = charMap[c];
             float width = getWidth(c);
-            if (width == 0) {
+            if(width == 0) {
                 continue;
             }
+            charsDrawn++;
             float u0 = c % 16 / 16F;
-            float u1 = u0 + getWidthF(c);
+            float u1 = u0 + fchar.texWidth;
             float v0 = c / 16 / 16F;
-            float v1 = v0 + 0.0625F; //cellHeight;
+            float v1 = v0 + 0.0625F;
+            float cx = fchar.posX * scale + translateX;
+            float cy = fchar.posY * scale + translateY;
 
-            tes.addVertexWithUV(0, 0, 0, u0, v0);
-            tes.addVertexWithUV(0, height, 0, u0, v1);
-            tes.addVertexWithUV(width, height, 0, u1, v1);
-            tes.addVertexWithUV(width, 0, 0, u1, v0);
-            tes.addTranslation(width, 0, 0);
+            data.put(new float[] {
+                cx,         cy,          u0, v0,
+                cx,         cy + height, u0, v1,
+                cx + width, cy + height, u1, v1,
+                cx + width, cy,          u1, v0
+            });
+            translateX += width;
         }
-        tes.draw();
-        tes.setColorRGBA(0xFF, 0xFF, 0xFF, 0xFF);
-        tes.setTranslation(0, 0, 0);
+        glUnmapBuffer(GL_ARRAY_BUFFER);
+        glEnableClientState(GL_VERTEX_ARRAY);
+        glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+
+        glVertexPointer(2, GL_FLOAT, FONT_STRIDE, FONT_VERT_OFF);
+        glTexCoordPointer(2, GL_FLOAT, FONT_STRIDE, FONT_UV_OFF);
+        glDrawArrays(GL_QUADS, 0, charsDrawn * 4);
+
+        glDisableClientState(GL_VERTEX_ARRAY);
+        glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
+        glPopAttrib();
     }
 
-    public float getHeight() {
+    /**
+     * Gets font size with current scale
+     * @return font size
+     */
+    public float getSize() {
+        return scale * fontSize;
+    }
+
+    //Gets full height of character cells
+    private float getCharHeight() {
         return scale * fontHeight;
     }
 
-    public int getWidth(String str) {
+    /**
+     * Gets width of the string with current scale
+     * @param str String to check width of
+     * @return Width of str
+     */
+    public float getWidth(String str) {
         int len = str.length();
-        int width = 0;
+        float width = 0;
         for (int i = 0; i < len; i++) {
             width += getWidth(str.charAt(i));
         }
         return width;
     }
 
+    /**
+     * Gets width of a character with current scale
+     * @param c Character to get width of
+     * @return width of c
+     */
     public float getWidth(char c) {
         if (c > 0xFF) {
             return 0;
         }
-        return scale * this.fontWidth[c];
+        return scale * this.charMap[c].width;
     }
 
-    private float getWidthF(char c) {
-        return this.fontWidthF[c];
+    @Override
+    public void finalize() {
+        glDeleteTextures(fontTexture);
     }
 }

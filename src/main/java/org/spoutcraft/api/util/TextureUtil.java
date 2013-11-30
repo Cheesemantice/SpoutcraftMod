@@ -43,7 +43,6 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 import org.lwjgl.opengl.GL14;
 import org.lwjgl.opengl.GL30;
-import org.lwjgl.opengl.GLContext;
 
 public class TextureUtil {
     public static final Minecraft MINECRAFT = FMLClientHandler.instance().getClient();
@@ -102,7 +101,7 @@ public class TextureUtil {
         bind(tex);
 
         //If OpenGL30, use glGenerateMipmap, else use the GL_GENERATE_MIPMAP tex param
-        if (GLContext.getCapabilities().OpenGL30) {
+        if (RenderUtil.GL_30) {
             GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, GL11.GL_RGBA8, width, height,
                     0, GL12.GL_BGRA, GL12.GL_UNSIGNED_INT_8_8_8_8_REV, rgbBuf);
             GL30.glGenerateMipmap(GL11.GL_TEXTURE_2D);

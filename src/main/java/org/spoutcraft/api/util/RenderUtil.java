@@ -33,10 +33,14 @@ import net.minecraft.client.renderer.Tessellator;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL15.*;
+import static org.lwjgl.opengl.GL30.*;
+import org.lwjgl.opengl.GLContext;
 
 public class RenderUtil {
     public static final Tessellator TESSELLATOR = Tessellator.instance;
     public static final Minecraft MINECRAFT = FMLClientHandler.instance().getClient();
+    public static final boolean GL_30 = GLContext.getCapabilities().OpenGL30;
+
     public static final int DIR_LEFTRIGHT = 0;
     public static final int DIR_UPDOWN = 1;
     public static final int DIR_RIGHTLEFT = 2;
@@ -97,7 +101,7 @@ public class RenderUtil {
         float x2 = x1 + width, y2 = y1 + height;
         glBindBuffer(GL_ARRAY_BUFFER, VERT_BUFF);
         glBufferData(GL_ARRAY_BUFFER, TEX_SIZE, GL_STREAM_DRAW);
-        FloatBuffer data = glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY, TEX_SIZE, null).asFloatBuffer();
+        FloatBuffer data = mapBufferWriteUnsync(GL_ARRAY_BUFFER, TEX_SIZE, null).asFloatBuffer();
         data.put(new float[] {
                 x1, y1, u1, v1,
                 x1, y2, u1, v2,
@@ -148,8 +152,7 @@ public class RenderUtil {
 
         //We can directory upload data to the buffer
         //by mapping it into ram.
-        ByteBuffer buff = glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY, GRADIENT_SIZE, null);
-        FloatBuffer data = buff.asFloatBuffer();
+        FloatBuffer data = mapBufferWriteUnsync(GL_ARRAY_BUFFER, GRADIENT_SIZE, null).asFloatBuffer();
         switch (direction) {
             case DIR_RIGHTLEFT:
             case DIR_LEFTRIGHT:
@@ -243,7 +246,7 @@ public class RenderUtil {
 
         glBindBuffer(GL_ARRAY_BUFFER, VERT_BUFF);
         glBufferData(GL_ARRAY_BUFFER, RECT_SIZE, GL_STREAM_DRAW);
-        FloatBuffer data = glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY, GRADIENT_SIZE, null).asFloatBuffer();
+        FloatBuffer data = mapBufferWriteUnsync(GL_ARRAY_BUFFER, GRADIENT_SIZE, null).asFloatBuffer();
         data.put(new float[] {
                 x1, y1,
                 x1, y2,
@@ -270,5 +273,17 @@ public class RenderUtil {
 
         glEnable(GL_TEXTURE_2D);
         glPopAttrib();
+    }
+
+    /**
+     * Will use GL30 for faster maps if available.
+     * Make sure when using this to orphan the buffer as well.
+     */
+    public static ByteBuffer mapBufferWriteUnsync(int target, int size, ByteBuffer previous) {
+        if(GL_30) {
+            return glMapBufferRange(target, 0, size, GL_MAP_WRITE_BIT | GL_MAP_UNSYNCHRONIZED_BIT, previous);
+        } else {
+            return glMapBuffer(target, GL_WRITE_ONLY, size, previous);
+        }
     }
 }
