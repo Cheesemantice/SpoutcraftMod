@@ -28,7 +28,6 @@ package org.spoutcraft.mod.resource;
  * Class used by CustomFont for measurement
  */
 public class FontChar {
-
     public float width;
     public float height;
     public float posX;

@@ -25,7 +25,7 @@
 package org.spoutcraft.api.gui.widget;
 
 import net.minecraft.util.ResourceLocation;
-import org.lwjgl.util.Color;
+import org.lwjgl.util.*;
 
 public class Button extends Label {
     public static final ResourceLocation DEFAULT_BACKGROUND = new ResourceLocation("spoutcraft", "textures/gui/button_background.png");

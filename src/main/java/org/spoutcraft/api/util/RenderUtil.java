@@ -30,17 +30,16 @@ import java.nio.FloatBuffer;
 import cpw.mods.fml.client.FMLClientHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.Tessellator;
+import org.lwjgl.opengl.*;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL15.*;
 import static org.lwjgl.opengl.GL30.*;
-import org.lwjgl.opengl.GLContext;
 
 public class RenderUtil {
     public static final Tessellator TESSELLATOR = Tessellator.instance;
     public static final Minecraft MINECRAFT = FMLClientHandler.instance().getClient();
     public static final boolean GL_30 = GLContext.getCapabilities().OpenGL30;
-
     public static final int DIR_LEFTRIGHT = 0;
     public static final int DIR_UPDOWN = 1;
     public static final int DIR_RIGHTLEFT = 2;
@@ -276,11 +275,10 @@ public class RenderUtil {
     }
 
     /**
-     * Will use GL30 for faster maps if available.
-     * Make sure when using this to orphan the buffer as well.
+     * Will use GL30 for faster maps if available. Make sure when using this to orphan the buffer as well.
      */
     public static ByteBuffer mapBufferWriteUnsync(int target, int size, ByteBuffer previous) {
-        if(GL_30) {
+        if (GL_30) {
             return glMapBufferRange(target, 0, size, GL_MAP_WRITE_BIT | GL_MAP_UNSYNCHRONIZED_BIT, previous);
         } else {
             return glMapBuffer(target, GL_WRITE_ONLY, size, previous);

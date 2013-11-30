@@ -25,8 +25,6 @@
 package org.spoutcraft.mod.gui.builtin;
 
 import java.awt.Font;
-import java.awt.FontFormatException;
-import java.io.IOException;
 
 import cpw.mods.fml.client.GuiModList;
 import net.minecraft.client.gui.GuiButton;
@@ -36,11 +34,11 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiSelectWorld;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.ResourceLocation;
-import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.*;
+import org.spoutcraft.api.util.Color;
 import org.spoutcraft.api.util.RenderUtil;
 import org.spoutcraft.mod.SpoutcraftMod;
 import org.spoutcraft.mod.resource.CustomFont;
-import org.spoutcraft.api.util.Color;
 
 public class SpoutcraftMainMenu extends GuiScreen {
     private static ResourceLocation spoutcraftLogo = new ResourceLocation("spoutcraft", "textures/gui/title/spoutcraft.png");
@@ -114,14 +112,14 @@ public class SpoutcraftMainMenu extends GuiScreen {
     public void drawScreen(int par1, int par2, float par3) {
         // Draw the background with overlay
         float imgAspectRatio = 420 / 240F;
-        float currentAspectRatio = width / (float)height;
-        if(currentAspectRatio > imgAspectRatio) {
+        float currentAspectRatio = width / (float) height;
+        if (currentAspectRatio > imgAspectRatio) {
             //Skewed on x axis, expand on y axis to fix
             //420 / 240 = width / newHeight
             int newHeight = 240 * width / 420;
             int newY = height / 2 - newHeight / 2;
             background.drawBackground(0, newY, width, newHeight);
-        } else if(currentAspectRatio < imgAspectRatio) {
+        } else if (currentAspectRatio < imgAspectRatio) {
             //Opposite of above
             //420 / 240 = newWidth / height
             int newWidth = 420 * height / 240;

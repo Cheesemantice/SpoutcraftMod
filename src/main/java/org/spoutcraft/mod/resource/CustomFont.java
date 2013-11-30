@@ -32,23 +32,21 @@ import java.awt.font.FontRenderContext;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
-import java.util.Arrays;
 import java.nio.FloatBuffer;
+import java.util.Arrays;
 
-import net.minecraft.client.renderer.Tessellator;
+import org.spoutcraft.api.util.RenderUtil;
+import org.spoutcraft.api.util.TextureUtil;
+
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL15.*;
-import org.spoutcraft.api.util.TextureUtil;
-import org.spoutcraft.api.util.RenderUtil;
 
 public class CustomFont {
-
     private static final int FONT_VBO = glGenBuffers();
     //x,y,u,b
     private static final int FONT_STRIDE = (2 + 2) * 4;
     private static final int FONT_VERT_OFF = 0;
     private static final int FONT_UV_OFF = 2 * 4;
-
     public final int fontSize;
     private int fontHeight;
     private int fontTexture;
@@ -60,9 +58,8 @@ public class CustomFont {
     private int alpha = 0xFF;
 
     /**
-     * Creates a new font based on the awt Font object.
-     * <br>Will generate fontmap based on fnt's current size
-     * so resize it to the desired font size before font creation
+     * Creates a new font based on the awt Font object. <br>Will generate fontmap based on fnt's current size so resize it to the desired font size before font creation
+     *
      * @param fnt Font to base font renderer off of
      */
     public CustomFont(Font fnt) {
@@ -74,39 +71,39 @@ public class CustomFont {
 
         float maxWidth = 0;
         float maxHeight = 0;
-        for(int i = 0; i < 256; i++) {
-            char c = (char)i;
+        for (int i = 0; i < 256; i++) {
+            char c = (char) i;
             charMap[i] = new FontChar();
             Rectangle2D bounds = fnt.getStringBounds(c + "", ctx);
-            charMap[i].width = (float)Math.ceil(bounds.getWidth());
-            charMap[i].height = (float)Math.ceil(bounds.getHeight());
-            charMap[i].posX = (float)Math.ceil(bounds.getX());
-            charMap[i].posY = (float)Math.ceil(bounds.getY());
+            charMap[i].width = (float) Math.ceil(bounds.getWidth());
+            charMap[i].height = (float) Math.ceil(bounds.getHeight());
+            charMap[i].posX = (float) Math.ceil(bounds.getX());
+            charMap[i].posY = (float) Math.ceil(bounds.getY());
             maxWidth = Math.max(maxWidth, charMap[i].width);
             maxHeight = Math.max(maxHeight, charMap[i].height);
         }
-        int imgWidth = (int)Math.ceil(maxWidth) * 16;
-        int imgHeight = (int)Math.ceil(maxHeight) * 16;
+        int imgWidth = (int) Math.ceil(maxWidth) * 16;
+        int imgHeight = (int) Math.ceil(maxHeight) * 16;
         int cellWidth = imgWidth / 16;
         int cellHeight = imgHeight / 16;
         fontHeight = cellHeight;
-        for(int i = 0; i < 256; i++) {
-            charMap[i].texWidth = charMap[i].width / (float)imgWidth;
-            charMap[i].texHeight = charMap[i].height / (float)imgHeight;
+        for (int i = 0; i < 256; i++) {
+            charMap[i].texWidth = charMap[i].width / (float) imgWidth;
+            charMap[i].texHeight = charMap[i].height / (float) imgHeight;
         }
         BufferedImage fontImg = new BufferedImage(imgWidth, imgHeight, BufferedImage.TYPE_INT_ARGB);
         //We just created a TYPE_INT_ARGB image, so we know it has a DataBufferInt backing it
-        int[] imgRGB = ((DataBufferInt)fontImg.getRaster().getDataBuffer()).getData();
+        int[] imgRGB = ((DataBufferInt) fontImg.getRaster().getDataBuffer()).getData();
         Arrays.fill(imgRGB, 0xFFFFFF);
 
         Graphics2D g2d = fontImg.createGraphics();
         g2d.setColor(Color.WHITE);
         g2d.setFont(fnt);
         g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_GASP);
-        for(int i = 0; i < 256; i++) {
-            char c = (char)i;
-            int x = (int)((i % 16) * cellWidth - charMap[i].posX);
-            int y = (int)((i / 16) * cellHeight - charMap[i].posY);
+        for (int i = 0; i < 256; i++) {
+            char c = (char) i;
+            int x = (int) ((i % 16) * cellWidth - charMap[i].posX);
+            int y = (int) ((i / 16) * cellHeight - charMap[i].posY);
             g2d.drawString(c + "", x, y);
         }
         g2d.dispose();
@@ -118,8 +115,8 @@ public class CustomFont {
     }
 
     /**
-     * Sets the filter to use when scaling the font.
-     * Filters should be either GL_LINEAR or GL_NEAREST
+     * Sets the filter to use when scaling the font. Filters should be either GL_LINEAR or GL_NEAREST
+     *
      * @param min Filter to use when scaling font down
      * @param mag Filter to use when scaling font up
      * @return this font object, so this can be chained with the constructor
@@ -133,6 +130,7 @@ public class CustomFont {
 
     /**
      * Sets color to use when drawing strings. Will set alpha to 100%
+     *
      * @param r Red component, 0-255
      * @param g Green component, 0-255
      * @param b Blue component, 0-255
@@ -143,6 +141,7 @@ public class CustomFont {
 
     /**
      * Sets color to use when drawing strings.
+     *
      * @param r Red component, 0-255
      * @param g Green component, 0-255
      * @param b Blue component, 0-255
@@ -157,6 +156,7 @@ public class CustomFont {
 
     /**
      * Sets color to use when drawing strings.
+     *
      * @param color Color to use
      */
     public void setColor(org.spoutcraft.api.util.Color color) {
@@ -164,9 +164,8 @@ public class CustomFont {
     }
 
     /**
-     * Sets size of font. This only scales the existing font,
-     * so consider creating new CustomFonts for sizes
-     * which are much smaller or larger than the current one.
+     * Sets size of font. This only scales the existing font, so consider creating new CustomFonts for sizes which are much smaller or larger than the current one.
+     *
      * @param size New size of font
      */
     public void setSize(int size) {
@@ -175,6 +174,7 @@ public class CustomFont {
 
     /**
      * Sets scale of font.
+     *
      * @param scale New scale to use, 1.0 is default
      */
     public void setScale(float scale) {
@@ -182,9 +182,8 @@ public class CustomFont {
     }
 
     /**
-     * Draws a string at the specific coordinates.
-     * This does work in 3d, just glTranslate for positioning
-     * on the z axis
+     * Draws a string at the specific coordinates. This does work in 3d, just glTranslate for positioning on the z axis
+     *
      * @param str String to draw
      * @param x X coordinate of string
      * @param y Y coordinate of string baseline
@@ -207,11 +206,11 @@ public class CustomFont {
         int charsDrawn = 0;
         float translateX = x;
         float translateY = y;
-        for(int i = 0; i < len; i++) {
+        for (int i = 0; i < len; i++) {
             char c = str.charAt(i);
             FontChar fchar = charMap[c];
             float width = getWidth(c);
-            if(width == 0) {
+            if (width == 0) {
                 continue;
             }
             charsDrawn++;
@@ -223,10 +222,10 @@ public class CustomFont {
             float cy = fchar.posY * scale + translateY;
 
             data.put(new float[] {
-                cx,         cy,          u0, v0,
-                cx,         cy + height, u0, v1,
-                cx + width, cy + height, u1, v1,
-                cx + width, cy,          u1, v0
+                    cx, cy, u0, v0,
+                    cx, cy + height, u0, v1,
+                    cx + width, cy + height, u1, v1,
+                    cx + width, cy, u1, v0
             });
             translateX += width;
         }
@@ -247,6 +246,7 @@ public class CustomFont {
 
     /**
      * Gets font size with current scale
+     *
      * @return font size
      */
     public float getSize() {
@@ -260,6 +260,7 @@ public class CustomFont {
 
     /**
      * Gets width of the string with current scale
+     *
      * @param str String to check width of
      * @return Width of str
      */
@@ -274,6 +275,7 @@ public class CustomFont {
 
     /**
      * Gets width of a character with current scale
+     *
      * @param c Character to get width of
      * @return width of c
      */

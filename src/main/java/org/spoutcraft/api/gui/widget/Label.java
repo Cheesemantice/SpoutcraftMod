@@ -25,7 +25,7 @@
 package org.spoutcraft.api.gui.widget;
 
 import net.minecraft.util.ResourceLocation;
-import org.lwjgl.util.Color;
+import org.lwjgl.util.*;
 
 public class Label extends Widget {
     public static final Color DEFAULT_TEXT_COLOR = new Color(Color.WHITE);
