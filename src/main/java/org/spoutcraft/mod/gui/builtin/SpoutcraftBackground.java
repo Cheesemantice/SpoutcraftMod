@@ -37,8 +37,8 @@ import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL12.*;
 
 public class SpoutcraftBackground {
-    private static ResourceLocation location = randomlyChoose();
     private static final int BLUR_TEX = glGenTextures();
+    private int BACKGROUND_TEX = TextureUtil.loadTexture(randomlyChoose());
 
     static {
         TextureUtil.bind(BLUR_TEX);
@@ -102,7 +102,7 @@ public class SpoutcraftBackground {
         float mU = viewWidth / 420F;
         float mV = viewHeight / 256F;
 
-        TextureUtil.loadTexture(location);
+        TextureUtil.bind(BACKGROUND_TEX);
         TextureUtil.setMinFilter(GL_LINEAR);
         glColor3f(1, 1, 1);
 
@@ -121,7 +121,7 @@ public class SpoutcraftBackground {
         TextureUtil.bind(BLUR_TEX);
         glEnable(GL_BLEND);
         glColorMask(true, true, true, false);
-        for (int i = 0; i < 8; i++) {
+        for (int i = 0; i < 3; i++) {
             glCopyTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, 0, 0, viewWidth, viewHeight);
             for (int j = -1; j <= 1; j++) {
                 glColor4f(1, 1, 1, (1 / (float) (j + 2)));

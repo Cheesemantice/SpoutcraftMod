@@ -35,7 +35,6 @@ import net.minecraft.client.gui.GuiSelectWorld;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.*;
-import org.spoutcraft.api.util.Color;
 import org.spoutcraft.api.util.RenderUtil;
 import org.spoutcraft.mod.SpoutcraftMod;
 import org.spoutcraft.mod.resource.CustomFont;
@@ -102,9 +101,8 @@ public class SpoutcraftMainMenu extends GuiScreen {
                 break;
             case 5: // Addons
                 break;
-            case 6: // Quit
+            default:// Quit
                 RenderUtil.MINECRAFT.shutdown();
-                break;
         }
     }
 
@@ -128,8 +126,8 @@ public class SpoutcraftMainMenu extends GuiScreen {
         } else {
             background.drawBackground(0, 0, width, height);
         }
-        RenderUtil.drawGradientLeftRight(0, 0, this.width, this.height, new Color(0xFFFFFF, 0x80), new Color(0xFFFFFF, 0x00));
-        RenderUtil.drawGradientLeftRight(0, 0, this.width, this.height, new Color(0x00, 0x00), new Color(0xFFFFFF, 0xFF));
+        //        RenderUtil.drawGradientLeftRight(0, 0, this.width, this.height, new Color(0xFFFFFF, 0x80), new Color(0xFFFFFF, 0x00));
+        //        RenderUtil.drawGradientLeftRight(0, 0, this.width, this.height, new Color(0x00, 0x00), new Color(0xFFFFFF, 0xFF));
 
         // Draw sidebar gradients - draw two at full width and one at 1 pixel wide to get desired look
         drawGradientRect(width - 130, 0, width, height, Integer.MIN_VALUE, Integer.MIN_VALUE);
@@ -151,7 +149,7 @@ public class SpoutcraftMainMenu extends GuiScreen {
 
         // Draw the Copyright string
         ubuntu.setScale(0.17f);
-        ubuntu.drawString("Copyright Mojang AB. Do not distribute!", 1, height - 5);
+        ubuntu.drawString("Copyright Mojang AB. Do not distribute!", 2, height - 5);
         super.drawScreen(par1, par2, par3);
     }
 
