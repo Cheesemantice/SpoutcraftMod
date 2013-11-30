@@ -26,8 +26,8 @@ package org.spoutcraft.mod.gui.builtin;
 
 import java.nio.ByteBuffer;
 
-import net.minecraft.client.gui.Gui;
 import net.minecraft.util.ResourceLocation;
+import org.spoutcraft.api.util.Color;
 import org.spoutcraft.api.util.RandomUtil;
 import org.spoutcraft.api.util.RenderUtil;
 import org.spoutcraft.api.util.TextureUtil;
@@ -57,8 +57,8 @@ import static org.lwjgl.opengl.GL11.glTexImage2D;
 import static org.lwjgl.opengl.GL11.glViewport;
 import static org.lwjgl.opengl.GL12.GL_CLAMP_TO_EDGE;
 
-public class SpoutcraftBackground extends Gui {
-    private static ResourceLocation location = selectBackground();
+public class SpoutcraftBackground {
+    private static ResourceLocation location = randomlyChoose();
     private static final int BLUR_TEX = glGenTextures();
 
     static {
@@ -70,7 +70,7 @@ public class SpoutcraftBackground extends Gui {
         TextureUtil.setWrapT(GL_CLAMP_TO_EDGE);
     }
 
-    private static ResourceLocation selectBackground() {
+    private static ResourceLocation randomlyChoose() {
         switch (TimeUtil.getTime()) {
             case "day":
                 return new ResourceLocation("spoutcraft", "textures/gui/title/background/day/background_" + RandomUtil.inclusive(1, 29) + ".jpg");
@@ -83,16 +83,16 @@ public class SpoutcraftBackground extends Gui {
         }
     }
 
-    public void drawBackground(int x, int y, int width, int height, boolean overlay) {
-        //RenderUtil.MINECRAFT.getTextureManager().bindTexture(location);
-        //glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-        //RenderUtil.create2DRectangleModal(x, y, width, height, 0);
-        //RenderUtil.TESSELLATOR.draw();
+	public void drawBackground(int x, int y, int width, int height) {
+		drawBackground(x, y, width, height, null);
+	}
+
+    public void drawBackground(int x, int y, int width, int height, Color color) {
         drawBackgroundBlur(x, y, width, height);
 
-        if (overlay) {
-            drawGradientRect(0, 0, width, height, Integer.MAX_VALUE, 0);
-        }
+		if (color != null) {
+			RenderUtil.drawRect(x, y, width, height, color);
+		}
     }
 
     //Applies blur effects and whatnot
@@ -123,7 +123,7 @@ public class SpoutcraftBackground extends Gui {
         float mU = viewWidth / 420F;
         float mV = viewHeight / 256F;
 
-        RenderUtil.MINECRAFT.getTextureManager().bindTexture(location);
+        TextureUtil.loadTexture(location);
         TextureUtil.setMinFilter(GL_LINEAR);
         glColor3f(1, 1, 1);
 

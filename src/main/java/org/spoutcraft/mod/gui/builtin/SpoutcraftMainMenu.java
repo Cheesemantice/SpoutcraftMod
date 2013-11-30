@@ -120,15 +120,15 @@ public class SpoutcraftMainMenu extends GuiScreen {
             //420 / 240 = width / newHeight
             int newHeight = 240 * width / 420;
             int newY = height / 2 - newHeight / 2;
-            background.drawBackground(0, newY, width, newHeight, false);
+            background.drawBackground(0, newY, width, newHeight);
         } else if(currentAspectRatio < imgAspectRatio) {
             //Opposite of above
             //420 / 240 = newWidth / height
             int newWidth = 420 * height / 240;
             int newX = width / 2 - newWidth / 2;
-            background.drawBackground(newX, 0, newWidth, height, false);
+            background.drawBackground(newX, 0, newWidth, height);
         } else {
-            background.drawBackground(0, 0, width, height, false);
+            background.drawBackground(0, 0, width, height);
         }
         RenderUtil.drawGradientLeftRight(0, 0, this.width, this.height, new Color(0xFFFFFF, 0x80), new Color(0xFFFFFF, 0x00));
         RenderUtil.drawGradientLeftRight(0, 0, this.width, this.height, new Color(0x00, 0x00), new Color(0xFFFFFF, 0xFF));
@@ -152,8 +152,8 @@ public class SpoutcraftMainMenu extends GuiScreen {
         GL11.glPopMatrix();
 
         // Draw the Copyright string
-        ubuntu.setScale(0.25f);
-        ubuntu.drawString("Copyright Mojang AB. Do not distribute!", 20, height - 5);
+        ubuntu.setScale(0.17f);
+        ubuntu.drawString("Copyright Mojang AB. Do not distribute!", 1, height - 5);
         super.drawScreen(par1, par2, par3);
     }
 
