@@ -16,19 +16,28 @@ __Note:__ If you do not have [Gradle](http://www.gradle.org) installed you can u
 __For [Eclipse](http://www.eclipse.org)__<br>
 1. Run `gradle setupDevWorkspace eclipse`<br>
 2. Import SpoutcraftMod as an existing project inside Eclipse.<br>
-3. Go to 'Run > Run Configurations'<br>
-4. Right-click 'Java Application' and select 'New'<br>
-5. Set the current project.<br>
-6. Set the name as "Client" and apply the information for Client below.<br>
-7. Repeat step 5 and 6, then set the name as "Server" and apply the information for Server below.<br>
 
 __For [IntelliJ](http://www.jetbrains.com/idea/)__<br>
 1. Run `gradle setupDevWorkspace ideaModule`<br>
 2. Import SpoutcraftMod as a module inside IntelliJ.<br>
-3. Go to 'Run > Edit Configurations'<br>
-4. Click the green + button and select 'Application'<br>
-5. Set the name as "Client" and apply the information for Client below.<br>
-6. Repeat step 4 and set the name as "Server" and apply the information for Server below.<br>
+
+## Run
+__Note 1:__ The following is aimed to help you setup run configurations for Eclipse and IntelliJ, if you do not want to be able to run SpoutcraftMod directly from your IDE then you can skip this.<br>
+__Note 2:__ The working directories for both Client and Server will need to be created manually in the root of SpoutcraftMod's directory. Otherwise you'll get a few errors and will not be able to run it this way.<br>
+__Note 3:__ When running the Server, make sure you set it to offline-mode=true in the server.properties in ~/run/server!
+
+__For [Eclipse](http://www.eclipse.org)__<br>
+1. Go to 'Run > Run Configurations'<br>
+2. Right-click 'Java Application' and select 'New'<br>
+3. Set the current project.<br>
+4. Set the name as "Client" and apply the information for Client below.<br>
+5. Repeat step 1 through 4, then set the name as "Server" and apply the information for Server below.<br>
+
+__For [IntelliJ](http://www.jetbrains.com/idea/)__<br>
+1. Go to 'Run > Edit Configurations'<br>
+2. Click the green + button and select 'Application'<br>
+3. Set the name as "Client" and apply the information for Client below.<br>
+4. Repeat step 2 and set the name as "Server" and apply the information for Server below.<br>
  
 __Client__
 ```
@@ -46,8 +55,6 @@ VM options: -Xmx1G -Xms512M -Dfml.ignoreInvalidMinecraftCertificates=true -Djava
 Working directory: Path/to/SpoutcraftMod/run/server
 Use classpath of module: SpoutcraftMod (IntelliJ-only)
 ```
-
-__Note:__ The working directories for both Client and Server will need to be created manually in the root of SpoutcraftMod's directory. Otherwise you'll get a few errors and will not be able to run it this way.
 
 ## Build
 __Note:__ If you do not have [Gradle](http://www.gradle.org) installed you can use the gradlew files included with the project in place of 'gradle' in the following command(s). If you are using Git Bash, Unix or OS X then use 'gradlew'. If you are using Windows then use 'gradlew.bat'.
