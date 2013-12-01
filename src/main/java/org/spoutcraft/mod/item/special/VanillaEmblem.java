@@ -36,10 +36,9 @@ public class VanillaEmblem extends FoodPrefab {
     }
 
     @Override
-    public ItemStack onEaten(Side side, ItemStack stack, World world, EntityPlayer player) {
+    public void onEaten(Side side, ItemStack stack, World world, EntityPlayer player) {
         if (side.isServer()) {
             player.addChatMessage("Eating that reminds you of the good ole days...");
         }
-        return stack;
     }
 }

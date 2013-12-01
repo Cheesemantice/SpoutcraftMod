@@ -53,8 +53,7 @@ public class FoodPrefab extends ItemPrefab {
         return wolfFavorite;
     }
 
-    public ItemStack onEaten(Side side, ItemStack stack, World world, EntityPlayer player) {
-        return stack;
+    public void onEaten(Side side, ItemStack stack, World world, EntityPlayer player) {
     }
 
     @Override

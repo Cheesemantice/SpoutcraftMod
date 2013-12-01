@@ -81,4 +81,11 @@ public class CustomFood extends ItemFood {
         super.onPlayerStoppedUsing(par1ItemStack, par2World, par3EntityPlayer, par4);
         prefab.onPlayerStoppedUsing(FMLCommonHandler.instance().getEffectiveSide(), par1ItemStack, par2World, par3EntityPlayer, par4);
     }
+
+    @Override
+    public ItemStack onEaten(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer) {
+        super.onEaten(par1ItemStack, par2World, par3EntityPlayer);
+        prefab.onEaten(FMLCommonHandler.instance().getEffectiveSide(), par1ItemStack, par2World, par3EntityPlayer);
+        return par1ItemStack;
+    }
 }

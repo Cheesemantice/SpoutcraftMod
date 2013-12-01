@@ -50,10 +50,9 @@ public class TestFood extends FoodPrefab {
     }
 
     @Override
-    public ItemStack onEaten(Side side, ItemStack stack, World world, EntityPlayer player) {
+    public void onEaten(Side side, ItemStack stack, World world, EntityPlayer player) {
         if (side.isServer()) {
             world.createExplosion(player, player.posX, player.posY, player.posZ, 3f, true);
         }
-        return stack;
     }
 }
