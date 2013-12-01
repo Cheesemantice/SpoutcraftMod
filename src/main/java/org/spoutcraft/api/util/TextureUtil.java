@@ -165,6 +165,10 @@ public class TextureUtil {
         GL11.glBindTexture(GL11.GL_TEXTURE_2D, tex);
     }
 
+    public static void delete(int tex) {
+        GL11.glDeleteTextures(tex);
+    }
+
     private static int nextPowerOf2(int val) {
         val--;
         val |= val >> 1;

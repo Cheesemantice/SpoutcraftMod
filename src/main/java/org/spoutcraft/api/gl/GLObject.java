@@ -22,40 +22,32 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.spoutcraft.api.resource;
+package org.spoutcraft.api.gl;
 
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
-import javax.imageio.ImageIO;
+import org.spoutcraft.mod.SpoutcraftMod;
 
-public class Texture implements Serializable {
-    private static final long serialVersionUID = 1L;
-    private transient BufferedImage image = null;
+public abstract class GLObject {
 
-    public Texture() {
+    private final int glID;
+
+    public GLObject(int id) {
+        this.glID = id;
     }
 
-    public Texture(BufferedImage image) {
-        this.image = image;
+    public int getID() {
+        return this.glID;
     }
 
-    public BufferedImage getData() {
-        return image;
+    public abstract void bind();
+
+    public abstract void unbind();
+
+    protected abstract DeleteQueueObject getDeleteQueueObj();
+
+    @Override
+    protected void finalize() {
+        //Add to delete queue
+        SpoutcraftMod.queueDeletion(getDeleteQueueObj());
     }
 
-    private void writeObject(ObjectOutputStream out) throws IOException {
-        if (image == null) {
-            throw new IOException("Attempt to serialize Texture with null image data");
-        }
-        out.defaultWriteObject();
-        ImageIO.write(image, "png", out); //PNG is lossless so its safe to use even if it isn't PNG in reality
-    }
-
-    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
-        in.defaultReadObject();
-        image = ImageIO.read(in);
-    }
 }
