@@ -32,19 +32,32 @@ import java.nio.file.Paths;
 import java.util.Collection;
 import java.util.Map;
 
+import cpw.mods.fml.server.FMLServerHandler;
 import org.spoutcraft.api.addon.Addon;
 import org.spoutcraft.api.resource.FileSystem;
 import org.spoutcraft.api.util.RenderUtil;
 
 public class ServerFileSystem implements FileSystem {
-    public static final Path BASE_DIR = Paths.get(RenderUtil.MINECRAFT.mcDataDir.getAbsolutePath());
-    public static final Path MODS_DIR = Paths.get(BASE_DIR.toString(), "mods");
-    public static final Path ADDONS_DIR = Paths.get(MODS_DIR.toString(), "spoutcraft" + File.separator + "addons");
+    public final Path basePath;
+    public final Path modsPath;
+    public final Path addonsPath;
+
+    public ServerFileSystem() {
+        basePath = Paths.get(FMLServerHandler.instance().getServer().getFile(".").getAbsolutePath());
+        modsPath = Paths.get(basePath.toString(), "mods");
+        addonsPath = Paths.get(modsPath.toString(), "spoutcraft" + File.separator + "addons");
+    }
+
+    protected ServerFileSystem(Path base) {
+        basePath = base;
+        modsPath = Paths.get(basePath.toString(), "mods");
+        addonsPath = Paths.get(modsPath.toString(), "spoutcraft" + File.separator + "addons");
+    }
 
     @Override
     public void init() throws IOException {
-        if (!Files.exists(ADDONS_DIR)) {
-            Files.createDirectories(ADDONS_DIR);
+        if (!Files.exists(addonsPath)) {
+            Files.createDirectories(addonsPath);
         }
     }
 

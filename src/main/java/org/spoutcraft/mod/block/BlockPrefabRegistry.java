@@ -82,10 +82,6 @@ public class BlockPrefabRegistry implements LinkedPrefabRegistry<BlockPrefab, Bl
         //TODO Link ItemPrefab to BlockPrefab as an option
         GameRegistry.registerBlock(block, ItemBlock.class, prefab.getIdentifier(), "Spoutcraft");
         LanguageUtil.name(block, prefab.getDisplayName());
-        if (FMLCommonHandler.instance().getEffectiveSide().isServer()) {
-            PacketDispatcher.sendPacketToAllPlayers(new SpoutcraftPacket(new AddPrefabMessage(prefab)));
-        }
-
         return block;
     }
 
@@ -124,10 +120,7 @@ public class BlockPrefabRegistry implements LinkedPrefabRegistry<BlockPrefab, Bl
      * @param network The connected network
      */
     public void sync(final INetworkManager network) {
-        //TODO Scheduler and sending
         for (BlockPrefab prefab : REGISTRY) {
-            Spoutcraft.getLogger().info("Syncing block prefab to client");
-            Spoutcraft.getLogger().info(prefab.toString());
             network.addToSendQueue(new SpoutcraftPacket(new AddPrefabMessage(prefab)));
         }
     }

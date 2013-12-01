@@ -41,7 +41,6 @@ public class MessagePacketHandler implements IPacketHandler {
         final Codec codec = Protocol.find(packet.channel);
         final Message message;
         try {
-            Spoutcraft.getLogger().info("Decoding codec: " + codec);
             final ByteBuffer buffer = ByteBuffer.allocate(packet.data.length);
             buffer.put(packet.data);
             buffer.flip();
@@ -51,7 +50,6 @@ public class MessagePacketHandler implements IPacketHandler {
             throw new IllegalStateException("Error decoding codec: " + codec);
         }
         if (message != null) {
-            Spoutcraft.getLogger().info("Handling message: " + message);
             message.handle(FMLCommonHandler.instance().getEffectiveSide(), manager, player);
         }
     }

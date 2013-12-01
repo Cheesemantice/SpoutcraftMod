@@ -24,6 +24,7 @@
  */
 package org.spoutcraft.mod.protocol;
 
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.network.IConnectionHandler;
 import cpw.mods.fml.common.network.Player;
 import net.minecraft.network.INetworkManager;
@@ -40,7 +41,7 @@ import org.spoutcraft.mod.material.MaterialPrefabRegistry;
 public class SpoutcraftConnectionHandler implements IConnectionHandler {
     @Override
     public void playerLoggedIn(Player player, NetHandler netHandler, INetworkManager manager) {
-        if (!RenderUtil.MINECRAFT.isIntegratedServerRunning()) {
+        if (!FMLCommonHandler.instance().getMinecraftServerInstance().isSinglePlayer()) {
             ((MaterialPrefabRegistry) Spoutcraft.getMaterialPrefabRegistry()).sync(manager);
             ((ItemPrefabRegistry) Spoutcraft.getItemPrefabRegistry()).sync(manager);
             ((BlockPrefabRegistry) Spoutcraft.getBlockPrefabRegistry()).sync(manager);

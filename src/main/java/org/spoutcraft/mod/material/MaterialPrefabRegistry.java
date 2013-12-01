@@ -58,11 +58,6 @@ public class MaterialPrefabRegistry implements LinkedPrefabRegistry<MaterialPref
         final Material material = new CustomMaterial(prefab);
         REGISTRY.add(prefab);
         PREFAB_BY_MATERIAL.put(prefab, material);
-
-        //TODO Materials need to be registered?
-        if (FMLCommonHandler.instance().getEffectiveSide().isServer()) {
-            PacketDispatcher.sendPacketToAllPlayers(new SpoutcraftPacket(new AddPrefabMessage(prefab)));
-        }
         return material;
     }
 
@@ -99,11 +94,7 @@ public class MaterialPrefabRegistry implements LinkedPrefabRegistry<MaterialPref
      * @param network The connected network
      */
     public void sync(final INetworkManager network) {
-        Spoutcraft.getLogger().info("Preparing to sync material registry");
-        //TODO Scheduler and sending
         for (MaterialPrefab prefab : REGISTRY) {
-            Spoutcraft.getLogger().info("Syncing material prefab to client");
-            Spoutcraft.getLogger().info(prefab.toString());
             network.addToSendQueue(new SpoutcraftPacket(new AddPrefabMessage(prefab)));
         }
     }

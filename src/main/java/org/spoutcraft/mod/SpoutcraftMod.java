@@ -43,6 +43,7 @@ import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.packet.Packet;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.*;
 import org.spoutcraft.api.LinkedPrefabRegistry;
@@ -66,6 +67,7 @@ import org.spoutcraft.mod.item.special.SpoutcraftEmblem;
 import org.spoutcraft.mod.item.special.VanillaEmblem;
 import org.spoutcraft.mod.material.MaterialPrefabRegistry;
 import org.spoutcraft.mod.protocol.SpoutcraftConnectionHandler;
+import org.spoutcraft.mod.protocol.SpoutcraftPacket;
 import org.spoutcraft.mod.protocol.message.AddPrefabMessage;
 import org.spoutcraft.mod.resource.ClientFileSystem;
 import org.spoutcraft.mod.resource.ServerFileSystem;
@@ -104,27 +106,38 @@ public class SpoutcraftMod {
                 }
 
                 fileSystem = Spoutcraft.setFileSystem(new ClientFileSystem());
+
+                // Setup file system
+                try {
+                    fileSystem.init();
+                } catch (Exception e) {
+                    throw new RuntimeException("Could not initialize FileSystem", e);
+                }
+
                 manager = Spoutcraft.setAddonManager(new ClientAddonManager());
 
+                //Setup addon manager
+                manager.loadAddons(((ClientFileSystem) fileSystem).addonsPath);
                 registerHandlers();
                 break;
             case SERVER:
                 fileSystem = Spoutcraft.setFileSystem(new ServerFileSystem());
+
+                // Setup file system
+                try {
+                    fileSystem.init();
+                } catch (Exception e) {
+                    throw new RuntimeException("Could not initialize FileSystem", e);
+                }
+
                 manager = Spoutcraft.setAddonManager(new ServerAddonManager());
+
+                //Setup addon manager
+                manager.loadAddons(((ServerFileSystem) fileSystem).addonsPath);
                 break;
             default:
                 throw new RuntimeException("Spoutcraft is being ran on an invalid side!");
         }
-
-        // Setup file system
-        try {
-            fileSystem.init();
-        } catch (Exception e) {
-            throw new RuntimeException("Could not initialize FileSystem", e);
-        }
-
-        //Setup addon manager
-        manager.loadAddons(ServerFileSystem.ADDONS_DIR);
 
         manager.enable();
 
@@ -240,6 +253,7 @@ public class SpoutcraftMod {
     }
 
     private void bindCodecMessages() {
+        Packet.addIdClassMapping(251, true, true, SpoutcraftPacket.class);
         NetworkRegistry.instance().registerConnectionHandler(new SpoutcraftConnectionHandler());
         Protocol.register(AddPrefabMessage.class, org.spoutcraft.mod.protocol.codec.AddPrefabCodec.class);
     }
