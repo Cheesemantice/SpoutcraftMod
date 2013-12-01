@@ -52,8 +52,8 @@ public class ArrayBuffer extends GLObject {
     }
 
     @Override
-    public void delete() {
-        glDeleteBuffers(getID());
+    protected DeleteQueueObject getDeleteQueueObj() {
+        return new BufferDeleteQueueObject(getID());
     }
 
     public static void buffer(ByteBuffer data, BufferUsage usage) {

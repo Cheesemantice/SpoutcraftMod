@@ -60,7 +60,7 @@ import org.spoutcraft.api.resource.FileSystem;
 import org.spoutcraft.api.util.LanguageUtil;
 import org.spoutcraft.api.util.RenderUtil;
 import org.spoutcraft.api.util.TextureUtil;
-import org.spoutcraft.api.gl.GLObject;
+import org.spoutcraft.api.gl.DeleteQueueObject;
 import org.spoutcraft.mod.addon.ClientAddonManager;
 import org.spoutcraft.mod.addon.ServerAddonManager;
 import org.spoutcraft.mod.block.BlockPrefabRegistry;
@@ -85,7 +85,7 @@ public class SpoutcraftMod {
     private static CustomTabs customTabs;
 
     //Used to delete OpenGl objects on the main thread
-    private static Queue<GLObject> glDeleteQueue = new ConcurrentLinkedQueue<GLObject>();
+    private static Queue<DeleteQueueObject> glDeleteQueue = new ConcurrentLinkedQueue<DeleteQueueObject>();
 
     @EventHandler
     @SuppressWarnings ("unchecked")
@@ -265,7 +265,7 @@ public class SpoutcraftMod {
 
             @Override
             public void tickEnd(EnumSet<TickType> type, Object... tickData) {
-                GLObject toDelete;
+                DeleteQueueObject toDelete;
                 while((toDelete = glDeleteQueue.poll()) != null) {
                     toDelete.delete();
                 }
@@ -305,7 +305,7 @@ public class SpoutcraftMod {
         return customTabs;
     }
 
-    public static void queueDeletion(GLObject obj) {
+    public static void queueDeletion(DeleteQueueObject obj) {
         glDeleteQueue.offer(obj);
     }
 }

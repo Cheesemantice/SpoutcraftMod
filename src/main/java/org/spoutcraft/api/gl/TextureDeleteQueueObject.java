@@ -24,30 +24,16 @@
  */
 package org.spoutcraft.api.gl;
 
-import org.spoutcraft.mod.SpoutcraftMod;
+import org.lwjgl.opengl.GL11;
 
-public abstract class GLObject {
+public class TextureDeleteQueueObject extends DeleteQueueObject {
 
-    private final int glID;
-
-    public GLObject(int id) {
-        this.glID = id;
+    public TextureDeleteQueueObject(int id) {
+        super(id);
     }
 
-    public int getID() {
-        return this.glID;
-    }
-
-    public abstract void bind();
-
-    public abstract void unbind();
-
-    protected abstract DeleteQueueObject getDeleteQueueObj();
-
-    @Override
-    protected void finalize() {
-        //Add to delete queue
-        SpoutcraftMod.queueDeletion(getDeleteQueueObj());
+    public void delete() {
+        GL11.glDeleteTextures(getID());
     }
 
 }

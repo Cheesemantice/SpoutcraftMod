@@ -83,8 +83,8 @@ public class Texture extends GLObject {
     }
 
     @Override
-    public void delete() {
-        TextureUtil.delete(getID());
+    protected DeleteQueueObject getDeleteQueueObj() {
+        return new TextureDeleteQueueObject(getID());
     }
 
     public static void setMinFilter(MinFilter filter) {
