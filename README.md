@@ -24,7 +24,7 @@ __For [IntelliJ](http://www.jetbrains.com/idea/)__<br>
 ## Run
 __Note 1:__ The following is aimed to help you setup run configurations for Eclipse and IntelliJ, if you do not want to be able to run SpoutcraftMod directly from your IDE then you can skip this.<br>
 __Note 2:__ The working directories for both Client and Server will need to be created manually in the root of SpoutcraftMod's directory. Otherwise you'll get a few errors and will not be able to run it this way.<br>
-__Note 3:__ When running the Server, make sure you set it to offline-mode=true in the server.properties in ~/run/server!
+__Note 3:__ When running the Server, make sure you set it to __online-mode=false__ in the server.properties in ~/run/server!
 
 __For [Eclipse](http://www.eclipse.org)__<br>
 1. Go to 'Run > Run Configurations'<br>
@@ -51,7 +51,7 @@ Use classpath of module: SpoutcraftMod (IntelliJ-only)
 __Server__
 ```
 Main class: cpw.mods.fml.relauncher.ServerLaunchWrapper
-VM options: -Xmx1G -Xms512M -Dfml.ignoreInvalidMinecraftCertificates=true -Djava.library.path="../../build/natives"
+VM options: -Xmx1G -Xms512M -Dfml.ignoreInvalidMinecraftCertificates=true
 Working directory: Path/to/SpoutcraftMod/run/server
 Use classpath of module: SpoutcraftMod (IntelliJ-only)
 ```
