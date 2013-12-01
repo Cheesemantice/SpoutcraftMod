@@ -32,21 +32,20 @@ import org.spoutcraft.api.util.RandomUtil;
 import org.spoutcraft.api.util.RenderUtil;
 import org.spoutcraft.api.util.TextureUtil;
 import org.spoutcraft.api.util.TimeUtil;
+import org.spoutcraft.api.gl.Texture;
+import org.spoutcraft.api.gl.TextureWrap;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL12.*;
 
 public class SpoutcraftBackground {
-    private static final int BLUR_TEX = glGenTextures();
-    private int BACKGROUND_TEX = TextureUtil.loadTexture(randomlyChoose());
+    private static final Texture BLUR_TEX = new Texture(420, 256);
+    private Texture BACKGROUND_TEX = new Texture(randomlyChoose());
 
     static {
-        TextureUtil.bind(BLUR_TEX);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, 420, 256, 0, GL_RGBA, GL_UNSIGNED_BYTE, (ByteBuffer) null);
-        TextureUtil.setMinFilter(GL_LINEAR);
-        TextureUtil.setMagFilter(GL_LINEAR);
-        TextureUtil.setWrapS(GL_CLAMP_TO_EDGE);
-        TextureUtil.setWrapT(GL_CLAMP_TO_EDGE);
+        BLUR_TEX.bind();
+        Texture.setWrapU(TextureWrap.CLAMP_TO_EDGE);
+        Texture.setWrapV(TextureWrap.CLAMP_TO_EDGE);
     }
 
     private static ResourceLocation randomlyChoose() {
@@ -102,8 +101,7 @@ public class SpoutcraftBackground {
         float mU = viewWidth / 420F;
         float mV = viewHeight / 256F;
 
-        TextureUtil.bind(BACKGROUND_TEX);
-        TextureUtil.setMinFilter(GL_LINEAR);
+        BACKGROUND_TEX.bind();
         glColor3f(1, 1, 1);
 
         //Setup projection matrix to custom
@@ -118,7 +116,7 @@ public class SpoutcraftBackground {
         //Setup viewport for blurring
         glViewport(0, 0, viewWidth, viewHeight);
         RenderUtil.drawTexture(0, 0, 420, 256);
-        TextureUtil.bind(BLUR_TEX);
+        BLUR_TEX.bind();
         glEnable(GL_BLEND);
         glColorMask(true, true, true, false);
         for (int i = 0; i < 3; i++) {

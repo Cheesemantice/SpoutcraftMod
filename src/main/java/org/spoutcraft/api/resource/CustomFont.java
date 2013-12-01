@@ -37,6 +37,7 @@ import java.util.Arrays;
 
 import org.spoutcraft.api.util.RenderUtil;
 import org.spoutcraft.api.util.TextureUtil;
+import org.spoutcraft.api.gl.Texture;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL15.*;
@@ -49,7 +50,7 @@ public class CustomFont {
     private static final int FONT_UV_OFF = 2 * 4;
     public final int fontSize;
     private int fontHeight;
-    private int fontTexture;
+    private Texture fontTexture;
     private FontChar[] charMap = new FontChar[256];
     private float scale = 1F;
     private int red = 0xFF;
@@ -107,10 +108,7 @@ public class CustomFont {
             g2d.drawString(c + "", x, y);
         }
         g2d.dispose();
-        this.fontTexture = TextureUtil.loadTexture(fontImg);
-        TextureUtil.bind(this.fontTexture);
-        TextureUtil.setMinFilter(GL_LINEAR);
-        TextureUtil.setMagFilter(GL_LINEAR);
+        this.fontTexture = new Texture(fontImg);
     }
 
     /**
@@ -121,7 +119,7 @@ public class CustomFont {
      * @return this font object, so this can be chained with the constructor
      */
     public CustomFont setFilter(int min, int mag) {
-        TextureUtil.bind(this.fontTexture);
+        this.fontTexture.bind();
         TextureUtil.setMinFilter(min);
         TextureUtil.setMagFilter(mag);
         return this;
@@ -197,7 +195,7 @@ public class CustomFont {
         glDisable(GL_ALPHA_TEST);
         glColor4f(red / 255F, green / 255F, blue / 255F, alpha / 255F);
 
-        TextureUtil.bind(fontTexture);
+        this.fontTexture.bind();
         glBindBuffer(GL_ARRAY_BUFFER, FONT_VBO);
         glBufferData(GL_ARRAY_BUFFER, FONT_STRIDE * len * 4, GL_STREAM_DRAW);
         FloatBuffer data = RenderUtil.mapBufferWriteUnsync(GL_ARRAY_BUFFER, FONT_STRIDE * len * 4, null).asFloatBuffer();
@@ -284,11 +282,6 @@ public class CustomFont {
         return scale * this.charMap[c].width;
     }
 
-    @Override
-    public void finalize() throws Throwable {
-        glDeleteTextures(fontTexture);
-        super.finalize();
-    }
 }
 
 class FontChar {
