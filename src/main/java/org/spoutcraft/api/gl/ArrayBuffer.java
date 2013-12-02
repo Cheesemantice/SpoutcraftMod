@@ -32,13 +32,8 @@ import java.nio.ShortBuffer;
 
 import org.spoutcraft.api.util.RenderUtil;
 
-import static org.lwjgl.opengl.GL15.GL_ARRAY_BUFFER;
-import static org.lwjgl.opengl.GL15.glBindBuffer;
-import static org.lwjgl.opengl.GL15.glBufferData;
-import static org.lwjgl.opengl.GL15.glGenBuffers;
-import static org.lwjgl.opengl.GL15.glMapBuffer;
-import static org.lwjgl.opengl.GL30.GL_MAP_UNSYNCHRONIZED_BIT;
-import static org.lwjgl.opengl.GL30.glMapBufferRange;
+import static org.lwjgl.opengl.GL15.*;
+import static org.lwjgl.opengl.GL30.*;
 
 public class ArrayBuffer extends GLObject {
     public ArrayBuffer() {

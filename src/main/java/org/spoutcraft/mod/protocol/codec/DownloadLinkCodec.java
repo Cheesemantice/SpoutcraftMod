@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.nio.ByteBuffer;
 
-import com.google.common.base.Charsets;
 import cpw.mods.fml.relauncher.Side;
 import org.apache.commons.lang3.SerializationUtils;
 import org.spoutcraft.api.protocol.codec.Codec;

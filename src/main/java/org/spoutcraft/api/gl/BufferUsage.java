@@ -24,7 +24,7 @@
  */
 package org.spoutcraft.api.gl;
 
-import org.lwjgl.opengl.GL15;
+import org.lwjgl.opengl.*;
 
 public enum BufferUsage {
 

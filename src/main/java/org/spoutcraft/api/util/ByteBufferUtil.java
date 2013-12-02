@@ -61,6 +61,7 @@ public class ByteBufferUtil {
 
     /**
      * Gets the byte size of a {@link String} (not to be confused with {@link String#length()}).
+     *
      * @param string The string to get size for
      * @return Size of the string
      */

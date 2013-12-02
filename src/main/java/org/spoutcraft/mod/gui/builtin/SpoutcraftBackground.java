@@ -32,22 +32,7 @@ import org.spoutcraft.api.util.RandomUtil;
 import org.spoutcraft.api.util.RenderUtil;
 import org.spoutcraft.api.util.TimeUtil;
 
-import static org.lwjgl.opengl.GL11.GL_BLEND;
-import static org.lwjgl.opengl.GL11.GL_MODELVIEW;
-import static org.lwjgl.opengl.GL11.GL_PROJECTION;
-import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
-import static org.lwjgl.opengl.GL11.glColor3f;
-import static org.lwjgl.opengl.GL11.glColor4f;
-import static org.lwjgl.opengl.GL11.glColorMask;
-import static org.lwjgl.opengl.GL11.glCopyTexSubImage2D;
-import static org.lwjgl.opengl.GL11.glDisable;
-import static org.lwjgl.opengl.GL11.glEnable;
-import static org.lwjgl.opengl.GL11.glLoadIdentity;
-import static org.lwjgl.opengl.GL11.glMatrixMode;
-import static org.lwjgl.opengl.GL11.glOrtho;
-import static org.lwjgl.opengl.GL11.glPopMatrix;
-import static org.lwjgl.opengl.GL11.glPushMatrix;
-import static org.lwjgl.opengl.GL11.glViewport;
+import static org.lwjgl.opengl.GL11.*;
 
 public class SpoutcraftBackground {
     private static final Texture BLUR_TEX = new Texture(420, 256);
