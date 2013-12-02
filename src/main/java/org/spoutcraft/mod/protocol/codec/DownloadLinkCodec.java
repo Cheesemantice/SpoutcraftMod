@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.nio.ByteBuffer;
 
+import com.google.common.base.Charsets;
 import cpw.mods.fml.relauncher.Side;
 import org.apache.commons.lang3.SerializationUtils;
 import org.spoutcraft.api.protocol.codec.Codec;
@@ -37,7 +38,7 @@ public class DownloadLinkCodec implements Codec<DownloadLinkMessage> {
         final String addonIdentifier = message.getAddonIdentifier();
         final URL url = message.getUrl();
         final byte[] urlBytes = SerializationUtils.serialize(url);
-        final ByteBuffer buffer = ByteBuffer.allocate(4 + addonIdentifier.getBytes("UTF-8").length + urlBytes.length);
+        final ByteBuffer buffer = ByteBuffer.allocate(4 + addonIdentifier.getBytes(Charsets.UTF_8).length + urlBytes.length);
         buffer.putInt(addonIdentifier.length());
         ByteBufferUtils.writeString(buffer, addonIdentifier);
         buffer.put(urlBytes);

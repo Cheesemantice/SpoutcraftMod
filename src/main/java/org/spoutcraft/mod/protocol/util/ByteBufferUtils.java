@@ -42,7 +42,7 @@ public class ByteBufferUtils {
     }
 
     /**
-     * Reads a string from the buffer provided with a specified length. <p/> This method assumes the buffer's position is set to the start position to read the string.
+     * Reads a string from the buffer provided with a specified length.
      *
      * @param buffer Buffer to read from
      * @param length Length to read
@@ -52,7 +52,9 @@ public class ByteBufferUtils {
     public static String readString(ByteBuffer buffer, int length) throws IOException {
         int oldPosition = buffer.position();
         buffer.limit(oldPosition + length);
-        final String decoded = buffer.asCharBuffer().toString();
+        byte[] data = new byte[buffer.remaining()];
+        buffer.get(data);
+        final String decoded = new String(data, Charsets.UTF_8);
         buffer.clear();
         buffer.position(oldPosition + length);
         return decoded;
