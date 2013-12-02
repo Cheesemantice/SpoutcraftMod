@@ -58,4 +58,13 @@ public class ByteBufferUtil {
         buffer.position(oldPosition + length);
         return new String(data, Charsets.UTF_8);
     }
+
+    /**
+     * Gets the byte size of a {@link String} (not to be confused with {@link String#length()}).
+     * @param string The string to get size for
+     * @return Size of the string
+     */
+    public static int getSize(String string) {
+        return string.getBytes(Charsets.UTF_8).length;
+    }
 }

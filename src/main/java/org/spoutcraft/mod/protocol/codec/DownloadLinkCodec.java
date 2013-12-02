@@ -38,7 +38,7 @@ public class DownloadLinkCodec implements Codec<DownloadLinkMessage> {
         final String addonIdentifier = message.getAddonIdentifier();
         final URL url = message.getUrl();
         final byte[] urlBytes = SerializationUtils.serialize(url);
-        final ByteBuffer buffer = ByteBuffer.allocate(4 + addonIdentifier.getBytes(Charsets.UTF_8).length + urlBytes.length);
+        final ByteBuffer buffer = ByteBuffer.allocate(4 + ByteBufferUtil.getSize(addonIdentifier) + urlBytes.length);
         buffer.putInt(addonIdentifier.length());
         ByteBufferUtil.writeString(buffer, addonIdentifier);
         buffer.put(urlBytes);
