@@ -120,13 +120,39 @@ public class Color {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (obj instanceof Color) {
-            Color otherColor = (Color) obj;
-            return r == otherColor.r && g == otherColor.g && b == otherColor.b && a == otherColor.a;
-        } else {
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
             return false;
         }
+
+        final Color color = (Color) o;
+
+        if (a != color.a) {
+            return false;
+        }
+        if (b != color.b) {
+            return false;
+        }
+        if (g != color.g) {
+            return false;
+        }
+        if (r != color.r) {
+            return false;
+        }
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = r;
+        result = 31 * result + g;
+        result = 31 * result + b;
+        result = 31 * result + a;
+        return result;
     }
 
     @Override
