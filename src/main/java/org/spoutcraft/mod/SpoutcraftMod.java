@@ -47,11 +47,13 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.util.ResourceLocation;
-import org.lwjgl.opengl.*;
+import org.lwjgl.opengl.Display;
+import org.lwjgl.opengl.GL11;
 import org.spoutcraft.api.LinkedPrefabRegistry;
 import org.spoutcraft.api.Spoutcraft;
 import org.spoutcraft.api.addon.AddonManager;
 import org.spoutcraft.api.block.MovingPrefab;
+import org.spoutcraft.api.gl.DeleteQueueObject;
 import org.spoutcraft.api.logger.SpoutcraftLogger;
 import org.spoutcraft.api.material.MapIndex;
 import org.spoutcraft.api.material.MaterialPrefab;
@@ -60,7 +62,6 @@ import org.spoutcraft.api.resource.FileSystem;
 import org.spoutcraft.api.util.LanguageUtil;
 import org.spoutcraft.api.util.RenderUtil;
 import org.spoutcraft.api.util.TextureUtil;
-import org.spoutcraft.api.gl.DeleteQueueObject;
 import org.spoutcraft.mod.addon.ClientAddonManager;
 import org.spoutcraft.mod.addon.ServerAddonManager;
 import org.spoutcraft.mod.block.BlockPrefabRegistry;
@@ -86,7 +87,6 @@ public class SpoutcraftMod {
     @Instance (value = "Spoutcraft")
     public static SpoutcraftMod instance;
     private static CustomTabs customTabs;
-
     //Used to delete OpenGl objects on the main thread
     private static Queue<DeleteQueueObject> glDeleteQueue = new ConcurrentLinkedQueue<DeleteQueueObject>();
 
@@ -269,7 +269,7 @@ public class SpoutcraftMod {
             @Override
             public void tickEnd(EnumSet<TickType> type, Object... tickData) {
                 DeleteQueueObject toDelete;
-                while((toDelete = glDeleteQueue.poll()) != null) {
+                while ((toDelete = glDeleteQueue.poll()) != null) {
                     toDelete.delete();
                 }
             }

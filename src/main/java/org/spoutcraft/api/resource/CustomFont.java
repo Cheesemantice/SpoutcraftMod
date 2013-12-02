@@ -35,12 +35,35 @@ import java.awt.image.DataBufferInt;
 import java.nio.FloatBuffer;
 import java.util.Arrays;
 
+import org.spoutcraft.api.gl.Texture;
 import org.spoutcraft.api.util.RenderUtil;
 import org.spoutcraft.api.util.TextureUtil;
-import org.spoutcraft.api.gl.Texture;
 
-import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.opengl.GL15.*;
+import static org.lwjgl.opengl.GL11.GL_ALPHA_TEST;
+import static org.lwjgl.opengl.GL11.GL_BLEND;
+import static org.lwjgl.opengl.GL11.GL_CURRENT_BIT;
+import static org.lwjgl.opengl.GL11.GL_ENABLE_BIT;
+import static org.lwjgl.opengl.GL11.GL_FLOAT;
+import static org.lwjgl.opengl.GL11.GL_QUADS;
+import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
+import static org.lwjgl.opengl.GL11.GL_TEXTURE_COORD_ARRAY;
+import static org.lwjgl.opengl.GL11.GL_VERTEX_ARRAY;
+import static org.lwjgl.opengl.GL11.glColor4f;
+import static org.lwjgl.opengl.GL11.glDisable;
+import static org.lwjgl.opengl.GL11.glDisableClientState;
+import static org.lwjgl.opengl.GL11.glDrawArrays;
+import static org.lwjgl.opengl.GL11.glEnable;
+import static org.lwjgl.opengl.GL11.glEnableClientState;
+import static org.lwjgl.opengl.GL11.glPopAttrib;
+import static org.lwjgl.opengl.GL11.glPushAttrib;
+import static org.lwjgl.opengl.GL11.glTexCoordPointer;
+import static org.lwjgl.opengl.GL11.glVertexPointer;
+import static org.lwjgl.opengl.GL15.GL_ARRAY_BUFFER;
+import static org.lwjgl.opengl.GL15.GL_STREAM_DRAW;
+import static org.lwjgl.opengl.GL15.glBindBuffer;
+import static org.lwjgl.opengl.GL15.glBufferData;
+import static org.lwjgl.opengl.GL15.glGenBuffers;
+import static org.lwjgl.opengl.GL15.glUnmapBuffer;
 
 public class CustomFont {
     private static final int FONT_VBO = glGenBuffers();
@@ -281,7 +304,6 @@ public class CustomFont {
         }
         return scale * this.charMap[c].width;
     }
-
 }
 
 class FontChar {

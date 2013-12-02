@@ -27,7 +27,7 @@ package org.spoutcraft.mod.gui.builtin;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
-import org.lwjgl.opengl.*;
+import org.lwjgl.opengl.GL11;
 import org.spoutcraft.api.util.RenderUtil;
 
 public class SpoutcraftSimpleButton extends GuiButton {

@@ -38,8 +38,11 @@ import javax.imageio.ImageIO;
 import cpw.mods.fml.client.FMLClientHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
-import org.lwjgl.*;
-import org.lwjgl.opengl.*;
+import org.lwjgl.BufferUtils;
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL12;
+import org.lwjgl.opengl.GL14;
+import org.lwjgl.opengl.GL30;
 
 public class TextureUtil {
     public static final Minecraft MINECRAFT = FMLClientHandler.instance().getClient();

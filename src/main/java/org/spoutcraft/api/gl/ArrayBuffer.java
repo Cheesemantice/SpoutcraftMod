@@ -25,18 +25,22 @@
 package org.spoutcraft.api.gl;
 
 import java.nio.ByteBuffer;
-import java.nio.ShortBuffer;
-import java.nio.IntBuffer;
-import java.nio.FloatBuffer;
 import java.nio.DoubleBuffer;
+import java.nio.FloatBuffer;
+import java.nio.IntBuffer;
+import java.nio.ShortBuffer;
 
 import org.spoutcraft.api.util.RenderUtil;
 
-import static org.lwjgl.opengl.GL15.*;
-import static org.lwjgl.opengl.GL30.*;
+import static org.lwjgl.opengl.GL15.GL_ARRAY_BUFFER;
+import static org.lwjgl.opengl.GL15.glBindBuffer;
+import static org.lwjgl.opengl.GL15.glBufferData;
+import static org.lwjgl.opengl.GL15.glGenBuffers;
+import static org.lwjgl.opengl.GL15.glMapBuffer;
+import static org.lwjgl.opengl.GL30.GL_MAP_UNSYNCHRONIZED_BIT;
+import static org.lwjgl.opengl.GL30.glMapBufferRange;
 
 public class ArrayBuffer extends GLObject {
-
     public ArrayBuffer() {
         super(glGenBuffers());
     }
@@ -93,7 +97,7 @@ public class ArrayBuffer extends GLObject {
     }
 
     public ByteBuffer mapUnsync(int length, BufferAccess access, ByteBuffer prevBuffer) {
-        if(!RenderUtil.GL_30) {
+        if (!RenderUtil.GL_30) {
             return map(length, access, prevBuffer);
         }
         return glMapBufferRange(GL_ARRAY_BUFFER, 0, length, access.getGL30Enum() | GL_MAP_UNSYNCHRONIZED_BIT, prevBuffer);
@@ -102,5 +106,4 @@ public class ArrayBuffer extends GLObject {
     public ByteBuffer mapUnsync(int length, BufferAccess access) {
         return mapUnsync(length, access, null);
     }
-
 }

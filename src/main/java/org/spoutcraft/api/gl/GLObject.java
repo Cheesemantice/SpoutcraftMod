@@ -27,7 +27,6 @@ package org.spoutcraft.api.gl;
 import org.spoutcraft.mod.SpoutcraftMod;
 
 public abstract class GLObject {
-
     private final int glID;
 
     public GLObject(int id) {
@@ -49,5 +48,4 @@ public abstract class GLObject {
         //Add to delete queue
         SpoutcraftMod.queueDeletion(getDeleteQueueObj());
     }
-
 }

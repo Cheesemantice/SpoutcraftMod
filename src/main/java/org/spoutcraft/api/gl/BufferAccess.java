@@ -32,7 +32,6 @@ public enum BufferAccess {
     READ(GL15.GL_READ_ONLY, GL30.GL_MAP_READ_BIT),
     WRITE(GL15.GL_WRITE_ONLY, GL30.GL_MAP_WRITE_BIT),
     READ_WRITE(GL15.GL_READ_WRITE, GL30.GL_MAP_READ_BIT | GL30.GL_MAP_WRITE_BIT);
-
     private int glEnum, gl30Enum;
 
     private BufferAccess(int glEnum, int gl30Enum) {

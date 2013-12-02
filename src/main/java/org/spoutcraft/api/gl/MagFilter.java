@@ -30,7 +30,6 @@ public enum MagFilter {
 
     NEAREST(GL11.GL_NEAREST),
     LINEAR(GL11.GL_LINEAR);
-
     private int glEnum;
 
     private MagFilter(int glEnum) {

@@ -28,12 +28,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.network.PacketDispatcher;
 import net.minecraft.block.material.Material;
 import net.minecraft.network.INetworkManager;
 import org.spoutcraft.api.LinkedPrefabRegistry;
-import org.spoutcraft.api.Spoutcraft;
 import org.spoutcraft.api.material.MaterialPrefab;
 import org.spoutcraft.mod.protocol.SpoutcraftPacket;
 import org.spoutcraft.mod.protocol.message.AddPrefabMessage;

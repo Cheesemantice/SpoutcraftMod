@@ -27,7 +27,6 @@ package org.spoutcraft.api.gl;
 import org.lwjgl.opengl.GL11;
 
 public class TextureDeleteQueueObject extends DeleteQueueObject {
-
     public TextureDeleteQueueObject(int id) {
         super(id);
     }
@@ -35,5 +34,4 @@ public class TextureDeleteQueueObject extends DeleteQueueObject {
     public void delete() {
         GL11.glDeleteTextures(getID());
     }
-
 }

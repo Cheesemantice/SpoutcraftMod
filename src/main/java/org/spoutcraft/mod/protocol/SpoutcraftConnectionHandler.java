@@ -35,7 +35,6 @@ import net.minecraft.network.packet.NetHandler;
 import net.minecraft.network.packet.Packet1Login;
 import net.minecraft.server.MinecraftServer;
 import org.spoutcraft.api.Spoutcraft;
-import org.spoutcraft.api.util.RenderUtil;
 import org.spoutcraft.mod.block.BlockPrefabRegistry;
 import org.spoutcraft.mod.item.ItemPrefabRegistry;
 import org.spoutcraft.mod.material.MaterialPrefabRegistry;

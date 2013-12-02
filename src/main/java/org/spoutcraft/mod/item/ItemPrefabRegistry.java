@@ -29,13 +29,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.item.Item;
 import net.minecraft.network.INetworkManager;
 import org.spoutcraft.api.LinkedPrefabRegistry;
-import org.spoutcraft.api.Spoutcraft;
 import org.spoutcraft.api.item.FoodPrefab;
 import org.spoutcraft.api.item.ItemPrefab;
 import org.spoutcraft.api.util.LanguageUtil;

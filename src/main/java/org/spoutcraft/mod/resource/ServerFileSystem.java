@@ -35,7 +35,6 @@ import java.util.Map;
 import cpw.mods.fml.server.FMLServerHandler;
 import org.spoutcraft.api.addon.Addon;
 import org.spoutcraft.api.resource.FileSystem;
-import org.spoutcraft.api.util.RenderUtil;
 
 public class ServerFileSystem implements FileSystem {
     public final Path basePath;

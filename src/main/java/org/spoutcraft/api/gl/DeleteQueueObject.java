@@ -25,7 +25,6 @@
 package org.spoutcraft.api.gl;
 
 public abstract class DeleteQueueObject {
-
     private int glId;
 
     public DeleteQueueObject(int id) {
@@ -37,5 +36,4 @@ public abstract class DeleteQueueObject {
     }
 
     public abstract void delete();
-
 }

@@ -34,11 +34,11 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiSelectWorld;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.ResourceLocation;
-import org.lwjgl.opengl.*;
+import org.lwjgl.opengl.GL11;
+import org.spoutcraft.api.resource.CustomFont;
 import org.spoutcraft.api.util.RenderUtil;
 import org.spoutcraft.api.util.TextureUtil;
 import org.spoutcraft.mod.SpoutcraftMod;
-import org.spoutcraft.api.resource.CustomFont;
 
 import static org.lwjgl.opengl.GL11.GL_LINEAR;
 import static org.lwjgl.opengl.GL12.GL_CLAMP_TO_EDGE;

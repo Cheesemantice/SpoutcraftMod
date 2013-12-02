@@ -27,7 +27,6 @@ package org.spoutcraft.api.gl;
 import org.lwjgl.opengl.GL15;
 
 public class BufferDeleteQueueObject extends DeleteQueueObject {
-
     public BufferDeleteQueueObject(int id) {
         super(id);
     }
@@ -35,5 +34,4 @@ public class BufferDeleteQueueObject extends DeleteQueueObject {
     public void delete() {
         GL15.glDeleteBuffers(getID());
     }
-
 }

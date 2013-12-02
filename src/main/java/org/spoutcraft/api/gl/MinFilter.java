@@ -34,8 +34,6 @@ public enum MinFilter {
     NEAREST_MIPMAP_LINEAR(GL11.GL_NEAREST_MIPMAP_LINEAR),
     LINEAR_MIPMAP_NEAREST(GL11.GL_LINEAR_MIPMAP_NEAREST),
     LINEAR_MIPMAP_LINEAR(GL11.GL_LINEAR_MIPMAP_LINEAR);
-
-
     private int glEnum;
 
     private MinFilter(int glEnum) {

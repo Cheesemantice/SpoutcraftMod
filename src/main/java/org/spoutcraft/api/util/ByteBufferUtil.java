@@ -22,14 +22,14 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.spoutcraft.mod.protocol.util;
+package org.spoutcraft.api.util;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
 
 import com.google.common.base.Charsets;
 
-public class ByteBufferUtils {
+public class ByteBufferUtil {
     /**
      * Writes a string to the buffer provided.
      *
@@ -54,9 +54,8 @@ public class ByteBufferUtils {
         buffer.limit(oldPosition + length);
         byte[] data = new byte[buffer.remaining()];
         buffer.get(data);
-        final String decoded = new String(data, Charsets.UTF_8);
         buffer.clear();
         buffer.position(oldPosition + length);
-        return decoded;
+        return new String(data, Charsets.UTF_8);
     }
 }

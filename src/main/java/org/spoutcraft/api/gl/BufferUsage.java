@@ -31,7 +31,6 @@ public enum BufferUsage {
     STATIC_DRAW(GL15.GL_STATIC_DRAW),
     STREAM_DRAW(GL15.GL_STREAM_DRAW),
     DYNAMIC_DRAW(GL15.GL_DYNAMIC_DRAW);
-
     private int glEnum;
 
     private BufferUsage(int glEnum) {

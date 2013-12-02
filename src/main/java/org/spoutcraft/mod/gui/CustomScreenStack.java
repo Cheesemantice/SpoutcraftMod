@@ -27,7 +27,6 @@ package org.spoutcraft.mod.gui;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.Map;
 
 import org.spoutcraft.api.addon.Addon;
 import org.spoutcraft.api.gui.Screen;

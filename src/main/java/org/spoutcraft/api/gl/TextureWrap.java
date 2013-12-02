@@ -31,7 +31,6 @@ public enum TextureWrap {
 
     CLAMP_TO_EDGE(GL12.GL_CLAMP_TO_EDGE),
     REPEAT(GL11.GL_REPEAT);
-
     private int glEnum;
 
     private TextureWrap(int glEnum) {
