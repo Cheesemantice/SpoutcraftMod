@@ -71,7 +71,10 @@ import org.spoutcraft.mod.item.special.VanillaEmblem;
 import org.spoutcraft.mod.material.MaterialPrefabRegistry;
 import org.spoutcraft.mod.protocol.SpoutcraftConnectionHandler;
 import org.spoutcraft.mod.protocol.SpoutcraftPacket;
+import org.spoutcraft.mod.protocol.codec.AddPrefabCodec;
+import org.spoutcraft.mod.protocol.codec.DownloadLinkCodec;
 import org.spoutcraft.mod.protocol.message.AddPrefabMessage;
+import org.spoutcraft.mod.protocol.message.DownloadLinkMessage;
 import org.spoutcraft.mod.resource.ClientFileSystem;
 import org.spoutcraft.mod.resource.ServerFileSystem;
 
@@ -286,7 +289,8 @@ public class SpoutcraftMod {
     private void bindCodecMessages() {
         Packet.addIdClassMapping(251, true, true, SpoutcraftPacket.class);
         NetworkRegistry.instance().registerConnectionHandler(new SpoutcraftConnectionHandler());
-        Protocol.register(AddPrefabMessage.class, org.spoutcraft.mod.protocol.codec.AddPrefabCodec.class);
+        Protocol.register(AddPrefabMessage.class, AddPrefabCodec.class);
+        Protocol.register(DownloadLinkMessage.class, DownloadLinkCodec.class);
     }
 
     private class CustomTabs extends CreativeTabs {

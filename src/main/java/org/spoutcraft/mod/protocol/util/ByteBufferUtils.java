@@ -27,17 +27,18 @@ package org.spoutcraft.mod.protocol.util;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 
+import com.google.common.base.Charsets;
+
 public class ByteBufferUtils {
     /**
-     * Writes a string to the buffer provided. <p/> This method will grow the buffer if capacity is exceeded
+     * Writes a string to the buffer provided.
      *
      * @param buffer To write to
      * @param toWrite String to write
      * @throws IOException If writing fails to occur
      */
     public static void writeString(ByteBuffer buffer, String toWrite) throws IOException {
-        //TODO Encoding?
-        buffer.asCharBuffer().put(toWrite);
+        buffer.put(toWrite.getBytes(Charsets.UTF_8));
     }
 
     /**
@@ -49,10 +50,11 @@ public class ByteBufferUtils {
      * @throws IOException If reading from the buffer fails
      */
     public static String readString(ByteBuffer buffer, int length) throws IOException {
-        buffer.limit(buffer.position() + length);
+        int oldPosition = buffer.position();
+        buffer.limit(oldPosition + length);
         final String decoded = buffer.asCharBuffer().toString();
         buffer.clear();
-        buffer.position(buffer.position() + length);
+        buffer.position(oldPosition + length);
         return decoded;
     }
 }

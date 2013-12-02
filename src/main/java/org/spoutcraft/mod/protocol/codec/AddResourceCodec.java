@@ -29,16 +29,16 @@ import java.nio.ByteBuffer;
 
 import cpw.mods.fml.relauncher.Side;
 import org.spoutcraft.api.protocol.codec.Codec;
-import org.spoutcraft.mod.protocol.message.AddResourceMessage;
+import org.spoutcraft.mod.protocol.message.AddFileMessage;
 
-public class AddResourceCodec implements Codec<AddResourceMessage> {
+public class AddResourceCodec implements Codec<AddFileMessage> {
     @Override
     public String getChannel() {
         return "SPC-AddResource";
     }
 
     @Override
-    public AddResourceMessage decode(Side side, ByteBuffer buffer) throws IOException {
+    public AddFileMessage decode(Side side, ByteBuffer buffer) throws IOException {
         if (side.isServer()) {
             throw new IllegalStateException("Server is not allowed to receive resources!");
         }
@@ -46,7 +46,7 @@ public class AddResourceCodec implements Codec<AddResourceMessage> {
     }
 
     @Override
-    public ByteBuffer encode(Side side, AddResourceMessage message) throws IOException {
+    public ByteBuffer encode(Side side, AddFileMessage message) throws IOException {
         if (side.isClient()) {
             throw new IllegalStateException("Client is not allowed to send resources!");
         }

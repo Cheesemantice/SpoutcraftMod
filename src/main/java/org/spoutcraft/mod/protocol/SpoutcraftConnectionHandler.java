@@ -24,6 +24,8 @@
  */
 package org.spoutcraft.mod.protocol;
 
+import java.net.MalformedURLException;
+
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.network.IConnectionHandler;
 import cpw.mods.fml.common.network.Player;
@@ -37,6 +39,7 @@ import org.spoutcraft.api.util.RenderUtil;
 import org.spoutcraft.mod.block.BlockPrefabRegistry;
 import org.spoutcraft.mod.item.ItemPrefabRegistry;
 import org.spoutcraft.mod.material.MaterialPrefabRegistry;
+import org.spoutcraft.mod.protocol.message.DownloadLinkMessage;
 
 public class SpoutcraftConnectionHandler implements IConnectionHandler {
     @Override
@@ -45,6 +48,13 @@ public class SpoutcraftConnectionHandler implements IConnectionHandler {
             ((MaterialPrefabRegistry) Spoutcraft.getMaterialPrefabRegistry()).sync(manager);
             ((ItemPrefabRegistry) Spoutcraft.getItemPrefabRegistry()).sync(manager);
             ((BlockPrefabRegistry) Spoutcraft.getBlockPrefabRegistry()).sync(manager);
+
+            //Test code
+            try {
+                manager.addToSendQueue(new SpoutcraftPacket(new DownloadLinkMessage("Spoutcraft", "http://example.com")));
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
         }
     }
 

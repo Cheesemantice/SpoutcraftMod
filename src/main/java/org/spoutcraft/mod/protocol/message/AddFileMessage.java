@@ -24,23 +24,28 @@
  */
 package org.spoutcraft.mod.protocol.message;
 
+import java.nio.file.Path;
+
 import cpw.mods.fml.common.network.Player;
 import cpw.mods.fml.relauncher.Side;
 import net.minecraft.network.INetworkManager;
 import org.spoutcraft.api.protocol.message.Message;
 
-public class AddResourceMessage<R> implements Message {
-    private final R resource;
+public class AddFileMessage implements Message {
+    private final Path path;
 
-    public AddResourceMessage(R resource) {
-        this.resource = resource;
+    public AddFileMessage(Path path) {
+        this.path = path;
     }
 
-    public R getResource() {
-        return resource;
+    public Path getResource() {
+        return path;
     }
 
     @Override
     public void handle(Side side, INetworkManager manager, Player player) {
+        //TODO Pass off recieved files to resolver
+        //TODO For now, we'll use this to receive addons on the client
+
     }
 }
