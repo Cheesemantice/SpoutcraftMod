@@ -28,7 +28,7 @@ dependencies {
 }
 
 minecraft {
-	version = "1.6.4-9.11.1.964"
+    version = "1.6.4-9.11.1.964"
 }
 
 processResources

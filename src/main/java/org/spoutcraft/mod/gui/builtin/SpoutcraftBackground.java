@@ -49,9 +49,9 @@ public class SpoutcraftBackground {
             case "day":
                 return new ResourceLocation("spoutcraft", "textures/gui/title/background/day/background_" + RandomUtil.inclusive(1, 29) + ".jpg");
             case "evening":
-                return new ResourceLocation("spoutcraft", "textures/gui/title/background/day/background_" + RandomUtil.inclusive(1, 29) + ".jpg");
+                return new ResourceLocation("spoutcraft", "textures/gui/title/background/evening/background_" + RandomUtil.inclusive(1, 16) + ".jpg");
             case "night":
-                return new ResourceLocation("spoutcraft", "textures/gui/title/background/day/background_" + RandomUtil.inclusive(1, 29) + ".jpg");
+                return new ResourceLocation("spoutcraft", "textures/gui/title/background/night/background_" + RandomUtil.inclusive(1, 13) + ".jpg");
             default:
                 return new ResourceLocation("spoutcraft", "textures/gui/title/background/day/background_" + RandomUtil.inclusive(1, 29) + ".jpg");
         }

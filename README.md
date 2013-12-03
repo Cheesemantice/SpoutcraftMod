@@ -56,26 +56,24 @@ Working directory: Path/to/SpoutcraftMod/run/server
 Use classpath of module: SpoutcraftMod (IntelliJ-only)
 ```
 
-## Build
-__Note:__ If you do not have [Gradle](http://www.gradle.org) installed you can use the gradlew files included with the project in place of 'gradle' in the following command(s). If you are using Git Bash, Unix or OS X then use 'gradlew'. If you are using Windows then use 'gradlew.bat'.
+## Contributing
+We're always happy to have people contribute to the project. Just make sure you follow these guidelines!
 
-Run `gradle build`
+* Formatting Pull Requests will not be merged!
+* Be quick and to the point with your Pull Request title.
+* Be detailed about what you added/changed/removed and why you did so.
+* Run `gradle licenseFormatMain` to apply license headers to new class files. Pull Requests with missing headers will not be merged.
+* The code must be your work or you must accredit those whom you've taken code from appropriately.
 
-This will produce a compiled JAR file for SpoutcraftMod in `SpoutcraftMod/build/libs`.
 
 ## FAQ
-__Why does the JAR that I built not have the changes I made?__<br>
->Gradle doesn't re-compile unless changes to the code are detected. This causes it to reuse the resources and code again when building the JAR. If you need to force it to make these changes you can go into the build folder in the root of SpoutcraftMod and delete the 'classes' and 'resources' folders, then build it again.
-
->Do NOT delete the build folder itself as this will prevent building all together. 'gradle clean' will also delete the build folder and should be avoided.
-
-__How do I apply the license header to the java files I've added?__
->By default, when you run 'gradle build' it will apply the license header to java files that are missing it or do not have the correct header. You can also run 'gradle licenseFormatMain' which will apply the license without building.
-
 __Why do I get `javac: source release 1.7 requires target release 1.7` in IntelliJ when running the client configuration?__
->Sometimes another project can mess with the settings in IntelliJ. Fixing this is relatively easily.
+>Sometimes another project can mess with the settings in IntelliJ. Fixing this is relatively easy.
 
 >1. Go to 'File > Settings'<br>
 >2. Click the dropdown for 'Compiler' on the left-hand side and select 'Java Compiler'.<br>
 >3. Select SpoutcraftMod and set the 'Target bytecode version' as '1.7'.<br>
 >4. Click Apply and OK and try running it again.<br>
+
+__A dependency was added but my IDE is missing it! How do I add it?__
+>If a new dependency was added, you can run either 'gradle ideaModule' or for Eclipse 'gradle eclipse'. This should recreate the settings for your IDE and add the missing dependency.
