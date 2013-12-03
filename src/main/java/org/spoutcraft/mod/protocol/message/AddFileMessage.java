@@ -24,28 +24,79 @@
  */
 package org.spoutcraft.mod.protocol.message;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import cpw.mods.fml.common.network.Player;
 import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.network.INetworkManager;
-import org.spoutcraft.api.protocol.message.Message;
+import org.spoutcraft.api.Spoutcraft;
+import org.spoutcraft.api.addon.Addon;
+import org.spoutcraft.api.protocol.message.AddonMessage;
 
-public class AddFileMessage implements Message {
-    private final Path path;
+public class AddFileMessage extends AddonMessage {
+    //SERVER
+    private Path path;
+    //CLIENT
+    private String name;
+    private byte[] data;
 
-    public AddFileMessage(Path path) {
+    @SideOnly (Side.SERVER)
+    public AddFileMessage(Addon addon, Path path) {
+        super(addon);
         this.path = path;
     }
 
+    @SideOnly (Side.CLIENT)
+    public AddFileMessage(Addon addon, String name, byte[] data) {
+        super(addon);
+        this.name = name;
+        this.data = data;
+    }
+
+    @SideOnly (Side.SERVER)
     public Path getResource() {
         return path;
+    }
+
+    @SideOnly (Side.CLIENT)
+    public String getName() {
+        return name;
+    }
+
+    @SideOnly (Side.CLIENT)
+    public byte[] getData() {
+        return data;
     }
 
     @Override
     public void handle(Side side, INetworkManager manager, Player player) {
         //TODO Pass off recieved files to resolver
         //TODO For now, we'll use this to receive addons on the client
-
+        Spoutcraft.getLogger().info(name);
+        final Path path = Paths.get("assets", name);
+        FileOutputStream stream = null;
+        try {
+            if (Files.exists(path)) {
+                Files.delete(path);
+            }
+            Files.createFile(path);
+            stream = new FileOutputStream(path.toFile());
+            stream.write(data);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (stream != null) {
+                try {
+                    stream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 }

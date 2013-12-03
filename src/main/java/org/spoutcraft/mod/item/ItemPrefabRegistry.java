@@ -33,9 +33,11 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.item.Item;
 import net.minecraft.network.INetworkManager;
 import org.spoutcraft.api.LinkedPrefabRegistry;
+import org.spoutcraft.api.Spoutcraft;
 import org.spoutcraft.api.item.FoodPrefab;
 import org.spoutcraft.api.item.ItemPrefab;
 import org.spoutcraft.api.util.LanguageUtil;
+import org.spoutcraft.mod.addon.ServerAddonManager;
 import org.spoutcraft.mod.protocol.SpoutcraftPacket;
 import org.spoutcraft.mod.protocol.message.AddPrefabMessage;
 
@@ -108,7 +110,7 @@ public class ItemPrefabRegistry implements LinkedPrefabRegistry<ItemPrefab, Item
      */
     public void sync(final INetworkManager network) {
         for (ItemPrefab prefab : REGISTRY) {
-            network.addToSendQueue(new SpoutcraftPacket(new AddPrefabMessage(prefab)));
+            network.addToSendQueue(new SpoutcraftPacket(new AddPrefabMessage(((ServerAddonManager) Spoutcraft.getAddonManager()).getInternalAddon(), prefab)));
         }
     }
 }

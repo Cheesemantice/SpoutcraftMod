@@ -26,30 +26,52 @@ package org.spoutcraft.mod.protocol.codec;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.nio.file.Files;
 
 import cpw.mods.fml.relauncher.Side;
+import org.spoutcraft.api.Spoutcraft;
+import org.spoutcraft.api.addon.Addon;
 import org.spoutcraft.api.protocol.codec.Codec;
+import org.spoutcraft.api.util.ByteBufferUtil;
 import org.spoutcraft.mod.protocol.message.AddFileMessage;
 
-public class AddResourceCodec implements Codec<AddFileMessage> {
+public class AddFileCodec implements Codec<AddFileMessage> {
     @Override
     public String getChannel() {
-        return "SPC-AddResource";
+        return "SPC-AddFile";
     }
 
     @Override
     public AddFileMessage decode(Side side, ByteBuffer buffer) throws IOException {
         if (side.isServer()) {
-            throw new IllegalStateException("Server is not allowed to receive resources!");
+            throw new IllegalStateException("Server is not allowed to receive files!");
         }
-        return null;
+        final String addonIdentifier = ByteBufferUtil.readString(buffer, buffer.getInt());
+        //TODO Sanity check needed and here?
+        final Addon addon = Spoutcraft.getAddonManager().getAddon(addonIdentifier);
+        if (addon == null) {
+            return null;
+        }
+        final String fname = ByteBufferUtil.readString(buffer, buffer.getInt());
+        byte[] data = new byte[buffer.remaining()];
+        buffer.get(data);
+        return new AddFileMessage(addon, fname, data);
     }
 
     @Override
     public ByteBuffer encode(Side side, AddFileMessage message) throws IOException {
         if (side.isClient()) {
-            throw new IllegalStateException("Client is not allowed to send resources!");
+            throw new IllegalStateException("Client is not allowed to send files!");
         }
-        return null;
+        final String addonIdentifier = message.getAddon().getPrefab().getIdentifier();
+        final String fname = message.getResource().getFileName().toString();
+        final byte[] data = Files.readAllBytes(message.getResource());
+        final ByteBuffer buffer = ByteBuffer.allocate(8 + ByteBufferUtil.getSize(addonIdentifier) + ByteBufferUtil.getSize(fname) + data.length);
+        buffer.putInt(addonIdentifier.length());
+        ByteBufferUtil.writeString(buffer, addonIdentifier);
+        buffer.putInt(fname.length());
+        ByteBufferUtil.writeString(buffer, fname);
+        buffer.put(data);
+        return buffer;
     }
 }

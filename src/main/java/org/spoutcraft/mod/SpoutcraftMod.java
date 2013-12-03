@@ -26,8 +26,6 @@ package org.spoutcraft.mod;
 
 import java.nio.ByteBuffer;
 import java.util.EnumSet;
-import java.util.Queue;
-import java.util.concurrent.ConcurrentLinkedQueue;
 
 import cpw.mods.fml.common.ITickHandler;
 import cpw.mods.fml.common.Mod;
@@ -52,7 +50,6 @@ import org.spoutcraft.api.LinkedPrefabRegistry;
 import org.spoutcraft.api.Spoutcraft;
 import org.spoutcraft.api.addon.AddonManager;
 import org.spoutcraft.api.block.MovingPrefab;
-import org.spoutcraft.api.gl.GLGCObject;
 import org.spoutcraft.api.logger.SpoutcraftLogger;
 import org.spoutcraft.api.material.MapIndex;
 import org.spoutcraft.api.material.MaterialPrefab;
@@ -71,8 +68,10 @@ import org.spoutcraft.mod.item.special.VanillaEmblem;
 import org.spoutcraft.mod.material.MaterialPrefabRegistry;
 import org.spoutcraft.mod.protocol.SpoutcraftConnectionHandler;
 import org.spoutcraft.mod.protocol.SpoutcraftPacket;
+import org.spoutcraft.mod.protocol.codec.AddFileCodec;
 import org.spoutcraft.mod.protocol.codec.AddPrefabCodec;
 import org.spoutcraft.mod.protocol.codec.DownloadLinkCodec;
+import org.spoutcraft.mod.protocol.message.AddFileMessage;
 import org.spoutcraft.mod.protocol.message.AddPrefabMessage;
 import org.spoutcraft.mod.protocol.message.DownloadLinkMessage;
 import org.spoutcraft.mod.resource.ClientFileSystem;
@@ -263,6 +262,7 @@ public class SpoutcraftMod {
         NetworkRegistry.instance().registerConnectionHandler(new SpoutcraftConnectionHandler());
         Protocol.register(AddPrefabMessage.class, AddPrefabCodec.class);
         Protocol.register(DownloadLinkMessage.class, DownloadLinkCodec.class);
+        Protocol.register(AddFileMessage.class, AddFileCodec.class);
     }
 
     private class CustomTabs extends CreativeTabs {

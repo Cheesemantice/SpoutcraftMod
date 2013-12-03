@@ -32,7 +32,6 @@ import java.nio.file.Paths;
 import java.util.Collection;
 import java.util.Map;
 
-import cpw.mods.fml.server.FMLServerHandler;
 import org.spoutcraft.api.addon.Addon;
 import org.spoutcraft.api.resource.FileSystem;
 
@@ -42,7 +41,7 @@ public class ServerFileSystem implements FileSystem {
     public final Path addonsPath;
 
     public ServerFileSystem() {
-        basePath = Paths.get(FMLServerHandler.instance().getServer().getFile(".").getAbsolutePath());
+        basePath = Paths.get(".");
         modsPath = Paths.get(basePath.toString(), "mods");
         addonsPath = Paths.get(modsPath.toString(), "spoutcraft" + File.separator + "addons");
     }

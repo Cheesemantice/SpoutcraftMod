@@ -6,6 +6,8 @@ import java.nio.ByteBuffer;
 
 import cpw.mods.fml.relauncher.Side;
 import org.apache.commons.lang3.SerializationUtils;
+import org.spoutcraft.api.Spoutcraft;
+import org.spoutcraft.api.addon.Addon;
 import org.spoutcraft.api.protocol.codec.Codec;
 import org.spoutcraft.api.util.ByteBufferUtil;
 import org.spoutcraft.mod.protocol.message.DownloadLinkMessage;
@@ -21,12 +23,16 @@ public class DownloadLinkCodec implements Codec<DownloadLinkMessage> {
         if (side.isServer()) {
             throw new IllegalStateException("Server is not allowed to receive links!");
         }
-        final int identSize = buffer.getInt();
-        final String addonIdentifier = ByteBufferUtil.readString(buffer, identSize);
+        final String addonIdentifier = ByteBufferUtil.readString(buffer, buffer.getInt());
+        //TODO Sanity check needed and here?
+        final Addon addon = Spoutcraft.getAddonManager().getAddon(addonIdentifier);
+        if (addon == null) {
+            return null;
+        }
         byte[] urlData = new byte[buffer.remaining()];
         buffer.get(urlData);
         final URL url = (URL) SerializationUtils.deserialize(urlData);
-        return new DownloadLinkMessage(addonIdentifier, url);
+        return new DownloadLinkMessage(addon, url);
     }
 
     @Override
@@ -34,7 +40,7 @@ public class DownloadLinkCodec implements Codec<DownloadLinkMessage> {
         if (side.isClient()) {
             throw new IllegalStateException("Client is not allowed to send links!");
         }
-        final String addonIdentifier = message.getAddonIdentifier();
+        final String addonIdentifier = message.getAddon().getPrefab().getIdentifier();
         final URL url = message.getUrl();
         final byte[] urlBytes = SerializationUtils.serialize(url);
         final ByteBuffer buffer = ByteBuffer.allocate(4 + ByteBufferUtil.getSize(addonIdentifier) + urlBytes.length);

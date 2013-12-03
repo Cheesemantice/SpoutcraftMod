@@ -10,7 +10,7 @@ import cpw.mods.fml.common.registry.TickRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-@SideOnly(Side.CLIENT)
+@SideOnly (Side.CLIENT)
 public class GLGCFactory {
     private final static Queue<GLGCObject> glDeleteQueue = new ConcurrentLinkedQueue<>();
 

@@ -29,12 +29,14 @@ import cpw.mods.fml.relauncher.Side;
 import net.minecraft.network.INetworkManager;
 import org.spoutcraft.api.Prefab;
 import org.spoutcraft.api.Spoutcraft;
-import org.spoutcraft.api.protocol.message.Message;
+import org.spoutcraft.api.addon.Addon;
+import org.spoutcraft.api.protocol.message.AddonMessage;
 
-public class AddPrefabMessage implements Message {
+public class AddPrefabMessage extends AddonMessage {
     private final Prefab prefab;
 
-    public AddPrefabMessage(Prefab Prefab) {
+    public AddPrefabMessage(Addon addon, Prefab Prefab) {
+        super(addon);
         this.prefab = Prefab;
     }
 

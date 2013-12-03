@@ -44,7 +44,7 @@ public class SpoutcraftPacket extends Packet250CustomPayload {
             super.channel = codec.getChannel();
             super.data = codec.encode(FMLCommonHandler.instance().getEffectiveSide(), toSend).array();
         } catch (IOException e) {
-            throw new IllegalStateException("Failed to encode message: " + toSend);
+            throw new IllegalStateException("Failed to encode message: " + toSend, e);
         }
         super.length = super.data.length;
     }

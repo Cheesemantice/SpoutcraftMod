@@ -157,4 +157,9 @@ public class ServerAddonManager implements AddonManager {
         disable();
         addons.clear();
     }
+
+    //TODO Expose to API?
+    public Addon getInternalAddon() {
+        return internal;
+    }
 }

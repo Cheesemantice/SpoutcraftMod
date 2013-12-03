@@ -30,7 +30,10 @@ import java.nio.ByteBuffer;
 import cpw.mods.fml.relauncher.Side;
 import org.apache.commons.lang3.SerializationUtils;
 import org.spoutcraft.api.Prefab;
+import org.spoutcraft.api.Spoutcraft;
+import org.spoutcraft.api.addon.Addon;
 import org.spoutcraft.api.protocol.codec.Codec;
+import org.spoutcraft.api.util.ByteBufferUtil;
 import org.spoutcraft.mod.protocol.message.AddPrefabMessage;
 
 public class AddPrefabCodec implements Codec<AddPrefabMessage> {
@@ -44,9 +47,15 @@ public class AddPrefabCodec implements Codec<AddPrefabMessage> {
         if (side.isServer()) {
             throw new IllegalStateException("The server is not allowed to receive prefabs");
         }
+        final String addonIdentifier = ByteBufferUtil.readString(buffer, buffer.getInt());
+        //TODO Sanity check needed and here?
+        final Addon addon = Spoutcraft.getAddonManager().getAddon(addonIdentifier);
+        if (addon == null) {
+            return null;
+        }
         final byte[] data = new byte[buffer.remaining()];
         buffer.get(data, 0, buffer.remaining());
-        return new AddPrefabMessage((Prefab) SerializationUtils.deserialize(data));
+        return new AddPrefabMessage(addon, (Prefab) SerializationUtils.deserialize(data));
     }
 
     @Override
@@ -54,6 +63,12 @@ public class AddPrefabCodec implements Codec<AddPrefabMessage> {
         if (side.isClient()) {
             throw new IllegalStateException("The client is not allowed to send prefabs");
         }
-        return ByteBuffer.wrap(SerializationUtils.serialize(message.getPrefab()));
+        final String addonIdentifier = message.getAddon().getPrefab().getIdentifier();
+        final byte[] data = SerializationUtils.serialize(message.getPrefab());
+        final ByteBuffer buffer = ByteBuffer.allocate(4 + ByteBufferUtil.getSize(addonIdentifier) + data.length);
+        buffer.putInt(addonIdentifier.length());
+        ByteBufferUtil.writeString(buffer, addonIdentifier);
+        buffer.put(data);
+        return buffer;
     }
 }
