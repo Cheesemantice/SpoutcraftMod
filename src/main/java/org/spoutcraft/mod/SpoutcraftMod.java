@@ -52,7 +52,7 @@ import org.spoutcraft.api.LinkedPrefabRegistry;
 import org.spoutcraft.api.Spoutcraft;
 import org.spoutcraft.api.addon.AddonManager;
 import org.spoutcraft.api.block.MovingPrefab;
-import org.spoutcraft.api.gl.DeleteQueueObject;
+import org.spoutcraft.api.gl.GLGCObject;
 import org.spoutcraft.api.logger.SpoutcraftLogger;
 import org.spoutcraft.api.material.MapIndex;
 import org.spoutcraft.api.material.MaterialPrefab;
@@ -86,8 +86,6 @@ public class SpoutcraftMod {
     @Instance (value = "Spoutcraft")
     public static SpoutcraftMod instance;
     private static CustomTabs customTabs;
-    //Used to delete OpenGl objects on the main thread
-    private static Queue<DeleteQueueObject> glDeleteQueue = new ConcurrentLinkedQueue<DeleteQueueObject>();
 
     @EventHandler
     @SuppressWarnings ("unchecked")
@@ -258,31 +256,6 @@ public class SpoutcraftMod {
                 return "Spoutcraft - Watermark";
             }
         }, Side.CLIENT);
-
-        //Remove delete GL Objects
-        TickRegistry.registerTickHandler(new ITickHandler() {
-            @Override
-            public void tickStart(EnumSet<TickType> type, Object... tickData) {
-            }
-
-            @Override
-            public void tickEnd(EnumSet<TickType> type, Object... tickData) {
-                DeleteQueueObject toDelete;
-                while ((toDelete = glDeleteQueue.poll()) != null) {
-                    toDelete.delete();
-                }
-            }
-
-            @Override
-            public EnumSet<TickType> ticks() {
-                return EnumSet.of(TickType.CLIENT);
-            }
-
-            @Override
-            public String getLabel() {
-                return "Spoutcraft - GL Garbage Collection";
-            }
-        }, Side.CLIENT);
     }
 
     private void bindCodecMessages() {
@@ -306,9 +279,5 @@ public class SpoutcraftMod {
 
     public static CustomTabs getCustomTabs() {
         return customTabs;
-    }
-
-    public static void queueDeletion(DeleteQueueObject obj) {
-        glDeleteQueue.offer(obj);
     }
 }

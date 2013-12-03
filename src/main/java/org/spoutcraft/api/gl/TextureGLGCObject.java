@@ -26,12 +26,12 @@ package org.spoutcraft.api.gl;
 
 import org.lwjgl.opengl.*;
 
-public class BufferDeleteQueueObject extends DeleteQueueObject {
-    public BufferDeleteQueueObject(int id) {
+public class TextureGLGCObject extends GLGCObject {
+    public TextureGLGCObject(int id) {
         super(id);
     }
 
     public void delete() {
-        GL15.glDeleteBuffers(getID());
+        GL11.glDeleteTextures(getID());
     }
 }

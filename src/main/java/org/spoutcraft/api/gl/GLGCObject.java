@@ -24,10 +24,10 @@
  */
 package org.spoutcraft.api.gl;
 
-public abstract class DeleteQueueObject {
+public abstract class GLGCObject {
     private int glId;
 
-    public DeleteQueueObject(int id) {
+    public GLGCObject(int id) {
         this.glId = id;
     }
 

@@ -24,8 +24,6 @@
  */
 package org.spoutcraft.api.gl;
 
-import org.spoutcraft.mod.SpoutcraftMod;
-
 public abstract class GLObject {
     private final int glID;
 
@@ -41,11 +39,11 @@ public abstract class GLObject {
 
     public abstract void unbind();
 
-    protected abstract DeleteQueueObject getDeleteQueueObj();
+    protected abstract GLGCObject getGLGCObject();
 
     @Override
-    protected void finalize() {
-        //Add to delete queue
-        SpoutcraftMod.queueDeletion(getDeleteQueueObj());
+    protected void finalize() throws Throwable {
+        GLGCFactory.offer(getGLGCObject());
+        super.finalize();
     }
 }

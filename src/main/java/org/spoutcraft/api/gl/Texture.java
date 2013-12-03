@@ -66,8 +66,8 @@ public class Texture extends GLObject {
     }
 
     @Override
-    protected DeleteQueueObject getDeleteQueueObj() {
-        return new TextureDeleteQueueObject(getID());
+    protected GLGCObject getGLGCObject() {
+        return new TextureGLGCObject(getID());
     }
 
     public static void setMinFilter(MinFilter filter) {
