@@ -44,8 +44,6 @@ public class SpoutcraftConnectionHandler implements IConnectionHandler {
             ((MaterialPrefabRegistry) Spoutcraft.getMaterialPrefabRegistry()).sync(manager);
             ((ItemPrefabRegistry) Spoutcraft.getItemPrefabRegistry()).sync(manager);
             ((BlockPrefabRegistry) Spoutcraft.getBlockPrefabRegistry()).sync(manager);
-
-            //manager.addToSendQueue(new SpoutcraftPacket(new AddFileMessage(((ServerAddonManager) Spoutcraft.getAddonManager()).getInternalAddon(), Paths.get(".", "hello.txt"))));
         }
     }
 

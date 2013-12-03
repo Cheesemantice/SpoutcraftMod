@@ -22,6 +22,11 @@ version = "1.0.0-SNAPSHOT"
 group = "org.spoutcraft.mod"
 archivesBaseName = "spoutcraft"
 
+dependencies {
+    compile 'io.netty:netty-all:4.0.13.Final'
+    testCompile 'junit:junit:4.8.1'
+}
+
 minecraft {
 	version = "1.6.4-9.11.1.964"
 }
