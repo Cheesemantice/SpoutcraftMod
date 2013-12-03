@@ -120,7 +120,9 @@ public class SpoutcraftBackground {
             for (int j = -1; j <= 1; j++) {
                 glColor4f(1, 1, 1, (1 / (float) (j + 2)));
                 float texOff = (j / (float) viewWidth);
-                RenderUtil.drawTexture(0, 0, 420, 256, texOff, 0, mU + texOff, mV);
+                //glCopyTexSubImage2D flips the texture vertically,
+                //so we have to re-flip it here to keep it flipped the right way
+                RenderUtil.drawTexture(0, 0, 420, 256, texOff, mV, mU + texOff, 0);
             }
         }
         glColorMask(true, true, true, true);
@@ -131,6 +133,9 @@ public class SpoutcraftBackground {
         glMatrixMode(GL_MODELVIEW);
         glPopMatrix();
         glViewport(0, 0, dispWidth, dispHeight);
-        RenderUtil.drawTexture(x, y, width, height, 0, 0, mU, mV);
+        //Also, because the last glCopyTexSubImage2D is not followed by
+        //something to re-correct the texture, we have to re-flip it
+        //again here to keep it flipped the right way.
+        RenderUtil.drawTexture(x, y, width, height, 0, mV, mU, 0);
     }
 }
