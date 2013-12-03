@@ -55,6 +55,6 @@ public class AddonListCodec implements Codec<AddonListMessage> {
         if (side.isServer()) {
             throw new IllegalStateException("Server does not send the addon list, it checks it");
         }
-        return Unpooled.buffer();
+        return Unpooled.buffer().writeBytes(message.getMap().serialize());
     }
 }
