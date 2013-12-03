@@ -19,7 +19,7 @@ sourceCompatibility = "1.7"
 targetCompatibility = "1.7"
 
 version = "1.0.0-SNAPSHOT"
-group = "org.spoutcraft.mod"
+group = "org.spoutcraft"
 archivesBaseName = "spoutcraft"
 
 dependencies {
@@ -31,14 +31,24 @@ minecraft {
     version = "1.6.4-9.11.1.964"
 }
 
-processResources
-{
+// Include resources in the jar
+processResources {
     from(sourceSets.main.java.srcDirs) {
         include 'mcmod.info'
         include 'assets/**'
     }
 }
 
+// Include dependencies in the jar
+jar {
+    from {
+        configurations.compile.collect {
+            zipTree(it)
+        }
+    }
+}
+
+// Setup License Formatting
 license {
     sourceSets {
         main {
@@ -52,4 +62,5 @@ license {
     strictCheck true
 }
 
+// Execute license format task
 licenseFormatMain.execute()

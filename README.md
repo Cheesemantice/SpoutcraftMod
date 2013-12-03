@@ -56,6 +56,13 @@ Working directory: Path/to/SpoutcraftMod/run/server
 Use classpath of module: SpoutcraftMod (IntelliJ-only)
 ```
 
+## Build
+__Note:__ If you do not have [Gradle](http://www.gradle.org) installed you can use the gradlew files included with the project in place of 'gradle' in the following command(s). If you are using Git Bash, Unix or OS X then use 'gradlew'. If you are using Windows then use 'gradlew.bat'.
+
+Run `gradle build`
+
+This will produce a compiled JAR file for SpoutcraftMod in `SpoutcraftMod/build/libs` that includes the dependencies needed for it to run.
+
 ## Contributing
 We're always happy to have people contribute to the project. Just make sure you follow these guidelines!
 
