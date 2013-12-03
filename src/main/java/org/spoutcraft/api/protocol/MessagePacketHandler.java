@@ -24,11 +24,11 @@
  */
 package org.spoutcraft.api.protocol;
 
-import java.nio.ByteBuffer;
-
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.network.IPacketHandler;
 import cpw.mods.fml.common.network.Player;
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet250CustomPayload;
 import org.spoutcraft.api.protocol.codec.Codec;
@@ -40,9 +40,8 @@ public class MessagePacketHandler implements IPacketHandler {
         final Codec codec = Protocol.find(packet.channel);
         final Message message;
         try {
-            final ByteBuffer buffer = ByteBuffer.allocate(packet.data.length);
-            buffer.put(packet.data);
-            buffer.flip();
+            final ByteBuf buffer = Unpooled.buffer();
+            buffer.writeBytes(packet.data);
             message = codec.decode(FMLCommonHandler.instance().getEffectiveSide(), buffer);
         } catch (Exception e) {
             e.printStackTrace();

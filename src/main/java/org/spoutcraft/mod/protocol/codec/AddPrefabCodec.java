@@ -25,15 +25,16 @@
 package org.spoutcraft.mod.protocol.codec;
 
 import java.io.IOException;
-import java.nio.ByteBuffer;
 
 import cpw.mods.fml.relauncher.Side;
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
 import org.apache.commons.lang3.SerializationUtils;
 import org.spoutcraft.api.Prefab;
 import org.spoutcraft.api.Spoutcraft;
 import org.spoutcraft.api.addon.Addon;
 import org.spoutcraft.api.protocol.codec.Codec;
-import org.spoutcraft.api.util.ByteBufferUtil;
+import org.spoutcraft.api.util.BufferUtil;
 import org.spoutcraft.mod.protocol.message.AddPrefabMessage;
 
 public class AddPrefabCodec implements Codec<AddPrefabMessage> {
@@ -43,32 +44,31 @@ public class AddPrefabCodec implements Codec<AddPrefabMessage> {
     }
 
     @Override
-    public AddPrefabMessage decode(Side side, ByteBuffer buffer) throws IOException {
+    public AddPrefabMessage decode(Side side, ByteBuf buffer) throws IOException {
         if (side.isServer()) {
             throw new IllegalStateException("The server is not allowed to receive prefabs");
         }
-        final String addonIdentifier = ByteBufferUtil.readString(buffer, buffer.getInt());
+        final String addonIdentifier = BufferUtil.readUTF8(buffer);
         //TODO Sanity check needed and here?
         final Addon addon = Spoutcraft.getAddonManager().getAddon(addonIdentifier);
         if (addon == null) {
             return null;
         }
-        final byte[] data = new byte[buffer.remaining()];
-        buffer.get(data, 0, buffer.remaining());
+        final byte[] data = new byte[buffer.capacity() - buffer.readerIndex()];
+        buffer.readBytes(data);
         return new AddPrefabMessage(addon, (Prefab) SerializationUtils.deserialize(data));
     }
 
     @Override
-    public ByteBuffer encode(Side side, AddPrefabMessage message) throws IOException {
+    public ByteBuf encode(Side side, AddPrefabMessage message) throws IOException {
         if (side.isClient()) {
             throw new IllegalStateException("The client is not allowed to send prefabs");
         }
         final String addonIdentifier = message.getAddon().getPrefab().getIdentifier();
         final byte[] data = SerializationUtils.serialize(message.getPrefab());
-        final ByteBuffer buffer = ByteBuffer.allocate(4 + ByteBufferUtil.getSize(addonIdentifier) + data.length);
-        buffer.putInt(addonIdentifier.length());
-        ByteBufferUtil.writeString(buffer, addonIdentifier);
-        buffer.put(data);
+        final ByteBuf buffer = Unpooled.buffer();
+        BufferUtil.writeUTF8(buffer, addonIdentifier);
+        buffer.writeBytes(data);
         return buffer;
     }
 }

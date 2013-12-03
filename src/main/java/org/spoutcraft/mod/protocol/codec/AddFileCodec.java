@@ -25,14 +25,15 @@
 package org.spoutcraft.mod.protocol.codec;
 
 import java.io.IOException;
-import java.nio.ByteBuffer;
 import java.nio.file.Files;
 
 import cpw.mods.fml.relauncher.Side;
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
 import org.spoutcraft.api.Spoutcraft;
 import org.spoutcraft.api.addon.Addon;
 import org.spoutcraft.api.protocol.codec.Codec;
-import org.spoutcraft.api.util.ByteBufferUtil;
+import org.spoutcraft.api.util.BufferUtil;
 import org.spoutcraft.mod.protocol.message.AddFileMessage;
 
 public class AddFileCodec implements Codec<AddFileMessage> {
@@ -42,36 +43,34 @@ public class AddFileCodec implements Codec<AddFileMessage> {
     }
 
     @Override
-    public AddFileMessage decode(Side side, ByteBuffer buffer) throws IOException {
+    public AddFileMessage decode(Side side, ByteBuf buffer) throws IOException {
         if (side.isServer()) {
             throw new IllegalStateException("Server is not allowed to receive files!");
         }
-        final String addonIdentifier = ByteBufferUtil.readString(buffer, buffer.getInt());
+        final String addonIdentifier = BufferUtil.readUTF8(buffer);
         //TODO Sanity check needed and here?
         final Addon addon = Spoutcraft.getAddonManager().getAddon(addonIdentifier);
         if (addon == null) {
             return null;
         }
-        final String fname = ByteBufferUtil.readString(buffer, buffer.getInt());
-        byte[] data = new byte[buffer.remaining()];
-        buffer.get(data);
+        final String fname = BufferUtil.readUTF8(buffer);
+        final byte[] data = new byte[buffer.capacity() - buffer.readerIndex()];
+        buffer.readBytes(data);
         return new AddFileMessage(addon, fname, data);
     }
 
     @Override
-    public ByteBuffer encode(Side side, AddFileMessage message) throws IOException {
+    public ByteBuf encode(Side side, AddFileMessage message) throws IOException {
         if (side.isClient()) {
             throw new IllegalStateException("Client is not allowed to send files!");
         }
         final String addonIdentifier = message.getAddon().getPrefab().getIdentifier();
         final String fname = message.getResource().getFileName().toString();
         final byte[] data = Files.readAllBytes(message.getResource());
-        final ByteBuffer buffer = ByteBuffer.allocate(8 + ByteBufferUtil.getSize(addonIdentifier) + ByteBufferUtil.getSize(fname) + data.length);
-        buffer.putInt(addonIdentifier.length());
-        ByteBufferUtil.writeString(buffer, addonIdentifier);
-        buffer.putInt(fname.length());
-        ByteBufferUtil.writeString(buffer, fname);
-        buffer.put(data);
+        final ByteBuf buffer = Unpooled.buffer();
+        BufferUtil.writeUTF8(buffer, addonIdentifier);
+        BufferUtil.writeUTF8(buffer, fname);
+        buffer.writeBytes(data);
         return buffer;
     }
 }
