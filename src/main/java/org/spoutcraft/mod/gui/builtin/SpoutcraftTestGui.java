@@ -64,7 +64,7 @@ public class SpoutcraftTestGui extends Gui {
         testLbl.setY(height / 2 - 50);
         add(testLbl);
         
-        testBtn = new Button("Test Button");
+        testBtn = new Button(messages[click]);
         testBtn.setWidth(150);
         testBtn.setX(width / 2 - 75);
         testBtn.setY(height / 2 - testBtn.getHeight() - 15);
