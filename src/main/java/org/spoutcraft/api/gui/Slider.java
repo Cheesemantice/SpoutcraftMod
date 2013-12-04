@@ -112,7 +112,7 @@ public class Slider extends Button {
         int strWidth = (int)getFont().getWidth(getText());
         float strDescent = getFont().getDescent();
         getFont().setColor(txtColor);
-        getFont().drawString(getText(), x + getWidth() / 2 - strWidth / 2, y + getHeight() - strDescent - 1);
+        getFont().drawString(getText(), x + getWidth() / 2 - strWidth / 2, y + getHeight() - strDescent - 2);
     }
 
     @Override

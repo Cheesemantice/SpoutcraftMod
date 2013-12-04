@@ -36,7 +36,7 @@ public abstract class TextComponent extends Component {
     private static final CustomFont defaultFont;
     static {
         try {
-            defaultFont = new CustomFont(Font.createFont(Font.TRUETYPE_FONT, SpoutcraftMod.class.getResourceAsStream("/assets/spoutcraft/fonts/ubuntu-regular.ttf")).deriveFont(36f));
+            defaultFont = new CustomFont(Font.createFont(Font.TRUETYPE_FONT, SpoutcraftMod.class.getResourceAsStream("/assets/spoutcraft/fonts/ubuntu-regular.ttf")).deriveFont(33f));
         } catch (Exception e) {
             throw new RuntimeException("Could not load font", e);
         }
@@ -48,7 +48,7 @@ public abstract class TextComponent extends Component {
 
     public TextComponent() {
         this.setFont(defaultFont);
-        this.setFontSize(12);
+        this.setFontSize(11);
     }
 
     public void setFont(CustomFont font) {
