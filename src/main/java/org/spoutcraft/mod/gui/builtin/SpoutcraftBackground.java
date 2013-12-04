@@ -35,7 +35,7 @@ import org.spoutcraft.api.util.TimeUtil;
 import static org.lwjgl.opengl.GL11.*;
 
 public class SpoutcraftBackground {
-    private static final Texture BLUR_TEX = new Texture(420, 256);
+    private static final Texture BLUR_TEX = new Texture(840, 512);
     private Texture BACKGROUND_TEX = new Texture(randomlyChoose());
 
     static {
@@ -74,28 +74,28 @@ public class SpoutcraftBackground {
         int dispWidth = RenderUtil.MINECRAFT.displayWidth;
         int dispHeight = RenderUtil.MINECRAFT.displayHeight;
         int viewWidth, viewHeight;
-        if (dispWidth >= 420 && dispHeight >= 256) {
+        if (dispWidth >= 840 && dispHeight >= 512) {
             //Screen is large enough for us to just
             //use the texture's size
-            viewWidth = 420;
-            viewHeight = 256;
+            viewWidth = 840;
+            viewHeight = 512;
         } else {
-            if (dispWidth / (float) dispHeight > 420 / 256F) {
+            if (dispWidth / (float) dispHeight > 840 / 512F) {
                 //Screen skewed on x axis
-                viewWidth = (int) (dispHeight / 256F * 420F);
+                viewWidth = (int) (dispHeight / 512F * 840F);
                 viewHeight = dispHeight;
             } else {
                 //Screen skewed on y axis
                 viewWidth = dispWidth;
-                viewHeight = (int) (dispWidth / 420F * 256F);
+                viewHeight = (int) (dispWidth / 840F * 512F);
             }
         }
 
         //The buffer texture doesn't change size
         //so we have to calculate what the boundaries are
         //for the texture coordinates
-        float mU = viewWidth / 420F;
-        float mV = viewHeight / 256F;
+        float mU = viewWidth / 840F;
+        float mV = viewHeight / 512F;
 
         BACKGROUND_TEX.bind();
         glColor3f(1, 1, 1);
@@ -104,25 +104,25 @@ public class SpoutcraftBackground {
         glMatrixMode(GL_PROJECTION);
         glPushMatrix();
         glLoadIdentity();
-        glOrtho(0, 420, 256, 0, -1, 1);
+        glOrtho(0, 840, 512, 0, -1, 1);
         glMatrixMode(GL_MODELVIEW);
         glPushMatrix();
         glLoadIdentity();
 
         //Setup viewport for blurring
         glViewport(0, 0, viewWidth, viewHeight);
-        RenderUtil.drawTexture(0, 0, 420, 256);
+        RenderUtil.drawTexture(0, 0, 840, 512);
         BLUR_TEX.bind();
         glEnable(GL_BLEND);
         glColorMask(true, true, true, false);
-        for (int i = 0; i < 1; i++) {
+        for (int i = 0; i < 3; i++) {
             glCopyTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, 0, 0, viewWidth, viewHeight);
             for (int j = -1; j <= 1; j++) {
                 glColor4f(1, 1, 1, (1 / (float) (j + 2)));
                 float texOff = (j / (float) viewWidth);
                 //glCopyTexSubImage2D flips the texture vertically,
                 //so we have to re-flip it here to keep it flipped the right way
-                RenderUtil.drawTexture(0, 0, 420, 256, texOff, mV, mU + texOff, 0);
+                RenderUtil.drawTexture(0, 0, 840, 512, texOff, mV, mU + texOff, 0);
             }
         }
         glColorMask(true, true, true, true);
