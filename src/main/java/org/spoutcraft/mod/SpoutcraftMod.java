@@ -27,25 +27,20 @@ package org.spoutcraft.mod;
 import java.nio.ByteBuffer;
 import java.util.EnumSet;
 
-import cpw.mods.fml.common.ITickHandler;
-import cpw.mods.fml.common.Mod;
-import cpw.mods.fml.common.Mod.EventHandler;
-import cpw.mods.fml.common.Mod.Instance;
-import cpw.mods.fml.common.TickType;
-import cpw.mods.fml.common.event.FMLInitializationEvent;
-import cpw.mods.fml.common.network.NetworkMod;
-import cpw.mods.fml.common.network.NetworkRegistry;
-import cpw.mods.fml.common.registry.TickRegistry;
-import cpw.mods.fml.relauncher.Side;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiMainMenu;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.util.ResourceLocation;
-import org.lwjgl.opengl.*;
+
+import org.lwjgl.input.Keyboard;
+import org.lwjgl.opengl.Display;
+import org.lwjgl.opengl.GL11;
 import org.spoutcraft.api.LinkedPrefabRegistry;
 import org.spoutcraft.api.Spoutcraft;
 import org.spoutcraft.api.addon.AddonManager;
@@ -62,6 +57,7 @@ import org.spoutcraft.mod.addon.ClientAddonManager;
 import org.spoutcraft.mod.addon.ServerAddonManager;
 import org.spoutcraft.mod.block.BlockPrefabRegistry;
 import org.spoutcraft.mod.gui.builtin.SpoutcraftMainMenu;
+import org.spoutcraft.mod.gui.builtin.SpoutcraftTestGui;
 import org.spoutcraft.mod.item.ItemPrefabRegistry;
 import org.spoutcraft.mod.item.special.SpoutcraftEmblem;
 import org.spoutcraft.mod.item.special.VanillaEmblem;
@@ -76,6 +72,19 @@ import org.spoutcraft.mod.protocol.message.AddPrefabMessage;
 import org.spoutcraft.mod.protocol.message.DownloadLinkMessage;
 import org.spoutcraft.mod.resource.ClientFileSystem;
 import org.spoutcraft.mod.resource.ServerFileSystem;
+
+import cpw.mods.fml.client.registry.KeyBindingRegistry;
+import cpw.mods.fml.client.registry.KeyBindingRegistry.KeyHandler;
+import cpw.mods.fml.common.ITickHandler;
+import cpw.mods.fml.common.Mod;
+import cpw.mods.fml.common.Mod.EventHandler;
+import cpw.mods.fml.common.Mod.Instance;
+import cpw.mods.fml.common.TickType;
+import cpw.mods.fml.common.event.FMLInitializationEvent;
+import cpw.mods.fml.common.network.NetworkMod;
+import cpw.mods.fml.common.network.NetworkRegistry;
+import cpw.mods.fml.common.registry.TickRegistry;
+import cpw.mods.fml.relauncher.Side;
 
 // TODO: Reflect GameRegistry, LanguageRegistry, NetworkRegistry and remove addon content on server leave
 // TODO: Fix generics?
@@ -255,6 +264,33 @@ public class SpoutcraftMod {
                 return "Spoutcraft - Watermark";
             }
         }, Side.CLIENT);
+        
+        //Setup keybind
+        KeyBinding guiBind = new KeyBinding("SpoutGuiBind", Keyboard.KEY_U);
+        KeyBindingRegistry.registerKeyBinding(new KeyHandler(new KeyBinding[]{guiBind}, new boolean[]{false}) {
+            
+            private EnumSet<TickType> ticks = EnumSet.of(TickType.CLIENT);
+            @Override
+            public String getLabel() {
+                return "Spout Key Handler";
+            }
+            @Override
+            public void keyDown(EnumSet<TickType> types, KeyBinding kb,
+                    boolean tickEnd, boolean isRepeat) {
+            }
+        
+            @Override
+            public void keyUp(EnumSet<TickType> types, KeyBinding kb,
+                    boolean tickEnd) {
+                if(kb.keyDescription.equals("SpoutGuiBind") && Minecraft.getMinecraft().currentScreen == null) {
+                    Minecraft.getMinecraft().displayGuiScreen(new SpoutcraftTestGui());
+                }
+            }
+            @Override
+            public EnumSet<TickType> ticks() {
+                return ticks;
+            }
+        });
     }
 
     private void bindCodecMessages() {

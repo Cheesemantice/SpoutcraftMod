@@ -245,7 +245,7 @@ public class RenderUtil {
 
         glBindBuffer(GL_ARRAY_BUFFER, VERT_BUFF);
         glBufferData(GL_ARRAY_BUFFER, RECT_SIZE, GL_STREAM_DRAW);
-        FloatBuffer data = mapBufferWriteUnsync(GL_ARRAY_BUFFER, GRADIENT_SIZE, null).asFloatBuffer();
+        FloatBuffer data = mapBufferWriteUnsync(GL_ARRAY_BUFFER, RECT_SIZE, null).asFloatBuffer();
         data.put(new float[] {
                 x1, y1,
                 x1, y2,
