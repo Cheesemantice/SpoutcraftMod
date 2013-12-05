@@ -27,6 +27,7 @@ package org.spoutcraft.mod.gui.builtin;
 import org.spoutcraft.api.gui.Gui;
 import org.spoutcraft.api.gui.component.Button;
 import org.spoutcraft.api.gui.component.Label;
+import org.spoutcraft.api.gui.event.ActionEvent;
 import org.spoutcraft.api.gui.event.Event;
 import org.spoutcraft.api.gui.event.EventHandler;
 import org.spoutcraft.api.util.Color;
@@ -73,7 +74,7 @@ public class SpoutcraftTestGui extends Gui {
     }
 
     @EventHandler
-    public void onClick(Mouse evt) {
+    public void onClick(ActionEvent evt) {
         click = (click + 1) % messages.length;
         testBtn.setText(messages[click]);
     }
