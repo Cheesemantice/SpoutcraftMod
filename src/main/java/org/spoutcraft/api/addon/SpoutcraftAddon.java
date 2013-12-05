@@ -36,4 +36,9 @@ public final class SpoutcraftAddon extends Addon {
         logger = new AddonLogger(this);
         enable();
     }
+
+    @Override
+    public void onEnable() {
+        getLogger().info("Internal addon hooked");
+    }
 }
