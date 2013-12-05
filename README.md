@@ -64,16 +64,6 @@ Run `gradle build`
 
 This will produce a compiled JAR file for SpoutcraftMod in `SpoutcraftMod/build/libs` that includes the dependencies needed for it to run.
 
-## Contributing
-We're always happy to have people contribute to the project. Just make sure you follow these guidelines!
-
-* Formatting Pull Requests will not be merged!
-* Be quick and to the point with your Pull Request title.
-* Be detailed about what you added/changed/removed and why you did so.
-* Run `gradle licenseFormatMain` to apply license headers to new class files. Pull Requests with missing headers will not be merged.
-* The code must be your work or you must accredit those whom you've taken code from appropriately.
-
-
 ## FAQ
 __Why do I get `javac: source release 1.7 requires target release 1.7` in IntelliJ when running the client configuration?__
 >Sometimes another project can mess with the settings in IntelliJ. Fixing this is relatively easy.
