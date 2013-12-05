@@ -22,15 +22,20 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.spoutcraft.mod.gui;
+package org.spoutcraft.api.gui.event.container;
 
-import net.minecraft.client.gui.GuiScreen;
-import org.spoutcraft.api.gui.Screen;
+import org.spoutcraft.api.gui.Component;
+import org.spoutcraft.api.gui.event.Event;
 
-public class CustomScreen extends GuiScreen {
-    private final Screen screen;
+public class RemoveComponentEvent extends Event {
+    private final Component toRemove;
 
-    public CustomScreen(Screen screen) {
-        this.screen = screen;
+    public RemoveComponentEvent(Component source, Component toRemove) {
+        super(source);
+        this.toRemove = toRemove;
+    }
+
+    public Component getRemovedComponent() {
+        return toRemove;
     }
 }

@@ -22,46 +22,34 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.spoutcraft.api.gui;
+package org.spoutcraft.api.gui.event.key;
 
-import java.util.Collection;
+import org.spoutcraft.api.gui.Component;
+import org.spoutcraft.api.gui.event.Event;
 
-import org.spoutcraft.api.gui.widget.Widget;
+public class KeyEvent extends Event {
+    public static int KEY_PRESS = 0;
+    public static int KEY_RELEASE = 1;
+    private int key;
+    private int type;
+    private char character;
 
-public abstract class Screen {
-    public abstract String getIdentifier();
-
-    public void add(Widget widget) {
-
+    public KeyEvent(Component source, int key, char c, int type) {
+        super(source);
+        this.key = key;
+        this.type = type;
+        this.character = c;
     }
 
-    public void addAll(Collection<Widget> widgets) {
-
+    public int getType() {
+        return this.type;
     }
 
-    public void remove(Widget widget) {
-
+    public int getKey() {
+        return key;
     }
 
-    public void remove(String identifier) {
-
-    }
-
-    public boolean isTickable() {
-        return true;
-    }
-
-    public void onTick(float dt) {
-
-    }
-
-    public void onRender() {
-
-    }
-
-    protected final void tick(float dt) {
-        if (isTickable()) {
-            onTick(dt);
-        }
+    public char getCharacter() {
+        return character;
     }
 }

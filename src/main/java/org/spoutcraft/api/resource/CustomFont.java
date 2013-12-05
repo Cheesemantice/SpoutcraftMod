@@ -49,6 +49,7 @@ public class CustomFont {
     private static final int FONT_VERT_OFF = 0;
     private static final int FONT_UV_OFF = 2 * 4;
     public final int fontSize;
+    private int descent;
     private int fontHeight;
     private Texture fontTexture;
     private FontChar[] charMap = new FontChar[256];
@@ -69,6 +70,7 @@ public class CustomFont {
         Graphics2D ctxGfx = ctxImg.createGraphics();
         ctxGfx.setFont(fnt);
         FontRenderContext ctx = ctxGfx.getFontRenderContext();
+        descent = ctxGfx.getFontMetrics().getDescent();
 
         float maxWidth = 0;
         float maxHeight = 0;
@@ -247,6 +249,15 @@ public class CustomFont {
      */
     public float getSize() {
         return scale * fontSize;
+    }
+
+    /**
+     * Gets length of most descenders with current scale
+     *
+     * @return descent
+     */
+    public float getDescent() {
+        return scale * descent;
     }
 
     //Gets full height of character cells

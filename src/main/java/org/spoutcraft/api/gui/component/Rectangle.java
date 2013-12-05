@@ -22,18 +22,22 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.spoutcraft.api.gui.result;
+package org.spoutcraft.api.gui.component;
 
-/**
- * Gives the result of a focus change (i.e. entering/exiting a textbox)
- */
-public enum FocusResult {
-    /**
-     * Focus was gained.
-     */
-    GAINED,
-    /**
-     * Focus was lost.
-     */
-    LOST;
+import org.spoutcraft.api.gui.Component;
+import org.spoutcraft.api.util.Color;
+import org.spoutcraft.api.util.RenderUtil;
+
+public class Rectangle extends Component {
+    public Rectangle() {
+    }
+
+    public Rectangle(Color c) {
+        this.setForeground(c);
+    }
+
+    @Override
+    public void render() {
+        RenderUtil.drawRect(getX(), getY(), getWidth(), getHeight(), getForeground());
+    }
 }

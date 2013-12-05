@@ -22,22 +22,20 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.spoutcraft.api.gui.result;
+package org.spoutcraft.api.gui.event.container;
 
-/**
- * Gives the result of the click (i.e. the Mouse button).
- */
-public enum ClickResult {
-    /**
-     * The click was from the left Mouse button.
-     */
-    LEFT_CLICK,
-    /**
-     * The click was from the middle Mouse button.
-     */
-    MIDDLE_CLICK,
-    /**
-     * The click was from the right Mouse button.
-     */
-    RIGHT_CLICK;
+import org.spoutcraft.api.gui.Component;
+import org.spoutcraft.api.gui.event.Event;
+
+public class AddComponentEvent extends Event {
+    private final Component toAdd;
+
+    public AddComponentEvent(Component source, Component toAdd) {
+        super(source);
+        this.toAdd = toAdd;
+    }
+
+    public Component getAddedComponent() {
+        return toAdd;
+    }
 }
