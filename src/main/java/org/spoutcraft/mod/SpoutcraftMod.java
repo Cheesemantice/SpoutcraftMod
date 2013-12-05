@@ -153,7 +153,6 @@ public class SpoutcraftMod {
         // Setup creative tab
         customTabs = new CustomTabs();
 
-        Spoutcraft.getItemPrefabRegistry().put(new SpoutcraftEmblem());
         manager.enable();
     }
 

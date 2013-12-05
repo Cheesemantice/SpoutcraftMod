@@ -52,7 +52,7 @@ public final class SpoutcraftAddon extends Addon {
         getLogger().info("Internal addon hooked");
 
         //Special
-        // Spoutcraft.getItemPrefabRegistry().put(new SpoutcraftEmblem());
+        Spoutcraft.getItemPrefabRegistry().put(new SpoutcraftEmblem());
         Spoutcraft.getItemPrefabRegistry().put(new VanillaEmblem());
 
         //TODO Move test code to an accompanying addon
