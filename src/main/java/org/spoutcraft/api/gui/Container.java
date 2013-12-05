@@ -41,19 +41,15 @@ import org.spoutcraft.api.gui.event.mouse.MouseUpEvent;
 public class Container extends Component {
     private List<Component> components = new ArrayList<Component>();
 
-    public Container() {
-        this.addEventListeners(this);
-    }
-
     @Override
     public void render() {
         this.pushClip();
-        this.setClip(getX(), getY(), getWidth(), getHeight());
         GL11.glPushMatrix();
         GL11.glTranslatef(getX(), getY(), 0);
+        this.setClip(0, 0, getWidth(), getHeight());
         this.fillRect(0, 0, getWidth(), getHeight(), getBackground());
-        for (Component c : components) {
-            if (c.isVisible()) {
+        for(Component c : components) {
+            if(c.isVisible()) {
                 c.render();
             }
         }

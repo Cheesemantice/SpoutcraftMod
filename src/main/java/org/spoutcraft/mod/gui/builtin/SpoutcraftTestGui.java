@@ -27,12 +27,14 @@ package org.spoutcraft.mod.gui.builtin;
 import org.spoutcraft.api.gui.Gui;
 import org.spoutcraft.api.gui.component.Button;
 import org.spoutcraft.api.gui.component.Label;
+import org.spoutcraft.api.gui.component.Frame;
 import org.spoutcraft.api.gui.event.ActionEvent;
 import org.spoutcraft.api.gui.event.Event;
 import org.spoutcraft.api.gui.event.EventHandler;
 import org.spoutcraft.api.util.Color;
 
 public class SpoutcraftTestGui extends Gui {
+
     private Button testBtn;
     private int click = 0;
     private String[] messages = {
@@ -61,14 +63,25 @@ public class SpoutcraftTestGui extends Gui {
         this.getRoot().setBackground(new Color(0F, 0F, 0F, 0.4F));
         Label testLbl = new Label("Test Label");
         testLbl.setX(width / 2 - testLbl.getWidth() / 2);
-        testLbl.setY(height / 2 - 50);
+        testLbl.setY(height / 2 - 85);
         add(testLbl);
 
         testBtn = new Button(messages[click]);
         testBtn.setWidth(150);
-        testBtn.setX(width / 2 - 75);
-        testBtn.setY(height / 2 - testBtn.getHeight() - 15);
-        add(testBtn);
+        testBtn.setX(198 / 2 - 150 / 2);
+        testBtn.setY(15);
+        //testBtn.setX(width / 2 - 75);
+        //testBtn.setY(height / 2 - testBtn.getHeight() - 50);
+        //add(testBtn);
+
+        Frame testFrm = new Frame();
+        testFrm.setWidth(200);
+        testFrm.setHeight(100);
+        testFrm.setX(width / 2 - 100);
+        testFrm.setY(height / 2 - 70);
+        testFrm.addComponent(testBtn);
+
+        add(testFrm);
 
         testBtn.addEventListeners(this);
     }
@@ -78,4 +91,5 @@ public class SpoutcraftTestGui extends Gui {
         click = (click + 1) % messages.length;
         testBtn.setText(messages[click]);
     }
+
 }
