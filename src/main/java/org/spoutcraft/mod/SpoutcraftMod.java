@@ -144,12 +144,12 @@ public class SpoutcraftMod {
                 throw new RuntimeException("Spoutcraft is being ran on an invalid side!");
         }
 
-        manager.enable();
-
         // Setup registries
         Spoutcraft.setBlockRegistry(new BlockPrefabRegistry());
         Spoutcraft.setItemPrefabRegistry(new ItemPrefabRegistry());
         Spoutcraft.setMaterialRegistry(new MaterialPrefabRegistry());
+
+        manager.enable();
 
         // Setup creative tab
         customTabs = new CustomTabs();

@@ -43,6 +43,7 @@ public class AddonClassLoader extends URLClassLoader {
     public AddonClassLoader(ClassLoader forge, AddonLoader loader) {
         super(new URL[0], forge);
         this.loader = loader;
+        LOADERS.add(this);
     }
 
     @Override

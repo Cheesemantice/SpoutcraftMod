@@ -54,17 +54,17 @@ public class AddonLoader {
 
     public void enable(Addon addon) {
         if (addon.isEnabled()) {
-            throw new IllegalStateException("Cannot enable addon <" + addon.getPrefab().getIdentifier() + ">, it has already been enabled.");
+            throw new IllegalStateException("Cannot enable addon [" + addon.getPrefab().getIdentifier() + "], it has already been enabled.");
         }
 
         try {
             final String nameVersion = addon.getPrefab().getName() + " v" + addon.getPrefab().getVersion();
-            Spoutcraft.getLogger().info("Enabling <" + nameVersion + ">...");
+            Spoutcraft.getLogger().info("Enabling [" + nameVersion + "]...");
             addon.onEnable();
             addon.enable();
-            Spoutcraft.getLogger().info("<" + nameVersion + "> enabled");
+            Spoutcraft.getLogger().info("[" + nameVersion + "] enabled");
         } catch (Throwable t) {
-            Spoutcraft.getLogger().log(Level.SEVERE, "Exception caught while enabling addon <" + addon.getPrefab().getIdentifier() + "> -> " + t.getMessage(), t);
+            Spoutcraft.getLogger().log(Level.SEVERE, "Exception caught while enabling addon [" + addon.getPrefab().getIdentifier() + "] -> " + t.getMessage(), t);
         }
 
         loaders.put(addon.getPrefab().getName(), addon.getClassLoader());
@@ -72,17 +72,17 @@ public class AddonLoader {
 
     public void disable(Addon addon) {
         if (!addon.isEnabled()) {
-            throw new IllegalStateException("Cannot disable addon <" + addon.getPrefab().getIdentifier() + ">, it has never been enabled.");
+            throw new IllegalStateException("Cannot disable addon [" + addon.getPrefab().getIdentifier() + "], it has never been enabled.");
         }
 
         try {
             addon.disable();
             final String nameVersion = addon.getPrefab().getName() + " v" + addon.getPrefab().getVersion();
-            Spoutcraft.getLogger().info("Disabling <" + nameVersion + ">...");
+            Spoutcraft.getLogger().info("Disabling [" + nameVersion + "]...");
             addon.onDisable();
-            Spoutcraft.getLogger().info("<" + nameVersion + "> disabled");
+            Spoutcraft.getLogger().info("[" + nameVersion + "] disabled");
         } catch (Throwable t) {
-            Spoutcraft.getLogger().log(Level.SEVERE, "Exception caught while disabling addon <" + addon.getPrefab().getIdentifier() + "> -> " + t.getMessage(), t);
+            Spoutcraft.getLogger().log(Level.SEVERE, "Exception caught while disabling addon [" + addon.getPrefab().getIdentifier() + "] -> " + t.getMessage(), t);
         }
     }
 

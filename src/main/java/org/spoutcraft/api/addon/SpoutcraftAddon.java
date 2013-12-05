@@ -30,17 +30,21 @@ import org.spoutcraft.api.Spoutcraft;
 import org.spoutcraft.api.block.MovingPrefab;
 import org.spoutcraft.api.material.MapIndex;
 import org.spoutcraft.api.material.MaterialPrefab;
+import org.spoutcraft.mod.SpoutcraftMod;
 import org.spoutcraft.mod.item.special.SpoutcraftEmblem;
 import org.spoutcraft.mod.item.special.VanillaEmblem;
 
+@SuppressWarnings("unchecked")
 public final class SpoutcraftAddon extends Addon {
     public SpoutcraftAddon(Side side) {
         this.side = side;
         root = null;
         dataPath = null;
+        loader = new AddonLoader(side);
+        classLoader = new AddonClassLoader(SpoutcraftMod.class.getClassLoader(), loader);
+        classLoader.setAddon(this);
         prefab = new AddonPrefab("spoutcraft", "Spoutcraft", Spoutcraft.VERSION, AddonMode.BOTH, null);
         logger = new AddonLogger(this);
-        enable();
     }
 
     @Override
