@@ -26,17 +26,17 @@ package org.spoutcraft.api.gui;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
-
-import org.lwjgl.input.Keyboard;
-import org.lwjgl.input.Mouse;
-import org.spoutcraft.api.gui.events.key.KeyPressEvent;
-import org.spoutcraft.api.gui.events.key.KeyReleaseEvent;
-import org.spoutcraft.api.gui.events.mouse.MouseDownEvent;
-import org.spoutcraft.api.gui.events.mouse.MouseMoveEvent;
-import org.spoutcraft.api.gui.events.mouse.MouseUpEvent;
+import org.lwjgl.input.*;
+import org.spoutcraft.api.gui.component.RootContainer;
+import org.spoutcraft.api.gui.event.key.KeyPressEvent;
+import org.spoutcraft.api.gui.event.key.KeyReleaseEvent;
+import org.spoutcraft.api.gui.event.mouse.MouseDownEvent;
+import org.spoutcraft.api.gui.event.mouse.MouseMoveEvent;
+import org.spoutcraft.api.gui.event.mouse.MouseUpEvent;
+import org.spoutcraft.api.gui.renderer.GuiRenderer;
+import org.spoutcraft.api.gui.renderer.GuiRendererDepth;
 
 public class Gui extends GuiScreen {
-
     private int lastButton = -1;
     private long clickTime = 0;
     private RootContainer root;
@@ -75,8 +75,8 @@ public class Gui extends GuiScreen {
                 return;
             }
             this.keyTyped(keyChar, key);
-//            root.callEvent(new KeyPressEvent(root, key, keyChar));
-//            super.keyTyped(keyChar, key);
+            //            root.callEvent(new KeyPressEvent(root, key, keyChar));
+            //            super.keyTyped(keyChar, key);
         } else {
             root.callEvent(new KeyReleaseEvent(root, key, keyChar));
         }
@@ -87,26 +87,25 @@ public class Gui extends GuiScreen {
         int x = Mouse.getEventX() * this.width / this.mc.displayWidth;
         int y = this.height - Mouse.getEventY() * this.height / this.mc.displayHeight - 1;
         int btn = Mouse.getEventButton();
-        if(Mouse.getEventButtonState()) {
-            if(this.lastButton != -1) {
+        if (Mouse.getEventButtonState()) {
+            if (this.lastButton != -1) {
                 mouseClickMove(x, y, btn, System.currentTimeMillis() - this.clickTime);
             } else {
                 mouseClicked(x, y, btn);
                 this.clickTime = System.currentTimeMillis();
             }
             this.lastButton = btn;
-        } else if(btn != -1) {
+        } else if (btn != -1) {
             mouseMovedOrUp(x, y, btn);
             this.lastButton = -1;
         } else {
-            if(this.lastButton != -1) {
+            if (this.lastButton != -1) {
                 mouseClickMove(x, y, this.lastButton, System.currentTimeMillis() - this.clickTime);
             } else {
                 mouseMovedOrUp(x, y, -1);
             }
         }
     }
-
 
     @Override
     protected void keyTyped(char keyChar, int key) {
@@ -123,7 +122,7 @@ public class Gui extends GuiScreen {
     @Override
     protected void mouseMovedOrUp(int x, int y, int btn) {
         super.mouseMovedOrUp(x, y, btn);
-        if(btn == -1) {
+        if (btn == -1) {
             root.callEvent(new MouseMoveEvent(root, btn, x, y));
         } else {
             root.callEvent(new MouseUpEvent(root, btn, x, y));
@@ -165,13 +164,12 @@ public class Gui extends GuiScreen {
     public int[] screenToScaled(int x, int y) {
         x = x * width / Minecraft.getMinecraft().displayWidth;
         y = y * height / Minecraft.getMinecraft().displayHeight;
-        return new int[]{x,y};
+        return new int[] {x, y};
     }
 
     public int[] scaledToScreen(int x, int y) {
         x = x * Minecraft.getMinecraft().displayWidth / width;
         y = y * Minecraft.getMinecraft().displayHeight / height;
-        return new int[]{x,y};
+        return new int[] {x, y};
     }
-
 }

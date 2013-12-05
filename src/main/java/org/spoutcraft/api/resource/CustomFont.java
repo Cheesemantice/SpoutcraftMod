@@ -250,13 +250,14 @@ public class CustomFont {
     public float getSize() {
         return scale * fontSize;
     }
-    
+
     /**
      * Gets length of most descenders with current scale
+     *
      * @return descent
      */
     public float getDescent() {
-    	return scale * descent;
+        return scale * descent;
     }
 
     //Gets full height of character cells

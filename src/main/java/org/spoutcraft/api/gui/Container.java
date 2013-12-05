@@ -28,26 +28,21 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-
-import org.lwjgl.opengl.GL11;
-import org.spoutcraft.api.gui.events.EventHandler;
-import org.spoutcraft.api.gui.events.container.AddComponentEvent;
-import org.spoutcraft.api.gui.events.container.RemoveComponentEvent;
-import org.spoutcraft.api.gui.events.key.KeyPressEvent;
-import org.spoutcraft.api.gui.events.key.KeyReleaseEvent;
-import org.spoutcraft.api.gui.events.mouse.MouseDownEvent;
-import org.spoutcraft.api.gui.events.mouse.MouseMoveEvent;
-import org.spoutcraft.api.gui.events.mouse.MouseUpEvent;
+import org.lwjgl.opengl.*;
+import org.spoutcraft.api.gui.event.EventHandler;
+import org.spoutcraft.api.gui.event.container.AddComponentEvent;
+import org.spoutcraft.api.gui.event.container.RemoveComponentEvent;
+import org.spoutcraft.api.gui.event.key.KeyPressEvent;
+import org.spoutcraft.api.gui.event.key.KeyReleaseEvent;
+import org.spoutcraft.api.gui.event.mouse.MouseDownEvent;
+import org.spoutcraft.api.gui.event.mouse.MouseMoveEvent;
+import org.spoutcraft.api.gui.event.mouse.MouseUpEvent;
 
 public class Container extends Component {
-
     private List<Component> components = new ArrayList<Component>();
 
     public Container() {
         this.addEventListeners(this);
-        System.out.println("Adding this");
     }
 
     @Override
@@ -57,8 +52,8 @@ public class Container extends Component {
         GL11.glPushMatrix();
         GL11.glTranslatef(getX(), getY(), 0);
         this.fillRect(0, 0, getWidth(), getHeight(), getBackground());
-        for(Component c : components) {
-            if(c.isVisible()) {
+        for (Component c : components) {
+            if (c.isVisible()) {
                 c.render();
             }
         }
@@ -75,7 +70,7 @@ public class Container extends Component {
     }
 
     public void clearComponents() {
-        for(Component c : getComponents()) {
+        for (Component c : getComponents()) {
             removeComponent(c);
         }
     }
@@ -84,14 +79,14 @@ public class Container extends Component {
         return Collections.unmodifiableList(components);
     }
 
-    @EventHandler(priority = -1)
+    @EventHandler
     public void onAddComponent(AddComponentEvent e) {
         e.getAddedComponent().setParent(this);
         e.getAddedComponent().setGui(getGui());
         components.add(e.getAddedComponent());
     }
 
-    @EventHandler(priority = -1)
+    @EventHandler
     public void onRemoveComponent(RemoveComponentEvent e) {
         e.getRemovedComponent().setParent(null);
         e.getRemovedComponent().setGui(null);
@@ -100,8 +95,8 @@ public class Container extends Component {
 
     @Override
     public void mouseDown(int btn, int x, int y) {
-        for(Component c : components) {
-            if(c.receiveAllEvents() || c.containsPoint(x, y)) {
+        for (Component c : components) {
+            if (c.receiveAllEvents() || c.containsPoint(x, y)) {
                 c.callEvent(new MouseDownEvent(c, btn, x - c.getX(), y - c.getY()));
             }
         }
@@ -109,8 +104,8 @@ public class Container extends Component {
 
     @Override
     public void mouseUp(int btn, int x, int y) {
-        for(Component c : components) {
-            if(c.receiveAllEvents() || c.containsPoint(x, y)) {
+        for (Component c : components) {
+            if (c.receiveAllEvents() || c.containsPoint(x, y)) {
                 c.callEvent(new MouseUpEvent(c, btn, x - c.getX(), y - c.getY()));
             }
         }
@@ -118,8 +113,8 @@ public class Container extends Component {
 
     @Override
     public void mouseMove(int btn, int x, int y) {
-        for(Component c : components) {
-            if(c.receiveAllEvents() || c.containsPoint(x, y)) {
+        for (Component c : components) {
+            if (c.receiveAllEvents() || c.containsPoint(x, y)) {
                 c.callEvent(new MouseMoveEvent(c, btn, x - c.getX(), y - c.getY()));
             }
         }
@@ -127,8 +122,8 @@ public class Container extends Component {
 
     @Override
     public void keyPress(int key, char ch) {
-        for(Component c : components) {
-            if(c.receiveAllEvents()) {
+        for (Component c : components) {
+            if (c.receiveAllEvents()) {
                 c.callEvent(new KeyPressEvent(this, key, ch));
             }
         }
@@ -136,8 +131,8 @@ public class Container extends Component {
 
     @Override
     public void keyRelease(int key, char ch) {
-        for(Component c : components) {
-            if(c.receiveAllEvents()) {
+        for (Component c : components) {
+            if (c.receiveAllEvents()) {
                 c.callEvent(new KeyReleaseEvent(this, key, ch));
             }
         }
@@ -148,22 +143,8 @@ public class Container extends Component {
         //Because we process our events first,
         //it allows us to pass our events down to sub components in 1 tick
         super.processEvents();
-        for(Component c : components) {
+        for (Component c : components) {
             c.processEvents();
         }
     }
-
-    @Override
-    public void read(NBTTagCompound c) {
-        super.read(c);
-        this.clearComponents();
-        NBTTagList children = c.getTagList("children");
-        int count = children.tagCount();
-        for(int i = 0; i < count; i++) {
-            NBTTagCompound childTag = (NBTTagCompound) children.tagAt(i);
-            Component child = Component.fromNBT(childTag);
-            addComponent(child);
-        }
-    }
-
 }

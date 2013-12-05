@@ -24,15 +24,14 @@
  */
 package org.spoutcraft.mod.gui.builtin;
 
-import org.spoutcraft.api.gui.Button;
 import org.spoutcraft.api.gui.Gui;
-import org.spoutcraft.api.gui.Label;
-import org.spoutcraft.api.gui.events.ActionEvent;
-import org.spoutcraft.api.gui.events.EventHandler;
+import org.spoutcraft.api.gui.component.Button;
+import org.spoutcraft.api.gui.component.Label;
+import org.spoutcraft.api.gui.event.Event;
+import org.spoutcraft.api.gui.event.EventHandler;
 import org.spoutcraft.api.util.Color;
 
 public class SpoutcraftTestGui extends Gui {
-    
     private Button testBtn;
     private int click = 0;
     private String[] messages = {
@@ -54,7 +53,7 @@ public class SpoutcraftTestGui extends Gui {
             "Nothing else to see!",
             "I'm done here."
     };
-    
+
     @Override
     public void initGui() {
         super.initGui();
@@ -63,20 +62,19 @@ public class SpoutcraftTestGui extends Gui {
         testLbl.setX(width / 2 - testLbl.getWidth() / 2);
         testLbl.setY(height / 2 - 50);
         add(testLbl);
-        
+
         testBtn = new Button(messages[click]);
         testBtn.setWidth(150);
         testBtn.setX(width / 2 - 75);
         testBtn.setY(height / 2 - testBtn.getHeight() - 15);
         add(testBtn);
-        
+
         testBtn.addEventListeners(this);
     }
-    
+
     @EventHandler
-    public void onClick(ActionEvent evt) {
+    public void onClick(Mouse evt) {
         click = (click + 1) % messages.length;
         testBtn.setText(messages[click]);
     }
-
 }
