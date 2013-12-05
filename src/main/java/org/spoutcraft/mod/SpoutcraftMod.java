@@ -65,6 +65,7 @@ import org.spoutcraft.mod.block.BlockPrefabRegistry;
 import org.spoutcraft.mod.gui.builtin.SpoutcraftMainMenu;
 import org.spoutcraft.mod.gui.builtin.SpoutcraftTestGui;
 import org.spoutcraft.mod.item.ItemPrefabRegistry;
+import org.spoutcraft.mod.item.special.SpoutcraftEmblem;
 import org.spoutcraft.mod.material.MaterialPrefabRegistry;
 import org.spoutcraft.mod.protocol.SpoutcraftConnectionHandler;
 import org.spoutcraft.mod.protocol.SpoutcraftPacket;
@@ -149,10 +150,11 @@ public class SpoutcraftMod {
         Spoutcraft.setItemPrefabRegistry(new ItemPrefabRegistry());
         Spoutcraft.setMaterialRegistry(new MaterialPrefabRegistry());
 
-        manager.enable();
-
         // Setup creative tab
         customTabs = new CustomTabs();
+
+        Spoutcraft.getItemPrefabRegistry().put(new SpoutcraftEmblem());
+        manager.enable();
     }
 
     private void registerHandlers() {
