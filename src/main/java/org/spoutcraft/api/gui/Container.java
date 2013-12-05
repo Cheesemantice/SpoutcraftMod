@@ -79,14 +79,14 @@ public class Container extends Component {
         return Collections.unmodifiableList(components);
     }
 
-    @EventHandler
+    @EventHandler (priority = -1)
     public void onAddComponent(AddComponentEvent e) {
         e.getAddedComponent().setParent(this);
         e.getAddedComponent().setGui(getGui());
         components.add(e.getAddedComponent());
     }
 
-    @EventHandler
+    @EventHandler (priority = -1)
     public void onRemoveComponent(RemoveComponentEvent e) {
         e.getRemovedComponent().setParent(null);
         e.getRemovedComponent().setGui(null);
