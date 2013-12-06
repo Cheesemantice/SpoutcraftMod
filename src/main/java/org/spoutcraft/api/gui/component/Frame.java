@@ -26,18 +26,17 @@ package org.spoutcraft.api.gui.component;
 
 import java.awt.Font;
 import java.util.List;
-import org.spoutcraft.mod.SpoutcraftMod;
 
+import org.lwjgl.opengl.*;
 import org.spoutcraft.api.gui.Component;
 import org.spoutcraft.api.gui.Container;
 import org.spoutcraft.api.resource.CustomFont;
 import org.spoutcraft.api.util.Color;
-
-import org.lwjgl.opengl.GL11;
+import org.spoutcraft.mod.SpoutcraftMod;
 
 public class Frame extends Container {
-
     private static final CustomFont titleFont;
+
     static {
         try {
             titleFont = new CustomFont(Font.createFont(Font.TRUETYPE_FONT, SpoutcraftMod.class.getResourceAsStream("/assets/spoutcraft/fonts/ubuntu-regular.ttf")).deriveFont(27f));
@@ -45,6 +44,7 @@ public class Frame extends Container {
             throw new RuntimeException("Could not load font", e);
         }
     }
+
     private Label frameTitle;
     private Container innerContainer;
     private Color titleBackColor = Color.DARK_GRAY;
@@ -55,7 +55,7 @@ public class Frame extends Container {
         frameTitle.setFontSize(9);
         frameTitle.setForeground(Color.WHITE);
         titleFont.setSize(9);
-        frameTitle.setY(11 - (int)titleFont.getDescent());
+        frameTitle.setY(11 - (int) titleFont.getDescent());
         innerContainer = new Container();
         innerContainer.setX(1);
         innerContainer.setY(12);
@@ -123,13 +123,12 @@ public class Frame extends Container {
         this.fillRect(0, 0, getWidth(), getHeight(), Color.BLACK);
         this.fillRect(1, 1, getWidth() - 2, 10, titleBackColor);
         this.fillRect(1, 12, getWidth() - 2, getHeight() - 13, getBackground());
-        for(Component c : super.getComponents()) {
-            if(c.isVisible()) {
+        for (Component c : super.getComponents()) {
+            if (c.isVisible()) {
                 c.render();
             }
         }
         GL11.glPopMatrix();
         this.popClip();
     }
-
 }

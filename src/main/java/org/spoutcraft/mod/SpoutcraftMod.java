@@ -25,47 +25,27 @@
 package org.spoutcraft.mod;
 
 import java.nio.ByteBuffer;
-import java.util.EnumSet;
 
-import cpw.mods.fml.client.registry.KeyBindingRegistry;
-import cpw.mods.fml.client.registry.KeyBindingRegistry.KeyHandler;
-import cpw.mods.fml.common.ITickHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
-import cpw.mods.fml.common.TickType;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.network.NetworkRegistry;
-import cpw.mods.fml.common.registry.TickRegistry;
-import cpw.mods.fml.relauncher.Side;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiMainMenu;
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.client.settings.KeyBinding;
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.util.ResourceLocation;
-import org.lwjgl.input.*;
 import org.lwjgl.opengl.*;
 import org.spoutcraft.api.Spoutcraft;
 import org.spoutcraft.api.addon.AddonManager;
 import org.spoutcraft.api.logger.SpoutcraftLogger;
 import org.spoutcraft.api.protocol.Protocol;
 import org.spoutcraft.api.resource.FileSystem;
-import org.spoutcraft.api.util.LanguageUtil;
-import org.spoutcraft.api.util.RenderUtil;
 import org.spoutcraft.api.util.TextureUtil;
 import org.spoutcraft.mod.addon.ClientAddonManager;
 import org.spoutcraft.mod.addon.ServerAddonManager;
 import org.spoutcraft.mod.block.BlockPrefabRegistry;
-import org.spoutcraft.mod.gui.builtin.SpoutcraftMainMenu;
-import org.spoutcraft.mod.gui.builtin.SpoutcraftTestGui;
+import org.spoutcraft.mod.handler.ClientTickHandlers;
 import org.spoutcraft.mod.item.ItemPrefabRegistry;
-import org.spoutcraft.mod.item.special.SpoutcraftEmblem;
 import org.spoutcraft.mod.material.MaterialPrefabRegistry;
 import org.spoutcraft.mod.protocol.SpoutcraftConnectionHandler;
 import org.spoutcraft.mod.protocol.SpoutcraftPacket;
@@ -124,7 +104,7 @@ public class SpoutcraftMod {
 
                 //Setup addon manager
                 manager.loadAddons(((ClientFileSystem) fileSystem).addonsPath);
-                registerHandlers();
+                ClientTickHandlers.start();
                 break;
             case SERVER:
                 fileSystem = Spoutcraft.setFileSystem(new ServerFileSystem());
@@ -156,127 +136,12 @@ public class SpoutcraftMod {
         manager.enable();
     }
 
-    private void registerHandlers() {
-        // Show our main menu
-        TickRegistry.registerTickHandler(new ITickHandler() {
-            @Override
-            public void tickStart(EnumSet<TickType> type, Object... tickData) {
-                final GuiScreen current = RenderUtil.MINECRAFT.currentScreen;
-                if (current != null && current.getClass() == GuiMainMenu.class && current.getClass() != SpoutcraftMainMenu.class) {
-                    RenderUtil.MINECRAFT.displayGuiScreen(new SpoutcraftMainMenu());
-                }
-            }
-
-            @Override
-            public void tickEnd(EnumSet<TickType> type, Object... tickData) {
-            }
-
-            @Override
-            public EnumSet<TickType> ticks() {
-                return EnumSet.of(TickType.CLIENT);
-            }
-
-            @Override
-            public String getLabel() {
-                return "Spoutcraft - Main Menu Hotswap";
-            }
-        }, Side.CLIENT);
-
-        // Draw our watermark in game
-        TickRegistry.registerTickHandler(new ITickHandler() {
-            @Override
-            public void tickStart(EnumSet<TickType> type, Object... tickData) {
-            }
-
-            @Override
-            public void tickEnd(EnumSet<TickType> type, Object... tickData) {
-                final GuiScreen current = RenderUtil.MINECRAFT.currentScreen;
-                if (current == null) {
-                    ScaledResolution scaledResolution = new ScaledResolution(RenderUtil.MINECRAFT.gameSettings, RenderUtil.MINECRAFT.displayWidth, RenderUtil.MINECRAFT.displayHeight);
-                    int width = scaledResolution.getScaledWidth();
-                    int height = scaledResolution.getScaledHeight();
-
-                    // Draw Spoutcraft logo
-                    GL11.glPushMatrix();
-                    RenderUtil.MINECRAFT.getTextureManager().bindTexture(new ResourceLocation("spoutcraft", "textures/gui/title/spoutcraft.png"));
-                    GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-                    GL11.glEnable(GL11.GL_BLEND);
-                    GL11.glTranslatef(width - 45, height - 13, 0.0f);
-                    GL11.glScalef(0.17f, 0.17f, 1.0f);
-                    GL11.glTranslatef(-width + 45, -height + 13, 0.0f);
-                    RenderUtil.create2DRectangleModal(width - 45, height - 13, 256, 67, 0);
-                    RenderUtil.TESSELLATOR.draw();
-                    GL11.glDisable(GL11.GL_BLEND);
-                    GL11.glPopMatrix();
-
-                    // Draw milestone string
-                    GL11.glPushMatrix();
-                    GL11.glTranslatef(width - 14, height - 8, 0.0f);
-                    GL11.glScalef(0.50f, 0.50f, 1.0f);
-                    GL11.glTranslatef(-width + 14, -height + 8, 0.0f);
-                    RenderUtil.MINECRAFT.fontRenderer.drawString("Alpha", width - 14, height - 3, 16776960);
-                    GL11.glPopMatrix();
-                }
-            }
-
-            @Override
-            public EnumSet<TickType> ticks() {
-                return EnumSet.of(TickType.RENDER);
-            }
-
-            @Override
-            public String getLabel() {
-                return "Spoutcraft - Watermark";
-            }
-        }, Side.CLIENT);
-
-        //Setup keybind
-        KeyBinding guiBind = new KeyBinding("SpoutGuiBind", Keyboard.KEY_U);
-        KeyBindingRegistry.registerKeyBinding(new KeyHandler(new KeyBinding[] {guiBind}, new boolean[] {false}) {
-            private EnumSet<TickType> ticks = EnumSet.of(TickType.CLIENT);
-
-            @Override
-            public String getLabel() {
-                return "Spoutcraft Key Handler";
-            }
-
-            @Override
-            public void keyDown(EnumSet<TickType> types, KeyBinding kb, boolean tickEnd, boolean isRepeat) {
-            }
-
-            @Override
-            public void keyUp(EnumSet<TickType> types, KeyBinding kb,
-                              boolean tickEnd) {
-                if (kb.keyDescription.equals("SpoutGuiBind") && Minecraft.getMinecraft().currentScreen == null) {
-                    Minecraft.getMinecraft().displayGuiScreen(new SpoutcraftTestGui());
-                }
-            }
-
-            @Override
-            public EnumSet<TickType> ticks() {
-                return ticks;
-            }
-        });
-    }
-
     private void bindCodecMessages() {
         Packet.addIdClassMapping(251, true, true, SpoutcraftPacket.class);
         NetworkRegistry.instance().registerConnectionHandler(new SpoutcraftConnectionHandler());
         Protocol.register(AddPrefabMessage.class, AddPrefabCodec.class);
         Protocol.register(DownloadLinkMessage.class, DownloadLinkCodec.class);
         Protocol.register(AddFileMessage.class, AddFileCodec.class);
-    }
-
-    private class CustomTabs extends CreativeTabs {
-        public CustomTabs() {
-            super("Spoutcraft");
-            LanguageUtil.add("itemGroup.Spoutcraft", "Spoutcraft");
-        }
-
-        @Override
-        public ItemStack getIconItemStack() {
-            return new ItemStack((Item) Spoutcraft.getItemPrefabRegistry().find("spout_emblem"), 1, 0);
-        }
     }
 
     public static CustomTabs getCustomTabs() {

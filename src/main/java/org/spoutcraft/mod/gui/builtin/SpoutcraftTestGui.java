@@ -26,15 +26,13 @@ package org.spoutcraft.mod.gui.builtin;
 
 import org.spoutcraft.api.gui.Gui;
 import org.spoutcraft.api.gui.component.Button;
-import org.spoutcraft.api.gui.component.Label;
 import org.spoutcraft.api.gui.component.Frame;
+import org.spoutcraft.api.gui.component.Label;
 import org.spoutcraft.api.gui.event.ActionEvent;
-import org.spoutcraft.api.gui.event.Event;
 import org.spoutcraft.api.gui.event.EventHandler;
 import org.spoutcraft.api.util.Color;
 
 public class SpoutcraftTestGui extends Gui {
-
     private Button testBtn;
     private int click = 0;
     private String[] messages = {
@@ -91,5 +89,4 @@ public class SpoutcraftTestGui extends Gui {
         click = (click + 1) % messages.length;
         testBtn.setText(messages[click]);
     }
-
 }

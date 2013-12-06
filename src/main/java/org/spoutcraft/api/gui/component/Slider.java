@@ -24,7 +24,6 @@
  */
 package org.spoutcraft.api.gui.component;
 
-import net.minecraft.nbt.NBTTagCompound;
 import org.lwjgl.input.*;
 import org.spoutcraft.api.gui.Container;
 import org.spoutcraft.api.gui.Gui;

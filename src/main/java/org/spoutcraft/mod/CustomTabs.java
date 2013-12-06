@@ -22,55 +22,22 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.spoutcraft.api.gui.component;
+package org.spoutcraft.mod;
 
-import java.awt.Font;
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import org.spoutcraft.api.Spoutcraft;
+import org.spoutcraft.api.util.LanguageUtil;
 
-import org.spoutcraft.api.gui.Component;
-import org.spoutcraft.api.resource.CustomFont;
-import org.spoutcraft.mod.SpoutcraftMod;
-
-public abstract class LabelBase extends Component {
-    private static final CustomFont defaultFont;
-
-    static {
-        try {
-            defaultFont = new CustomFont(Font.createFont(Font.TRUETYPE_FONT, SpoutcraftMod.class.getResourceAsStream("/assets/spoutcraft/fonts/ubuntu-regular.ttf")).deriveFont(33f));
-        } catch (Exception e) {
-            throw new RuntimeException("Could not load font", e);
-        }
+public class CustomTabs extends CreativeTabs {
+    protected CustomTabs() {
+        super("Spoutcraft");
+        LanguageUtil.add("itemGroup.Spoutcraft", "Spoutcraft");
     }
 
-    private CustomFont font;
-    private int fontSize;
-    private String text;
-
-    public LabelBase() {
-        this.setFont(defaultFont);
-        this.setFontSize(11);
-    }
-
-    public void setFont(CustomFont font) {
-        this.font = font;
-    }
-
-    public void setFontSize(int size) {
-        this.fontSize = size;
-    }
-
-    public void setText(String text) {
-        this.text = text;
-    }
-
-    public CustomFont getFont() {
-        return this.font;
-    }
-
-    public int getFontSize() {
-        return this.fontSize;
-    }
-
-    public String getText() {
-        return this.text;
+    @Override
+    public ItemStack getIconItemStack() {
+        return new ItemStack((Item) Spoutcraft.getItemPrefabRegistry().find("spout_emblem"), 1, 0);
     }
 }
