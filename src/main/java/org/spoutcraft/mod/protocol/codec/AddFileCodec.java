@@ -56,9 +56,11 @@ public class AddFileCodec implements Codec<AddFileMessage> {
             return null;
         }
         final String fname = BufferUtil.readUTF8(buffer);
+        final int part = buffer.readInt();
+        final int partCount = buffer.readInt();
         final byte[] data = new byte[buffer.capacity() - buffer.readerIndex()];
         buffer.readBytes(data);
-        return new AddFileMessage(addon, fname, data);
+        return new AddFileMessage(addon, fname, part, partCount, data);
     }
 
     @Override
@@ -67,11 +69,15 @@ public class AddFileCodec implements Codec<AddFileMessage> {
             throw new IllegalStateException("Client is not allowed to send files!");
         }
         final String addonIdentifier = message.getAddon().getPrefab().getIdentifier();
-        final String fname = message.getResource().getFileName().toString();
+        final String fname = message.getFileName();
+        final int part = message.getPart();
+        final int partCount = message.getPartCount();
+        final byte[] data = message.getData();
         final ByteBuf buffer = Unpooled.buffer();
         BufferUtil.writeUTF8(buffer, addonIdentifier);
         BufferUtil.writeUTF8(buffer, fname);
-        final byte[] data = Files.readAllBytes(Paths.get(((ServerFileSystem) Spoutcraft.getFileSystem()).basePath.toString(), fname));
+        buffer.writeInt(part);
+        buffer.writeInt(partCount);
         buffer.writeBytes(data);
         return buffer;
     }

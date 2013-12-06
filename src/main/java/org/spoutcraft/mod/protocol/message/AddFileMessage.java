@@ -25,10 +25,14 @@
 package org.spoutcraft.mod.protocol.message;
 
 import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.ByteBuffer;
+import java.nio.channels.ReadableByteChannel;
+import java.nio.file.StandardOpenOption;
 
 import cpw.mods.fml.common.network.Player;
 import cpw.mods.fml.relauncher.Side;
@@ -38,65 +42,132 @@ import org.spoutcraft.api.Spoutcraft;
 import org.spoutcraft.api.addon.Addon;
 import org.spoutcraft.api.protocol.message.AddonMessage;
 
+import java.util.Map;
+import java.util.HashMap;
+import java.util.List;
+import java.util.ArrayList;
+
 public class AddFileMessage extends AddonMessage {
-    //SERVER
-    private Path path;
+
+    private static Map<String, SplitFile> fileDataBuffer = new HashMap<String, SplitFile>();
+
     //CLIENT
     private String name;
+    private int filePart;
+    private int filePartCount;
     private byte[] data;
 
-    @SideOnly (Side.SERVER)
-    public AddFileMessage(Addon addon, Path path) {
-        super(addon);
-        this.path = path;
-    }
-
-    @SideOnly (Side.CLIENT)
-    public AddFileMessage(Addon addon, String name, byte[] data) {
+    public AddFileMessage(Addon addon, String name, int part, int partCount, byte[] data) {
         super(addon);
         this.name = name;
+        this.filePart = part;
+        this.filePartCount = partCount;
         this.data = data;
     }
 
-    @SideOnly (Side.SERVER)
-    public Path getResource() {
-        return path;
-    }
-
-    @SideOnly (Side.CLIENT)
-    public String getName() {
+    public String getFileName() {
         return name;
     }
 
-    @SideOnly (Side.CLIENT)
+    public int getPart() {
+        return filePart;
+    }
+
+    public int getPartCount() {
+        return filePartCount;
+    }
+
     public byte[] getData() {
         return data;
     }
 
     @Override
     public void handle(Side side, INetworkManager manager, Player player) {
+
+        SplitFile split;
+        if(fileDataBuffer.containsKey(name)) {
+            split = fileDataBuffer.get(name);
+        } else {
+            split = new SplitFile(filePartCount);
+        }
+        split.addPart(filePart, data);
+
         //TODO Pass off recieved files to resolver
         //TODO For now, we'll use this to receive addons on the client
-        Spoutcraft.getLogger().info(name);
-        final Path path = Paths.get("assets", name);
-        FileOutputStream stream = null;
-        try {
-            if (Files.exists(path)) {
-                Files.delete(path);
-            }
-            Files.createFile(path);
-            stream = new FileOutputStream(path.toFile());
-            stream.write(data);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (stream != null) {
-                try {
-                    stream.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
+        if(split.fileComplete()) {
+            Spoutcraft.getLogger().info(name);
+            final Path path = Paths.get("assets", name);
+            FileOutputStream stream = null;
+            try {
+                if (Files.exists(path)) {
+                    Files.delete(path);
                 }
+                Files.createFile(path);
+                stream = new FileOutputStream(path.toFile());
+                //stream.write(data);
+                split.write(stream);
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                if (stream != null) {
+                    try {
+                        stream.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                fileDataBuffer.remove(name);
             }
         }
+    }
+
+    private class SplitFile {
+
+        public byte[][] parts;
+        public int maxParts;
+        public int partsReceived;
+
+        public SplitFile(int maxParts) {
+            this.maxParts = maxParts;
+            this.parts = new byte[maxParts][];
+        }
+
+        public void addPart(int part, byte[] data) {
+            parts[part] = data;
+            this.partsReceived++;
+        }
+
+        public boolean fileComplete() {
+            return partsReceived == maxParts;
+        }
+
+        public void write(OutputStream out) throws IOException {
+            for(byte[] chunk : parts) {
+                out.write(chunk);
+            }
+        }
+    }
+
+    public static List<AddFileMessage> splitFileToMessages(Addon addon, Path path) throws IOException {
+        //Leave room for other packet related data
+        ByteBuffer readBuff = ByteBuffer.allocate(30000);
+        ReadableByteChannel channel = Files.newByteChannel(path, StandardOpenOption.READ);
+        List<AddFileMessage> messages = new ArrayList<AddFileMessage>();
+        int amnt;
+        int part = 0;
+        String name = path.getFileName().toString();
+        while((amnt = channel.read(readBuff)) != -1) {
+            readBuff.flip();
+            byte[] chunk = new byte[amnt];
+            readBuff.put(chunk);
+            readBuff.clear();
+            messages.add(new AddFileMessage(addon, name, part, 0, chunk));
+            part++;
+        }
+        //part is now maxParts
+        for(AddFileMessage msg : messages) {
+            msg.filePartCount = part;
+        }
+        return messages;
     }
 }
