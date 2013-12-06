@@ -89,6 +89,7 @@ public class AddFileMessage extends AddonMessage {
             split = fileDataBuffer.get(name);
         } else {
             split = new SplitFile(filePartCount);
+            fileDataBuffer.put(name, split);
         }
         split.addPart(filePart, data);
 
