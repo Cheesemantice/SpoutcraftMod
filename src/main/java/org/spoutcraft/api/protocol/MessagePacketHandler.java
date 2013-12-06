@@ -43,9 +43,8 @@ public class MessagePacketHandler implements IPacketHandler {
             final ByteBuf buffer = Unpooled.buffer();
             buffer.writeBytes(packet.data);
             message = codec.decode(FMLCommonHandler.instance().getEffectiveSide(), buffer);
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new IllegalStateException("Error decoding codec: " + codec);
+        } catch (Throwable t) {
+            throw new IllegalStateException("Error decoding codec: " + codec, t);
         }
         if (message != null) {
             message.handle(FMLCommonHandler.instance().getEffectiveSide(), manager, player);

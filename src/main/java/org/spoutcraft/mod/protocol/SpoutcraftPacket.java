@@ -24,8 +24,6 @@
  */
 package org.spoutcraft.mod.protocol;
 
-import java.io.IOException;
-
 import cpw.mods.fml.common.FMLCommonHandler;
 import net.minecraft.network.packet.Packet250CustomPayload;
 import org.spoutcraft.api.protocol.Protocol;
@@ -41,11 +39,11 @@ public class SpoutcraftPacket extends Packet250CustomPayload {
     public SpoutcraftPacket(Message toSend) {
         final Codec codec = Protocol.find(toSend.getClass());
         try {
-            super.channel = codec.getChannel();
-            super.data = codec.encode(FMLCommonHandler.instance().getEffectiveSide(), toSend).array();
-        } catch (IOException e) {
-            throw new IllegalStateException("Failed to encode message: " + toSend, e);
+            channel = codec.getChannel();
+            data = codec.encode(FMLCommonHandler.instance().getEffectiveSide(), toSend).array();
+        } catch (Throwable t) {
+            throw new IllegalStateException("Failed to encode message: " + toSend, t);
         }
-        super.length = super.data.length;
+        length = data.length;
     }
 }
