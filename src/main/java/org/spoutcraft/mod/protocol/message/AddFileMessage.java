@@ -160,7 +160,7 @@ public class AddFileMessage extends AddonMessage {
         while((amnt = channel.read(readBuff)) != -1) {
             readBuff.flip();
             byte[] chunk = new byte[amnt];
-            readBuff.put(chunk);
+            readBuff.get(chunk);
             readBuff.clear();
             messages.add(new AddFileMessage(addon, name, part, 0, chunk));
             part++;
