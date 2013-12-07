@@ -146,7 +146,7 @@ public class AddFileMessage extends AddonMessage {
 
     public static List<AddFileMessage> splitFileToMessages(Addon addon, Path path) throws IOException {
         //Leave room for other packet related data
-        ByteBuffer readBuff = ByteBuffer.allocate(15000);
+        ByteBuffer readBuff = ByteBuffer.allocate(32000);
         ReadableByteChannel channel = Files.newByteChannel(path, StandardOpenOption.READ);
         List<AddFileMessage> messages = new ArrayList<AddFileMessage>();
         int amnt;
