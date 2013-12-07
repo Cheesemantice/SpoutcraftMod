@@ -25,8 +25,6 @@
 package org.spoutcraft.mod.protocol.codec;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 
 import cpw.mods.fml.relauncher.Side;
 import io.netty.buffer.ByteBuf;
@@ -36,7 +34,6 @@ import org.spoutcraft.api.addon.Addon;
 import org.spoutcraft.api.protocol.codec.Codec;
 import org.spoutcraft.api.util.BufferUtil;
 import org.spoutcraft.mod.protocol.message.AddFileMessage;
-import org.spoutcraft.mod.resource.ServerFileSystem;
 
 public class AddFileCodec implements Codec<AddFileMessage> {
     @Override
@@ -58,8 +55,7 @@ public class AddFileCodec implements Codec<AddFileMessage> {
         final String fname = BufferUtil.readUTF8(buffer);
         final int part = buffer.readInt();
         final int partCount = buffer.readInt();
-        final int dataLength = buffer.readInt();
-        final byte[] data = new byte[dataLength];
+        final byte[] data = new byte[buffer.readableBytes()];
         buffer.readBytes(data);
         return new AddFileMessage(addon, fname, part, partCount, data);
     }
@@ -79,7 +75,6 @@ public class AddFileCodec implements Codec<AddFileMessage> {
         BufferUtil.writeUTF8(buffer, fname);
         buffer.writeInt(part);
         buffer.writeInt(partCount);
-        buffer.writeInt(data.length);
         buffer.writeBytes(data);
         return buffer;
     }

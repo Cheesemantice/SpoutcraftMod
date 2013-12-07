@@ -25,32 +25,28 @@
 package org.spoutcraft.mod.protocol.message;
 
 import java.io.FileOutputStream;
-import java.io.OutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.nio.ByteBuffer;
+import java.nio.channels.ReadableByteChannel;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.ByteBuffer;
-import java.nio.channels.ReadableByteChannel;
 import java.nio.file.StandardOpenOption;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import cpw.mods.fml.common.network.Player;
 import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.network.INetworkManager;
 import org.spoutcraft.api.Spoutcraft;
 import org.spoutcraft.api.addon.Addon;
 import org.spoutcraft.api.protocol.message.AddonMessage;
 
-import java.util.Map;
-import java.util.HashMap;
-import java.util.List;
-import java.util.ArrayList;
-
 public class AddFileMessage extends AddonMessage {
-
     private static Map<String, SplitFile> fileDataBuffer = new HashMap<String, SplitFile>();
-
     //CLIENT
     private String name;
     private int filePart;
@@ -85,7 +81,7 @@ public class AddFileMessage extends AddonMessage {
     public void handle(Side side, INetworkManager manager, Player player) {
 
         SplitFile split;
-        if(fileDataBuffer.containsKey(name)) {
+        if (fileDataBuffer.containsKey(name)) {
             split = fileDataBuffer.get(name);
         } else {
             split = new SplitFile(filePartCount);
@@ -95,7 +91,7 @@ public class AddFileMessage extends AddonMessage {
 
         //TODO Pass off recieved files to resolver
         //TODO For now, we'll use this to receive addons on the client
-        if(split.fileComplete()) {
+        if (split.fileComplete()) {
             Spoutcraft.getLogger().info(name);
             final Path path = Paths.get("assets", name);
             FileOutputStream stream = null;
@@ -123,7 +119,6 @@ public class AddFileMessage extends AddonMessage {
     }
 
     private class SplitFile {
-
         public byte[][] parts;
         public int maxParts;
         public int partsReceived;
@@ -143,7 +138,7 @@ public class AddFileMessage extends AddonMessage {
         }
 
         public void write(OutputStream out) throws IOException {
-            for(byte[] chunk : parts) {
+            for (byte[] chunk : parts) {
                 out.write(chunk);
             }
         }
@@ -151,13 +146,13 @@ public class AddFileMessage extends AddonMessage {
 
     public static List<AddFileMessage> splitFileToMessages(Addon addon, Path path) throws IOException {
         //Leave room for other packet related data
-        ByteBuffer readBuff = ByteBuffer.allocate(10000);
+        ByteBuffer readBuff = ByteBuffer.allocate(32000);
         ReadableByteChannel channel = Files.newByteChannel(path, StandardOpenOption.READ);
         List<AddFileMessage> messages = new ArrayList<AddFileMessage>();
         int amnt;
         int part = 0;
         String name = path.getFileName().toString();
-        while((amnt = channel.read(readBuff)) != -1) {
+        while ((amnt = channel.read(readBuff)) != -1) {
             readBuff.flip();
             byte[] chunk = new byte[amnt];
             readBuff.get(chunk);
@@ -166,7 +161,7 @@ public class AddFileMessage extends AddonMessage {
             part++;
         }
         //part is now maxParts
-        for(AddFileMessage msg : messages) {
+        for (AddFileMessage msg : messages) {
             msg.filePartCount = part;
         }
         return messages;

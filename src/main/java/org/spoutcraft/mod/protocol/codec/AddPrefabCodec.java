@@ -54,7 +54,7 @@ public class AddPrefabCodec implements Codec<AddPrefabMessage> {
         if (addon == null) {
             return null;
         }
-        final byte[] data = new byte[buffer.capacity() - buffer.readerIndex()];
+        final byte[] data = new byte[buffer.readableBytes()];
         buffer.readBytes(data);
         return new AddPrefabMessage(addon, (Prefab) SerializationUtils.deserialize(data));
     }
