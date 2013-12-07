@@ -53,8 +53,8 @@ public class AddFileCodec implements Codec<AddFileMessage> {
             return null;
         }
         final String fname = BufferUtil.readUTF8(buffer);
-        final int part = buffer.readInt();
-        final int partCount = buffer.readInt();
+        final int part = buffer.readShort();
+        final int partCount = buffer.readShort();
         final byte[] data = new byte[buffer.readableBytes()];
         buffer.readBytes(data);
         return new AddFileMessage(addon, fname, part, partCount, data);
@@ -73,8 +73,8 @@ public class AddFileCodec implements Codec<AddFileMessage> {
         final ByteBuf buffer = Unpooled.buffer();
         BufferUtil.writeUTF8(buffer, addonIdentifier);
         BufferUtil.writeUTF8(buffer, fname);
-        buffer.writeInt(part);
-        buffer.writeInt(partCount);
+        buffer.writeShort(part);
+        buffer.writeShort(partCount);
         buffer.writeBytes(data);
         return buffer;
     }
