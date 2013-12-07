@@ -86,32 +86,11 @@ public class Slider extends Button {
 
     @Override
     public void render() {
-        int width = this.getWidth();
-        int height = this.getHeight();
-        int x = this.getX();
-        int y = this.getY();
-
-        Color dispColor = this.getBackground();
-        Color txtColor = this.getForeground();
-        if (containsMouse()) {
-            txtColor = this.getOverTextColor();
-            if (Mouse.isButtonDown(0)) {
-                dispColor = this.getClickColor();
-            } else {
-                dispColor = this.getOverColor();
-            }
-        }
-        this.fillRect(x, y, width, height, Color.BLACK);
-        this.fillRect(x + 1, y + 1, width - 2, height - 2, dispColor);
+        this.drawBackground();
 
         //Slider goes beneath text
         this.slideButton.render();
-
-        getFont().setSize(getFontSize());
-        int strWidth = (int) getFont().getWidth(getText());
-        float strDescent = getFont().getDescent();
-        getFont().setColor(txtColor);
-        getFont().drawString(getText(), x + getWidth() / 2 - strWidth / 2, y + getHeight() - strDescent - 2);
+        this.drawText();
     }
 
     @Override

@@ -189,6 +189,9 @@ public class CustomFont {
      */
     public void drawString(String str, float x, float y) {
         int len = str.length();
+        if(len == 0) {
+            return;
+        }
         float height = getCharHeight();
 
         glPushAttrib(GL_ENABLE_BIT | GL_CURRENT_BIT);

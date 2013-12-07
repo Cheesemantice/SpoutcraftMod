@@ -43,6 +43,8 @@ import org.spoutcraft.api.gui.event.RemoveListenerEvent;
 import org.spoutcraft.api.gui.event.mouse.MouseDownEvent;
 import org.spoutcraft.api.gui.event.mouse.MouseMoveEvent;
 import org.spoutcraft.api.gui.event.mouse.MouseUpEvent;
+import org.spoutcraft.api.gui.event.key.KeyPressEvent;
+import org.spoutcraft.api.gui.event.key.KeyReleaseEvent;
 import org.spoutcraft.api.util.Color;
 import org.spoutcraft.api.util.RenderUtil;
 
@@ -212,6 +214,16 @@ public abstract class Component {
         mouseMove(e.getButton(), e.getX(), e.getY());
     }
 
+    @EventHandler (priority = -1)
+    public void onKeyPress(KeyPressEvent e) {
+        keyPress(e.getKey(), e.getCharacter());
+    }
+
+    @EventHandler (priority = -1)
+    public void onKeyRelease(KeyReleaseEvent e) {
+        keyRelease(e.getKey(), e.getCharacter());
+    }
+
     public void mouseDown(int btn, int x, int y) {
 
     }
@@ -299,6 +311,25 @@ public abstract class Component {
 
     public boolean receiveAllEvents() {
         return false;
+    }
+
+    public boolean focusable() {
+        return false;
+    }
+
+    public boolean isFocused() {
+        if(getParent() == null) {
+            return false;
+        } else {
+            return getParent().getFocusedComponent() == this;
+        }
+    }
+
+    public void focus() {
+        if(getParent() != null) {
+            getParent().setFocusedComponent(this);
+            getParent().focus();
+        }
     }
 
     public void fillRect(int x, int y, int width, int height, Color col) {

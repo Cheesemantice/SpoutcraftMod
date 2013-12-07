@@ -101,15 +101,18 @@ public class Button extends LabelBase {
 
     @Override
     public void render() {
+        drawBackground();
+        drawText();
+    }
+
+    protected void drawBackground() {
         int width = this.getWidth();
         int height = this.getHeight();
         int x = this.getX();
         int y = this.getY();
 
         Color dispColor = this.getBackground();
-        Color txtColor = this.getForeground();
         if (containsMouse()) {
-            txtColor = this.getOverTextColor();
             if (clicked) {
                 dispColor = this.getClickColor();
             } else {
@@ -118,10 +121,22 @@ public class Button extends LabelBase {
         }
         this.fillRect(x, y, width, height, Color.BLACK);
         this.fillRect(x + 1, y + 1, width - 2, height - 2, dispColor);
+    }
 
-        int strWidth = (int) getFont().getWidth(getText());
+    protected void drawText() {
+        int width = this.getWidth();
+        int height = this.getHeight();
+        int x = this.getX();
+        int y = this.getY();
+
         getFont().setSize(getFontSize());
+        int strWidth = (int) getFont().getWidth(getText());
         float strDescent = getFont().getDescent();
+
+        Color txtColor = this.getForeground();
+        if (containsMouse()) {
+            txtColor = this.getOverTextColor();
+        }
         getFont().setColor(txtColor);
         getFont().drawString(getText(), x + getWidth() / 2 - strWidth / 2, y + getHeight() - strDescent - 2);
     }

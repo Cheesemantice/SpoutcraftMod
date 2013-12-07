@@ -28,12 +28,14 @@ import org.spoutcraft.api.gui.Gui;
 import org.spoutcraft.api.gui.component.Button;
 import org.spoutcraft.api.gui.component.Frame;
 import org.spoutcraft.api.gui.component.Label;
+import org.spoutcraft.api.gui.component.TextField;
 import org.spoutcraft.api.gui.event.ActionEvent;
 import org.spoutcraft.api.gui.event.EventHandler;
 import org.spoutcraft.api.util.Color;
 
 public class SpoutcraftTestGui extends Gui {
-    private Button testBtn;
+    private Button testBtn = new Button("Test Button");
+    private TextField testField = new TextField();
     private int click = 0;
     private String[] messages = {
             "Test Button",
@@ -64,7 +66,6 @@ public class SpoutcraftTestGui extends Gui {
         testLbl.setY(height / 2 - 85);
         add(testLbl);
 
-        testBtn = new Button(messages[click]);
         testBtn.setWidth(150);
         testBtn.setX(198 / 2 - 150 / 2);
         testBtn.setY(15);
@@ -72,12 +73,17 @@ public class SpoutcraftTestGui extends Gui {
         //testBtn.setY(height / 2 - testBtn.getHeight() - 50);
         //add(testBtn);
 
+        testField.setWidth(150);
+        testField.setX(198 / 2 - 150 / 2);
+        testField.setY(50);
+
         Frame testFrm = new Frame();
         testFrm.setWidth(200);
         testFrm.setHeight(100);
         testFrm.setX(width / 2 - 100);
         testFrm.setY(height / 2 - 70);
         testFrm.addComponent(testBtn);
+        testFrm.addComponent(testField);
 
         add(testFrm);
 

@@ -40,6 +40,7 @@ import org.spoutcraft.api.gui.event.mouse.MouseUpEvent;
 
 public class Container extends Component {
     private List<Component> components = new ArrayList<Component>();
+    private Component focusedComponent;
 
     @Override
     public void render() {
@@ -75,6 +76,25 @@ public class Container extends Component {
         return Collections.unmodifiableList(components);
     }
 
+    public Component getFocusedComponent() {
+        return this.focusedComponent;
+    }
+
+    public void setFocusedComponent(Component c) {
+        if(c == null) {
+            clearFocus();
+        } else if(components.contains(c)) {
+            this.focusedComponent = c;
+        }
+    }
+
+    public void clearFocus() {
+        if(this.focusedComponent != null && this.focusedComponent instanceof Container) {
+            ((Container)this.focusedComponent).clearFocus();
+        }
+        this.focusedComponent = null;
+    }
+
     @EventHandler (priority = -1)
     public void onAddComponent(AddComponentEvent e) {
         e.getAddedComponent().setParent(this);
@@ -91,9 +111,14 @@ public class Container extends Component {
 
     @Override
     public void mouseDown(int btn, int x, int y) {
+        this.clearFocus();
         for (Component c : components) {
-            if (c.receiveAllEvents() || c.containsPoint(x, y)) {
+            boolean hasMouse = c.containsPoint(x, y);
+            if (c.receiveAllEvents() || hasMouse) {
                 c.callEvent(new MouseDownEvent(c, btn, x - c.getX(), y - c.getY()));
+                if(hasMouse && c.focusable() && this.focusedComponent == null) {
+                    this.focusedComponent = c;
+                }
             }
         }
     }
@@ -118,19 +143,15 @@ public class Container extends Component {
 
     @Override
     public void keyPress(int key, char ch) {
-        for (Component c : components) {
-            if (c.receiveAllEvents()) {
-                c.callEvent(new KeyPressEvent(this, key, ch));
-            }
+        if(this.focusedComponent != null) {
+            this.focusedComponent.callEvent(new KeyPressEvent(this, key, ch));
         }
     }
 
     @Override
     public void keyRelease(int key, char ch) {
-        for (Component c : components) {
-            if (c.receiveAllEvents()) {
-                c.callEvent(new KeyReleaseEvent(this, key, ch));
-            }
+        if(this.focusedComponent != null) {
+            this.focusedComponent.callEvent(new KeyReleaseEvent(this, key, ch));
         }
     }
 
@@ -142,5 +163,10 @@ public class Container extends Component {
         for (Component c : components) {
             c.processEvents();
         }
+    }
+
+    @Override
+    public boolean focusable() {
+        return true;
     }
 }
