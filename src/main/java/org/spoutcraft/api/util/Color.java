@@ -24,6 +24,8 @@
  */
 package org.spoutcraft.api.util;
 
+import org.lwjgl.opengl.GL11;
+
 public class Color {
     public static final Color WHITE = new Color(0xFFFFFF);
     public static final Color BLACK = new Color(0x000000);
@@ -117,6 +119,18 @@ public class Color {
                 b / 255F,
                 a / 255F
         };
+    }
+
+    public Color multiply(Color other) {
+        int newR = r * other.r / 255;
+        int newG = g * other.g / 255;
+        int newB = b * other.b / 255;
+        int newA = a * other.a / 255;
+        return new Color(newR, newG, newB, newA);
+    }
+
+    public void setGLColor() {
+        GL11.glColor4f(r / 255F, g / 255F, b / 255F, a / 255F);
     }
 
     @Override

@@ -29,6 +29,8 @@ import org.spoutcraft.api.gui.component.Button;
 import org.spoutcraft.api.gui.component.Frame;
 import org.spoutcraft.api.gui.component.Label;
 import org.spoutcraft.api.gui.component.TextField;
+import org.spoutcraft.api.gui.component.CheckBox;
+import org.spoutcraft.api.gui.component.*;
 import org.spoutcraft.api.gui.event.ActionEvent;
 import org.spoutcraft.api.gui.event.EventHandler;
 import org.spoutcraft.api.util.Color;
@@ -36,6 +38,11 @@ import org.spoutcraft.api.util.Color;
 public class SpoutcraftTestGui extends Gui {
     private Button testBtn = new Button("Test Button");
     private TextField testField = new TextField();
+    private CheckBox testBox = new CheckBox();
+    private RadioGroup testGroup = new RadioGroup();
+    private RadioButton testRadio1 = new RadioButton(testGroup);
+    private RadioButton testRadio2 = new RadioButton(testGroup);
+    private RadioButton testRadio3 = new RadioButton(testGroup);
     private int click = 0;
     private String[] messages = {
             "Test Button",
@@ -57,6 +64,10 @@ public class SpoutcraftTestGui extends Gui {
             "I'm done here."
     };
 
+    public SpoutcraftTestGui() {
+        super();
+    }
+
     @Override
     public void initGui() {
         super.initGui();
@@ -77,13 +88,33 @@ public class SpoutcraftTestGui extends Gui {
         testField.setX(198 / 2 - 150 / 2);
         testField.setY(50);
 
+        testBox.setWidth(16);
+        testBox.setHeight(16);
+        testBox.setX(198 / 2 - 8);
+        testBox.setY(85);
+
+        int radioX = 198 / 2 - 32;
+        int radioY = 85 - 18;
+        RadioButton[] btns = new RadioButton[] { testRadio1, testRadio2, testRadio3 };
+        for(RadioButton btn : btns) {
+            btn.setX(radioX);
+            btn.setY(radioY);
+            btn.setWidth(16);
+            btn.setHeight(16);
+            radioY += 18;
+        }
+
         Frame testFrm = new Frame();
         testFrm.setWidth(200);
-        testFrm.setHeight(100);
+        testFrm.setHeight(150);
         testFrm.setX(width / 2 - 100);
         testFrm.setY(height / 2 - 70);
         testFrm.addComponent(testBtn);
         testFrm.addComponent(testField);
+        testFrm.addComponent(testBox);
+        for(RadioButton btn : btns) {
+            testFrm.addComponent(btn);
+        }
 
         add(testFrm);
 

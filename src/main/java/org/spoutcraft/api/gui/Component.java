@@ -337,14 +337,18 @@ public abstract class Component {
     }
 
     public void fillCircle(int x, int y, int radius, Color col) {
+        //Scale of screen
+        int scale = scaledToScreen(1, 0)[0];
+        int numSegments = (int)(15 * Math.sqrt(radius * scale));
+
         GL11.glDisable(GL11.GL_TEXTURE_2D);
         Tessellator tes = Tessellator.instance;
         tes.startDrawing(GL11.GL_POLYGON);
         tes.setColorRGBA(col.getR(), col.getG(), col.getB(), col.getA());
         tes.setTranslation(x, y, 0);
         double angle = Math.PI * 2;
-        double inc = -angle / 128D;
-        for (int i = 0; i < 128; i++) {
+        double inc = -angle / (double)numSegments;
+        for (int i = 0; i < numSegments; i++) {
             tes.addVertex(Math.cos(angle) * radius, Math.sin(angle) * radius, 0);
             angle += inc;
         }
