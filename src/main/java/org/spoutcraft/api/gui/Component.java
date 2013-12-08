@@ -40,11 +40,11 @@ import org.spoutcraft.api.gui.event.Event;
 import org.spoutcraft.api.gui.event.EventHandler;
 import org.spoutcraft.api.gui.event.EventListener;
 import org.spoutcraft.api.gui.event.RemoveListenerEvent;
+import org.spoutcraft.api.gui.event.key.KeyPressEvent;
+import org.spoutcraft.api.gui.event.key.KeyReleaseEvent;
 import org.spoutcraft.api.gui.event.mouse.MouseDownEvent;
 import org.spoutcraft.api.gui.event.mouse.MouseMoveEvent;
 import org.spoutcraft.api.gui.event.mouse.MouseUpEvent;
-import org.spoutcraft.api.gui.event.key.KeyPressEvent;
-import org.spoutcraft.api.gui.event.key.KeyReleaseEvent;
 import org.spoutcraft.api.util.Color;
 import org.spoutcraft.api.util.RenderUtil;
 
@@ -318,7 +318,7 @@ public abstract class Component {
     }
 
     public boolean isFocused() {
-        if(getParent() == null) {
+        if (getParent() == null) {
             return false;
         } else {
             return getParent().getFocusedComponent() == this;
@@ -326,7 +326,7 @@ public abstract class Component {
     }
 
     public void focus() {
-        if(getParent() != null) {
+        if (getParent() != null) {
             getParent().setFocusedComponent(this);
             getParent().focus();
         }
@@ -339,7 +339,7 @@ public abstract class Component {
     public void fillCircle(int x, int y, int radius, Color col) {
         //Scale of screen
         int scale = scaledToScreen(1, 0)[0];
-        int numSegments = (int)(15 * Math.sqrt(radius * scale));
+        int numSegments = (int) (15 * Math.sqrt(radius * scale));
 
         GL11.glDisable(GL11.GL_TEXTURE_2D);
         Tessellator tes = Tessellator.instance;
@@ -347,7 +347,7 @@ public abstract class Component {
         tes.setColorRGBA(col.getR(), col.getG(), col.getB(), col.getA());
         tes.setTranslation(x, y, 0);
         double angle = Math.PI * 2;
-        double inc = -angle / (double)numSegments;
+        double inc = -angle / (double) numSegments;
         for (int i = 0; i < numSegments; i++) {
             tes.addVertex(Math.cos(angle) * radius, Math.sin(angle) * radius, 0);
             angle += inc;

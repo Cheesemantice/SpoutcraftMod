@@ -25,11 +25,10 @@
 package org.spoutcraft.api.gui.component;
 
 import org.spoutcraft.api.gui.event.ActionEvent;
-import org.spoutcraft.api.util.Color;
 import org.spoutcraft.api.gui.event.EventHandler;
+import org.spoutcraft.api.util.Color;
 
 public class RadioButton extends CheckBox {
-
     private RadioGroup group;
 
     public RadioButton() {
@@ -38,7 +37,7 @@ public class RadioButton extends CheckBox {
 
     public RadioButton(RadioGroup group) {
         super(false);
-        if(group != null) {
+        if (group != null) {
             group.addButton(this);
             this.group = group;
         }
@@ -60,21 +59,21 @@ public class RadioButton extends CheckBox {
 
     @Override
     public void setChecked(boolean checked) {
-        if(getGroup() != null) {
+        if (getGroup() != null) {
             getGroup().setCheckedButton(this);
         }
     }
 
     @Override
     public boolean isChecked() {
-        if(getGroup() == null) {
+        if (getGroup() == null) {
             return false;
         }
         return getGroup().getCheckedButton() == this;
     }
 
     public void setGroup(RadioGroup group) {
-        if(getGroup() != null) {
+        if (getGroup() != null) {
             getGroup().removeButton(this);
         }
         this.group = group;
@@ -84,5 +83,4 @@ public class RadioButton extends CheckBox {
     public RadioGroup getGroup() {
         return this.group;
     }
-
 }

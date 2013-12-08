@@ -81,16 +81,16 @@ public class Container extends Component {
     }
 
     public void setFocusedComponent(Component c) {
-        if(c == null) {
+        if (c == null) {
             clearFocus();
-        } else if(components.contains(c)) {
+        } else if (components.contains(c)) {
             this.focusedComponent = c;
         }
     }
 
     public void clearFocus() {
-        if(this.focusedComponent != null && this.focusedComponent instanceof Container) {
-            ((Container)this.focusedComponent).clearFocus();
+        if (this.focusedComponent != null && this.focusedComponent instanceof Container) {
+            ((Container) this.focusedComponent).clearFocus();
         }
         this.focusedComponent = null;
     }
@@ -116,7 +116,7 @@ public class Container extends Component {
             boolean hasMouse = c.containsPoint(x, y);
             if (c.receiveAllEvents() || hasMouse) {
                 c.callEvent(new MouseDownEvent(c, btn, x - c.getX(), y - c.getY()));
-                if(hasMouse && c.focusable() && this.focusedComponent == null) {
+                if (hasMouse && c.focusable() && this.focusedComponent == null) {
                     this.focusedComponent = c;
                 }
             }
@@ -143,14 +143,14 @@ public class Container extends Component {
 
     @Override
     public void keyPress(int key, char ch) {
-        if(this.focusedComponent != null) {
+        if (this.focusedComponent != null) {
             this.focusedComponent.callEvent(new KeyPressEvent(this, key, ch));
         }
     }
 
     @Override
     public void keyRelease(int key, char ch) {
-        if(this.focusedComponent != null) {
+        if (this.focusedComponent != null) {
             this.focusedComponent.callEvent(new KeyReleaseEvent(this, key, ch));
         }
     }

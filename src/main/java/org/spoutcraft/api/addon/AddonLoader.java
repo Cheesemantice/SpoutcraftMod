@@ -92,7 +92,7 @@ public class AddonLoader {
         AddonClassLoader loader;
 
         if (description.isValidMode(side)) {
-            final Path dataPath = Paths.get(path.getParent().toString(), description.getIdentifier()); //TODO breakpoint this
+            final Path dataPath = Paths.get(path.getParent().toString(), description.getIdentifier());
             try {
                 loader = new AddonClassLoader(this.getClass().getClassLoader(), this);
                 loader.addURL(path.toUri().toURL());

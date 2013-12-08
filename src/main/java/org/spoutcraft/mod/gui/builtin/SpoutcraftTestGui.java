@@ -26,11 +26,12 @@ package org.spoutcraft.mod.gui.builtin;
 
 import org.spoutcraft.api.gui.Gui;
 import org.spoutcraft.api.gui.component.Button;
+import org.spoutcraft.api.gui.component.CheckBox;
 import org.spoutcraft.api.gui.component.Frame;
 import org.spoutcraft.api.gui.component.Label;
+import org.spoutcraft.api.gui.component.RadioButton;
+import org.spoutcraft.api.gui.component.RadioGroup;
 import org.spoutcraft.api.gui.component.TextField;
-import org.spoutcraft.api.gui.component.CheckBox;
-import org.spoutcraft.api.gui.component.*;
 import org.spoutcraft.api.gui.event.ActionEvent;
 import org.spoutcraft.api.gui.event.EventHandler;
 import org.spoutcraft.api.util.Color;
@@ -95,8 +96,8 @@ public class SpoutcraftTestGui extends Gui {
 
         int radioX = 198 / 2 - 32;
         int radioY = 85 - 18;
-        RadioButton[] btns = new RadioButton[] { testRadio1, testRadio2, testRadio3 };
-        for(RadioButton btn : btns) {
+        RadioButton[] btns = new RadioButton[] {testRadio1, testRadio2, testRadio3};
+        for (RadioButton btn : btns) {
             btn.setX(radioX);
             btn.setY(radioY);
             btn.setWidth(16);
@@ -112,7 +113,7 @@ public class SpoutcraftTestGui extends Gui {
         testFrm.addComponent(testBtn);
         testFrm.addComponent(testField);
         testFrm.addComponent(testBox);
-        for(RadioButton btn : btns) {
+        for (RadioButton btn : btns) {
             testFrm.addComponent(btn);
         }
 

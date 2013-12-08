@@ -24,11 +24,10 @@
  */
 package org.spoutcraft.api.gui.component;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 public class RadioGroup {
-
     private List<RadioButton> buttons = new ArrayList<RadioButton>();
     private RadioButton checkedButton;
 
@@ -37,15 +36,15 @@ public class RadioGroup {
     }
 
     public void setCheckedButton(RadioButton btn) {
-        if(btn != null) {
+        if (btn != null) {
             this.checkedButton = btn;
         }
     }
 
     protected void addButton(RadioButton btn) {
-        if(!buttons.contains(btn)) {
+        if (!buttons.contains(btn)) {
             buttons.add(btn);
-            if(checkedButton == null) {
+            if (checkedButton == null) {
                 checkedButton = btn;
             }
         }
@@ -53,9 +52,8 @@ public class RadioGroup {
 
     protected void removeButton(RadioButton btn) {
         buttons.remove(btn);
-        if(checkedButton == btn) {
+        if (checkedButton == btn) {
             checkedButton = buttons.get(0);
         }
     }
-
 }

@@ -24,14 +24,12 @@
  */
 package org.spoutcraft.api.gui.component;
 
-import org.spoutcraft.api.gui.Component;
-import org.spoutcraft.api.util.Color;
-import org.lwjgl.input.Keyboard;
-import org.lwjgl.opengl.GL11;
 import net.minecraft.util.ChatAllowedCharacters;
+import org.lwjgl.input.*;
+import org.lwjgl.opengl.*;
+import org.spoutcraft.api.util.Color;
 
 public class TextField extends LabelBase {
-
     private Color overTxtColor;
 
     public TextField() {
@@ -60,7 +58,7 @@ public class TextField extends LabelBase {
 
         getFont().setSize(getFontSize());
         int strWidth = (int) getFont().getWidth(getText());
-        if(strWidth > width - 6) {
+        if (strWidth > width - 6) {
             GL11.glTranslatef(-(strWidth - (width - 6)), 0, 0);
         }
         float strDescent = getFont().getDescent();
@@ -72,7 +70,7 @@ public class TextField extends LabelBase {
         getFont().setColor(txtColor);
         getFont().drawString(getText(), x + 2, y + getHeight() - strDescent - 2);
 
-        if(this.isFocused()) {
+        if (this.isFocused()) {
             this.fillRect(x + 2 + strWidth + 1, y + 2, 1, height - 4, txtColor);
         }
 
@@ -105,12 +103,12 @@ public class TextField extends LabelBase {
     }
 
     public void keyPress(int key, char c) {
-        if(key == Keyboard.KEY_BACK) {
+        if (key == Keyboard.KEY_BACK) {
             int curLen = this.getText().length();
-            if(curLen > 0) {
+            if (curLen > 0) {
                 this.setText(this.getText().substring(0, curLen - 1));
             }
-        } else if(ChatAllowedCharacters.isAllowedCharacter(c)) {
+        } else if (ChatAllowedCharacters.isAllowedCharacter(c)) {
             this.setText(this.getText() + c);
         }
         System.out.println("CHAR: " + c);
@@ -119,5 +117,4 @@ public class TextField extends LabelBase {
     public void keyRelease(int key, char c) {
 
     }
-
 }

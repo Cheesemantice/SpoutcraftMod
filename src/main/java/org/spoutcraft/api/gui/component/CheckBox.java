@@ -24,14 +24,13 @@
  */
 package org.spoutcraft.api.gui.component;
 
-import org.spoutcraft.api.util.Color;
+import org.lwjgl.opengl.*;
 import org.spoutcraft.api.gui.event.ActionEvent;
 import org.spoutcraft.api.gui.event.EventHandler;
-import org.lwjgl.opengl.GL11;
+import org.spoutcraft.api.util.Color;
 import org.spoutcraft.api.util.RenderUtil;
 
 public class CheckBox extends Button {
-
     private boolean checked = false;
     private Color uncheckedColor = Color.DARK_GRAY;
     private Color checkedColor = new Color(0x00FF00);
@@ -49,7 +48,7 @@ public class CheckBox extends Button {
     public void render() {
         this.drawBackground();
         Color checkColor = isChecked() ? getCheckedColor() : getUncheckedColor();
-        float checkScale = (float)(getHeight() - 4);
+        float checkScale = (float) (getHeight() - 4);
         GL11.glPushMatrix();
         GL11.glTranslatef(getX() + getWidth() / 2, getY() + getHeight() / 2, 0);
         GL11.glScalef(checkScale, checkScale, checkScale);
@@ -90,5 +89,4 @@ public class CheckBox extends Button {
     public Color getUncheckedColor() {
         return this.uncheckedColor;
     }
-
 }

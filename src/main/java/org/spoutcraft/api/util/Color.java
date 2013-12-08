@@ -24,7 +24,7 @@
  */
 package org.spoutcraft.api.util;
 
-import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.*;
 
 public class Color {
     public static final Color WHITE = new Color(0xFFFFFF);

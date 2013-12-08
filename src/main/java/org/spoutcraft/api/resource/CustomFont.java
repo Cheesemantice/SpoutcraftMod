@@ -189,7 +189,7 @@ public class CustomFont {
      */
     public void drawString(String str, float x, float y) {
         int len = str.length();
-        if(len == 0) {
+        if (len == 0) {
             return;
         }
         float height = getCharHeight();

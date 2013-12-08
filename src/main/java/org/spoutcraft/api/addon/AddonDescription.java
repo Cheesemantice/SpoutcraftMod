@@ -40,7 +40,7 @@ public class AddonDescription {
     private AddonMode mode;
     private String mainClassName;
 
-    protected AddonDescription(String identifier, String name, String version, AddonMode mode, String mainClassName) {
+    public AddonDescription(String identifier, String name, String version, AddonMode mode, String mainClassName) {
         this.identifier = identifier;
         this.name = name;
         this.version = version;
@@ -67,9 +67,9 @@ public class AddonDescription {
     @Override
     public String toString() {
         final String NEW_LINE = System.getProperty("line.separator");
-        final String parent = super.toString();
-        final StringBuilder builder = new StringBuilder(parent.substring(0, parent.length() - 1));
+        final StringBuilder builder = new StringBuilder();
         builder
+                .append(getClass().getName() + " {" + NEW_LINE)
                 .append(" Identifier: " + identifier + NEW_LINE)
                 .append(" Name: " + name + NEW_LINE)
                 .append(" Version: " + version + NEW_LINE)
