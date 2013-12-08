@@ -28,14 +28,14 @@ import java.nio.file.Path;
 import java.util.Collection;
 
 import org.spoutcraft.api.exception.InvalidAddonException;
-import org.spoutcraft.api.exception.InvalidPrefabException;
+import org.spoutcraft.api.exception.InvalidDescriptionException;
 
 public interface AddonManager {
     public Addon getAddon(String identifier);
 
     public Collection<Addon> getAddons();
 
-    public Addon loadAddon(Path path) throws InvalidAddonException, InvalidPrefabException;
+    public Addon loadAddon(Path path) throws InvalidAddonException, InvalidDescriptionException;
 
     public Collection<Addon> loadAddons(Path path);
 

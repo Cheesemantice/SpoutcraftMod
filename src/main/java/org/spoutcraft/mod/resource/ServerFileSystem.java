@@ -36,26 +36,14 @@ import org.spoutcraft.api.addon.Addon;
 import org.spoutcraft.api.resource.FileSystem;
 
 public class ServerFileSystem implements FileSystem {
-    public final Path basePath;
-    public final Path modsPath;
-    public final Path addonsPath;
-
-    public ServerFileSystem() {
-        basePath = Paths.get(".");
-        modsPath = Paths.get(basePath.toString(), "mods");
-        addonsPath = Paths.get(modsPath.toString(), "spoutcraft" + File.separator + "addons");
-    }
-
-    protected ServerFileSystem(Path base) {
-        basePath = base;
-        modsPath = Paths.get(basePath.toString(), "mods");
-        addonsPath = Paths.get(modsPath.toString(), "spoutcraft" + File.separator + "addons");
-    }
+    public static final Path BASE_PATH = Paths.get(".");
+    public static final Path MODS_PATH = Paths.get(BASE_PATH.toString(), "mods");
+    public static final Path ADDONS_PATH = Paths.get(MODS_PATH.toString(), "spoutcraft" + File.separator + "addons");
 
     @Override
     public void init() throws IOException {
-        if (!Files.exists(addonsPath)) {
-            Files.createDirectories(addonsPath);
+        if (!Files.exists(ADDONS_PATH)) {
+            Files.createDirectories(ADDONS_PATH);
         }
     }
 

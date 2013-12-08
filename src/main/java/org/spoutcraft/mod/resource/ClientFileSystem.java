@@ -24,7 +24,6 @@
  */
 package org.spoutcraft.mod.resource;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.nio.file.Files;
@@ -38,26 +37,22 @@ import org.spoutcraft.api.addon.Addon;
 import org.spoutcraft.api.util.RenderUtil;
 
 public class ClientFileSystem extends ServerFileSystem {
-    public final Path assetsPath = Paths.get(basePath.toString(), "assets" + File.separator + "spoutcraft");
-    public final Path texturesPath = Paths.get(assetsPath.toString(), "textures");
-    public final Path blockTexturesPath = Paths.get(texturesPath.toString(), "blocks");
-    public final Path itemTexturesPath = Paths.get(texturesPath.toString(), "items");
+    public static final Path ASSETS_PATH = Paths.get(BASE_PATH.toString(), "assets");
+    public static final Path TEXTURES_PATH = Paths.get(ASSETS_PATH.toString(), "textures");
+    public static final Path BLOCK_TEXTURES_PATH = Paths.get(TEXTURES_PATH.toString(), "blocks");
+    public static final Path ITEM_TEXTURES_PATH = Paths.get(TEXTURES_PATH.toString(), "items");
     //Addon -> URI/Resource
     private static final Map<Class<? extends Addon>, Map<URI, Object>> ADDON_RESOURCES = new HashMap<>();
-
-    public ClientFileSystem() {
-        super(Paths.get(RenderUtil.MINECRAFT.mcDataDir.getAbsolutePath()));
-    }
 
     @Override
     public void init() throws IOException {
         super.init();
 
-        if (!Files.exists(blockTexturesPath)) {
-            Files.createDirectories(blockTexturesPath);
+        if (!Files.exists(BLOCK_TEXTURES_PATH)) {
+            Files.createDirectories(BLOCK_TEXTURES_PATH);
         }
-        if (!Files.exists(itemTexturesPath)) {
-            Files.createDirectories(itemTexturesPath);
+        if (!Files.exists(ITEM_TEXTURES_PATH)) {
+            Files.createDirectories(ITEM_TEXTURES_PATH);
         }
     }
 

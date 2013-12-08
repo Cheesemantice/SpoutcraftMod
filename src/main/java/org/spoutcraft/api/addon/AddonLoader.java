@@ -41,10 +41,10 @@ import com.google.gson.GsonBuilder;
 import cpw.mods.fml.relauncher.Side;
 import org.spoutcraft.api.Spoutcraft;
 import org.spoutcraft.api.exception.InvalidAddonException;
-import org.spoutcraft.api.exception.InvalidPrefabException;
+import org.spoutcraft.api.exception.InvalidDescriptionException;
 
 public class AddonLoader {
-    private static final String ADDON_GSON = "addon.info";
+    private static final String ADDON_JSON = "addon.info";
     private final Side side;
     private final Map<String, AddonClassLoader> loaders = new HashMap<>();
 
@@ -54,84 +54,81 @@ public class AddonLoader {
 
     public void enable(Addon addon) {
         if (addon.isEnabled()) {
-            throw new IllegalStateException("Cannot enable addon [" + addon.getPrefab().getIdentifier() + "], it has already been enabled.");
+            throw new IllegalStateException("Cannot enable addon [" + addon.getDescription().getIdentifier() + "], it has already been enabled.");
         }
 
         try {
-            final String nameVersion = addon.getPrefab().getName() + " v" + addon.getPrefab().getVersion();
+            final String nameVersion = addon.getDescription().getName() + " v" + addon.getDescription().getVersion();
             Spoutcraft.getLogger().info("Enabling [" + nameVersion + "]...");
             addon.onEnable();
             addon.enable();
             Spoutcraft.getLogger().info("[" + nameVersion + "] enabled");
         } catch (Throwable t) {
-            Spoutcraft.getLogger().log(Level.SEVERE, "Exception caught while enabling addon [" + addon.getPrefab().getIdentifier() + "] -> " + t.getMessage(), t);
+            Spoutcraft.getLogger().log(Level.SEVERE, "Exception caught while enabling addon [" + addon.getDescription().getIdentifier() + "]", t);
         }
 
-        loaders.put(addon.getPrefab().getName(), addon.getClassLoader());
+        loaders.put(addon.getDescription().getName(), addon.getClassLoader());
     }
 
     public void disable(Addon addon) {
         if (!addon.isEnabled()) {
-            throw new IllegalStateException("Cannot disable addon [" + addon.getPrefab().getIdentifier() + "], it has never been enabled.");
+            throw new IllegalStateException("Cannot disable addon [" + addon.getDescription().getIdentifier() + "], it has never been enabled.");
         }
 
         try {
             addon.disable();
-            final String nameVersion = addon.getPrefab().getName() + " v" + addon.getPrefab().getVersion();
+            final String nameVersion = addon.getDescription().getName() + " v" + addon.getDescription().getVersion();
             Spoutcraft.getLogger().info("Disabling [" + nameVersion + "]...");
             addon.onDisable();
             Spoutcraft.getLogger().info("[" + nameVersion + "] disabled");
         } catch (Throwable t) {
-            Spoutcraft.getLogger().log(Level.SEVERE, "Exception caught while disabling addon [" + addon.getPrefab().getIdentifier() + "] -> " + t.getMessage(), t);
+            Spoutcraft.getLogger().log(Level.SEVERE, "Exception caught while disabling addon [" + addon.getDescription().getIdentifier() + "]", t);
         }
     }
 
-    public Addon load(Path path) throws InvalidAddonException, InvalidPrefabException {
-        final AddonPrefab prefab = create(path);
+    public Addon load(Path path) throws InvalidAddonException, InvalidDescriptionException {
+        final AddonDescription description = create(path);
         Addon addon = null;
         AddonClassLoader loader;
 
-        if (prefab.isValidMode(side)) {
-            final Path dataPath = Paths.get(path.getParent().toString(), prefab.getIdentifier()); //TODO breakpoint this
+        if (description.isValidMode(side)) {
+            final Path dataPath = Paths.get(path.getParent().toString(), description.getIdentifier()); //TODO breakpoint this
             try {
                 loader = new AddonClassLoader(this.getClass().getClassLoader(), this);
                 loader.addURL(path.toUri().toURL());
-                Class<?> addonMain = Class.forName(prefab.getMain(), true, loader);
+                Class<?> addonMain = Class.forName(description.getMain(), true, loader);
                 Class<? extends Addon> addonClass = addonMain.asSubclass(Addon.class);
                 Constructor<? extends Addon> constructor = addonClass.getConstructor();
                 addon = constructor.newInstance();
-                addon.initialize(side, this, prefab, loader, dataPath, path);
+                addon.initialize(side, this, description, loader, dataPath, path);
             } catch (Exception e) {
                 throw new InvalidAddonException(e);
             }
             loader.setAddon(addon);
-            loaders.put(prefab.getIdentifier(), loader);
+            loaders.put(description.getIdentifier(), loader);
         }
         return addon;
     }
 
-    protected static AddonPrefab create(Path path) throws InvalidAddonException, InvalidPrefabException {
+    protected static AddonDescription create(Path path) throws InvalidAddonException, InvalidDescriptionException {
         if (!Files.exists(path)) {
             throw new InvalidAddonException(path.getFileName() + " does not exist!");
         }
 
-        AddonPrefab prefab;
+        AddonDescription description;
         JarFile jar = null;
         try {
             jar = new JarFile(path.toFile());
-            JarEntry entry = jar.getJarEntry(ADDON_GSON);
+            JarEntry entry = jar.getJarEntry(ADDON_JSON);
 
             if (entry == null) {
-                throw new InvalidPrefabException("Attempt to create an addon prefab failed because " + ADDON_GSON + " was not found in " + jar.getName());
+                throw new InvalidDescriptionException("Attempt to create an addon description failed because " + ADDON_JSON + " was not found in " + jar.getName());
             }
 
             final GsonBuilder builder = new GsonBuilder();
-            builder.registerTypeAdapter(AddonPrefab.class, new AddonJsonDeserializer());
+            builder.registerTypeAdapter(AddonDescription.class, new AddonDescriptionJsonDeserializer());
             final Gson gson = builder.create();
-            prefab = gson.fromJson(new InputStreamReader(jar.getInputStream(entry)), AddonPrefab.class);
-            if (prefab == null) {
-                throw new InvalidPrefabException("Failed to parse " + entry + " as addon prefab");
-            }
+            description = gson.fromJson(new InputStreamReader(jar.getInputStream(entry)), AddonDescription.class);
         } catch (IOException e) {
             throw new InvalidAddonException(e);
         } finally {
@@ -143,7 +140,7 @@ public class AddonLoader {
                 }
             }
         }
-        return prefab;
+        return description;
     }
 
     protected Class<?> getClassByName(final String name, final AddonClassLoader commonLoader) {

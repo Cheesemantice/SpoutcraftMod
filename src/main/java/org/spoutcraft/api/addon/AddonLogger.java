@@ -31,7 +31,7 @@ import org.spoutcraft.api.Spoutcraft;
 
 public class AddonLogger extends Logger {
     public AddonLogger(Addon addon) {
-        super(addon.getPrefab().getName(), null);
+        super(addon.getDescription().getName(), null);
         setLevel(Level.ALL);
         setParent(Spoutcraft.getLogger());
     }

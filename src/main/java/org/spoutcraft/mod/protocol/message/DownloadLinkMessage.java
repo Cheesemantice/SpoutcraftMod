@@ -53,7 +53,7 @@ public class DownloadLinkMessage extends AddonMessage {
 
     @Override
     public void handle(Side side, INetworkManager manager, Player player) {
-        Spoutcraft.getLogger().log(Level.INFO, getAddon().getPrefab().getIdentifier());
+        Spoutcraft.getLogger().log(Level.INFO, getAddon().getDescription().getIdentifier());
         Spoutcraft.getLogger().log(Level.INFO, url.toString());
     }
 }

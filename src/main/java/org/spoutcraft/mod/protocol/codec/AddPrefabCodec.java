@@ -64,7 +64,7 @@ public class AddPrefabCodec implements Codec<AddPrefabMessage> {
         if (side.isClient()) {
             throw new IllegalStateException("The client is not allowed to send prefabs");
         }
-        final String addonIdentifier = message.getAddon().getPrefab().getIdentifier();
+        final String addonIdentifier = message.getAddon().getDescription().getIdentifier();
         final byte[] data = SerializationUtils.serialize(message.getPrefab());
         final ByteBuf buffer = Unpooled.buffer();
         BufferUtil.writeUTF8(buffer, addonIdentifier);

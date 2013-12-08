@@ -36,7 +36,7 @@ import cpw.mods.fml.relauncher.Side;
 public abstract class Addon {
     protected Side side;
     protected AddonLoader loader;
-    protected AddonPrefab prefab;
+    protected AddonDescription description;
     protected AddonClassLoader classLoader;
     protected AddonLogger logger;
     protected Path dataPath, root;
@@ -58,10 +58,10 @@ public abstract class Addon {
         this.enabled = false;
     }
 
-    protected void initialize(Side side, AddonLoader loader, AddonPrefab prefab, AddonClassLoader classLoader, Path dataPath, Path root) {
+    protected void initialize(Side side, AddonLoader loader, AddonDescription description, AddonClassLoader classLoader, Path dataPath, Path root) {
         this.side = side;
         this.loader = loader;
-        this.prefab = prefab;
+        this.description = description;
         this.classLoader = classLoader;
         this.logger = new AddonLogger(this);
         this.dataPath = dataPath;
@@ -76,8 +76,8 @@ public abstract class Addon {
         return enabled;
     }
 
-    public AddonPrefab getPrefab() {
-        return prefab;
+    public AddonDescription getDescription() {
+        return description;
     }
 
     public AddonLoader getLoader() {

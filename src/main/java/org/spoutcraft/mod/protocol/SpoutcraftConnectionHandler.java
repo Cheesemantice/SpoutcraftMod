@@ -58,35 +58,35 @@ public class SpoutcraftConnectionHandler implements IConnectionHandler {
             ((BlockPrefabRegistry) Spoutcraft.getBlockPrefabRegistry()).sync(manager);
 
             //TODO Test code for file sending...tried sending it a tick later to see if I get better results
-//            try {
-//                TickRegistry.registerTickHandler(new ITickHandler() {
-//                    final List<AddFileMessage> messages = AddFileMessage.splitFileToMessages(((ServerAddonManager) Spoutcraft.getAddonManager()).getInternalAddon(), Paths.get("noob.zip"));
-//
-//                    @Override
-//                    public void tickStart(EnumSet<TickType> tickTypes, Object... objects) {
-//                    }
-//
-//                    @Override
-//                    public void tickEnd(EnumSet<TickType> tickTypes, Object... objects) {
-//                        if (messages.isEmpty()) {
-//                            return;
-//                        }
-//                        manager.addToSendQueue(new SpoutcraftPacket(messages.remove(0)));
-//                    }
-//
-//                    @Override
-//                    public EnumSet<TickType> ticks() {
-//                        return EnumSet.of(TickType.SERVER);
-//                    }
-//
-//                    @Override
-//                    public String getLabel() {
-//                        return "Spoutcraft - Sync addons";
-//                    }
-//                }, Side.SERVER);
-//            } catch (IOException e) {
-//                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-//            }
+            try {
+                TickRegistry.registerTickHandler(new ITickHandler() {
+                    final List<AddFileMessage> messages = AddFileMessage.splitFileToMessages(((ServerAddonManager) Spoutcraft.getAddonManager()).getInternalAddon(), Paths.get("test.iso"));
+
+                    @Override
+                    public void tickStart(EnumSet<TickType> tickTypes, Object... objects) {
+                    }
+
+                    @Override
+                    public void tickEnd(EnumSet<TickType> tickTypes, Object... objects) {
+                        if (messages.isEmpty()) {
+                            return;
+                        }
+                        manager.addToSendQueue(new SpoutcraftPacket(messages.remove(0)));
+                    }
+
+                    @Override
+                    public EnumSet<TickType> ticks() {
+                        return EnumSet.of(TickType.SERVER);
+                    }
+
+                    @Override
+                    public String getLabel() {
+                        return "Spoutcraft - Sync addons";
+                    }
+                }, Side.SERVER);
+            } catch (IOException e) {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            }
         }
     }
 

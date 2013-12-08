@@ -32,20 +32,24 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import cpw.mods.fml.relauncher.Side;
-import org.spoutcraft.api.Prefab;
 
-public class AddonPrefab extends Prefab {
+public class AddonDescription {
+    private String identifier;
     private String name;
     private String version;
     private AddonMode mode;
     private String mainClassName;
 
-    public AddonPrefab(String identifier, String name, String version, AddonMode mode, String mainClassName) {
-        super(identifier);
+    protected AddonDescription(String identifier, String name, String version, AddonMode mode, String mainClassName) {
+        this.identifier = identifier;
         this.name = name;
         this.version = version;
         this.mode = mode;
         this.mainClassName = mainClassName;
+    }
+
+    public String getIdentifier() {
+        return identifier;
     }
 
     public String getName() {
@@ -66,6 +70,7 @@ public class AddonPrefab extends Prefab {
         final String parent = super.toString();
         final StringBuilder builder = new StringBuilder(parent.substring(0, parent.length() - 1));
         builder
+                .append(" Identifier: " + identifier + NEW_LINE)
                 .append(" Name: " + name + NEW_LINE)
                 .append(" Version: " + version + NEW_LINE)
                 .append("}");
@@ -92,9 +97,9 @@ public class AddonPrefab extends Prefab {
     }
 }
 
-final class AddonJsonDeserializer implements JsonDeserializer<AddonPrefab> {
+final class AddonDescriptionJsonDeserializer implements JsonDeserializer<AddonDescription> {
     @Override
-    public AddonPrefab deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+    public AddonDescription deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
         JsonObject jsonObject = json.getAsJsonObject();
         final String identifier = jsonObject.get("identifier").getAsString();
         final String name = jsonObject.get("name").getAsString();
@@ -107,6 +112,6 @@ final class AddonJsonDeserializer implements JsonDeserializer<AddonPrefab> {
         } catch (Exception e) {
             throw new JsonParseException(modeRaw + " is not a valid addon mode [CLIENT, SERVER, BOTH]");
         }
-        return new AddonPrefab(identifier, name, version, mode, main);
+        return new AddonDescription(identifier, name, version, mode, main);
     }
 }

@@ -103,7 +103,7 @@ public class SpoutcraftMod {
                 manager = Spoutcraft.setAddonManager(new ClientAddonManager());
 
                 //Setup addon manager
-                manager.loadAddons(((ClientFileSystem) fileSystem).addonsPath);
+                manager.loadAddons(ClientFileSystem.ADDONS_PATH);
                 ClientTickHandlers.start();
                 break;
             case SERVER:
@@ -119,7 +119,7 @@ public class SpoutcraftMod {
                 manager = Spoutcraft.setAddonManager(new ServerAddonManager());
 
                 //Setup addon manager
-                manager.loadAddons(((ServerFileSystem) fileSystem).addonsPath);
+                manager.loadAddons(ServerFileSystem.ADDONS_PATH);
                 break;
             default:
                 throw new RuntimeException("Spoutcraft is being ran on an invalid side!");

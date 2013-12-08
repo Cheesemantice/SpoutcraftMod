@@ -51,7 +51,7 @@ public final class SpoutcraftAddon extends Addon {
         loader = new AddonLoader(side);
         classLoader = new AddonClassLoader(SpoutcraftMod.class.getClassLoader(), loader);
         classLoader.setAddon(this);
-        prefab = new AddonPrefab("spoutcraft", "Spoutcraft", Spoutcraft.VERSION, AddonMode.BOTH, null);
+        description = new AddonDescription("spoutcraft", "Spoutcraft", Spoutcraft.VERSION, AddonMode.BOTH, null);
         logger = new AddonLogger(this);
     }
 
