@@ -34,8 +34,7 @@ import net.minecraft.item.Item;
 import net.minecraft.network.INetworkManager;
 import org.spoutcraft.api.LinkedPrefabRegistry;
 import org.spoutcraft.api.Spoutcraft;
-import org.spoutcraft.api.item.FoodPrefab;
-import org.spoutcraft.api.item.ItemPrefab;
+import org.spoutcraft.api.item.*;
 import org.spoutcraft.api.util.LanguageUtil;
 import org.spoutcraft.mod.addon.ServerAddonManager;
 import org.spoutcraft.mod.protocol.SpoutcraftPacket;
@@ -64,6 +63,14 @@ public class ItemPrefabRegistry implements LinkedPrefabRegistry<ItemPrefab, Item
         final Item item;
         if (prefab instanceof FoodPrefab) {
             item = new CustomFood(id, (FoodPrefab) prefab);
+        } else if (prefab instanceof SwordPrefab) {
+            item = new CustomSword(id, (SwordPrefab) prefab);
+        } else if (prefab instanceof PickaxePrefab) {
+            item = new CustomPickaxe(id, (PickaxePrefab) prefab);
+        } else if (prefab instanceof SpadePrefab) {
+            item = new CustomSpade(id, (SpadePrefab) prefab);
+        } else if (prefab instanceof AxePrefab) {
+            item = new CustomAxe(id, (AxePrefab) prefab);
         } else {
             item = new CustomItem(id, prefab);
         }

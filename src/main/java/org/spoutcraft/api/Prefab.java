@@ -27,11 +27,8 @@ package org.spoutcraft.api;
 import java.io.Serializable;
 
 /**
- * A Prefab is a descriptor, by extending this class and providing characteristics you can use it to build:
- *
- * - {@link net.minecraft.block.Block} - {@link net.minecraft.item.Item} - {@link net.minecraft.block.material.Material}
- *
- * Prefabs are sent over the wire and constructed into real Minecraft classes.
+ * A Prefab is a descriptor, by extending this class and providing characteristics you can use it to build: <p/> - {@link net.minecraft.block.Block} - {@link net.minecraft.item.Item} - {@link
+ * net.minecraft.block.material.Material} <p/> Prefabs are sent over the wire and constructed into real Minecraft classes.
  */
 public abstract class Prefab implements Serializable {
     private static final long serialVersionUID = 1L;

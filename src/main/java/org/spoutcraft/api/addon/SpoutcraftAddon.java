@@ -31,10 +31,15 @@ import cpw.mods.fml.common.TickType;
 import cpw.mods.fml.relauncher.Side;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
+import net.minecraft.item.EnumToolMaterial;
 import org.lwjgl.input.*;
 import org.spoutcraft.api.LinkedPrefabRegistry;
 import org.spoutcraft.api.Spoutcraft;
 import org.spoutcraft.api.block.MovingPrefab;
+import org.spoutcraft.api.item.AxePrefab;
+import org.spoutcraft.api.item.PickaxePrefab;
+import org.spoutcraft.api.item.SpadePrefab;
+import org.spoutcraft.api.item.SwordPrefab;
 import org.spoutcraft.api.material.MapIndex;
 import org.spoutcraft.api.material.MaterialPrefab;
 import org.spoutcraft.mod.SpoutcraftMod;
@@ -63,6 +68,10 @@ public final class SpoutcraftAddon extends Addon {
         final LinkedPrefabRegistry itemRegistry = Spoutcraft.getItemPrefabRegistry();
         itemRegistry.put(new SpoutcraftEmblem());
         itemRegistry.put(new VanillaEmblem());
+        itemRegistry.put(new SwordPrefab("custom_blade", "Custom Blade", 1, true, EnumToolMaterial.EMERALD));
+        itemRegistry.put(new PickaxePrefab("custom_pickaxe", "Custom Pick", 2, true, EnumToolMaterial.EMERALD));
+        itemRegistry.put(new SpadePrefab("custom_shovel", "Custom Shovel", 3, true, EnumToolMaterial.EMERALD));
+        itemRegistry.put(new AxePrefab("custom_axe", "Custom Axe", 4, true, EnumToolMaterial.EMERALD));
 
         final LinkedPrefabRegistry blockRegistry = Spoutcraft.getBlockPrefabRegistry();
         final MaterialPrefab testMaterial = new MaterialPrefab("testMaterial", MapIndex.DIRT);
