@@ -51,4 +51,9 @@ public abstract class AbstractGuiRenderer implements GuiRenderer {
             setClip(newClip[0], newClip[1], newClip[2], newClip[3]);
         }
     }
+
+    @Override
+    public int[] getClip() {
+        return clipStack.peek();
+    }
 }

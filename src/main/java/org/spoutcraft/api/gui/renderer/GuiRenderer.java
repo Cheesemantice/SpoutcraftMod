@@ -39,4 +39,6 @@ public interface GuiRenderer {
     public void pushClip();
 
     public void popClip();
+
+    public int[] getClip();
 }
