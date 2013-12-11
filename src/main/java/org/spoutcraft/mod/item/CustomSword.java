@@ -24,7 +24,6 @@
  */
 package org.spoutcraft.mod.item;
 
-import net.minecraft.item.EnumToolMaterial;
 import net.minecraft.item.ItemSword;
 import org.spoutcraft.api.item.SwordPrefab;
 import org.spoutcraft.mod.SpoutcraftMod;

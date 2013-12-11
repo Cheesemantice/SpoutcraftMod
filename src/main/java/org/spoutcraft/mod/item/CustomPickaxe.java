@@ -24,7 +24,6 @@
  */
 package org.spoutcraft.mod.item;
 
-import net.minecraft.item.EnumToolMaterial;
 import net.minecraft.item.ItemPickaxe;
 import org.spoutcraft.api.item.PickaxePrefab;
 import org.spoutcraft.mod.SpoutcraftMod;

@@ -1,9 +1,0 @@
-[
-    {
-        "identifier": "TestAddon",
-        "name": "Test Addon",
-        "version": "1.0.0-SNAPSHOT",
-        "main": "org.spoutcraft.test.addon.TestAddon",
-        "mode": "BOTH"
-    }
-]
