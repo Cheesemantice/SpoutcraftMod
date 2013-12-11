@@ -33,6 +33,11 @@ public class ComplexCustomBlock extends Block {
         return prefab.getLightOpacity(world, x, y, z);
     }
 
+    @Override
+    public int getRenderType() {
+        return ComplexBlockPrefab.RENDER_LEVEL;
+    }
+
     public ComplexBlockPrefab getPrefab() {
         return prefab;
     }
