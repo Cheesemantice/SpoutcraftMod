@@ -78,20 +78,18 @@ public class Button extends LabelBase {
     public int getWidth() {
         if (super.getWidth() >= 0) {
             return super.getWidth();
-        } else {
-            this.getFont().setSize(this.getFontSize());
-            return (int) (this.getFont().getWidth(this.getText()) + 6);
         }
+        this.getFont().setSize(this.getFontSize());
+        return (int) (this.getFont().getWidth(this.getText()) + 6);
     }
 
     @Override
     public int getHeight() {
         if (super.getHeight() >= 0) {
             return super.getHeight();
-        } else {
-            this.getFont().setSize(this.getFontSize());
-            return (int) (this.getFont().getSize() + 4);
         }
+        this.getFont().setSize(this.getFontSize());
+        return (int) (this.getFont().getSize() + 4);
     }
 
     @Override

@@ -51,14 +51,17 @@ public final class Spoutcraft {
         return addonManager;
     }
 
+    @SuppressWarnings("rawtypes")
     public static LinkedPrefabRegistry getBlockPrefabRegistry() {
         return blockPrefabRegistry;
     }
 
+    @SuppressWarnings("rawtypes")
     public static LinkedPrefabRegistry getItemPrefabRegistry() {
         return itemPrefabRegistry;
     }
 
+    @SuppressWarnings("rawtypes")
     public static LinkedPrefabRegistry getMaterialPrefabRegistry() {
         return materialPrefabRegistry;
     }
@@ -86,6 +89,7 @@ public final class Spoutcraft {
         return manager;
     }
 
+    @SuppressWarnings("rawtypes")
     public static LinkedPrefabRegistry setBlockRegistry(LinkedPrefabRegistry<? extends BlockPrefab, ?> prefabRegistry) {
         if (Spoutcraft.blockPrefabRegistry != null) {
             throw new IllegalStateException("Attempt to assign block registry twice!");
@@ -97,6 +101,7 @@ public final class Spoutcraft {
         return prefabRegistry;
     }
 
+    @SuppressWarnings("rawtypes")
     public static LinkedPrefabRegistry setItemPrefabRegistry(LinkedPrefabRegistry<? extends ItemPrefab, ?> itemPrefabRegistry) {
         if (Spoutcraft.itemPrefabRegistry != null) {
             throw new IllegalStateException("Attempt to assign item prefab registry twice!");
@@ -108,6 +113,7 @@ public final class Spoutcraft {
         return itemPrefabRegistry;
     }
 
+    @SuppressWarnings("rawtypes")
     public static LinkedPrefabRegistry setMaterialRegistry(LinkedPrefabRegistry<? extends MaterialPrefab, ?> materialPrefabRegistry) {
         if (Spoutcraft.materialPrefabRegistry != null) {
             throw new IllegalStateException("Attempt to assign material registry twice!");

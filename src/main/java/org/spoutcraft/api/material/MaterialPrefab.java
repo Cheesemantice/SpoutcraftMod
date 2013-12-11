@@ -27,6 +27,7 @@ package org.spoutcraft.api.material;
 import org.spoutcraft.api.Prefab;
 
 public class MaterialPrefab extends Prefab {
+    private static final long serialVersionUID = -7713612413802147503L;
     private final MapIndex index;
 
     public MaterialPrefab(String identifier, MapIndex index) {
@@ -47,13 +48,13 @@ public class MaterialPrefab extends Prefab {
             builder = new StringBuilder(parent.substring(0, parent.length() - 2) + NEW_LINE); //TODO CHECK THIS
             builder.insert(builder.indexOf("Identifier: " + super.getIdentifier()), " ");
             builder
-                    .append("  Map Index: " + index.name() + NEW_LINE)
-                    .append(" }");
+            .append("  Map Index: " + index.name() + NEW_LINE)
+            .append(" }");
         } else {
             builder = new StringBuilder(parent.substring(0, parent.length() - 1) + NEW_LINE);
             builder
-                    .append(" Map Index: " + index.name() + NEW_LINE)
-                    .append("}");
+            .append(" Map Index: " + index.name() + NEW_LINE)
+            .append("}");
         }
         return builder.toString();
     }

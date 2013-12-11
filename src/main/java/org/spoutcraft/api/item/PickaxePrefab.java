@@ -27,6 +27,7 @@ package org.spoutcraft.api.item;
 import net.minecraft.item.EnumToolMaterial;
 
 public class PickaxePrefab extends ItemPrefab {
+    private static final long serialVersionUID = -6534031862597033948L;
     private final EnumToolMaterial toolMaterial;
 
     public PickaxePrefab(String identifier, String displayName, int maxStackSize, boolean showInCreativeTab, EnumToolMaterial toolMaterial) {

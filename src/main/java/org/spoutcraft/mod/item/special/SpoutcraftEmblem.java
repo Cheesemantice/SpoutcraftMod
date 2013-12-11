@@ -33,6 +33,8 @@ import org.spoutcraft.api.Spoutcraft;
 import org.spoutcraft.api.item.ItemPrefab;
 
 public class SpoutcraftEmblem extends ItemPrefab {
+    private static final long serialVersionUID = -8756295039828645516L;
+
     public SpoutcraftEmblem() {
         super("spout_emblem", "Spoutcraft Emblem", 1, true);
     }

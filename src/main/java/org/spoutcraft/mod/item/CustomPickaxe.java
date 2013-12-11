@@ -42,4 +42,8 @@ public class CustomPickaxe extends ItemPickaxe {
             setCreativeTab(SpoutcraftMod.getCustomTabs());
         }
     }
+
+    protected PickaxePrefab getPrefab() {
+        return prefab;
+    }
 }
