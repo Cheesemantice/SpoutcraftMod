@@ -3,7 +3,7 @@ language: java
 jdk: oraclejdk7
 
 # Compile and package JAR and set build properties
-install: $HOME/$TRAVIS_REPO_SLUG/gradlew clean build
+install: $TRAVIS_BUILD_DIR/gradlew clean build
 
 notifications:
   # Disable build status email notifications, until the issue with forks is fixed
