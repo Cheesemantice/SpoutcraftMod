@@ -82,9 +82,9 @@ public class ItemPrefab extends Prefab {
         final String parent = super.toString();
         final StringBuilder builder = new StringBuilder(parent.substring(0, parent.length() - 1) + NEW_LINE);
         builder
-        .append(" Display Name: " + displayName + NEW_LINE)
-        .append(" Max Stack Size: " + maxStackSize + NEW_LINE)
-        .append("}");
+                .append(" Display Name: " + displayName + NEW_LINE)
+                .append(" Max Stack Size: " + maxStackSize + NEW_LINE)
+                .append("}");
         return builder.toString();
     }
 }

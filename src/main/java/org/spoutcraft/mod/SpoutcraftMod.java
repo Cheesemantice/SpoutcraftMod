@@ -80,49 +80,49 @@ public class SpoutcraftMod {
         final AddonManager manager;
 
         switch (event.getSide()) {
-        case CLIENT:
-            // Set the title
-            Display.setTitle("Spoutcraft");
+            case CLIENT:
+                // Set the title
+                Display.setTitle("Spoutcraft");
 
-            // Set the icons
-            final ByteBuffer windowIcon = TextureUtil.createImageBufferFrom(new ResourceLocation("spoutcraft", "textures/window_icon.png"), true);
-            final ByteBuffer taskbarIcon = TextureUtil.createImageBufferFrom(new ResourceLocation("spoutcraft", "textures/taskbar_icon.png"), true);
-            if (windowIcon != null && taskbarIcon != null) {
-                Display.setIcon(new ByteBuffer[] {windowIcon, taskbarIcon});
-            }
+                // Set the icons
+                final ByteBuffer windowIcon = TextureUtil.createImageBufferFrom(new ResourceLocation("spoutcraft", "textures/window_icon.png"), true);
+                final ByteBuffer taskbarIcon = TextureUtil.createImageBufferFrom(new ResourceLocation("spoutcraft", "textures/taskbar_icon.png"), true);
+                if (windowIcon != null && taskbarIcon != null) {
+                    Display.setIcon(new ByteBuffer[] {windowIcon, taskbarIcon});
+                }
 
-            fileSystem = Spoutcraft.setFileSystem(new ClientFileSystem());
+                fileSystem = Spoutcraft.setFileSystem(new ClientFileSystem());
 
-            // Setup file system
-            try {
-                fileSystem.init();
-            } catch (Exception e) {
-                throw new RuntimeException("Could not initialize FileSystem", e);
-            }
+                // Setup file system
+                try {
+                    fileSystem.init();
+                } catch (Exception e) {
+                    throw new RuntimeException("Could not initialize FileSystem", e);
+                }
 
-            manager = Spoutcraft.setAddonManager(new ClientAddonManager());
+                manager = Spoutcraft.setAddonManager(new ClientAddonManager());
 
-            //Setup addon manager
-            manager.loadAddons(ClientFileSystem.ADDONS_PATH);
-            ClientTickHandlers.start();
-            break;
-        case SERVER:
-            fileSystem = Spoutcraft.setFileSystem(new ServerFileSystem());
+                //Setup addon manager
+                manager.loadAddons(ClientFileSystem.ADDONS_PATH);
+                ClientTickHandlers.start();
+                break;
+            case SERVER:
+                fileSystem = Spoutcraft.setFileSystem(new ServerFileSystem());
 
-            // Setup file system
-            try {
-                fileSystem.init();
-            } catch (Exception e) {
-                throw new RuntimeException("Could not initialize FileSystem", e);
-            }
+                // Setup file system
+                try {
+                    fileSystem.init();
+                } catch (Exception e) {
+                    throw new RuntimeException("Could not initialize FileSystem", e);
+                }
 
-            manager = Spoutcraft.setAddonManager(new ServerAddonManager());
+                manager = Spoutcraft.setAddonManager(new ServerAddonManager());
 
-            //Setup addon manager
-            manager.loadAddons(ServerFileSystem.ADDONS_PATH);
-            break;
-        default:
-            throw new RuntimeException("Spoutcraft is being ran on an invalid side!");
+                //Setup addon manager
+                manager.loadAddons(ServerFileSystem.ADDONS_PATH);
+                break;
+            default:
+                throw new RuntimeException("Spoutcraft is being ran on an invalid side!");
         }
 
         // Setup registries

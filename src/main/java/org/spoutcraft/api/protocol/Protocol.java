@@ -63,7 +63,7 @@ public class Protocol {
         return (Codec<T>) TABLE.get(clazz);
     }
 
-    @SuppressWarnings ({ "unchecked", "rawtypes" })
+    @SuppressWarnings ({"unchecked", "rawtypes"})
     public static <T extends Message> Codec<T> find(String channel) {
         for (Codec codec : TABLE.values()) {
             if (codec.getChannel().equals(channel)) {

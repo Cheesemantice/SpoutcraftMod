@@ -32,7 +32,6 @@ import cpw.mods.fml.relauncher.Side;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.item.EnumToolMaterial;
-
 import org.lwjgl.input.*;
 import org.spoutcraft.api.LinkedPrefabRegistry;
 import org.spoutcraft.api.Spoutcraft;
@@ -61,7 +60,7 @@ public final class SpoutcraftAddon extends Addon {
         logger = new AddonLogger(this);
     }
 
-    @SuppressWarnings("rawtypes")
+    @SuppressWarnings ("rawtypes")
     @Override
     public void onEnable() {
         getLogger().info("Internal addon hooked");

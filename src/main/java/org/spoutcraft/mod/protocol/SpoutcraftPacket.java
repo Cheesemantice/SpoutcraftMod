@@ -36,7 +36,7 @@ public class SpoutcraftPacket extends Packet250CustomPayload {
 
     }
 
-    @SuppressWarnings ({ "unchecked", "rawtypes" })
+    @SuppressWarnings ({"unchecked", "rawtypes"})
     public SpoutcraftPacket(Message toSend) {
         final Codec codec = Protocol.find(toSend.getClass());
         try {

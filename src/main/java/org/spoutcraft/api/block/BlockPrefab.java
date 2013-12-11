@@ -74,10 +74,10 @@ public class BlockPrefab extends Prefab {
         final String parent = super.toString();
         final StringBuilder builder = new StringBuilder(parent.substring(0, parent.length() - 1));
         builder
-        .append(" Display Name: " + displayName + NEW_LINE)
-        .append(" " + prefab.toString() + NEW_LINE)
-        .append(" Hardness: " + hardness + NEW_LINE)
-        .append("}");
+                .append(" Display Name: " + displayName + NEW_LINE)
+                .append(" " + prefab.toString() + NEW_LINE)
+                .append(" Hardness: " + hardness + NEW_LINE)
+                .append("}");
         return builder.toString();
     }
 }

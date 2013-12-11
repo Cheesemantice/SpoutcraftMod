@@ -153,24 +153,24 @@ public class RenderUtil {
         //by mapping it into ram.
         FloatBuffer data = mapBufferWriteUnsync(GL_ARRAY_BUFFER, GRADIENT_SIZE, null).asFloatBuffer();
         switch (direction) {
-        case DIR_RIGHTLEFT:
-        case DIR_LEFTRIGHT:
-            data.put(new float[] {
-                    x1, y1, r1, g1, b1, a1,
-                    x1, y2, r1, g1, b1, a1,
-                    x2, y2, r2, g2, b2, a2,
-                    x2, y1, r2, g2, b2, a2
-            });
-            break;
-        case DIR_DOWNUP:
-        case DIR_UPDOWN:
-            data.put(new float[] {
-                    x1, y1, r1, g1, b1, a1,
-                    x1, y2, r2, g2, b2, a2,
-                    x2, y2, r2, g2, b2, a2,
-                    x2, y1, r1, g1, b1, a1
-            });
-            break;
+            case DIR_RIGHTLEFT:
+            case DIR_LEFTRIGHT:
+                data.put(new float[] {
+                        x1, y1, r1, g1, b1, a1,
+                        x1, y2, r1, g1, b1, a1,
+                        x2, y2, r2, g2, b2, a2,
+                        x2, y1, r2, g2, b2, a2
+                });
+                break;
+            case DIR_DOWNUP:
+            case DIR_UPDOWN:
+                data.put(new float[] {
+                        x1, y1, r1, g1, b1, a1,
+                        x1, y2, r2, g2, b2, a2,
+                        x2, y2, r2, g2, b2, a2,
+                        x2, y1, r1, g1, b1, a1
+                });
+                break;
         }
         //Data is already in the buffer, don't need to flip or anything
         glUnmapBuffer(GL_ARRAY_BUFFER);

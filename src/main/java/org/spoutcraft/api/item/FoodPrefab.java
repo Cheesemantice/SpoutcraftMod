@@ -63,10 +63,10 @@ public class FoodPrefab extends ItemPrefab {
         final String parent = super.toString();
         final StringBuilder builder = new StringBuilder(parent.substring(0, parent.length() - 1) + NEW_LINE);
         builder
-        .append(" Heal Amount: " + healAmount + NEW_LINE)
-        .append(" Saturation Modifier: " + saturationModifier + NEW_LINE)
-        .append(" Wolf Favorite: " + wolfFavorite + NEW_LINE)
-        .append("}");
+                .append(" Heal Amount: " + healAmount + NEW_LINE)
+                .append(" Saturation Modifier: " + saturationModifier + NEW_LINE)
+                .append(" Wolf Favorite: " + wolfFavorite + NEW_LINE)
+                .append("}");
         return builder.toString();
     }
 }
