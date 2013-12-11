@@ -28,7 +28,7 @@ buildscript {
 // Project information
 group = "org.spoutcraft"
 version = "1.0.0-SNAPSHOT"
-archivesBaseName = "spoutcraft"
+archivesBaseName = "spoutcraftmod"
 ext.packaging = 'jar'
 
 // Minimum version of Java required
