@@ -58,13 +58,12 @@ public class AddonLoader {
         }
 
         try {
-            final String nameVersion = addon.getDescription().getName() + " v" + addon.getDescription().getVersion();
-            Spoutcraft.getLogger().info("Enabling [" + nameVersion + "]...");
+            Spoutcraft.getLogger().info("Enabling [" + addon.getDescription().getName() + " " + addon.getDescription().getVersion() + "]...");
             addon.onEnable();
             addon.enable();
-            Spoutcraft.getLogger().info("[" + nameVersion + "] enabled");
+            Spoutcraft.getLogger().info("[" + addon.getDescription().getName() + "] enabled");
         } catch (Throwable t) {
-            Spoutcraft.getLogger().log(Level.SEVERE, "Exception caught while enabling addon [" + addon.getDescription().getIdentifier() + "]", t);
+            Spoutcraft.getLogger().log(Level.SEVERE, "Exception caught while enabling addon [" + addon.getDescription().getName() + "]", t);
         }
 
         loaders.put(addon.getDescription().getName(), addon.getClassLoader());
@@ -72,17 +71,16 @@ public class AddonLoader {
 
     public void disable(Addon addon) {
         if (!addon.isEnabled()) {
-            throw new IllegalStateException("Cannot disable addon [" + addon.getDescription().getIdentifier() + "], it has never been enabled.");
+            throw new IllegalStateException("Cannot disable addon [" + addon.getDescription().getName() + "], it has never been enabled.");
         }
 
         try {
             addon.disable();
-            final String nameVersion = addon.getDescription().getName() + " v" + addon.getDescription().getVersion();
-            Spoutcraft.getLogger().info("Disabling [" + nameVersion + "]...");
+            Spoutcraft.getLogger().info("Disabling [" + addon.getDescription().getName() + " " + addon.getDescription().getVersion() + "]...");
             addon.onDisable();
-            Spoutcraft.getLogger().info("[" + nameVersion + "] disabled");
+            Spoutcraft.getLogger().info("[" + addon.getDescription().getName() + "] disabled");
         } catch (Throwable t) {
-            Spoutcraft.getLogger().log(Level.SEVERE, "Exception caught while disabling addon [" + addon.getDescription().getIdentifier() + "]", t);
+            Spoutcraft.getLogger().log(Level.SEVERE, "Exception caught while disabling addon [" + addon.getDescription().getName() + "]", t);
         }
     }
 

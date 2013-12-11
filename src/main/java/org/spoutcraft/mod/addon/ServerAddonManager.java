@@ -134,11 +134,7 @@ public class ServerAddonManager implements AddonManager {
     @Override
     public void disable(Addon addon) {
         if (addon.isEnabled()) {
-            try {
-                addon.getLoader().disable(addon);
-            } catch (Exception e) {
-                Spoutcraft.getLogger().log(Level.SEVERE, "An error occurred while disabling [" + addon.getDescription().getIdentifier() + "] -> " + e.getMessage(), e);
-            }
+            addon.getLoader().disable(addon);
         }
     }
 

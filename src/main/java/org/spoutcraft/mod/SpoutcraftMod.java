@@ -34,6 +34,7 @@ import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.common.EnumHelper;
 import org.lwjgl.opengl.*;
 import org.spoutcraft.api.Spoutcraft;
 import org.spoutcraft.api.addon.AddonManager;
