@@ -1,11 +1,12 @@
-[![Spoutcraft](https://dl.dropboxusercontent.com/u/37060654/Images/Spoutcraft/spoutcraft.png)](https://github.com/Spoutcraft)
-===========
-SpoutcraftMod is a mod for Forge that has the ability to add more features to Minecraft through an easy-to-use implementation-free API.
+SpoutcraftMod
+=============
+[![Build Status](https://travis-ci.org/Spoutcraft/SpoutcraftMod.png?branch=master)](https://travis-ci.org/Spoutcraft/SpoutcraftMod)  
+SpoutcraftMod is a Forge mod that expands Minecraft through an easy-to-use addon API.
 
 * [Homepage]
 * [Source]
 * [Issues]
-* IRC: #spoutcraft on irc.esper.net
+* [Chat]: #spoutcraft on irc.esper.net
 
 ## Team
 [![Zidane](https://secure.gravatar.com/avatar/3b8d6171c3f15daf35328a4f04c83de9?s=48)](https://github.com/Zidane "Zidane, Lead Developer")
@@ -13,8 +14,8 @@ SpoutcraftMod is a mod for Forge that has the ability to add more features to Mi
 [![Dockter](https://secure.gravatar.com/avatar/532e7ce3830bfb47b22c241d45e63cc9?s=48)](https://github.com/mcsnetworks "Dockter, Developer")
 [![unknownloner](https://secure.gravatar.com/avatar/4a8d2d1a1f594cacf05738f62d4c3a5c?s=48)](https://github.com/unknownloner "unknownloner, Developer")
 
-## Clone
-If you are using Git, use this command to clone the project: `git clone git@github.com:AlmuraDev/SpoutcraftMod.git`
+## Cloning
+If you are using Git, use this command to clone the project: `git clone git@github.com:Spoutcraft/SpoutcraftMod.git`
 
 ## Setup
 __Note:__ If you do not have [Gradle] installed you can use the gradlew files included with the project in place of 'gradle' in the following command(s). If you are using Git Bash, Unix or OS X then use './gradlew'. If you are using Windows then use 'gradlew.bat'.
@@ -27,7 +28,7 @@ __For [IntelliJ]__<br>
 1. Run `gradle setupDecompWorkspace ideaModule` (The decompile step may take a moment)<br>
 2. Import SpoutcraftMod as a module inside IntelliJ.<br>
 
-## Run
+## Running
 __Note 1:__ The following is aimed to help you setup run configurations for Eclipse and IntelliJ, if you do not want to be able to run SpoutcraftMod directly from your IDE then you can skip this.<br>
 __Note 2:__ The working directories for both Client and Server will need to be created manually in the root of SpoutcraftMod's directory. Otherwise you'll get a few errors and will not be able to run it this way.<br>
 __Note 3:__ When running the Server, make sure you set it to __online-mode=false__ in the server.properties in ~/run/server!
@@ -62,12 +63,20 @@ Working directory: Path/to/SpoutcraftMod/run/server
 Use classpath of module: SpoutcraftMod (IntelliJ-only)
 ```
 
-## Build
+## Building
 __Note:__ If you do not have [Gradle] installed you can use the gradlew files included with the project in place of 'gradle' in the following command(s). If you are using Git Bash, Unix or OS X then use './gradlew'. If you are using Windows then use 'gradlew.bat'.
 
 Run `gradle build`
 
 This will produce a compiled JAR file for SpoutcraftMod in `SpoutcraftMod/build/libs` that includes the dependencies needed for it to run.
+
+## Contributing
+Are you a talented programmer looking to contribute some code? We'd love the help!
+* Open a pull request with your changes, following our [guidelines and coding standards](CONTRIBUTING.md).
+* Please follow the above guidelines for your pull request(s) accepted.
+* For help setting up the project, keep reading!
+
+Love the project? Feel free to [donate] to help continue development! SpoutcraftMod is open-source and powered by community members, like yourself. Without you, we wouldn't be here today!
 
 ## FAQ
 __Why do I get `javac: source release 1.7 requires target release 1.7` in IntelliJ when running the client configuration?__
@@ -78,15 +87,21 @@ __Why do I get `javac: source release 1.7 requires target release 1.7` in Intell
 >3. Select SpoutcraftMod and set the 'Target bytecode version' as '1.7'.<br>
 >4. Click Apply and OK and try running it again.<br>
 
-__A dependency was added but my IDE is missing it! How do I add it?__
+__A dependency was added, but my IDE is missing it! How do I add it?__
 >If a new dependency was added, you can run either 'gradle ideaModule' or for Eclipse 'gradle eclipse'. This should recreate the settings for your IDE and add the missing dependency.
 
-__Things are not working!__
+__Help! Things are not working!__
 >Some issues can be resolved by deleting the '.gradle' folder in your user directory and running through the setup steps again. Otherwise if you are having trouble with something that the README does not cover, feel free to join our IRC channel and ask for assistance.
 
-[Homepage]: http://www.spoutcraft.org/
-[Source]: https://github.com/AlmuraDev/SpoutcraftMod
-[Issues]: https://github.com/AlmuraDev/SpoutcraftMod/issues
-[Gradle]: http://www.gradle.org
-[Eclipse]: http://www.eclipse.org
+[Homepage]: http://spoutcraft.org/
+[Forums]: http://spoutcraft.org/forums/
+[Chat]: http://spoutcraft.org/chat/
+[License]: http://www.gnu.org/licenses/lgpl.html
+[Source]: https://github.com/Spoutcraft/SpoutcraftMod
+[Issues]: https://github.com/Spoutcraft/SpoutcraftMod/issues
+[Gradle]: http://www.gradle.org/
+[Eclipse]: http://www.eclipse.org/
 [IntelliJ]: http://www.jetbrains.com/idea/
+[Twitter]: https://twitter.com/Spoutcraft
+[Facebook]: http://www.facebook.com/pages/Spoutcraft/351909024946422
+[Donate]: http://spoutcraft.org/donate/
