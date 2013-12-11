@@ -24,6 +24,7 @@
  */
 package org.spoutcraft.mod.block;
 
+import cpw.mods.fml.client.registry.RenderingRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -44,6 +45,7 @@ public class CustomBlock extends Block {
         if (prefab.shouldShowInCreativeTab()) {
             setCreativeTab(SpoutcraftMod.getCustomTabs());
         }
+
     }
 
     @Override

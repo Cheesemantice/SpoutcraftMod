@@ -24,6 +24,7 @@
  */
 package org.spoutcraft.api.block;
 
+import com.google.gson.Gson;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import org.spoutcraft.api.Prefab;
@@ -35,13 +36,27 @@ public class BlockPrefab extends Prefab {
     private final MaterialPrefab prefab;
     private final float hardness;
     private final boolean showInCreativeTab;
+    private final int light;
+    private final int lightOpacity;
 
-    public BlockPrefab(String identifier, String displayName, MaterialPrefab prefab, float hardness, boolean showInCreativeTab) {
+    public BlockPrefab(String identifier, String displayName, MaterialPrefab prefab, float hardness, int light, int lightOpacity, boolean showInCreativeTab) {
         super(identifier);
         this.displayName = displayName;
         this.prefab = prefab;
         this.hardness = hardness;
+        this.light = light;
+        this.lightOpacity = lightOpacity;
         this.showInCreativeTab = showInCreativeTab;
+    }
+
+    public BlockPrefab(String identifier, Gson attribs) {
+        super(identifier);
+        this.displayName = attribs.fromJson("display-name", String.class);
+        this.prefab = null; //TODO FIX
+        this.hardness = attribs.fromJson("hardness", Float.class);
+        this.light = attribs.fromJson("light", Integer.class);
+        this.lightOpacity = attribs.fromJson("light-opacity", Integer.class);
+        this.showInCreativeTab = attribs.fromJson("show-in-creative", Boolean.class);
     }
 
     public String getDisplayName() {
@@ -61,11 +76,11 @@ public class BlockPrefab extends Prefab {
     }
 
     public int getLightValue(IBlockAccess world, int x, int y, int z) {
-        return 1;
+        return light;
     }
 
     public int getLightOpacity(World world, int x, int y, int z) {
-        return 255;
+        return lightOpacity;
     }
 
     @Override
@@ -77,6 +92,8 @@ public class BlockPrefab extends Prefab {
                 .append(" Display Name: " + displayName + NEW_LINE)
                 .append(" " + prefab.toString() + NEW_LINE)
                 .append(" Hardness: " + hardness + NEW_LINE)
+                .append(" Light Level: " + light + NEW_LINE)
+                .append(" Light Opacity: " + lightOpacity + NEW_LINE)
                 .append("}");
         return builder.toString();
     }

@@ -70,7 +70,7 @@ public final class SpoutcraftAddon extends Addon {
         itemRegistry.put(new SpoutcraftEmblem());
         itemRegistry.put(new VanillaEmblem());
         itemRegistry.put(new SwordPrefab("custom_blade", "Custom Blade", 1, true, EnumToolMaterial.EMERALD));
-        itemRegistry.put(new PickaxePrefab("custom_pickaxe", "Custom Pick", 2, true, EnumToolMaterial.EMERALD));
+        itemRegistry.put(new PickaxePrefab("custom_pickaxe", "Custom Pickaxe", 2, true, EnumToolMaterial.EMERALD));
         itemRegistry.put(new SpadePrefab("custom_shovel", "Custom Shovel", 3, true, EnumToolMaterial.EMERALD));
         itemRegistry.put(new AxePrefab("custom_axe", "Custom Axe", 4, true, EnumToolMaterial.EMERALD));
 
@@ -78,26 +78,26 @@ public final class SpoutcraftAddon extends Addon {
         final MaterialPrefab testMaterial = new MaterialPrefab("testMaterial", MapIndex.DIRT);
 
         //Everyone loves numbers :P
-        blockRegistry.put(new MovingPrefab("0b", "0 (Black)", testMaterial, 0.5f, true));
-        blockRegistry.put(new MovingPrefab("0w", "0 (White)", testMaterial, 0.5f, true));
-        blockRegistry.put(new MovingPrefab("1b", "1 (Black)", testMaterial, 0.5f, true));
-        blockRegistry.put(new MovingPrefab("1w", "1 (White)", testMaterial, 0.5f, true));
-        blockRegistry.put(new MovingPrefab("2b", "2 (Black)", testMaterial, 0.5f, true));
-        blockRegistry.put(new MovingPrefab("2w", "2 (White)", testMaterial, 0.5f, true));
-        blockRegistry.put(new MovingPrefab("3b", "3 (Black)", testMaterial, 0.5f, true));
-        blockRegistry.put(new MovingPrefab("3w", "3 (White)", testMaterial, 0.5f, true));
-        blockRegistry.put(new MovingPrefab("4b", "4 (Black)", testMaterial, 0.5f, true));
-        blockRegistry.put(new MovingPrefab("4w", "4 (White)", testMaterial, 0.5f, true));
-        blockRegistry.put(new MovingPrefab("5b", "5 (Black)", testMaterial, 0.5f, true));
-        blockRegistry.put(new MovingPrefab("5w", "5 (White)", testMaterial, 0.5f, true));
-        blockRegistry.put(new MovingPrefab("6b", "6 (Black)", testMaterial, 0.5f, true));
-        blockRegistry.put(new MovingPrefab("6w", "6 (White)", testMaterial, 0.5f, true));
-        blockRegistry.put(new MovingPrefab("7b", "7 (Black)", testMaterial, 0.5f, true));
-        blockRegistry.put(new MovingPrefab("7w", "7 (White)", testMaterial, 0.5f, true));
-        blockRegistry.put(new MovingPrefab("8b", "8 (Black)", testMaterial, 0.5f, true));
-        blockRegistry.put(new MovingPrefab("8w", "8 (White)", testMaterial, 0.5f, true));
-        blockRegistry.put(new MovingPrefab("9b", "9 (Black)", testMaterial, 0.5f, true));
-        blockRegistry.put(new MovingPrefab("9w", "9 (White)", testMaterial, 0.5f, true));
+        blockRegistry.put(new MovingPrefab("0b", "0 (Black)", testMaterial, 0.5f, 1, 255, true));
+        blockRegistry.put(new MovingPrefab("0w", "0 (White)", testMaterial, 0.5f, 1, 255, true));
+        blockRegistry.put(new MovingPrefab("1b", "1 (Black)", testMaterial, 0.5f, 1, 255, true));
+        blockRegistry.put(new MovingPrefab("1w", "1 (White)", testMaterial, 0.5f, 1, 255, true));
+        blockRegistry.put(new MovingPrefab("2b", "2 (Black)", testMaterial, 0.5f, 1, 255, true));
+        blockRegistry.put(new MovingPrefab("2w", "2 (White)", testMaterial, 0.5f, 1, 255, true));
+        blockRegistry.put(new MovingPrefab("3b", "3 (Black)", testMaterial, 0.5f, 1, 255, true));
+        blockRegistry.put(new MovingPrefab("3w", "3 (White)", testMaterial, 0.5f, 1, 255, true));
+        blockRegistry.put(new MovingPrefab("4b", "4 (Black)", testMaterial, 0.5f, 1, 255, true));
+        blockRegistry.put(new MovingPrefab("4w", "4 (White)", testMaterial, 0.5f, 1, 255, true));
+        blockRegistry.put(new MovingPrefab("5b", "5 (Black)", testMaterial, 0.5f, 1, 255, true));
+        blockRegistry.put(new MovingPrefab("5w", "5 (White)", testMaterial, 0.5f, 1, 255, true));
+        blockRegistry.put(new MovingPrefab("6b", "6 (Black)", testMaterial, 0.5f, 1, 255, true));
+        blockRegistry.put(new MovingPrefab("6w", "6 (White)", testMaterial, 0.5f, 1, 255, true));
+        blockRegistry.put(new MovingPrefab("7b", "7 (Black)", testMaterial, 0.5f, 1, 255, true));
+        blockRegistry.put(new MovingPrefab("7w", "7 (White)", testMaterial, 0.5f, 1, 255, true));
+        blockRegistry.put(new MovingPrefab("8b", "8 (Black)", testMaterial, 0.5f, 1, 255, true));
+        blockRegistry.put(new MovingPrefab("8w", "8 (White)", testMaterial, 0.5f, 1, 255, true));
+        blockRegistry.put(new MovingPrefab("9b", "9 (Black)", testMaterial, 0.5f, 1, 255, true));
+        blockRegistry.put(new MovingPrefab("9w", "9 (White)", testMaterial, 0.5f, 1, 255, true));
 
         if (side.isClient()) {
             KeyBinding guiBind = new KeyBinding("SpoutGuiBind", Keyboard.KEY_U);
