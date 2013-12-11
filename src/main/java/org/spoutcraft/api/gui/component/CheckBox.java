@@ -48,7 +48,7 @@ public class CheckBox extends Button {
     public void render() {
         this.drawBackground();
         Color checkColor = isChecked() ? getCheckedColor() : getUncheckedColor();
-        float checkScale = (float) (getHeight() - 4);
+        float checkScale = getHeight() - 4;
         GL11.glPushMatrix();
         GL11.glTranslatef(getX() + getWidth() / 2, getY() + getHeight() / 2, 0);
         GL11.glScalef(checkScale, checkScale, checkScale);

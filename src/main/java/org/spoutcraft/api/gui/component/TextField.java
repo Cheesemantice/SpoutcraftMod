@@ -96,10 +96,9 @@ public class TextField extends LabelBase {
     public int getHeight() {
         if (super.getHeight() >= 0) {
             return super.getHeight();
-        } else {
-            this.getFont().setSize(this.getFontSize());
-            return (int) (this.getFont().getSize() + 4);
         }
+        this.getFont().setSize(this.getFontSize());
+        return (int) (this.getFont().getSize() + 4);
     }
 
     public void keyPress(int key, char c) {

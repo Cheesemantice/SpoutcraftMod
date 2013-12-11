@@ -27,6 +27,7 @@ package org.spoutcraft.api.item;
 import net.minecraft.item.EnumToolMaterial;
 
 public class SwordPrefab extends ItemPrefab {
+    private static final long serialVersionUID = -8988632560256264604L;
     private final EnumToolMaterial toolMaterial;
 
     public SwordPrefab(String identifier, String displayName, int maxStackSize, boolean showInCreativeTab, EnumToolMaterial toolMaterial) {

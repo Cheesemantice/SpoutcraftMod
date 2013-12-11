@@ -27,6 +27,8 @@ package org.spoutcraft.api.block;
 import org.spoutcraft.api.material.MaterialPrefab;
 
 public class MovingPrefab extends BlockPrefab {
+    private static final long serialVersionUID = 1946058692295114476L;
+
     public MovingPrefab(String identifier, String displayName, MaterialPrefab prefab, float hardness, boolean showInCreativeTab) {
         super(identifier, displayName, prefab, hardness, showInCreativeTab);
     }

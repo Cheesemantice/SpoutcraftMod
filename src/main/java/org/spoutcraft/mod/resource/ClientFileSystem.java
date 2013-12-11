@@ -25,12 +25,10 @@
 package org.spoutcraft.mod.resource;
 
 import java.io.IOException;
-import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Map;
 
 import org.spoutcraft.api.addon.Addon;
@@ -42,7 +40,7 @@ public class ClientFileSystem extends ServerFileSystem {
     public static final Path BLOCK_TEXTURES_PATH = Paths.get(TEXTURES_PATH.toString(), "blocks");
     public static final Path ITEM_TEXTURES_PATH = Paths.get(TEXTURES_PATH.toString(), "items");
     //Addon -> URI/Resource
-    private static final Map<Class<? extends Addon>, Map<URI, Object>> ADDON_RESOURCES = new HashMap<>();
+    //private static final Map<Class<? extends Addon>, Map<URI, Object>> ADDON_RESOURCES = new HashMap<>();
 
     @Override
     public void init() throws IOException {

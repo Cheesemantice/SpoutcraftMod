@@ -285,17 +285,15 @@ public abstract class Component {
     public int getMouseXRel() {
         if (parent == null) {
             return getMouseX();
-        } else {
-            return parent.getMouseXRel() - parent.getX();
         }
+        return parent.getMouseXRel() - parent.getX();
     }
 
     public int getMouseYRel() {
         if (parent == null) {
             return getMouseY();
-        } else {
-            return parent.getMouseYRel() - parent.getY();
         }
+        return parent.getMouseYRel() - parent.getY();
     }
 
     public boolean containsMouse() {
@@ -320,9 +318,8 @@ public abstract class Component {
     public boolean isFocused() {
         if (getParent() == null) {
             return false;
-        } else {
-            return getParent().getFocusedComponent() == this;
         }
+        return getParent().getFocusedComponent() == this;
     }
 
     public void focus() {
@@ -347,7 +344,7 @@ public abstract class Component {
         tes.setColorRGBA(col.getR(), col.getG(), col.getB(), col.getA());
         tes.setTranslation(x, y, 0);
         double angle = Math.PI * 2;
-        double inc = -angle / (double) numSegments;
+        double inc = -angle / numSegments;
         for (int i = 0; i < numSegments; i++) {
             tes.addVertex(Math.cos(angle) * radius, Math.sin(angle) * radius, 0);
             angle += inc;

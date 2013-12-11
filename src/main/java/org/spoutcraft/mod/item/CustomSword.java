@@ -42,4 +42,8 @@ public class CustomSword extends ItemSword {
             setCreativeTab(SpoutcraftMod.getCustomTabs());
         }
     }
+
+    protected SwordPrefab getPrefab() {
+        return prefab;
+    }
 }

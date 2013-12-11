@@ -91,8 +91,8 @@ public class CustomFont {
         int cellHeight = imgHeight / 16;
         fontHeight = cellHeight;
         for (int i = 0; i < 256; i++) {
-            charMap[i].texWidth = charMap[i].width / (float) imgWidth;
-            charMap[i].texHeight = charMap[i].height / (float) imgHeight;
+            charMap[i].texWidth = charMap[i].width / imgWidth;
+            charMap[i].texHeight = charMap[i].height / imgHeight;
         }
         BufferedImage fontImg = new BufferedImage(imgWidth, imgHeight, BufferedImage.TYPE_INT_ARGB);
         //We just created a TYPE_INT_ARGB image, so we know it has a DataBufferInt backing it

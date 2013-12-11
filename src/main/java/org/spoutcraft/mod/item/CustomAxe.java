@@ -42,4 +42,8 @@ public class CustomAxe extends ItemAxe {
             setCreativeTab(SpoutcraftMod.getCustomTabs());
         }
     }
+
+    protected AxePrefab getPrefab() {
+        return prefab;
+    }
 }

@@ -31,10 +31,12 @@ import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet250CustomPayload;
+
 import org.spoutcraft.api.protocol.codec.Codec;
 import org.spoutcraft.api.protocol.message.Message;
 
 public class MessagePacketHandler implements IPacketHandler {
+    @SuppressWarnings("rawtypes")
     @Override
     public void onPacketData(INetworkManager manager, Packet250CustomPayload packet, Player player) {
         final Codec codec = Protocol.find(packet.channel);

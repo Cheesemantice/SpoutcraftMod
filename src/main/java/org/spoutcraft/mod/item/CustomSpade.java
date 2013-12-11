@@ -42,4 +42,8 @@ public class CustomSpade extends ItemSpade {
             setCreativeTab(SpoutcraftMod.getCustomTabs());
         }
     }
+
+    protected SpadePrefab getPrefab() {
+        return prefab;
+    }
 }

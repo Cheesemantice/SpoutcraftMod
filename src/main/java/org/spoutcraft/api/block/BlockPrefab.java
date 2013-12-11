@@ -30,6 +30,7 @@ import org.spoutcraft.api.Prefab;
 import org.spoutcraft.api.material.MaterialPrefab;
 
 public class BlockPrefab extends Prefab {
+    private static final long serialVersionUID = 2552797718795539253L;
     private final String displayName;
     private final MaterialPrefab prefab;
     private final float hardness;
@@ -73,10 +74,10 @@ public class BlockPrefab extends Prefab {
         final String parent = super.toString();
         final StringBuilder builder = new StringBuilder(parent.substring(0, parent.length() - 1));
         builder
-                .append(" Display Name: " + displayName + NEW_LINE)
-                .append(" " + prefab.toString() + NEW_LINE)
-                .append(" Hardness: " + hardness + NEW_LINE)
-                .append("}");
+        .append(" Display Name: " + displayName + NEW_LINE)
+        .append(" " + prefab.toString() + NEW_LINE)
+        .append(" Hardness: " + hardness + NEW_LINE)
+        .append("}");
         return builder.toString();
     }
 }

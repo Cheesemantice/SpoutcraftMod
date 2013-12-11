@@ -27,6 +27,7 @@ package org.spoutcraft.api.item;
 import net.minecraft.item.EnumToolMaterial;
 
 public class SpadePrefab extends ItemPrefab {
+    private static final long serialVersionUID = 5437622550605046561L;
     private final EnumToolMaterial toolMaterial;
 
     public SpadePrefab(String identifier, String displayName, int maxStackSize, boolean showInCreativeTab, EnumToolMaterial toolMaterial) {
