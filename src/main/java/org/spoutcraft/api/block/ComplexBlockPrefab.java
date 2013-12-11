@@ -57,7 +57,6 @@ public class ComplexBlockPrefab extends BlockPrefab {
 
     @SideOnly(Side.CLIENT)
     public boolean shouldRender3DInInventory() {
-        model.renderAll();
         return true;
     }
 }
