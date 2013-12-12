@@ -14,4 +14,5 @@ notifications:
 
 env:
   global:
+    # Make the log output cleaner
     - TERM=dumb
