@@ -9,21 +9,24 @@ apply plugin: 'license'
 apply plugin: 'maven'
 apply plugin: 'signing'
 
-// Project information
+// Basic project information
 group = 'org.spoutcraft'
 archivesBaseName = 'spoutcraftmod'
 version = '1.0.0-SNAPSHOT'
+
+// Extended project information
 ext.inceptionYear = '2013'
 ext.packaging = 'jar'
 ext.url = 'http://spoutcraft.org/'
 ext.description = 'Forge mod that expands Minecraft through an easy-to-use addon API.'
+ext.organization = 'SpoutcraftDev'
 
 // Minecraft version
 ext.minecraftVersion = '1.6.4'
 
 // MinecraftForge version
 minecraft {
-    version = "1.6.4-9.11.1.964"
+    version = '1.6.4-9.11.1.964'
 }
 
 // Minimum version of Java required
@@ -74,12 +77,12 @@ processResources {
     }
     filter ReplaceTokens, tokens: [
         "modid": archivesBaseName,
-        "name": 'SpoutcraftMod', // TODO: Fix dynamic variable that is somehow null
+        "name": project.name,
         "description": 'Forge mod that expands Minecraft through an easy-to-use addon API.', // TODO: Fix dynamic variable that is somehow null
         "version": version,
         "mcversion": minecraftVersion,
         "url": url,
-        "authors": 'SpoutcraftDev'
+        "authors": organization
     ]
 }
 
@@ -99,8 +102,8 @@ tasks.withType(License).each { licenseTask ->
     licenseTask.exclude '**/*.info'
 }
 license {
-    ext.name = name
-    ext.organization = 'SpoutcraftDev'
+    ext.name = project.name
+    ext.organization = organization
     ext.url = url
     ext.year = inceptionYear
     header rootProject.file('HEADER.txt')
@@ -109,6 +112,8 @@ license {
 
 // Source compiler configuration
 configure([compileJava, compileTestJava]) {
+    options.compilerArgs << '-Xlint:all'
+    options.compilerArgs << '-Xlint:-path'
     options.deprecation = true
 }
 
@@ -120,35 +125,44 @@ manifest.mainAttributes(
         "Implementation-Version": version + "+" + ciSystem + "-b" + buildNumber + ".git-" + commit,
         "Implementation-Vendor": url)
 
-// Javadoc JAR generation
-task javadocJar(type: Jar, dependsOn: javadoc) {
-    classifier = 'javadoc'
-    from 'build/docs/javadoc'
-}
+// Artifact deployment profile
+if (gradle.taskGraph.hasTask("uploadArchives")) {
+    // Javadoc JAR generation
+    task javadocJar(type: Jar, dependsOn: javadoc) {
+        classifier = 'javadoc'
+        from 'build/docs/javadoc'
+    }
 
-// Source JAR generation
-task sourcesJar(type: Jar) {
-    classifier = 'sources'
-    from sourceSets.main.java.srcDirs
-}
+    // Source JAR generation
+    task sourcesJar(type: Jar) {
+        classifier = 'sources'
+        from sourceSets.main.java.srcDirs
+    }
 
-// Coveralls report configuration
-cobertura.coverageFormats = [ 'html', 'xml' ] // Coveralls requires xml format
+    // Coveralls report configuration
+    cobertura.coverageFormats = [ 'html', 'xml' ] // Coveralls requires xml format
 
-// Set all artifacts
-artifacts {
-    archives jar, javadocJar, sourcesJar
-}
+    // Set all artifacts
+    artifacts {
+        archives jar, javadocJar, sourcesJar
+    }
 
-// Deployment profile activated via property
-if (hasProperty("deploy")) {
-    // Sign JAR artifacts
-    signing {
-        // Check if uploadArchives task is used
-        required { 
-            gradle.taskGraph.hasTask("uploadArchives")
+    // Tasks and variables based on if release or snapshot
+    if (!version.endsWith('-SNAPSHOT')) {
+        // Set variable to releases repository URL
+        sonatypeUrl = 'https://oss.sonatype.org/service/local/staging/deploy/maven2'
+
+        // Deployment signing
+        signing {
+            // Check if uploadArchives task is used
+            required { isReleaseVersion && gradle.taskGraph.hasTask("uploadArchives") }
+
+            // Sign JAR artifacts
+            sign configurations.archives
         }
-        sign configurations.archives
+    } else {
+        // Set variable to snapshots repository URL
+        sonatypeUrl = 'https://oss.sonatype.org/content/repositories/snapshots'
     }
 
     // Upload all artifacts
@@ -159,13 +173,6 @@ if (hasProperty("deploy")) {
                 org.gradle.api.artifacts.maven.MavenDeployment deployment -> signing.signPom(deployment)
             }
 
-            // Set repository URL based on if release or snapshot
-            if (version.contains('-SNAPSHOT')) {
-                sonatypeUrl = 'https://oss.sonatype.org/service/local/staging/deploy/maven2'
-            } else {
-                sonatypeUrl = 'https://oss.sonatype.org/content/repositories/snapshots'
-            }
-
             // Set login credentials for repository
             repository(url: sonatypeUrl) {
                 authentication(userName: System.getenv("sonatypeUsername"), password: System.getenv("sonatypePassword"))
@@ -173,11 +180,12 @@ if (hasProperty("deploy")) {
 
             // Maven POM generation
             pom.project {
-                name 'SpoutcraftMod' // TODO: Fix dynamic variable that is somehow null
+                name project.name
                 artifactId archivesBaseName
                 packaging packaging
-                url url
                 inceptionYear inceptionYear
+                url url
+                description 'Forge mod that expands Minecraft through an easy-to-use addon API.' // TODO: Fix dynamic variable that is somehow null
 
                 scm {
                     connection 'scm:git:git://github.com/Spoutcraft/SpoutcraftMod.git'
@@ -214,6 +222,16 @@ if (hasProperty("deploy")) {
                         name 'Unknown Loner'
                         email 'unknownloner.online@gmail.com'
                     }
+                }
+
+                organization {
+                    name organization
+                    url url
+                }
+
+                issueManagement {
+                    system 'github'
+                    url 'https://github.com/Spoutcraft/SpoutcraftMod/issues'
                 }
             }
         }
