@@ -143,6 +143,9 @@ artifacts {
 // Artifact signing
 if (hasProperty("deploy")) {
     signing {
+        required {
+            gradle.taskGraph.hasTask("uploadArchives")
+        }
         sign configurations.archives
     }
 

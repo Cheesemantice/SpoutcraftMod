@@ -6,6 +6,8 @@ jdk: oraclejdk7
 install: ./gradlew clean build -PbuildNumber=$TRAVIS_BUILD_NUMBER -PciSystem=travis -Pcommit=${TRAVIS_COMMIT:0:7} -PserviceJobId=$TRAVIS_JOB_ID
 
 after_success:
+  # Generate Cobertura report for Coveralls.io
+  - "./gradlew cobertura coveralls"
   # Check if commit s not a pull request, if git repo is official, and if branch is master. If checks pass, deploy artifacts to Maven repository.
   - "[[ $TRAVIS_PULL_REQUEST == false ]] && [[ $TRAVIS_REPO_SLUG == Spoutcraft/SpoutcraftMod ]] && [[ $TRAVIS_BRANCH == master ]] && ./gradlew -Pdeploy"
 
