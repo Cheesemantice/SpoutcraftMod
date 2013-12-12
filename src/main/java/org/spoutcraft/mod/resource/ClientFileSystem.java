@@ -38,6 +38,7 @@ public class ClientFileSystem extends ServerFileSystem {
     public static final Path TEXTURES_PATH = Paths.get(ASSETS_PATH.toString(), "textures");
     public static final Path BLOCK_TEXTURES_PATH = Paths.get(TEXTURES_PATH.toString(), "blocks");
     public static final Path ITEM_TEXTURES_PATH = Paths.get(TEXTURES_PATH.toString(), "items");
+    public static final Path ARMOR_TEXTURES_PATH = Paths.get(ITEM_TEXTURES_PATH.toString(), "armor");
     //Addon -> URI/Resource
     //private static final Map<Class<? extends Addon>, Map<URI, Object>> ADDON_RESOURCES = new HashMap<>();
 
@@ -48,8 +49,8 @@ public class ClientFileSystem extends ServerFileSystem {
         if (!Files.exists(BLOCK_TEXTURES_PATH)) {
             Files.createDirectories(BLOCK_TEXTURES_PATH);
         }
-        if (!Files.exists(ITEM_TEXTURES_PATH)) {
-            Files.createDirectories(ITEM_TEXTURES_PATH);
+        if (!Files.exists(ARMOR_TEXTURES_PATH)) {
+            Files.createDirectories(ARMOR_TEXTURES_PATH);
         }
     }
 

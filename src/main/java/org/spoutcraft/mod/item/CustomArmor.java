@@ -1,7 +1,8 @@
 /**
- * This file is part of SpoutcraftMod, licensed under the MIT License (MIT).
+ * This file is a part of SpoutcraftMod.
  *
- * Copyright (c) 2013 SpoutcraftDev <http://spoutcraft.org/>
+ * Copyright (c) 2013 SpoutcraftDev <http://spoutcraft.org>
+ * SpoutcraftMod is licensed under the MIT License.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,42 +22,29 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.spoutcraft.mod.block;
+package org.spoutcraft.mod.item;
 
-import net.minecraft.block.Block;
-import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
-import org.spoutcraft.api.block.BlockPrefab;
+import net.minecraft.item.ItemArmor;
+
+import org.spoutcraft.api.item.ArmorPrefab;
 import org.spoutcraft.mod.SpoutcraftMod;
-import org.spoutcraft.mod.material.CustomMaterial;
 
-public class CustomBlock extends Block {
-    private final BlockPrefab prefab;
-
-    public CustomBlock(int id, BlockPrefab prefab, CustomMaterial material) {
-        super(id, material);
+public class CustomArmor extends ItemArmor {
+    private final ArmorPrefab prefab;
+    
+    public CustomArmor(int id, ArmorPrefab prefab) {
+        super(id, prefab.getToolMaterial(), prefab.getRenderIndex(), prefab.getArmorType());
         this.prefab = prefab;
-        setUnlocalizedName(prefab.getIdentifier());
+        setUnlocalizedName("spoutcraft:" + prefab.getIdentifier());
         setTextureName("spoutcraft:" + prefab.getIdentifier());
-        setHardness(prefab.getHardness());
-
+        setMaxStackSize(prefab.getMaxStackSize());
+        
         if (prefab.shouldShowInCreativeTab()) {
             setCreativeTab(SpoutcraftMod.getCustomTabs());
         }
-
-    }
-
-    @Override
-    public int getLightValue(IBlockAccess world, int x, int y, int z) {
-        return prefab.getLightValue(world, x, y, z);
-    }
-
-    @Override
-    public int getLightOpacity(World world, int x, int y, int z) {
-        return prefab.getLightOpacity(world, x, y, z);
-    }
-
-    public BlockPrefab getPrefab() {
+    }    
+    
+    protected ArmorPrefab getPrefab() {
         return prefab;
     }
 }
