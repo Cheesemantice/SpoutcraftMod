@@ -1,29 +1,10 @@
 // Default tasks
-defaultTasks 'clean', 'build'
-
-// Gradle initial setup
-task wrapper(type: Wrapper) {
-    gradleVersion = '1.9'
-}
+defaultTasks 'clean', 'build', 'licenseFormatMain'
 
 // Apply plugins
 apply plugin: 'forge'
 apply plugin: 'license'
 
-// Repositories and dependencies to use
-buildscript {
-    repositories {
-        mavenCentral()
-        maven {
-            name = "forge"
-            url = "http://files.minecraftforge.net/maven"
-        }
-    }
-    dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:1.0-SNAPSHOT'
-        classpath 'nl.javadude.gradle.plugins:license-gradle-plugin:0.6.0'
-    }
-}
 
 // Project information
 group = "org.spoutcraft"
@@ -34,6 +15,25 @@ ext.packaging = 'jar'
 // Minimum version of Java required
 sourceCompatibility = "1.7"
 targetCompatibility = "1.7"
+
+// Repositories and dependencies to use
+buildscript {
+    repositories {
+        mavenCentral()
+        maven {
+            name = "forge-repo"
+            url = "http://files.minecraftforge.net/maven"
+        }
+        maven {
+            name = "inspirenxe-repo"
+            url = "http://repo.inspirenxe.org/content/groups/public/"
+        }
+    }
+    dependencies {
+        classpath 'net.minecraftforge.gradle:ForgeGradle:1.0-SNAPSHOT'
+        classpath 'nl.javadude.gradle.plugins:license-gradle-plugin:0.7.0-SNAPSHOT'
+    }
+}
 
 // Minecraft Forge version
 minecraft {

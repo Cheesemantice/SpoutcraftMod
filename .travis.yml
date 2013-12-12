@@ -11,3 +11,7 @@ notifications:
   webhooks:
     # Send build information and status to Notifico
     - http://n.tkte.ch/h/1610/ZzFGpYhiRZGB6EhwfV-uj7Vt
+
+env:
+  global:
+    - TERM=dumb
