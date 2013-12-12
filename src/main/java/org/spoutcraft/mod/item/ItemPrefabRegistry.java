@@ -31,7 +31,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.item.Item;
 import net.minecraft.network.INetworkManager;
-
 import org.spoutcraft.api.LinkedPrefabRegistry;
 import org.spoutcraft.api.Spoutcraft;
 import org.spoutcraft.api.item.ArmorPrefab;

@@ -43,7 +43,6 @@ public class ComplexCustomBlock extends Block {
         if (prefab.shouldShowInCreativeTab()) {
             setCreativeTab(SpoutcraftMod.getCustomTabs());
         }
-
     }
 
     @Override

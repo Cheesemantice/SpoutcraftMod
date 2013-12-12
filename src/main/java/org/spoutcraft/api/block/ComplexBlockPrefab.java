@@ -37,13 +37,10 @@ import org.spoutcraft.api.material.MaterialPrefab;
 
 public class ComplexBlockPrefab extends BlockPrefab {
     private static final long serialVersionUID = -7997366469044846393L;
-
     //TODO Check this
     public static final int RENDER_LEVEL = 10;
-
     private Path objPath;
-
-    @SideOnly(Side.CLIENT)
+    @SideOnly (Side.CLIENT)
     private IModelCustom model;
 
     public ComplexBlockPrefab(String identifier, String displayName, MaterialPrefab prefab, float hardness, int light, int lightOpacity, boolean showInCreativeTab, Path objPath) {
@@ -54,7 +51,7 @@ public class ComplexBlockPrefab extends BlockPrefab {
         }
     }
 
-    @SideOnly(Side.CLIENT)
+    @SideOnly (Side.CLIENT)
     public ComplexBlockPrefab(String identifier, String displayName, MaterialPrefab prefab, float hardness, int light, int lightOpacity, boolean showInCreativeTab, IModelCustom model) {
         super(identifier, displayName, prefab, hardness, light, lightOpacity, showInCreativeTab);
         this.model = model;
@@ -64,23 +61,23 @@ public class ComplexBlockPrefab extends BlockPrefab {
         return objPath;
     }
 
-    @SideOnly(Side.CLIENT)
+    @SideOnly (Side.CLIENT)
     public IModelCustom getModel() {
         return model;
     }
 
-    @SideOnly(Side.CLIENT)
+    @SideOnly (Side.CLIENT)
     public void renderInventoryBlock(Block block, int metadata, int modelID, RenderBlocks renderer) {
         model.renderAll();
     }
 
-    @SideOnly(Side.CLIENT)
+    @SideOnly (Side.CLIENT)
     public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId, RenderBlocks renderer) {
         model.renderAll();
         return true;
     }
 
-    @SideOnly(Side.CLIENT)
+    @SideOnly (Side.CLIENT)
     public boolean shouldRender3DInInventory() {
         return true;
     }

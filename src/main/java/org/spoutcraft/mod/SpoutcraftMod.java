@@ -35,7 +35,6 @@ import cpw.mods.fml.common.network.NetworkRegistry;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.util.ResourceLocation;
-
 import org.lwjgl.opengl.*;
 import org.spoutcraft.api.Spoutcraft;
 import org.spoutcraft.api.addon.AddonManager;
@@ -108,7 +107,7 @@ public class SpoutcraftMod {
                 //Setup addon manager
                 manager.loadAddons(ClientFileSystem.ADDONS_PATH);
                 ClientTickHandlers.start();
-                
+
                 RenderingRegistry.registerEntityRenderingHandler(EntityPlayer.class, new SpoutCraftPlayerRenderer());//TODO: not sure where to place
                 break;
             case SERVER:

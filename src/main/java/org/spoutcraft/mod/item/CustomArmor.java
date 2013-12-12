@@ -1,8 +1,7 @@
 /**
- * This file is a part of SpoutcraftMod.
+ * This file is part of SpoutcraftMod, licensed under the MIT License (MIT).
  *
- * Copyright (c) 2013 SpoutcraftDev <http://spoutcraft.org>
- * SpoutcraftMod is licensed under the MIT License.
+ * Copyright (c) 2013 SpoutcraftDev <http://spoutcraft.org/>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -25,25 +24,24 @@
 package org.spoutcraft.mod.item;
 
 import net.minecraft.item.ItemArmor;
-
 import org.spoutcraft.api.item.ArmorPrefab;
 import org.spoutcraft.mod.SpoutcraftMod;
 
 public class CustomArmor extends ItemArmor {
     private final ArmorPrefab prefab;
-    
+
     public CustomArmor(int id, ArmorPrefab prefab) {
         super(id, prefab.getToolMaterial(), prefab.getRenderIndex(), prefab.getArmorType());
         this.prefab = prefab;
         setUnlocalizedName("spoutcraft:" + prefab.getIdentifier());
         setTextureName("spoutcraft:" + prefab.getIdentifier());
         setMaxStackSize(prefab.getMaxStackSize());
-        
+
         if (prefab.shouldShowInCreativeTab()) {
             setCreativeTab(SpoutcraftMod.getCustomTabs());
         }
-    }    
-    
+    }
+
     protected ArmorPrefab getPrefab() {
         return prefab;
     }
