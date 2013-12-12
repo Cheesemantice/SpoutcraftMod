@@ -211,14 +211,6 @@ if (hasProperty("deploy")) {
                         email 'unknownloner.online@gmail.com'
                     }
                 }
-
-                contributors {
-                    contributor {
-                        id 'Wulfspider'
-                        name 'Luke Spragg'
-                        email 'the@wulf.im'
-                    }
-                }
             }
         }
     }
