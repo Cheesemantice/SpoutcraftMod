@@ -165,7 +165,9 @@ uploadArchives {
                 sign configurations.archives
 
                 // Sign Maven POM
-                org.gradle.api.artifacts.maven.MavenDeployment deployment -> signing.signPom(deployment)
+                beforeDeployment {
+                    org.gradle.api.artifacts.maven.MavenDeployment deployment -> signing.signPom(deployment)
+                }
             }
         }
 
