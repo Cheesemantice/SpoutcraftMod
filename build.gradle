@@ -70,7 +70,6 @@ license {
     ext.inception = 2013
     ext.years = Calendar.getInstance().get(Calendar.YEAR) == ext.inception ? ext.inception : ext.inception + '-' + Calendar.getInstance().get(Calendar.YEAR)
 }
-licenseFormatMain.execute()
 
 // Javadoc JAR generation
 task javadocJar(type: Jar, dependsOn: javadoc) {
