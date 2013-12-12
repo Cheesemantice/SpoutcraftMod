@@ -9,7 +9,7 @@ after_success:
   # Generate Cobertura report for Coveralls.io
   - "./gradlew cobertura coveralls"
   # Check if commit s not a pull request, if git repo is official, and if branch is master. If checks pass, deploy artifacts to Maven repository.
-  - "[[ $TRAVIS_PULL_REQUEST == false ]] && [[ $TRAVIS_REPO_SLUG == Spoutcraft/SpoutcraftMod ]] && [[ $TRAVIS_BRANCH == master ]] && ./gradlew -Pdeploy"
+  - "[[ $TRAVIS_PULL_REQUEST == false ]] && [[ $TRAVIS_REPO_SLUG == Spoutcraft/SpoutcraftMod ]] && [[ $TRAVIS_BRANCH == master ]] && ./gradlew -Pdeploy uploadArchives"
 
 notifications:
   # Disable build status email notifications, until the issue with forks is fixed

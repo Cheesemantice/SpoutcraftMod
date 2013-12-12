@@ -143,10 +143,9 @@ artifacts {
 // Deployment profile activated via property
 if (hasProperty("deploy")) {
     // Sign JAR artifacts
-    signArchives {
+    signing {
         sign configurations.archives
     }
-    signArchives.execute()
 
     // Upload all artifacts
     uploadArchives {
@@ -223,5 +222,4 @@ if (hasProperty("deploy")) {
             }
         }
     }
-    uploadArchives.execute()
 }
