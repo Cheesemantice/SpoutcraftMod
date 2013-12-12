@@ -143,81 +143,82 @@ artifacts {
 // Artifact signing
 if (hasProperty("deploy")) {
     signing {
-        required {
-            gradle.taskGraph.hasTask("uploadArchives")
-        }
         sign configurations.archives
     }
-} else {
-    task signArchives {
-        // Do nothing
-    }
-}
 
-// Artifact deployment
-uploadArchives {
-    dependsOn signArchives
-    if (hasProperty("deploy")) {
-        doFirst {
-            repositories.mavenDeployer {
-                beforeDeployment {
-                    org.gradle.api.artifacts.maven.MavenDeployment deployment -> signing.signPom(deployment)
-                }
-
-                // Set repository URL based on if release or snapshot
-                if (version.contains('-SNAPSHOT')) {
-                    sonatypeUrl = 'https://oss.sonatype.org/service/local/staging/deploy/maven2'
-                } else {
-                    sonatypeUrl = 'https://oss.sonatype.org/content/repositories/snapshots'
-                }
-
-                // Set login credentials for repository
-                repository(url: sonatypeUrl) {
-                    authentication(userName: System.getenv("sonatypeUsername"), password: System.getenv("sonatypePassword"))
-                }
-
-                // Maven POM generation
-                pom.project {
-                    name 'SpoutcraftMod' // TODO: Fix dynamic variable that is somehow null
-                    artifactId archivesBaseName
-                    packaging packaging
-                    url url
-                    inceptionYear inceptionYear
-
-                    scm {
-                        connection 'scm:git:git://github.com/Spoutcraft/SpoutcraftMod.git'
-                        developerConnection 'scm:git:ssh://git@github.com:Spoutcraft/SpoutcraftMod.git'
-                        url 'https://github.com/Spoutcraft/SpoutcraftMod'
+    // Artifact deployment
+    uploadArchives {
+        dependsOn signArchives
+        if (hasProperty("deploy")) {
+            doFirst {
+                repositories.mavenDeployer {
+                    beforeDeployment {
+                        org.gradle.api.artifacts.maven.MavenDeployment deployment -> signing.signPom(deployment)
                     }
 
-                    licenses {
-                        license {
-                            name 'The MIT License'
-                            url 'http://www.tldrlegal.com/license/mit-license'
-                            distribution 'repo'
-                        }
+                    // Set repository URL based on if release or snapshot
+                    if (version.contains('-SNAPSHOT')) {
+                        sonatypeUrl = 'https://oss.sonatype.org/service/local/staging/deploy/maven2'
+                    } else {
+                        sonatypeUrl = 'https://oss.sonatype.org/content/repositories/snapshots'
                     }
 
-                    developers {
-                        developer {
-                            id 'Zidane'
-                            name 'Chris Sanders'
-                            email 'zidane@outlook.com'
+                    // Set login credentials for repository
+                    repository(url: sonatypeUrl) {
+                        authentication(userName: System.getenv("sonatypeUsername"), password: System.getenv("sonatypePassword"))
+                    }
+
+                    // Maven POM generation
+                    pom.project {
+                        name 'SpoutcraftMod' // TODO: Fix dynamic variable that is somehow null
+                        artifactId archivesBaseName
+                        packaging packaging
+                        url url
+                        inceptionYear inceptionYear
+
+                        scm {
+                            connection 'scm:git:git://github.com/Spoutcraft/SpoutcraftMod.git'
+                            developerConnection 'scm:git:ssh://git@github.com:Spoutcraft/SpoutcraftMod.git'
+                            url 'https://github.com/Spoutcraft/SpoutcraftMod'
                         }
-                        developer {
-                            id 'Grinch'
-                            name 'Steven Downer'
-                            email 'grinch@outlook.com'
+
+                        licenses {
+                            license {
+                                name 'The MIT License'
+                                url 'http://www.tldrlegal.com/license/mit-license'
+                                distribution 'repo'
+                            }
                         }
-                        developer {
-                            id 'Dockter'
-                            name 'Mike Howe'
-                            email 'dockter@almuramc.com'
+
+                        developers {
+                            developer {
+                                id 'Zidane'
+                                name 'Chris Sanders'
+                                email 'zidane@outlook.com'
+                            }
+                            developer {
+                                id 'Grinch'
+                                name 'Steven Downer'
+                                email 'grinch@outlook.com'
+                            }
+                            developer {
+                                id 'Dockter'
+                                name 'Mike Howe'
+                                email 'dockter@almuramc.com'
+                            }
+                            developer {
+                                id 'unknownloner'
+                                name 'Unknown Loner'
+                                email 'unknownloner.online@gmail.com'
+                            }
                         }
-                        developer {
-                            id 'unknownloner'
-                            name 'Unknown Loner'
-                            email 'unknownloner.online@gmail.com'
+
+                        contributors {
+                            contributor {
+                                id 'Wulfspider'
+                                name 'Luke Spragg'
+                                email 'the@wulf.im'
+                            }
                         }
                     }
                 }
