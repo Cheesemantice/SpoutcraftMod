@@ -1,6 +1,6 @@
 SpoutcraftMod
 =============
-[![Build Status](https://travis-ci.org/Spoutcraft/SpoutcraftMod.png?branch=master)](https://travis-ci.org/Spoutcraft/SpoutcraftMod)  
+[![Build Status](https://travis-ci.org/Spoutcraft/SpoutcraftMod.png?branch=master)](https://travis-ci.org/Spoutcraft/SpoutcraftMod) [![Coverage Status](https://coveralls.io/repos/Spoutcraft/SpoutcraftMod/badge.png)](https://coveralls.io/r/Spoutcraft/SpoutcraftMod)  
 SpoutcraftMod is a Forge mod that expands Minecraft through an easy-to-use addon API.
 
 * [Homepage]
@@ -20,31 +20,31 @@ If you are using Git, use this command to clone the project: `git clone git@gith
 ## Setup
 __Note:__ If you do not have [Gradle] installed you can use the gradlew files included with the project in place of 'gradle' in the following command(s). If you are using Git Bash, Unix or OS X then use './gradlew'. If you are using Windows then use 'gradlew.bat'.
 
-__For [Eclipse]__<br>
-1. Run `gradle setupDecompWorkspace eclipse` (The decompile step may take a moment)<br>
-2. Import SpoutcraftMod as an existing project inside Eclipse.<br>
+__For [Eclipse]__  
+1. Run `gradle setupDecompWorkspace eclipse` (The decompile step may take a moment).  
+2. Import SpoutcraftMod as an existing project inside Eclipse.
 
-__For [IntelliJ]__<br>
-1. Run `gradle setupDecompWorkspace ideaModule` (The decompile step may take a moment)<br>
-2. Import SpoutcraftMod as a module inside IntelliJ.<br>
+__For [IntelliJ]__  
+1. Run `gradle setupDecompWorkspace ideaModule` (The decompile step may take a moment).  
+2. Import SpoutcraftMod as a module inside IntelliJ.
 
 ## Running
-__Note 1:__ The following is aimed to help you setup run configurations for Eclipse and IntelliJ, if you do not want to be able to run SpoutcraftMod directly from your IDE then you can skip this.<br>
-__Note 2:__ The working directories for both Client and Server will need to be created manually in the root of SpoutcraftMod's directory. Otherwise you'll get a few errors and will not be able to run it this way.<br>
-__Note 3:__ When running the Server, make sure you set it to __online-mode=false__ in the server.properties in ~/run/server!
+__Note 1:__ The following is aimed to help you setup run configurations for Eclipse and IntelliJ, if you do not want to be able to run SpoutcraftMod directly from your IDE then you can skip this.  
+__Note 2:__ The working directories for both Client and Server will need to be created manually in the root of SpoutcraftMod's directory. Otherwise you'll get a few errors and will not be able to run it this way.  
+__Note 3:__ When running the Server, make sure you set it to __online-mode=false__ in the server.properties in ~/run/server!  
 
-__For [Eclipse]__<br>
-1. Go to 'Run > Run Configurations'<br>
-2. Right-click 'Java Application' and select 'New'<br>
-3. Set the current project.<br>
-4. Set the name as "Client" and apply the information for Client below.<br>
-5. Repeat step 1 through 4, then set the name as "Server" and apply the information for Server below.<br>
+__For [Eclipse]__  
+1. Go to 'Run > Run Configurations'.  
+2. Right-click 'Java Application' and select 'New'.  
+3. Set the current project.  
+4. Set the name as "Client" and apply the information for Client below.  
+5. Repeat step 1 through 4, then set the name as "Server" and apply the information for Server below.  
 
-__For [IntelliJ]__<br>
-1. Go to 'Run > Edit Configurations'<br>
-2. Click the green + button and select 'Application'<br>
-3. Set the name as "Client" and apply the information for Client below.<br>
-4. Repeat step 2 and set the name as "Server" and apply the information for Server below.<br>
+__For [IntelliJ]__  
+1. Go to 'Run > Edit Configurations'.  
+2. Click the green + button and select 'Application'.  
+3. Set the name as "Client" and apply the information for Client below.  
+4. Repeat step 2 and set the name as "Server" and apply the information for Server below.  
  
 __Client__
 ```
@@ -82,10 +82,10 @@ Love the project? Feel free to [donate] to help continue development! Spoutcraft
 __Why do I get `javac: source release 1.7 requires target release 1.7` in IntelliJ when running the client configuration?__
 >Sometimes another project can mess with the settings in IntelliJ. Fixing this is relatively easy.
 
->1. Go to 'File > Settings'<br>
->2. Click the drop down for 'Compiler' on the left-hand side and select 'Java Compiler'.<br>
->3. Select SpoutcraftMod and set the 'Target bytecode version' as '1.7'.<br>
->4. Click Apply and OK and try running it again.<br>
+>1. Go to 'File > Settings'.
+>2. Click the drop down for 'Compiler' on the left-hand side and select 'Java Compiler'.
+>3. Select SpoutcraftMod and set the 'Target bytecode version' as '1.7'.
+>4. Click Apply and OK and try running it again.
 
 __A dependency was added, but my IDE is missing it! How do I add it?__
 >If a new dependency was added, you can run either 'gradle ideaModule' or for Eclipse 'gradle eclipse'. This should recreate the settings for your IDE and add the missing dependency.
