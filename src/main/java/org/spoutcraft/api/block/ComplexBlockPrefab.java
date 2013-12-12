@@ -36,6 +36,8 @@ import net.minecraftforge.client.model.IModelCustom;
 import org.spoutcraft.api.material.MaterialPrefab;
 
 public class ComplexBlockPrefab extends BlockPrefab {
+    private static final long serialVersionUID = -7997366469044846393L;
+
     //TODO Check this
     public static final int RENDER_LEVEL = 10;
 

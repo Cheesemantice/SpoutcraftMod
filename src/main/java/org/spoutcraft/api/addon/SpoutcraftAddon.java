@@ -30,11 +30,15 @@ import cpw.mods.fml.common.TickType;
 import cpw.mods.fml.relauncher.Side;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
+import net.minecraft.item.EnumArmorMaterial;
 import net.minecraft.item.EnumToolMaterial;
+import net.minecraftforge.common.EnumHelper;
+
 import org.lwjgl.input.*;
 import org.spoutcraft.api.LinkedPrefabRegistry;
 import org.spoutcraft.api.Spoutcraft;
 import org.spoutcraft.api.block.MovingPrefab;
+import org.spoutcraft.api.item.ArmorPrefab;
 import org.spoutcraft.api.item.AxePrefab;
 import org.spoutcraft.api.item.PickaxePrefab;
 import org.spoutcraft.api.item.SpadePrefab;
@@ -68,11 +72,18 @@ public final class SpoutcraftAddon extends Addon {
         final LinkedPrefabRegistry itemRegistry = Spoutcraft.getItemPrefabRegistry();
         itemRegistry.put(new SpoutcraftEmblem());
         itemRegistry.put(new VanillaEmblem());
+        //--------------------------------Custom tools-----------------------------------
         itemRegistry.put(new SwordPrefab("custom_blade", "Custom Blade", 1, true, EnumToolMaterial.EMERALD));
         itemRegistry.put(new PickaxePrefab("custom_pickaxe", "Custom Pickaxe", 2, true, EnumToolMaterial.EMERALD));
         itemRegistry.put(new SpadePrefab("custom_shovel", "Custom Shovel", 3, true, EnumToolMaterial.EMERALD));
         itemRegistry.put(new AxePrefab("custom_axe", "Custom Axe", 4, true, EnumToolMaterial.EMERALD));
-
+        //-------------------------------Custom Armor------------------------------------
+        EnumArmorMaterial CUSTOM = EnumHelper.addArmorMaterial("CUSTOM", 100, new int[]{2, 3, 2, 2}, 15);
+        itemRegistry.put(new ArmorPrefab("custom_helmet", "Custom Helmet", true, 3, 0, CUSTOM));
+        itemRegistry.put(new ArmorPrefab("custom_chestplate", "Custom Chestplate", true, 3, 1, CUSTOM));
+        itemRegistry.put(new ArmorPrefab("custom_leggings", "Custom Leggings", true, 3, 2, CUSTOM));
+        itemRegistry.put(new ArmorPrefab("custom_boots", "Custom Boots", true, 3, 3, CUSTOM));
+        
         final LinkedPrefabRegistry blockRegistry = Spoutcraft.getBlockPrefabRegistry();
         final MaterialPrefab testMaterial = new MaterialPrefab("testMaterial", MapIndex.DIRT);
 

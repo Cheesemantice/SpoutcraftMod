@@ -31,8 +31,10 @@ import java.util.concurrent.atomic.AtomicInteger;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.item.Item;
 import net.minecraft.network.INetworkManager;
+
 import org.spoutcraft.api.LinkedPrefabRegistry;
 import org.spoutcraft.api.Spoutcraft;
+import org.spoutcraft.api.item.ArmorPrefab;
 import org.spoutcraft.api.item.AxePrefab;
 import org.spoutcraft.api.item.FoodPrefab;
 import org.spoutcraft.api.item.ItemPrefab;
@@ -75,6 +77,8 @@ public class ItemPrefabRegistry implements LinkedPrefabRegistry<ItemPrefab, Item
             item = new CustomSpade(id, (SpadePrefab) prefab);
         } else if (prefab instanceof AxePrefab) {
             item = new CustomAxe(id, (AxePrefab) prefab);
+        } else if (prefab instanceof ArmorPrefab) {
+            item = new CustomArmor(id, (ArmorPrefab) prefab);
         } else {
             item = new CustomItem(id, prefab);
         }
