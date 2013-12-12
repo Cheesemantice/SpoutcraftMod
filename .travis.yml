@@ -3,7 +3,11 @@ language: java
 jdk: oraclejdk7
 
 # Compile and package JAR and set build properties
-install: ./gradlew clean build
+install: ./gradlew clean build -PbuildNumber=$TRAVIS_BUILD_NUMBER -PciSystem=travis -Pcommit=${TRAVIS_COMMIT:0:7} -PserviceJobId=$TRAVIS_JOB_ID
+
+after_success:
+  # Check if commit s not a pull request, if git repo is official, and if branch is master. If checks pass, deploy artifacts to Maven repository.
+  - "[[ $TRAVIS_PULL_REQUEST == false ]] && [[ $TRAVIS_REPO_SLUG == Spoutcraft/SpoutcraftMod ]] && [[ $TRAVIS_BRANCH == master ]] && ./gradlew uploadArchives -Pdeploy"
 
 notifications:
   # Disable build status email notifications, until the issue with forks is fixed
@@ -16,3 +20,6 @@ env:
   global:
     # Make the log output cleaner
     - TERM=dumb
+    # Super secure, encrypted variables! Ssssh!
+    - secure: "CjUEe4+shHqNk7icXT4jEIxFXuX0lld/jOiRTqh2xAcvvl4gho2RcdtEGxF5I4lh/9Bw787M73tCDGseQIlqyRA8LHzC/bypL/V5u9WcqJbZ/gssJs/Z9aDuAvUWTkAGAYWsg9Yf/Vib3I+qZxDlnbwkToM1tQMQEyqGzCsTqNI="
+    - secure: "N9FouKEz8Qv1sKlD9b7TJGdvbGSyeJhCVYphzPg4eSIA032iDYVko7yaEDFG51F1r0dbKJ437+yYEEka9zem1liUtJkq4nm30AqA0g6bNPDEGzFPD7kgVawnlzS7Y3JkXedhvBN8hOeEHOqzCHJOQd7ESciwVEW4Bxs7VMJc03o="

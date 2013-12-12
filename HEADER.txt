@@ -1,7 +1,6 @@
-This file is a part of ${name}.
+This file is part of ${name}, licensed under the MIT License (MIT).
 
-Copyright (c) ${years} ${team} <${website}>
-${name} is licensed under the MIT License.
+Copyright (c) ${year} ${organization} <${url}>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
