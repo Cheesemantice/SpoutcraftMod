@@ -84,8 +84,9 @@ processResources {
     filter ReplaceTokens, tokens: [
         "modid": archivesBaseName,
         "name": project.name,
-        "description": 'Forge mod that expands Minecraft through an easy-to-use addon API.', // TODO: Fix dynamic variable that is somehow null
+        "description": project.ext.description,
         "version": version,
+        "buildNumber": buildNumber,
         "mcversion": minecraftVersion,
         "url": url,
         "authors": organization
@@ -186,7 +187,7 @@ uploadArchives {
             packaging packaging
             inceptionYear inceptionYear
             url url
-            description 'Forge mod that expands Minecraft through an easy-to-use addon API.' // TODO: Fix dynamic variable that is somehow null
+            description project.ext.description
 
             scm {
                 connection 'scm:git:git://github.com/Spoutcraft/SpoutcraftMod.git'
