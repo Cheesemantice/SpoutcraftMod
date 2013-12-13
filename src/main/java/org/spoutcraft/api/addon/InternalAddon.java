@@ -23,6 +23,7 @@
  */
 package org.spoutcraft.api.addon;
 
+import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.relauncher.Side;
 import net.minecraft.item.EnumArmorMaterial;
 import net.minecraft.item.EnumToolMaterial;
@@ -70,10 +71,11 @@ public final class InternalAddon extends Addon {
 
         //-------------------------------Custom Armor------------------------------------
         EnumArmorMaterial CUSTOM = EnumHelper.addArmorMaterial("CUSTOM", 100, new int[] {2, 3, 2, 2}, 15);
-        itemRegistry.put(new ArmorPrefab(this, "custom_helmet", "Custom Helmet", true, 3, 0, CUSTOM));
-        itemRegistry.put(new ArmorPrefab(this, "custom_chestplate", "Custom Chestplate", true, 3, 1, CUSTOM));
-        itemRegistry.put(new ArmorPrefab(this, "custom_leggings", "Custom Leggings", true, 3, 2, CUSTOM));
-        itemRegistry.put(new ArmorPrefab(this, "custom_boots", "Custom Boots", true, 3, 3, CUSTOM));
+        int renderIndex = registerArmor("custom");
+        itemRegistry.put(new ArmorPrefab(this, "custom_helmet", "Custom Helmet", true, renderIndex, 0, CUSTOM));
+        itemRegistry.put(new ArmorPrefab(this, "custom_chestplate", "Custom Chestplate", true, renderIndex, 1, CUSTOM));
+        itemRegistry.put(new ArmorPrefab(this, "custom_leggings", "Custom Leggings", true, renderIndex, 2, CUSTOM));
+        itemRegistry.put(new ArmorPrefab(this, "custom_boots", "Custom Boots", true, renderIndex, 3, CUSTOM));
 
         final LinkedPrefabRegistry blockRegistry = Spoutcraft.getBlockPrefabRegistry();
         final MaterialPrefab testMaterial = new MaterialPrefab(this, "testMaterial", MapIndex.DIRT);
@@ -99,5 +101,13 @@ public final class InternalAddon extends Addon {
         blockRegistry.put(new MovingPrefab(this, "8w", "8 (White)", testMaterial, 0.5f, 1, 255, true));
         blockRegistry.put(new MovingPrefab(this, "9b", "9 (Black)", testMaterial, 0.5f, 1, 255, true));
         blockRegistry.put(new MovingPrefab(this, "9w", "9 (White)", testMaterial, 0.5f, 1, 255, true));
+    }
+
+    private int registerArmor(String name){
+        if (side.isClient()) {
+            Spoutcraft.getLogger().info("register armor");
+            return RenderingRegistry.addNewArmourRendererPrefix(name);
+        }
+        return 0;
     }
 }

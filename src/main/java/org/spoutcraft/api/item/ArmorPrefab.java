@@ -34,8 +34,6 @@ public class ArmorPrefab extends ItemPrefab {
 
     /**
      * armorType: 0 is helmet, 1 is plate, 2 is legs and 3 is boots
-     *
-     * renderIndex: 0 is cloth, 1 is chain, 2 is iron, 3 is diamond and 4 is gold.
      */
     public ArmorPrefab(Addon addon, String identifier, String displayName, boolean showInCreativeTab, int renderIndex, int armorType, EnumArmorMaterial armorMaterial) {
         super(addon, identifier, displayName, 1, showInCreativeTab);

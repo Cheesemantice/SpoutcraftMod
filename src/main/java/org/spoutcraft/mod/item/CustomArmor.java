@@ -23,9 +23,13 @@
  */
 package org.spoutcraft.mod.item;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemArmor;
+import net.minecraft.item.ItemStack;
+
 import org.spoutcraft.api.item.ArmorPrefab;
 import org.spoutcraft.mod.SpoutcraftMod;
+import org.spoutcraft.api.util.ItemUtil;
 
 public class CustomArmor extends ItemArmor {
     private final ArmorPrefab prefab;
@@ -41,7 +45,12 @@ public class CustomArmor extends ItemArmor {
             setCreativeTab(SpoutcraftMod.getCustomTabs());
         }
     }
-
+    
+    @Override
+    public String getArmorTexture(ItemStack stack, Entity entity, int slot, int layer){
+        return "spoutcraft:" + String.format("textures/models/armor/" + ItemUtil.getArmorName(prefab.getIdentifier(), prefab.getArmorType()) + "_layer_%d.png", Integer.valueOf(layer == 2 ? 2 : 1));
+    }
+    
     protected ArmorPrefab getPrefab() {
         return prefab;
     }

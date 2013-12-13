@@ -25,14 +25,12 @@ package org.spoutcraft.mod;
 
 import java.nio.ByteBuffer;
 
-import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.network.NetworkRegistry;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.*;
 import org.spoutcraft.api.Spoutcraft;
@@ -44,7 +42,6 @@ import org.spoutcraft.api.util.TextureUtil;
 import org.spoutcraft.mod.addon.ClientAddonManager;
 import org.spoutcraft.mod.addon.ServerAddonManager;
 import org.spoutcraft.mod.block.BlockPrefabRegistry;
-import org.spoutcraft.mod.entity.SpoutCraftPlayerRenderer;
 import org.spoutcraft.mod.handler.ClientTickHandlers;
 import org.spoutcraft.mod.item.ItemPrefabRegistry;
 import org.spoutcraft.mod.material.MaterialPrefabRegistry;
@@ -105,8 +102,6 @@ public class SpoutcraftMod {
                 //Setup addon manager
                 manager.loadAddons(ClientFileSystem.ADDONS_PATH);
                 ClientTickHandlers.start();
-
-                RenderingRegistry.registerEntityRenderingHandler(EntityPlayer.class, new SpoutCraftPlayerRenderer());//TODO: not sure where to place
                 break;
             case SERVER:
                 fileSystem = Spoutcraft.setFileSystem(new ServerFileSystem());
