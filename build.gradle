@@ -151,10 +151,10 @@ uploadArchives {
         // Tasks and variables based on if release or snapshot
         if (version.endsWith('-SNAPSHOT')) {
             // Set variable to snapshots repository URL
-            sonatypeUrl = 'https://oss.sonatype.org/content/repositories/snapshots'
+            ext.sonatypeUrl = 'https://oss.sonatype.org/content/repositories/snapshots'
         } else {
             // Set variable to releases repository URL
-            sonatypeUrl = 'https://oss.sonatype.org/service/local/staging/deploy/maven2'
+            ext.sonatypeUrl = 'https://oss.sonatype.org/service/local/staging/deploy/maven2'
 
             // Deployment signing
             signing {
