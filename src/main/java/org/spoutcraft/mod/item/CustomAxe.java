@@ -54,7 +54,7 @@ public class CustomAxe extends ItemAxe {
     @Override
     public boolean hitEntity(net.minecraft.item.ItemStack par1ItemStack, net.minecraft.entity.EntityLivingBase par2EntityLivingBase, net.minecraft.entity.EntityLivingBase par3EntityLivingBase) {
         super.hitEntity(par1ItemStack, par2EntityLivingBase, par3EntityLivingBase);
-        return hitEntity(par1ItemStack, par2EntityLivingBase, par3EntityLivingBase);
+        return prefab.hitEntity(par1ItemStack, par2EntityLivingBase, par3EntityLivingBase);
     }
 
     @Override
