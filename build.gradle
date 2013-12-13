@@ -1,11 +1,12 @@
 // Default tasks
-defaultTasks 'clean', 'build', 'licenseFormatMain'
+defaultTasks 'clean', 'build', 'licenseFormatMain', 'shadow'
 
 // Apply plugins
 apply plugin: 'cobertura'
 apply plugin: 'coveralls'
 apply plugin: 'forge'
 apply plugin: 'license'
+apply plugin: 'shadow'
 apply plugin: 'maven'
 apply plugin: 'signing'
 
@@ -54,10 +55,15 @@ buildscript {
             name = 'forge-repo'
             url = 'http://files.minecraftforge.net/maven'
         }
+        maven {
+            name = 'shadow-repo'
+            url = 'http://dl.bintray.com/content/johnrengelman/gradle-plugins'
+        }
     }
     dependencies {
         classpath 'net.minecraftforge.gradle:ForgeGradle:1.0-SNAPSHOT'
         classpath 'nl.javadude.gradle.plugins:license-gradle-plugin:0.6.0'
+        classpath 'org.gradle.plugins:shadow:0.7.4'
         classpath 'net.saliman:gradle-cobertura-plugin:2.0.0' // Coveralls plugin dependency
         classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:0.1.6'
     }
@@ -87,12 +93,9 @@ processResources {
 }
 
 // Include dependencies in final JAR
-jar {
-    from {
-        configurations.compile.collect {
-            zipTree(it) // TODO: Remove useless netty files from META-INF
-        }
-    }
+shadow {
+    artifactAttached = false
+    include 'io/netty/**'
 }
 
 // License header formatting

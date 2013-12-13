@@ -8,7 +8,7 @@
   "mcversion": "@mcversion@",
   "url": "@url@",
   "updateUrl": "",
-  "authors": [ @authors@ ],
+  "authors": [ "@authors@" ],
   "parent": "",
   "screenshots": [],
   "dependencies": [ "MinecraftForge" ]
