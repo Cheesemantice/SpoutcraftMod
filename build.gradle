@@ -1,5 +1,5 @@
 // Default tasks
-defaultTasks 'clean', 'build', 'licenseFormatMain', 'shadow'
+defaultTasks 'clean', 'build', 'licenseFormatMain', 'shadow', 'install'
 
 // Apply plugins
 apply plugin: 'cobertura'
