@@ -33,7 +33,6 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.network.packet.Packet;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.*;
 import org.spoutcraft.api.Spoutcraft;
@@ -50,7 +49,6 @@ import org.spoutcraft.mod.handler.ClientTickHandlers;
 import org.spoutcraft.mod.item.ItemPrefabRegistry;
 import org.spoutcraft.mod.material.MaterialPrefabRegistry;
 import org.spoutcraft.mod.protocol.SpoutcraftConnectionHandler;
-import org.spoutcraft.mod.protocol.SpoutcraftPacket;
 import org.spoutcraft.mod.protocol.codec.AddFileCodec;
 import org.spoutcraft.mod.protocol.codec.AddPrefabCodec;
 import org.spoutcraft.mod.protocol.codec.DownloadLinkCodec;
@@ -140,7 +138,6 @@ public class SpoutcraftMod {
     }
 
     private void bindCodecMessages() {
-        Packet.addIdClassMapping(251, true, true, SpoutcraftPacket.class);
         NetworkRegistry.instance().registerConnectionHandler(new SpoutcraftConnectionHandler());
         Protocol.register(AddPrefabMessage.class, AddPrefabCodec.class);
         Protocol.register(DownloadLinkMessage.class, DownloadLinkCodec.class);

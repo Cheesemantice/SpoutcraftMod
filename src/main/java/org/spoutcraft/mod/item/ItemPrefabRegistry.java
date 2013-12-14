@@ -39,8 +39,8 @@ import org.spoutcraft.api.item.ItemPrefab;
 import org.spoutcraft.api.item.PickaxePrefab;
 import org.spoutcraft.api.item.SpadePrefab;
 import org.spoutcraft.api.item.SwordPrefab;
+import org.spoutcraft.api.protocol.MessageDispatcher;
 import org.spoutcraft.api.util.LanguageUtil;
-import org.spoutcraft.mod.protocol.SpoutcraftPacket;
 import org.spoutcraft.mod.protocol.message.AddPrefabMessage;
 
 public class ItemPrefabRegistry implements LinkedPrefabRegistry<ItemPrefab, Item> {
@@ -122,7 +122,7 @@ public class ItemPrefabRegistry implements LinkedPrefabRegistry<ItemPrefab, Item
      */
     public void sync(final INetworkManager network) {
         for (ItemPrefab prefab : REGISTRY) {
-            network.addToSendQueue(new SpoutcraftPacket(new AddPrefabMessage(prefab)));
+            network.addToSendQueue(MessageDispatcher.create(new AddPrefabMessage(prefab)));
         }
     }
 }

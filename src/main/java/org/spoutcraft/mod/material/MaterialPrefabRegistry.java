@@ -31,7 +31,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.network.INetworkManager;
 import org.spoutcraft.api.LinkedPrefabRegistry;
 import org.spoutcraft.api.material.MaterialPrefab;
-import org.spoutcraft.mod.protocol.SpoutcraftPacket;
+import org.spoutcraft.api.protocol.MessageDispatcher;
 import org.spoutcraft.mod.protocol.message.AddPrefabMessage;
 
 public class MaterialPrefabRegistry implements LinkedPrefabRegistry<MaterialPrefab, Material> {
@@ -91,7 +91,7 @@ public class MaterialPrefabRegistry implements LinkedPrefabRegistry<MaterialPref
      */
     public void sync(final INetworkManager network) {
         for (MaterialPrefab prefab : REGISTRY) {
-            network.addToSendQueue(new SpoutcraftPacket(new AddPrefabMessage(prefab)));
+            network.addToSendQueue(MessageDispatcher.create(new AddPrefabMessage(prefab)));
         }
     }
 }

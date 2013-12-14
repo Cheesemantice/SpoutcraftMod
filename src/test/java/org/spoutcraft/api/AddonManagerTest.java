@@ -6,14 +6,13 @@ import org.junit.Test;
 import org.spoutcraft.api.logger.SpoutcraftLogger;
 import org.spoutcraft.mod.addon.ServerAddonManager;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertEquals;
 
 public class AddonManagerTest {
     @Test
     public void test() {
-        //TODO Lets see if this fixes travis...
         if (Spoutcraft.getLogger() == null) {
             Spoutcraft.setLogger(new SpoutcraftLogger(Logger.getLogger("Spoutcraft")));
         }
