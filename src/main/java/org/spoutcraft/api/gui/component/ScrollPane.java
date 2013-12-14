@@ -162,7 +162,6 @@ public class ScrollPane extends Container {
     public void mouseScroll(int btn, int x, int y, int amnt) {
         float mult = 0.2F;
         amnt = (int)(amnt * mult);
-        System.out.println("SCROLLWHEEL: " + amnt);
         this.setVertScroll(getVertScroll() - amnt);
     }
 
