@@ -30,8 +30,12 @@ import cpw.mods.fml.common.FMLLog;
 
 public class SpoutcraftLogger extends Logger {
     public SpoutcraftLogger() {
+        this(FMLLog.getLogger());
+    }
+
+    public SpoutcraftLogger(Logger parent) {
         super("Spoutcraft", null);
         setLevel(Level.ALL);
-        setParent(FMLLog.getLogger());
+        setParent(parent);
     }
 }

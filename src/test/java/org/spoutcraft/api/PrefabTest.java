@@ -1,0 +1,25 @@
+package org.spoutcraft.api;
+
+import java.util.logging.Logger;
+
+import cpw.mods.fml.relauncher.Side;
+import org.junit.Test;
+import org.spoutcraft.api.addon.Addon;
+import org.spoutcraft.api.addon.InternalAddon;
+import org.spoutcraft.api.block.BlockPrefab;
+import org.spoutcraft.api.logger.SpoutcraftLogger;
+import org.spoutcraft.api.material.MapIndex;
+import org.spoutcraft.api.material.MaterialPrefab;
+
+import static org.junit.Assert.assertNotEquals;
+
+public class PrefabTest {
+    @Test
+    public void test() {
+        Spoutcraft.setLogger(new SpoutcraftLogger(Logger.getLogger("test")));
+        final Addon addon = new InternalAddon(Side.CLIENT);
+        final MaterialPrefab mtest = new MaterialPrefab(addon, "test", MapIndex.DIRT);
+        final BlockPrefab test = new BlockPrefab(addon, "test", "test", mtest, 1f, 1, 1, true);
+        assertNotEquals(mtest, test);
+    }
+}

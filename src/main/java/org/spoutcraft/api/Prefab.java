@@ -55,7 +55,7 @@ public abstract class Prefab implements Serializable {
             return true;
         }
 
-        if (!(o instanceof Prefab)) {
+        if (o == null || getClass() != o.getClass()) {
             return false;
         }
 
