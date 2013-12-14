@@ -13,8 +13,14 @@ import static org.junit.Assert.assertEquals;
 public class AddonManagerTest {
     @Test
     public void test() {
-        Spoutcraft.setLogger(new SpoutcraftLogger(Logger.getLogger("Spoutcraft")));
-        final ServerAddonManager manager = (ServerAddonManager) Spoutcraft.setAddonManager(new ServerAddonManager());
+        //TODO Lets see if this fixes travis...
+        ServerAddonManager manager = (ServerAddonManager) Spoutcraft.getAddonManager();
+        if (manager == null) {
+            manager = (ServerAddonManager) Spoutcraft.setAddonManager(new ServerAddonManager());
+        }
+        if (Spoutcraft.getLogger() == null) {
+            Spoutcraft.setLogger(new SpoutcraftLogger(Logger.getLogger("Spoutcraft")));
+        }
         assertNotNull(manager.getAddon("spoutcraft"));
         assertNull(manager.getAddon("test"));
         assertEquals(manager.getAddon("spoutcraft"), manager.getInternalAddon());

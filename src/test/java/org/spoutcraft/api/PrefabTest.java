@@ -18,6 +18,13 @@ import static org.junit.Assert.assertNotEquals;
 public class PrefabTest {
     @Test
     public void test() {
+        //TODO Lets see if this fixes travis...
+        if (Spoutcraft.getAddonManager() == null) {
+            Spoutcraft.setAddonManager(new ServerAddonManager());
+        }
+        if (Spoutcraft.getLogger() == null) {
+            Spoutcraft.setLogger(new SpoutcraftLogger(Logger.getLogger("Spoutcraft")));
+        }
         final Addon addon = ((ServerAddonManager) Spoutcraft.getAddonManager()).getInternalAddon();
         final MaterialPrefab mtest = new MaterialPrefab(addon, "test", MapIndex.DIRT);
         final BlockPrefab test = new BlockPrefab(addon, "test", "test", mtest, 1f, 1, 1, true);
