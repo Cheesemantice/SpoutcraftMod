@@ -75,22 +75,27 @@ dependencies {
     testCompile 'junit:junit:4.8.1'
 }
 
-// Include resources in final JAR
+// Filter, process, and include resources
 import org.apache.tools.ant.filters.*
 processResources {
+    // Include in final JAR
     from(rootProject.rootDir) {
         include 'LICENSE.txt'
     }
-    filter ReplaceTokens, tokens: [
-        "modid": archivesBaseName,
-        "name": project.name,
-        "description": project.ext.description,
-        "version": version,
-        "buildNumber": buildNumber,
-        "mcversion": minecraftVersion,
-        "url": url,
-        "authors": organization
-    ]
+
+    // Filter info file variables
+    from('src/main/resources/mcmod.info') {
+        filter ReplaceTokens, tokens: [
+            "modid": archivesBaseName,
+            "name": project.name,
+            "description": project.ext.description,
+            "version": version,
+            "buildNumber": buildNumber,
+            "mcversion": minecraftVersion,
+            "url": url,
+            "authors": organization
+        ]
+    }
 }
 
 // Include dependencies in final JAR
@@ -102,7 +107,7 @@ shadow {
 // License header formatting
 import nl.javadude.gradle.plugins.license.License
 tasks.withType(License).each { licenseTask ->
-    licenseTask.exclude 'assets/**'
+    licenseTask.exclude 'src/main/resources/assets/**'
     licenseTask.exclude '**/*.info'
 }
 license {
