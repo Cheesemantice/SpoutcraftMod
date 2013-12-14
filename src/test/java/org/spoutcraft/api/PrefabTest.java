@@ -11,6 +11,7 @@ import org.spoutcraft.api.logger.SpoutcraftLogger;
 import org.spoutcraft.api.material.MapIndex;
 import org.spoutcraft.api.material.MaterialPrefab;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
 public class PrefabTest {
@@ -21,5 +22,6 @@ public class PrefabTest {
         final MaterialPrefab mtest = new MaterialPrefab(addon, "test", MapIndex.DIRT);
         final BlockPrefab test = new BlockPrefab(addon, "test", "test", mtest, 1f, 1, 1, true);
         assertNotEquals(mtest, test);
+        assertEquals(test.getAddonIdentifier(), addon.getDescription().getIdentifier());
     }
 }

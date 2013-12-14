@@ -24,8 +24,8 @@
 package org.spoutcraft.api.protocol;
 
 import java.lang.reflect.Constructor;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
+import java.util.HashMap;
+import java.util.Map;
 
 import cpw.mods.fml.common.network.NetworkRegistry;
 import org.spoutcraft.api.protocol.codec.Codec;
@@ -33,11 +33,11 @@ import org.spoutcraft.api.protocol.message.Message;
 
 public class Protocol {
     private static final MessagePacketHandler HANDLER;
-    private static final ConcurrentMap<Class<? extends Message>, Codec<?>> TABLE;
+    private static final Map<Class<? extends Message>, Codec<?>> TABLE;
 
     static {
         HANDLER = new MessagePacketHandler();
-        TABLE = new ConcurrentHashMap<>(5, 1.0f);
+        TABLE = new HashMap<>(5, 1.0f);
     }
 
     public static <T extends Message, C extends Codec<T>> void register(Class<T> clazz, Class<C> clazzz) {

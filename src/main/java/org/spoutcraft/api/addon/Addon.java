@@ -40,6 +40,9 @@ public abstract class Addon {
     protected Path dataPath, root;
     protected boolean enabled = false;
 
+    protected Addon() {
+    }
+
     public void onEnable() {
 
     }
