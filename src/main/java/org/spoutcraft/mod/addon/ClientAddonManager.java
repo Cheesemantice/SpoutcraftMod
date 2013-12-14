@@ -25,11 +25,11 @@ package org.spoutcraft.mod.addon;
 
 import cpw.mods.fml.relauncher.Side;
 import org.spoutcraft.api.addon.AddonLoader;
-import org.spoutcraft.api.addon.SpoutcraftAddon;
+import org.spoutcraft.api.addon.InternalAddon;
 
 //TODO Override parent methods and show GUI acceptance screens
 public class ClientAddonManager extends ServerAddonManager {
     public ClientAddonManager() {
-        super(new AddonLoader(Side.CLIENT), new SpoutcraftAddon(Side.CLIENT));
+        super(new AddonLoader(Side.CLIENT), new InternalAddon(Side.CLIENT));
     }
 }

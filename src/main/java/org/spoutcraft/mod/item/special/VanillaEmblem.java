@@ -27,13 +27,15 @@ import cpw.mods.fml.relauncher.Side;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+import org.spoutcraft.api.Spoutcraft;
 import org.spoutcraft.api.item.FoodPrefab;
+import org.spoutcraft.mod.addon.ServerAddonManager;
 
 public class VanillaEmblem extends FoodPrefab {
     private static final long serialVersionUID = -8370246450152726518L;
 
     public VanillaEmblem() {
-        super("vanilla_emblem", "Vanilla Emblem", 64, 5, 5, true, true);
+        super(((ServerAddonManager) Spoutcraft.getAddonManager()).getInternalAddon(), "vanilla_emblem", "Vanilla Emblem", 64, 5, 5, true, true);
     }
 
     @Override

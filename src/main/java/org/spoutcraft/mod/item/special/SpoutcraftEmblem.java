@@ -30,12 +30,13 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.Explosion;
 import org.spoutcraft.api.Spoutcraft;
 import org.spoutcraft.api.item.ItemPrefab;
+import org.spoutcraft.mod.addon.ServerAddonManager;
 
 public class SpoutcraftEmblem extends ItemPrefab {
     private static final long serialVersionUID = -8756295039828645516L;
 
     public SpoutcraftEmblem() {
-        super("spout_emblem", "Spoutcraft Emblem", 1, true);
+        super(((ServerAddonManager) Spoutcraft.getAddonManager()).getInternalAddon(), "spout_emblem", "Spoutcraft Emblem", 1, true);
     }
 
     @Override

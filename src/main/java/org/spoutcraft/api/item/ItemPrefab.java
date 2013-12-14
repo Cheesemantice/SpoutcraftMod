@@ -29,6 +29,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import org.spoutcraft.api.Prefab;
+import org.spoutcraft.api.addon.Addon;
 
 public class ItemPrefab extends Prefab {
     private static final long serialVersionUID = 1286537757382452478L;
@@ -36,8 +37,8 @@ public class ItemPrefab extends Prefab {
     private final int maxStackSize;
     private final boolean showInCreativeTab;
 
-    public ItemPrefab(String identifier, String displayName, int maxStackSize, boolean showInCreativeTab) {
-        super(identifier);
+    public ItemPrefab(Addon addon, String identifier, String displayName, int maxStackSize, boolean showInCreativeTab) {
+        super(addon, identifier);
         this.displayName = displayName;
         this.maxStackSize = maxStackSize;
         this.showInCreativeTab = showInCreativeTab;

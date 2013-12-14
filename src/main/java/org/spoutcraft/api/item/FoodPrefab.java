@@ -27,6 +27,7 @@ import cpw.mods.fml.relauncher.Side;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+import org.spoutcraft.api.addon.Addon;
 
 public class FoodPrefab extends ItemPrefab {
     private static final long serialVersionUID = -9141329006338569612L;
@@ -34,8 +35,8 @@ public class FoodPrefab extends ItemPrefab {
     private final int saturationModifier;
     private final boolean wolfFavorite;
 
-    public FoodPrefab(String identifier, String displayName, int maxStackSize, int healAmount, int saturationModifier, boolean wolfFavorite, boolean showInCreativeTab) {
-        super(identifier, displayName, maxStackSize, showInCreativeTab);
+    public FoodPrefab(Addon addon, String identifier, String displayName, int maxStackSize, int healAmount, int saturationModifier, boolean wolfFavorite, boolean showInCreativeTab) {
+        super(addon, identifier, displayName, maxStackSize, showInCreativeTab);
         this.healAmount = healAmount;
         this.saturationModifier = saturationModifier;
         this.wolfFavorite = wolfFavorite;

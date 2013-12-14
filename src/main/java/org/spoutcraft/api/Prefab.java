@@ -25,16 +25,24 @@ package org.spoutcraft.api;
 
 import java.io.Serializable;
 
+import org.spoutcraft.api.addon.Addon;
+
 /**
  * A Prefab is a descriptor, by extending this class and providing characteristics you can use it to build: <p/> - {@link net.minecraft.block.Block} - {@link net.minecraft.item.Item} - {@link
  * net.minecraft.block.material.Material} <p/> Prefabs are sent over the wire and constructed into real Minecraft classes.
  */
 public abstract class Prefab implements Serializable {
     private static final long serialVersionUID = 1L;
+    private final String addonIdentifier;
     private final String identifier;
 
-    public Prefab(String identifier) {
+    public Prefab(Addon addon, String identifier) {
+        this.addonIdentifier = addon.getDescription().getIdentifier();
         this.identifier = identifier;
+    }
+
+    public String getAddonIdentifier() {
+        return addonIdentifier;
     }
 
     public String getIdentifier() {
@@ -46,22 +54,21 @@ public abstract class Prefab implements Serializable {
         if (this == o) {
             return true;
         }
+
         if (!(o instanceof Prefab)) {
             return false;
         }
 
         final Prefab prefab = (Prefab) o;
 
-        if (!identifier.equals(prefab.identifier)) {
-            return false;
-        }
-
-        return true;
+        return addonIdentifier.equals(prefab.addonIdentifier) && identifier.equals(prefab.identifier);
     }
 
     @Override
     public int hashCode() {
-        return identifier.hashCode();
+        int result = addonIdentifier.hashCode();
+        result = 31 * result + identifier.hashCode();
+        return result;
     }
 
     @Override
@@ -70,6 +77,7 @@ public abstract class Prefab implements Serializable {
         final StringBuilder builder = new StringBuilder();
         builder
                 .append(getClass().getName() + " {" + NEW_LINE)
+                .append(" Addon Identifier: " + getAddonIdentifier() + NEW_LINE)
                 .append(" Identifier: " + getIdentifier() + NEW_LINE)
                 .append("}");
         return builder.toString();

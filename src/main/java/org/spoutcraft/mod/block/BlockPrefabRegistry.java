@@ -37,8 +37,8 @@ import org.spoutcraft.api.Spoutcraft;
 import org.spoutcraft.api.block.BlockPrefab;
 import org.spoutcraft.api.block.MovingPrefab;
 import org.spoutcraft.api.util.LanguageUtil;
-import org.spoutcraft.mod.addon.ServerAddonManager;
 import org.spoutcraft.mod.material.CustomMaterial;
+import org.spoutcraft.mod.material.MaterialPrefabRegistry;
 import org.spoutcraft.mod.protocol.SpoutcraftPacket;
 import org.spoutcraft.mod.protocol.message.AddPrefabMessage;
 
@@ -61,9 +61,9 @@ public class BlockPrefabRegistry implements LinkedPrefabRegistry<BlockPrefab, Bl
             throw new IllegalStateException("Attempt made to put null block prefab into registry!");
         }
 
-        CustomMaterial material = (CustomMaterial) Spoutcraft.getMaterialPrefabRegistry().find(prefab.getMaterialPrefab());
+        CustomMaterial material = (CustomMaterial) ((MaterialPrefabRegistry) Spoutcraft.getMaterialPrefabRegistry()).find(prefab.getMaterialPrefab());
         if (material == null) {
-            material = (CustomMaterial) Spoutcraft.getMaterialPrefabRegistry().create(prefab.getMaterialPrefab());
+            material = (CustomMaterial) ((MaterialPrefabRegistry) Spoutcraft.getMaterialPrefabRegistry()).create(prefab.getMaterialPrefab());
         }
 
         final int id = ID_START + ID_COUNTER.incrementAndGet();
@@ -119,7 +119,7 @@ public class BlockPrefabRegistry implements LinkedPrefabRegistry<BlockPrefab, Bl
      */
     public void sync(final INetworkManager network) {
         for (BlockPrefab prefab : REGISTRY) {
-            network.addToSendQueue(new SpoutcraftPacket(new AddPrefabMessage(((ServerAddonManager) Spoutcraft.getAddonManager()).getInternalAddon(), prefab)));
+            network.addToSendQueue(new SpoutcraftPacket(new AddPrefabMessage(prefab)));
         }
     }
 }

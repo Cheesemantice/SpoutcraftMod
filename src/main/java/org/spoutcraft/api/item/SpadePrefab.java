@@ -24,13 +24,14 @@
 package org.spoutcraft.api.item;
 
 import net.minecraft.item.EnumToolMaterial;
+import org.spoutcraft.api.addon.Addon;
 
 public class SpadePrefab extends ItemPrefab {
     private static final long serialVersionUID = 5437622550605046561L;
     private final EnumToolMaterial toolMaterial;
 
-    public SpadePrefab(String identifier, String displayName, int maxStackSize, boolean showInCreativeTab, EnumToolMaterial toolMaterial) {
-        super(identifier, displayName, maxStackSize, showInCreativeTab);
+    public SpadePrefab(Addon addon, String identifier, String displayName, int maxStackSize, boolean showInCreativeTab, EnumToolMaterial toolMaterial) {
+        super(addon, identifier, displayName, maxStackSize, showInCreativeTab);
         this.toolMaterial = toolMaterial;
     }
 

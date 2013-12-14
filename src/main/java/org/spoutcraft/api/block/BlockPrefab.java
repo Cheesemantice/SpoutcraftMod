@@ -23,14 +23,14 @@
  */
 package org.spoutcraft.api.block;
 
-import com.google.gson.Gson;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import org.spoutcraft.api.Prefab;
+import org.spoutcraft.api.addon.Addon;
 import org.spoutcraft.api.material.MaterialPrefab;
 
 public class BlockPrefab extends Prefab {
-    private static final long serialVersionUID = 2552797718795539253L;
+    private static final long serialVersionUID = 1L;
     private final String displayName;
     private final MaterialPrefab prefab;
     private final float hardness;
@@ -38,24 +38,14 @@ public class BlockPrefab extends Prefab {
     private final int light;
     private final int lightOpacity;
 
-    public BlockPrefab(String identifier, String displayName, MaterialPrefab prefab, float hardness, int light, int lightOpacity, boolean showInCreativeTab) {
-        super(identifier);
+    public BlockPrefab(Addon addon, String identifier, String displayName, MaterialPrefab prefab, float hardness, int light, int lightOpacity, boolean showInCreativeTab) {
+        super(addon, identifier);
         this.displayName = displayName;
         this.prefab = prefab;
         this.hardness = hardness;
         this.light = light;
         this.lightOpacity = lightOpacity;
         this.showInCreativeTab = showInCreativeTab;
-    }
-
-    public BlockPrefab(String identifier, Gson attribs) {
-        super(identifier);
-        this.displayName = attribs.fromJson("display-name", String.class);
-        this.prefab = null; //TODO FIX
-        this.hardness = attribs.fromJson("hardness", Float.class);
-        this.light = attribs.fromJson("light", Integer.class);
-        this.lightOpacity = attribs.fromJson("light-opacity", Integer.class);
-        this.showInCreativeTab = attribs.fromJson("show-in-creative", Boolean.class);
     }
 
     public String getDisplayName() {

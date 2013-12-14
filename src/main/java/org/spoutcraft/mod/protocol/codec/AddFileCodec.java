@@ -64,7 +64,7 @@ public class AddFileCodec implements Codec<AddFileMessage> {
         if (side.isClient()) {
             throw new IllegalStateException("Client is not allowed to send files!");
         }
-        final String addonIdentifier = message.getAddon().getDescription().getIdentifier();
+        final String addonIdentifier = message.getAddonIdentifier();
         final String fname = message.getFileName();
         final int part = message.getPart();
         final int partCount = message.getPartCount();

@@ -24,13 +24,14 @@
 package org.spoutcraft.api.item;
 
 import net.minecraft.item.EnumToolMaterial;
+import org.spoutcraft.api.addon.Addon;
 
 public class PickaxePrefab extends ItemPrefab {
     private static final long serialVersionUID = -6534031862597033948L;
     private final EnumToolMaterial toolMaterial;
 
-    public PickaxePrefab(String identifier, String displayName, int maxStackSize, boolean showInCreativeTab, EnumToolMaterial toolMaterial) {
-        super(identifier, displayName, maxStackSize, showInCreativeTab);
+    public PickaxePrefab(Addon addon, String identifier, String displayName, int maxStackSize, boolean showInCreativeTab, EnumToolMaterial toolMaterial) {
+        super(addon, identifier, displayName, maxStackSize, showInCreativeTab);
         this.toolMaterial = toolMaterial;
     }
 

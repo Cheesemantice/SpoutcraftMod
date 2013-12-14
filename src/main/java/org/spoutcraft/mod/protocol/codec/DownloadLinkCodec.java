@@ -64,7 +64,7 @@ public class DownloadLinkCodec implements Codec<DownloadLinkMessage> {
         if (side.isClient()) {
             throw new IllegalStateException("Client is not allowed to send links!");
         }
-        final String addonIdentifier = message.getAddon().getDescription().getIdentifier();
+        final String addonIdentifier = message.getAddonIdentifier();
         final URL url = message.getUrl();
         final byte[] data = SerializationUtils.serialize(url);
         final ByteBuf buffer = Unpooled.buffer();

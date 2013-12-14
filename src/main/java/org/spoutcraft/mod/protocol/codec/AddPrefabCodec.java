@@ -31,9 +31,7 @@ import io.netty.buffer.Unpooled;
 import org.apache.commons.lang3.SerializationUtils;
 import org.spoutcraft.api.Prefab;
 import org.spoutcraft.api.Spoutcraft;
-import org.spoutcraft.api.addon.Addon;
 import org.spoutcraft.api.protocol.codec.Codec;
-import org.spoutcraft.api.util.BufferUtil;
 import org.spoutcraft.mod.protocol.message.AddPrefabMessage;
 
 public class AddPrefabCodec implements Codec<AddPrefabMessage> {
@@ -47,15 +45,16 @@ public class AddPrefabCodec implements Codec<AddPrefabMessage> {
         if (side.isServer()) {
             throw new IllegalStateException("The server is not allowed to receive prefabs");
         }
-        final String addonIdentifier = BufferUtil.readUTF8(buffer);
-        //TODO Sanity check needed and here?
-        final Addon addon = Spoutcraft.getAddonManager().getAddon(addonIdentifier);
-        if (addon == null) {
-            return null;
-        }
+
         final byte[] data = new byte[buffer.readableBytes()];
         buffer.readBytes(data);
-        return new AddPrefabMessage(addon, (Prefab) SerializationUtils.deserialize(data));
+
+        final Prefab prefab = (Prefab) SerializationUtils.deserialize(data);
+        //TODO Sanity check needed and here?
+        if (Spoutcraft.getAddonManager().getAddon(prefab.getAddonIdentifier()) == null) {
+            return null;
+        }
+        return new AddPrefabMessage(prefab);
     }
 
     @Override
@@ -63,10 +62,8 @@ public class AddPrefabCodec implements Codec<AddPrefabMessage> {
         if (side.isClient()) {
             throw new IllegalStateException("The client is not allowed to send prefabs");
         }
-        final String addonIdentifier = message.getAddon().getDescription().getIdentifier();
         final byte[] data = SerializationUtils.serialize(message.getPrefab());
         final ByteBuf buffer = Unpooled.buffer();
-        BufferUtil.writeUTF8(buffer, addonIdentifier);
         buffer.writeBytes(data);
         return buffer;
     }

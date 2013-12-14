@@ -24,6 +24,7 @@
 package org.spoutcraft.api.item;
 
 import net.minecraft.item.EnumArmorMaterial;
+import org.spoutcraft.api.addon.Addon;
 
 public class ArmorPrefab extends ItemPrefab {
     private static final long serialVersionUID = 2689311857042870037L;
@@ -36,8 +37,8 @@ public class ArmorPrefab extends ItemPrefab {
      *
      * renderIndex: 0 is cloth, 1 is chain, 2 is iron, 3 is diamond and 4 is gold.
      */
-    public ArmorPrefab(String identifier, String displayName, boolean showInCreativeTab, int renderIndex, int armorType, EnumArmorMaterial armorMaterial) {
-        super(identifier, displayName, 1, showInCreativeTab);
+    public ArmorPrefab(Addon addon, String identifier, String displayName, boolean showInCreativeTab, int renderIndex, int armorType, EnumArmorMaterial armorMaterial) {
+        super(addon, identifier, displayName, 1, showInCreativeTab);
         this.armorMaterial = armorMaterial;
         this.renderIndex = renderIndex;
         this.armorType = armorType;

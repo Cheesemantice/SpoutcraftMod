@@ -37,7 +37,7 @@ import org.spoutcraft.api.Spoutcraft;
 import org.spoutcraft.api.addon.Addon;
 import org.spoutcraft.api.addon.AddonLoader;
 import org.spoutcraft.api.addon.AddonManager;
-import org.spoutcraft.api.addon.SpoutcraftAddon;
+import org.spoutcraft.api.addon.InternalAddon;
 import org.spoutcraft.api.exception.InvalidAddonException;
 import org.spoutcraft.api.exception.InvalidDescriptionException;
 
@@ -52,7 +52,7 @@ public class ServerAddonManager implements AddonManager {
     }
 
     public ServerAddonManager() {
-        this(new AddonLoader(Side.SERVER), new SpoutcraftAddon(Side.SERVER));
+        this(new AddonLoader(Side.SERVER), new InternalAddon(Side.SERVER));
     }
 
     @Override

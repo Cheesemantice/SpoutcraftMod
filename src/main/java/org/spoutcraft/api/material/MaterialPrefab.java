@@ -24,13 +24,14 @@
 package org.spoutcraft.api.material;
 
 import org.spoutcraft.api.Prefab;
+import org.spoutcraft.api.addon.Addon;
 
 public class MaterialPrefab extends Prefab {
-    private static final long serialVersionUID = -7713612413802147503L;
+    private static final long serialVersionUID = 1L;
     private final MapIndex index;
 
-    public MaterialPrefab(String identifier, MapIndex index) {
-        super(identifier);
+    public MaterialPrefab(Addon addon, String identifier, MapIndex index) {
+        super(addon, identifier);
         this.index = index;
     }
 
@@ -44,7 +45,7 @@ public class MaterialPrefab extends Prefab {
         final String parent = super.toString();
         final StringBuilder builder;
         if (parent.endsWith("}")) {
-            builder = new StringBuilder(parent.substring(0, parent.length() - 2) + NEW_LINE); //TODO CHECK THIS
+            builder = new StringBuilder(parent.substring(0, parent.length() - 2) + NEW_LINE);
             builder.insert(builder.indexOf("Identifier: " + super.getIdentifier()), " ");
             builder
                     .append("  Map Index: " + index.name() + NEW_LINE)

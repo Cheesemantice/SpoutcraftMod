@@ -39,41 +39,67 @@ import java.util.Map;
 
 import cpw.mods.fml.common.network.Player;
 import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.network.INetworkManager;
-import org.spoutcraft.api.Spoutcraft;
 import org.spoutcraft.api.addon.Addon;
-import org.spoutcraft.api.protocol.message.AddonMessage;
+import org.spoutcraft.api.protocol.message.Message;
 
-public class AddFileMessage extends AddonMessage {
+public class AddFileMessage implements Message {
+    @SideOnly (Side.CLIENT)
     private static Map<String, SplitFile> fileDataBuffer = new HashMap<String, SplitFile>();
-    //CLIENT
-    private String name;
+    private final String addonIdentifier;
+    private final String name;
+    @SideOnly (Side.CLIENT)
     private int filePart;
+    @SideOnly (Side.CLIENT)
     private int filePartCount;
+    @SideOnly (Side.CLIENT)
     private byte[] data;
+    @SideOnly (Side.SERVER)
+    private Path path;
 
+    @SideOnly (Side.SERVER)
+    public AddFileMessage(Addon addon, String name, Path path) {
+        this.addonIdentifier = addon.getDescription().getIdentifier();
+        this.name = name;
+        this.path = path;
+    }
+
+    @SideOnly (Side.CLIENT)
     public AddFileMessage(Addon addon, String name, int part, int partCount, byte[] data) {
-        super(addon);
+        this.addonIdentifier = addon.getDescription().getIdentifier();
         this.name = name;
         this.filePart = part;
         this.filePartCount = partCount;
         this.data = data;
     }
 
+    public String getAddonIdentifier() {
+        return addonIdentifier;
+    }
+
     public String getFileName() {
         return name;
     }
 
+    @SideOnly (Side.CLIENT)
     public int getPart() {
         return filePart;
     }
 
+    @SideOnly (Side.CLIENT)
     public int getPartCount() {
         return filePartCount;
     }
 
+    @SideOnly (Side.CLIENT)
     public byte[] getData() {
         return data;
+    }
+
+    @SideOnly (Side.SERVER)
+    public Path getPath() {
+        return path;
     }
 
     @Override
@@ -88,10 +114,8 @@ public class AddFileMessage extends AddonMessage {
         }
         split.addPart(filePart, data);
 
-        //TODO Pass off recieved files to resolver
-        //TODO For now, we'll use this to receive addons on the client
         if (split.fileComplete()) {
-            Spoutcraft.getLogger().info(name);
+            //TODO Pass to FileSystem
             final Path path = Paths.get("assets", name);
             FileOutputStream stream = null;
             try {
@@ -100,7 +124,6 @@ public class AddFileMessage extends AddonMessage {
                 }
                 Files.createFile(path);
                 stream = new FileOutputStream(path.toFile());
-                //stream.write(data);
                 split.write(stream);
             } catch (IOException e) {
                 e.printStackTrace();
