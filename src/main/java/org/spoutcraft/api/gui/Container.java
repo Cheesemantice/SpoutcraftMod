@@ -36,6 +36,7 @@ import org.spoutcraft.api.gui.event.key.KeyReleaseEvent;
 import org.spoutcraft.api.gui.event.mouse.MouseDownEvent;
 import org.spoutcraft.api.gui.event.mouse.MouseMoveEvent;
 import org.spoutcraft.api.gui.event.mouse.MouseUpEvent;
+import org.spoutcraft.api.gui.event.mouse.MouseScrollEvent;
 
 public class Container extends Component {
     private List<Component> components = new ArrayList<Component>();
@@ -46,7 +47,7 @@ public class Container extends Component {
         this.pushClip();
         GL11.glPushMatrix();
         GL11.glTranslatef(getX(), getY(), 0);
-        this.setClip(0, 0, getWidth(), getHeight());
+        this.setSubClip(0, 0, getWidth(), getHeight(), getX(), getY());
         this.fillRect(0, 0, getWidth(), getHeight(), getBackground());
         for (Component c : components) {
             if (c.isVisible()) {
@@ -136,6 +137,15 @@ public class Container extends Component {
         for (Component c : components) {
             if (c.receiveAllEvents() || c.containsPoint(x, y)) {
                 c.callEvent(new MouseMoveEvent(c, btn, x - c.getX(), y - c.getY()));
+            }
+        }
+    }
+
+    @Override
+    public void mouseScroll(int btn, int x, int y, int amnt) {
+        for (Component c : components) {
+            if (c.receiveAllEvents() || c.containsPoint(x, y)) {
+                c.callEvent(new MouseScrollEvent(c, btn, x - c.getX(), y - c.getY(), amnt));
             }
         }
     }

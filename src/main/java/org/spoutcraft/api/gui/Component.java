@@ -44,6 +44,7 @@ import org.spoutcraft.api.gui.event.key.KeyReleaseEvent;
 import org.spoutcraft.api.gui.event.mouse.MouseDownEvent;
 import org.spoutcraft.api.gui.event.mouse.MouseMoveEvent;
 import org.spoutcraft.api.gui.event.mouse.MouseUpEvent;
+import org.spoutcraft.api.gui.event.mouse.MouseScrollEvent;
 import org.spoutcraft.api.util.Color;
 import org.spoutcraft.api.util.RenderUtil;
 
@@ -214,6 +215,11 @@ public abstract class Component {
     }
 
     @EventHandler (priority = -1)
+    public void onMouseScroll(MouseScrollEvent e) {
+        mouseScroll(e.getButton(), e.getX(), e.getY(), e.getScrollAmnt());
+    }
+
+    @EventHandler (priority = -1)
     public void onKeyPress(KeyPressEvent e) {
         keyPress(e.getKey(), e.getCharacter());
     }
@@ -235,6 +241,10 @@ public abstract class Component {
 
     }
 
+    public void mouseScroll(int btn, int x, int y, int amnt) {
+
+    }
+
     public void keyPress(int key, char c) {
 
     }
@@ -246,6 +256,12 @@ public abstract class Component {
     public void setClip(int x, int y, int width, int height) {
         if (getGui() != null) {
             getGui().getRenderer().setClip(x, y, width, height);
+        }
+    }
+
+    public void setSubClip(int x, int y, int width, int height, int curTransX, int curTransY) {
+        if (getGui() != null) {
+            getGui().getRenderer().setSubClip(x, y, width, height, curTransX, curTransY);
         }
     }
 

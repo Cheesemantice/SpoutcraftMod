@@ -117,7 +117,7 @@ public class Frame extends Container {
         this.pushClip();
         GL11.glPushMatrix();
         GL11.glTranslatef(getX(), getY(), 0);
-        this.setClip(0, 0, getWidth(), getHeight());
+        this.setSubClip(0, 0, getWidth(), getHeight(), getX(), getY());
         //this.fillRect(0, 0, getWidth(), getHeight(), getBackground());
         this.fillRect(0, 0, getWidth(), getHeight(), Color.BLACK);
         this.fillRect(1, 1, getWidth() - 2, 10, titleBackColor);
@@ -129,5 +129,13 @@ public class Frame extends Container {
         }
         GL11.glPopMatrix();
         this.popClip();
+    }
+
+    public int getInnerWidth() {
+        return innerContainer.getWidth();
+    }
+
+    public int getInnerHeight() {
+        return innerContainer.getHeight();
     }
 }

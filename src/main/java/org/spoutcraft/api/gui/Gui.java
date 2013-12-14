@@ -32,6 +32,7 @@ import org.spoutcraft.api.gui.event.key.KeyReleaseEvent;
 import org.spoutcraft.api.gui.event.mouse.MouseDownEvent;
 import org.spoutcraft.api.gui.event.mouse.MouseMoveEvent;
 import org.spoutcraft.api.gui.event.mouse.MouseUpEvent;
+import org.spoutcraft.api.gui.event.mouse.MouseScrollEvent;
 import org.spoutcraft.api.gui.renderer.GuiRenderer;
 import org.spoutcraft.api.gui.renderer.GuiRendererDepth;
 
@@ -86,6 +87,7 @@ public class Gui extends GuiScreen {
         int x = Mouse.getEventX() * this.width / this.mc.displayWidth;
         int y = this.height - Mouse.getEventY() * this.height / this.mc.displayHeight - 1;
         int btn = Mouse.getEventButton();
+        int scroll = Mouse.getEventDWheel();
         if (Mouse.getEventButtonState()) {
             if (this.lastButton != -1) {
                 mouseClickMove(x, y, btn, System.currentTimeMillis() - this.clickTime);
@@ -103,6 +105,9 @@ public class Gui extends GuiScreen {
             } else {
                 mouseMovedOrUp(x, y, -1);
             }
+        }
+        if (scroll != 0) {
+            mouseScrolled(x, y, this.lastButton, scroll);
         }
     }
 
@@ -126,6 +131,10 @@ public class Gui extends GuiScreen {
         } else {
             root.callEvent(new MouseUpEvent(root, btn, x, y));
         }
+    }
+
+    protected void mouseScrolled(int x, int y, int btn, int amnt) {
+        root.callEvent(new MouseScrollEvent(root, btn, x, y, amnt));
     }
 
     @Override

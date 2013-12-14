@@ -33,6 +33,8 @@ public interface GuiRenderer {
 
     public void setClip(int x, int y, int width, int height);
 
+    public void setSubClip(int x, int y, int width, int height, int curTransX, int curTransY);
+
     public void clearClip();
 
     public void pushClip();

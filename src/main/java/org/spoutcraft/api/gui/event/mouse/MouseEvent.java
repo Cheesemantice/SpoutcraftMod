@@ -30,6 +30,7 @@ public class MouseEvent extends Event {
     public static final int MOUSE_DOWN = 0;
     public static final int MOUSE_UP = 1;
     public static final int MOUSE_MOVE = 2;
+    public static final int MOUSE_SCROLL = 3;
     private final int x, y, btn, type;
 
     public MouseEvent(Component source, int btn, int x, int y, int type) {
@@ -54,5 +55,9 @@ public class MouseEvent extends Event {
 
     public int getType() {
         return type;
+    }
+
+    public int getScrollAmnt() {
+        return 0;
     }
 }

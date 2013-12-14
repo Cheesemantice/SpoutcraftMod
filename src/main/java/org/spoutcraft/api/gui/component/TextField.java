@@ -51,7 +51,7 @@ public class TextField extends LabelBase {
         this.fillRect(x + 1, y + 1, width - 2, height - 2, this.getBackground());
 
         this.pushClip();
-        this.setClip(x + 2, y, getWidth() - 4, getHeight());
+        this.setSubClip(x + 2, y, getWidth() - 4, getHeight(), 0, 0);
 
         GL11.glPushMatrix();
 

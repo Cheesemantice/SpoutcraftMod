@@ -39,6 +39,16 @@ public abstract class AbstractGuiRenderer implements GuiRenderer {
     }
 
     @Override
+    public void setSubClip(int x, int y, int width, int height, int curTransX, int curTransY) {
+        int[] clip = getClip();
+        int x1 = Math.max(x, clip[0] - curTransX);
+        int y1 = Math.max(y, clip[1] - curTransY);
+        int x2 = Math.min(x + width, clip[0] - curTransX + clip[2]);
+        int y2 = Math.min(y + height, clip[1] - curTransY + clip[3]);
+        setClip(x1, y1, x2 - x1, y2 - y1);
+    }
+
+    @Override
     public void pushClip() {
         clipStack.push(Arrays.copyOf(curClip, curClip.length));
     }

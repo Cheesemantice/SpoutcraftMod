@@ -31,6 +31,8 @@ import org.spoutcraft.api.gui.component.Label;
 import org.spoutcraft.api.gui.component.RadioButton;
 import org.spoutcraft.api.gui.component.RadioGroup;
 import org.spoutcraft.api.gui.component.TextField;
+import org.spoutcraft.api.gui.component.ScrollPane;
+import org.spoutcraft.api.gui.Container;
 import org.spoutcraft.api.gui.event.ActionEvent;
 import org.spoutcraft.api.gui.event.EventHandler;
 import org.spoutcraft.api.util.Color;
@@ -106,16 +108,30 @@ public class SpoutcraftTestGui extends Gui {
 
         Frame testFrm = new Frame();
         testFrm.setWidth(200);
-        testFrm.setHeight(150);
+        testFrm.setHeight(75);
         testFrm.setX(width / 2 - 100);
         testFrm.setY(height / 2 - 70);
-        testFrm.addComponent(testBtn);
-        testFrm.addComponent(testField);
-        testFrm.addComponent(testBox);
+
+
+        Container scrllInner = new Container();
+
+        ScrollPane scrll = new ScrollPane(scrllInner);
+        scrll.setWidth(testFrm.getInnerWidth());
+        scrll.setHeight(testFrm.getInnerHeight());
+        scrll.setX(0);
+        scrll.setY(0);
+
+        scrllInner.setWidth(scrll.getInnerWidth());
+        scrllInner.setHeight(150);
+
+        scrllInner.addComponent(testBtn);
+        scrllInner.addComponent(testField);
+        scrllInner.addComponent(testBox);
         for (RadioButton btn : btns) {
-            testFrm.addComponent(btn);
+            scrllInner.addComponent(btn);
         }
 
+        testFrm.addComponent(scrll);
         add(testFrm);
 
         testBtn.addEventListeners(this);

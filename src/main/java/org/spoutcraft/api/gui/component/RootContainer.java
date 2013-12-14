@@ -24,7 +24,9 @@
 package org.spoutcraft.api.gui.component;
 
 import org.spoutcraft.api.gui.Container;
+import org.spoutcraft.api.gui.Component;
 import org.spoutcraft.api.gui.Gui;
+import org.lwjgl.opengl.GL11;
 
 public class RootContainer extends Container {
     public RootContainer(Gui gui) {
@@ -44,5 +46,21 @@ public class RootContainer extends Container {
 
     public boolean pausesGame() {
         return false;
+    }
+
+    @Override
+    public void render() {
+        this.pushClip();
+        GL11.glPushMatrix();
+        GL11.glTranslatef(getX(), getY(), 0);
+        this.setClip(0, 0, getWidth(), getHeight());
+        this.fillRect(0, 0, getWidth(), getHeight(), getBackground());
+        for (Component c : getComponents()) {
+            if (c.isVisible()) {
+                c.render();
+            }
+        }
+        GL11.glPopMatrix();
+        this.popClip();
     }
 }
