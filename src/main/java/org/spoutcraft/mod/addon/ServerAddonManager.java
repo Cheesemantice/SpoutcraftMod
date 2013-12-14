@@ -49,6 +49,7 @@ public class ServerAddonManager implements AddonManager {
     protected ServerAddonManager(AddonLoader loader, Addon internal) {
         this.loader = loader;
         this.internal = internal;
+        addons.add(internal);
     }
 
     public ServerAddonManager() {
@@ -86,8 +87,6 @@ public class ServerAddonManager implements AddonManager {
         if (!Files.isDirectory(path)) {
             throw new IllegalArgumentException("Path " + path + " is not a directory!");
         }
-
-        addons.add(internal);
 
         final DirectoryStream<Path> stream;
         try {
@@ -148,6 +147,7 @@ public class ServerAddonManager implements AddonManager {
     public void clear() {
         disable();
         addons.clear();
+        addons.add(internal);
     }
 
     //TODO Expose to API?
