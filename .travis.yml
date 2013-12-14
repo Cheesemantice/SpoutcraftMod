@@ -3,7 +3,7 @@ language: java
 jdk: oraclejdk7
 
 # Compile and package JAR and set build properties
-install: ./gradlew build -PbuildNumber=$TRAVIS_BUILD_NUMBER -PciSystem=travis -Pcommit=${TRAVIS_COMMIT:0:7} -PserviceJobId=$TRAVIS_JOB_ID
+install: ./gradlew setupDevWorkspace build -PbuildNumber=$TRAVIS_BUILD_NUMBER -PciSystem=travis -Pcommit=${TRAVIS_COMMIT:0:7} -PserviceJobId=$TRAVIS_JOB_ID
 
 after_success:
   # Generate Cobertura report for Coveralls.io
