@@ -62,10 +62,6 @@ public class PickaxePrefab extends ItemPrefab {
         return false;
     }
 
-    public com.google.common.collect.Multimap getItemAttributeModifiers() {
-        return null;
-    }
-
     public float getStrVsBlock(net.minecraft.item.ItemStack stack, net.minecraft.block.Block block, int meta) {
         return 1f;
     }

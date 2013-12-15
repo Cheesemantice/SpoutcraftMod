@@ -59,7 +59,8 @@ public class CustomSword extends ItemSword {
 
     @Override
     public boolean onBlockDestroyed(net.minecraft.item.ItemStack par1ItemStack, net.minecraft.world.World par2World, int par3, int par4, int par5, int par6, net.minecraft.entity.EntityLivingBase par7EntityLivingBase) {
-        return true;
+        super.onBlockDestroyed(par1ItemStack, par2World, par3, par4, par5, par6, par7EntityLivingBase);
+        return prefab.onBlockDestroyed(par1ItemStack, par2World, par3, par4, par5, par6, par7EntityLivingBase);
     }
 
     @Override
@@ -75,11 +76,6 @@ public class CustomSword extends ItemSword {
     @Override
     public boolean getIsRepairable(net.minecraft.item.ItemStack par1ItemStack, net.minecraft.item.ItemStack par2ItemStack) {
         return prefab.getIsRepairable(par1ItemStack, par2ItemStack);
-    }
-
-    @Override
-    public com.google.common.collect.Multimap getItemAttributeModifiers() {
-        return prefab.getItemAttributeModifiers();
     }
 
     public float getStrVsBlock(net.minecraft.item.ItemStack stack, net.minecraft.block.Block block, int meta) {
