@@ -27,7 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RadioGroup {
-    private List<RadioButton> buttons = new ArrayList<RadioButton>();
+    private List<RadioButton> buttons = new ArrayList<>();
     private RadioButton checkedButton;
 
     public RadioButton getCheckedButton() {

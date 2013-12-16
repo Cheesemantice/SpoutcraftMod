@@ -30,6 +30,7 @@ public class BufferGLGCObject extends GLGCObject {
         super(id);
     }
 
+    @Override
     public void delete() {
         GL15.glDeleteBuffers(getID());
     }

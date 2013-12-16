@@ -57,8 +57,8 @@ public abstract class Component {
     private Color background = Color.TRANSPARENT;
     private boolean visible = true;
     private Gui gui = null;
-    private List<EventListener> eventListeners = new ArrayList<EventListener>();
-    private ArrayDeque<Event> eventQueue = new ArrayDeque<Event>();
+    private List<EventListener> eventListeners = new ArrayList<>();
+    private ArrayDeque<Event> eventQueue = new ArrayDeque<>();
     private Container parent;
 
     {

@@ -63,6 +63,7 @@ public class SpoutcraftMainMenu extends GuiScreen {
         }
     }
 
+    @Override
     public void initGui() {
         addButtons();
     }
@@ -96,6 +97,7 @@ public class SpoutcraftMainMenu extends GuiScreen {
         buttonList.add(quitButton);
     }
 
+    @Override
     protected void actionPerformed(GuiButton button) {
         switch (button.id) {
             case 1: // Singleplayer

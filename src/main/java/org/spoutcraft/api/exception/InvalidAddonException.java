@@ -47,7 +47,7 @@ public class InvalidAddonException extends Exception {
     }
 
     @Override
-    public Throwable getCause() {
+    public synchronized Throwable getCause() {
         return cause;
     }
 

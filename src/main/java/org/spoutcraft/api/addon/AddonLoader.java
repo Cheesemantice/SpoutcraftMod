@@ -113,9 +113,7 @@ public class AddonLoader {
         }
 
         AddonDescription description;
-        JarFile jar = null;
-        try {
-            jar = new JarFile(path.toFile());
+        try(JarFile jar = new JarFile(path.toFile())){
             JarEntry entry = jar.getJarEntry(ADDON_JSON);
 
             if (entry == null) {
@@ -128,14 +126,6 @@ public class AddonLoader {
             description = gson.fromJson(new InputStreamReader(jar.getInputStream(entry)), AddonDescription.class);
         } catch (IOException e) {
             throw new InvalidAddonException(e);
-        } finally {
-            if (jar != null) {
-                try {
-                    jar.close();
-                } catch (IOException e) {
-                    Spoutcraft.getLogger().log(Level.WARNING, "Problem closing jar input stream", e);
-                }
-            }
         }
         return description;
     }

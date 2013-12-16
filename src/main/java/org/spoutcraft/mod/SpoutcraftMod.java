@@ -65,7 +65,6 @@ public class SpoutcraftMod {
     private static CustomTabs customTabs;
 
     @EventHandler
-    @SuppressWarnings ("unchecked")
     public void onInitialize(FMLInitializationEvent event) {
         // Setup logger
         Spoutcraft.setLogger(new SpoutcraftLogger());
@@ -100,7 +99,7 @@ public class SpoutcraftMod {
                 manager = Spoutcraft.setAddonManager(new ClientAddonManager());
 
                 //Setup addon manager
-                manager.loadAddons(ClientFileSystem.ADDONS_PATH);
+                manager.loadAddons(ServerFileSystem.ADDONS_PATH);
                 ClientTickHandlers.start();
                 break;
             case SERVER:

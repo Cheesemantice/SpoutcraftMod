@@ -30,6 +30,7 @@ public class TextureGLGCObject extends GLGCObject {
         super(id);
     }
 
+    @Override
     public void delete() {
         GL11.glDeleteTextures(getID());
     }

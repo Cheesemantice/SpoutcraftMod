@@ -43,7 +43,7 @@ public class InvalidDescriptionException extends Exception {
     }
 
     @Override
-    public Throwable getCause() {
+    public synchronized Throwable getCause() {
         return cause;
     }
 
