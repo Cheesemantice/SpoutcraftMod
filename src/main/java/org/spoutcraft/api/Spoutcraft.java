@@ -25,7 +25,7 @@ package org.spoutcraft.api;
 
 import org.spoutcraft.api.addon.AddonManager;
 import org.spoutcraft.api.block.BlockPrefab;
-import org.spoutcraft.api.enchantments.EnchantmentPrefab;
+import org.spoutcraft.api.enchantment.EnchantmentPrefab;
 import org.spoutcraft.api.item.ItemPrefab;
 import org.spoutcraft.api.logger.SpoutcraftLogger;
 import org.spoutcraft.api.material.MaterialPrefab;

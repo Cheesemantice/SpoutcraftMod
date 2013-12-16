@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.spoutcraft.mod.enchantments;
+package org.spoutcraft.mod.enchantment;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -32,7 +32,7 @@ import net.minecraft.enchantment.Enchantment;
 import net.minecraft.network.INetworkManager;
 
 import org.spoutcraft.api.LinkedPrefabRegistry;
-import org.spoutcraft.api.enchantments.EnchantmentPrefab;
+import org.spoutcraft.api.enchantment.EnchantmentPrefab;
 import org.spoutcraft.api.protocol.MessageDispatcher;
 import org.spoutcraft.api.util.LanguageUtil;
 import org.spoutcraft.mod.protocol.message.AddPrefabMessage;
@@ -53,7 +53,7 @@ public class EnchantmentPrefabRegistry implements LinkedPrefabRegistry<Enchantme
     @Override
     public Enchantment create(EnchantmentPrefab prefab) {
         if (prefab == null) {
-            throw new IllegalStateException("Attempt made to put null item prefab into registry!");
+            throw new IllegalStateException("Attempt made to put null enchantment prefab into registry!");
         }
 
         final int id = ID_START + ID_COUNTER.incrementAndGet();

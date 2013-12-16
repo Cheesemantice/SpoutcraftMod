@@ -42,6 +42,7 @@ import org.spoutcraft.api.util.TextureUtil;
 import org.spoutcraft.mod.addon.ClientAddonManager;
 import org.spoutcraft.mod.addon.ServerAddonManager;
 import org.spoutcraft.mod.block.BlockPrefabRegistry;
+import org.spoutcraft.mod.enchantment.EnchantmentPrefabRegistry;
 import org.spoutcraft.mod.handler.ClientTickHandlers;
 import org.spoutcraft.mod.item.ItemPrefabRegistry;
 import org.spoutcraft.mod.material.MaterialPrefabRegistry;
@@ -123,8 +124,10 @@ public class SpoutcraftMod {
 
         // Setup registries
         Spoutcraft.setBlockRegistry(new BlockPrefabRegistry());
+        Spoutcraft.setEnchantmentPrefabRegistry(new EnchantmentPrefabRegistry());
         Spoutcraft.setItemPrefabRegistry(new ItemPrefabRegistry());
         Spoutcraft.setMaterialRegistry(new MaterialPrefabRegistry());
+
         // Setup creative tab
         customTabs = new CustomTabs();
 

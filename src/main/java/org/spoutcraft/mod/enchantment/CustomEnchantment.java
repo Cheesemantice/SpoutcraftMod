@@ -1,6 +1,6 @@
-package org.spoutcraft.mod.enchantments;
+package org.spoutcraft.mod.enchantment;
 
-import org.spoutcraft.api.enchantments.EnchantmentPrefab;
+import org.spoutcraft.api.enchantment.EnchantmentPrefab;
 
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.item.ItemStack;

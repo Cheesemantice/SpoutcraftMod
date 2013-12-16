@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.spoutcraft.api.enchantments;
+package org.spoutcraft.api.enchantment;
 
 import net.minecraft.enchantment.EnumEnchantmentType;
 
