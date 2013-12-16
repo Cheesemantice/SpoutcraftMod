@@ -23,11 +23,16 @@
  */
 package org.spoutcraft.api.addon;
 
+import java.util.EnumSet;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.client.registry.KeyBindingRegistry;
+import cpw.mods.fml.common.TickType;
+import net.minecraft.client.Minecraft;
 import net.minecraft.item.EnumArmorMaterial;
 import net.minecraft.item.EnumToolMaterial;
 import net.minecraftforge.common.EnumHelper;
+import net.minecraft.client.settings.KeyBinding;
 import org.spoutcraft.api.LinkedPrefabRegistry;
 import org.spoutcraft.api.Spoutcraft;
 import org.spoutcraft.api.block.MovingPrefab;
@@ -40,6 +45,8 @@ import org.spoutcraft.api.material.MapIndex;
 import org.spoutcraft.api.material.MaterialPrefab;
 import org.spoutcraft.mod.item.special.SpoutcraftEmblem;
 import org.spoutcraft.mod.item.special.VanillaEmblem;
+import org.spoutcraft.mod.gui.builtin.SpoutcraftTestGui;
+import org.lwjgl.input.*;
 
 @SuppressWarnings ("unchecked")
 public final class InternalAddon extends Addon {
@@ -101,6 +108,35 @@ public final class InternalAddon extends Addon {
         blockRegistry.put(new MovingPrefab(this, "8w", "8 (White)", testMaterial, 0.5f, 1, 255, true));
         blockRegistry.put(new MovingPrefab(this, "9b", "9 (Black)", testMaterial, 0.5f, 1, 255, true));
         blockRegistry.put(new MovingPrefab(this, "9w", "9 (White)", testMaterial, 0.5f, 1, 255, true));
+
+        if (side.isClient()) {
+            KeyBinding guiBind = new KeyBinding("SpoutGuiBind", Keyboard.KEY_U);
+
+            KeyBindingRegistry.registerKeyBinding(new KeyBindingRegistry.KeyHandler(new KeyBinding[] {guiBind}, new boolean[] {false}) {
+                private EnumSet<TickType> ticks = EnumSet.of(TickType.CLIENT);
+
+                @Override
+                public String getLabel() {
+                    return "Spoutcraft Key Handler";
+                }
+
+                @Override
+                public void keyDown(EnumSet<TickType> types, KeyBinding kb, boolean tickEnd, boolean isRepeat) {
+                }
+
+                @Override
+                public void keyUp(EnumSet<TickType> types, KeyBinding kb, boolean tickEnd) {
+                    if (kb.keyDescription.equals("SpoutGuiBind") && Minecraft.getMinecraft().currentScreen == null) {
+                        Minecraft.getMinecraft().displayGuiScreen(new SpoutcraftTestGui());
+                    }
+                }
+
+                @Override
+                public EnumSet<TickType> ticks() {
+                    return ticks;
+                }
+            });
+        }
     }
 
     private int registerArmor(String name){

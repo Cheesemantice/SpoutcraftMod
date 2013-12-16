@@ -23,7 +23,6 @@
  */
 package org.spoutcraft.api.resource;
 
-import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
@@ -34,7 +33,10 @@ import java.awt.image.DataBufferInt;
 import java.nio.FloatBuffer;
 import java.util.Arrays;
 
+import org.spoutcraft.api.util.Color;
 import org.spoutcraft.api.gl.Texture;
+import org.spoutcraft.api.gl.ArrayBuffer;
+import org.spoutcraft.api.gl.BufferAccess;
 import org.spoutcraft.api.util.RenderUtil;
 import org.spoutcraft.api.util.TextureUtil;
 
@@ -42,11 +44,34 @@ import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL15.*;
 
 public class CustomFont {
-    private static final int FONT_VBO = glGenBuffers();
+
+    //Matches up to the color codes found here http://minecraft.gamepedia.com/Formatting_codes
+    public static final Color[] DEFAULT_COLOR_PALETTE = new Color[] {
+        new Color(0x000000),
+        new Color(0x0000AA),
+        new Color(0x00AA00),
+        new Color(0x00AAAA),
+        new Color(0xAA0000),
+        new Color(0xAA00AA),
+        new Color(0xFFAA00),
+        new Color(0xAAAAAA),
+        new Color(0x555555),
+        new Color(0x5555FF),
+        new Color(0x55FF55),
+        new Color(0x55FFFF),
+        new Color(0xFF5555),
+        new Color(0xFF55FF),
+        new Color(0xFFFF55),
+        new Color(0xFFFFFF)
+    };
+
+    private static final ArrayBuffer FONT_VBO = new ArrayBuffer();
     //x,y,u,b
-    private static final int FONT_STRIDE = (2 + 2) * 4;
+    private static final int FONT_STRIDE = (2 + 2 + 4) * 4;
     private static final int FONT_VERT_OFF = 0;
     private static final int FONT_UV_OFF = 2 * 4;
+    private static final int FONT_COLOR_OFF = (2 + 2) * 4;
+
     public final int fontSize;
     private int descent;
     private int fontHeight;
@@ -57,6 +82,7 @@ public class CustomFont {
     private int green = 0xFF;
     private int blue = 0xFF;
     private int alpha = 0xFF;
+    private Color[] palette = DEFAULT_COLOR_PALETTE;
 
     /**
      * Creates a new font based on the awt Font object. <br>Will generate font map based on font's current size so resize it to the desired font size before font creation
@@ -99,7 +125,7 @@ public class CustomFont {
         Arrays.fill(imgRGB, 0xFFFFFF);
 
         Graphics2D g2d = fontImg.createGraphics();
-        g2d.setColor(Color.WHITE);
+        g2d.setColor(java.awt.Color.WHITE);
         g2d.setFont(fnt);
         g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_GASP);
         for (int i = 0; i < 256; i++) {
@@ -110,6 +136,13 @@ public class CustomFont {
         }
         g2d.dispose();
         this.fontTexture = new Texture(fontImg);
+    }
+
+    public void setColorPalette(Color[] colors) {
+        if(colors.length < 16) {
+            throw new IllegalArgumentException("Palette must contain 16 colors");
+        }
+        this.palette = colors;
     }
 
     /**
@@ -157,7 +190,7 @@ public class CustomFont {
      *
      * @param color Color to use
      */
-    public void setColor(org.spoutcraft.api.util.Color color) {
+    public void setColor(Color color) {
         setColor(color.getR(), color.getG(), color.getB(), color.getA());
     }
 
@@ -197,17 +230,48 @@ public class CustomFont {
         glEnable(GL_TEXTURE_2D);
         glEnable(GL_BLEND);
         glDisable(GL_ALPHA_TEST);
-        glColor4f(red / 255F, green / 255F, blue / 255F, alpha / 255F);
+        float r = red / 255F, g = green / 255F, b = blue / 255F, a = alpha / 255F;
 
         this.fontTexture.bind();
-        glBindBuffer(GL_ARRAY_BUFFER, FONT_VBO);
-        glBufferData(GL_ARRAY_BUFFER, FONT_STRIDE * len * 4, GL_STREAM_DRAW);
-        FloatBuffer data = RenderUtil.mapBufferWriteUnsync(GL_ARRAY_BUFFER, FONT_STRIDE * len * 4, null).asFloatBuffer();
+        FONT_VBO.bind();
+        ArrayBuffer.orphan(FONT_STRIDE * len * 4);
+        FloatBuffer data = ArrayBuffer.mapUnsync(FONT_STRIDE * len * 4, BufferAccess.WRITE).asFloatBuffer();
 
         int charsDrawn = 0;
         float translateX = x;
         for (int i = 0; i < len; i++) {
             char c = str.charAt(i);
+
+            if (c == TextFormat.CONTROL) {
+                char nxt = str.charAt(++i);
+                int colorLoc = "0123456789abcdef".indexOf(Character.toLowerCase(nxt));
+                if (colorLoc != -1) {
+                    Color paletteColor = palette[colorLoc];
+                    r = paletteColor.getRF();
+                    g = paletteColor.getGF();
+                    b = paletteColor.getBF();
+                    a = paletteColor.getAF();
+                } else if (nxt == 'r') {
+                    r = red / 255F;
+                    g = green / 255F;
+                    b = blue / 255F;
+                    a = alpha / 255F;
+                } else if (nxt == '#') {
+                    try {
+                        String hex = str.substring(i + 1, i + 7);
+                        i += 6;
+                        Color col = new Color(Integer.parseInt(hex, 16));
+                        r = col.getRF();
+                        g = col.getGF();
+                        b = col.getBF();
+                        a = col.getAF();
+                    } catch (IndexOutOfBoundsException e) {
+                        throw new IllegalArgumentException("True-Color definitions must have 6 characters (ex: #FFFFFF)");
+                    }
+                }
+                continue;
+            }
+
             FontChar fchar = charMap[c];
             float width = getWidth(c);
             if (width == 0) {
@@ -222,25 +286,28 @@ public class CustomFont {
             float cy = fchar.posY * scale + y;
 
             data.put(new float[] {
-                    cx, cy, u0, v0,
-                    cx, cy + height, u0, v1,
-                    cx + width, cy + height, u1, v1,
-                    cx + width, cy, u1, v0
+                    cx,         cy,          u0, v0, r, g, b, a,
+                    cx,         cy + height, u0, v1, r, g, b, a,
+                    cx + width, cy + height, u1, v1, r, g, b, a,
+                    cx + width, cy,          u1, v0, r, g, b, a
             });
             translateX += width;
         }
-        glUnmapBuffer(GL_ARRAY_BUFFER);
+        ArrayBuffer.unmap();
         glEnableClientState(GL_VERTEX_ARRAY);
         glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+        glEnableClientState(GL_COLOR_ARRAY);
 
         glVertexPointer(2, GL_FLOAT, FONT_STRIDE, FONT_VERT_OFF);
         glTexCoordPointer(2, GL_FLOAT, FONT_STRIDE, FONT_UV_OFF);
+        glColorPointer(4, GL_FLOAT, FONT_STRIDE, FONT_COLOR_OFF);
         glDrawArrays(GL_QUADS, 0, charsDrawn * 4);
 
         glDisableClientState(GL_VERTEX_ARRAY);
         glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+        glDisableClientState(GL_COLOR_ARRAY);
 
-        glBindBuffer(GL_ARRAY_BUFFER, 0);
+        FONT_VBO.unbind();
         glPopAttrib();
     }
 
@@ -277,7 +344,15 @@ public class CustomFont {
         int len = str.length();
         float width = 0;
         for (int i = 0; i < len; i++) {
-            width += getWidth(str.charAt(i));
+            char c = str.charAt(i);
+            if (c == TextFormat.CONTROL) {
+                char nxt = str.charAt(++i);
+                if (nxt == '#') {
+                    i += 6;
+                }
+                continue;
+            }
+            width += getWidth(c);
         }
         return width;
     }

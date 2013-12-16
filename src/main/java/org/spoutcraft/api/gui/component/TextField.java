@@ -109,7 +109,6 @@ public class TextField extends LabelBase {
         } else if (ChatAllowedCharacters.isAllowedCharacter(c)) {
             this.setText(this.getText() + c);
         }
-        System.out.println("CHAR: " + c);
     }
 
     public void keyRelease(int key, char c) {

@@ -36,6 +36,7 @@ import org.spoutcraft.api.gui.Container;
 import org.spoutcraft.api.gui.event.ActionEvent;
 import org.spoutcraft.api.gui.event.EventHandler;
 import org.spoutcraft.api.util.Color;
+import org.spoutcraft.api.resource.TextFormat;
 
 public class SpoutcraftTestGui extends Gui {
     private Button testBtn = new Button("Test Button");
@@ -74,7 +75,7 @@ public class SpoutcraftTestGui extends Gui {
     public void initGui() {
         super.initGui();
         this.getRoot().setBackground(new Color(0F, 0F, 0F, 0.4F));
-        Label testLbl = new Label("Test Label");
+        Label testLbl = new Label(TextFormat.DARK_RED + "Test" + TextFormat.RGB + "00c0ff Label");
         testLbl.setX(width / 2 - testLbl.getWidth() / 2);
         testLbl.setY(height / 2 - 85);
         add(testLbl);

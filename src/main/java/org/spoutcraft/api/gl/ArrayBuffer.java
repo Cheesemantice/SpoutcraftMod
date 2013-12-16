@@ -90,14 +90,18 @@ public class ArrayBuffer extends GLObject {
         return map(length, access, null);
     }
 
-    public ByteBuffer mapUnsync(int length, BufferAccess access, ByteBuffer prevBuffer) {
+    public static ByteBuffer mapUnsync(int length, BufferAccess access, ByteBuffer prevBuffer) {
         if (!RenderUtil.GL_30) {
             return map(length, access, prevBuffer);
         }
         return glMapBufferRange(GL_ARRAY_BUFFER, 0, length, access.getGL30Enum() | GL_MAP_UNSYNCHRONIZED_BIT, prevBuffer);
     }
 
-    public ByteBuffer mapUnsync(int length, BufferAccess access) {
+    public static ByteBuffer mapUnsync(int length, BufferAccess access) {
         return mapUnsync(length, access, null);
+    }
+
+    public static void unmap() {
+        glUnmapBuffer(GL_ARRAY_BUFFER);
     }
 }
