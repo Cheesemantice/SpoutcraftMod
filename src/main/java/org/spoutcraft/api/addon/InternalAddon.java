@@ -24,6 +24,7 @@
 package org.spoutcraft.api.addon;
 
 import java.util.EnumSet;
+
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.client.registry.KeyBindingRegistry;
@@ -33,9 +34,12 @@ import net.minecraft.item.EnumArmorMaterial;
 import net.minecraft.item.EnumToolMaterial;
 import net.minecraftforge.common.EnumHelper;
 import net.minecraft.client.settings.KeyBinding;
+import net.minecraft.enchantment.EnumEnchantmentType;
+
 import org.spoutcraft.api.LinkedPrefabRegistry;
 import org.spoutcraft.api.Spoutcraft;
 import org.spoutcraft.api.block.MovingPrefab;
+import org.spoutcraft.api.enchantments.EnchantmentPrefab;
 import org.spoutcraft.api.item.ArmorPrefab;
 import org.spoutcraft.api.item.AxePrefab;
 import org.spoutcraft.api.item.PickaxePrefab;
@@ -83,6 +87,12 @@ public final class InternalAddon extends Addon {
         itemRegistry.put(new ArmorPrefab(this, "custom_chestplate", "Custom Chestplate", true, renderIndex, 1, CUSTOM));
         itemRegistry.put(new ArmorPrefab(this, "custom_leggings", "Custom Leggings", true, renderIndex, 2, CUSTOM));
         itemRegistry.put(new ArmorPrefab(this, "custom_boots", "Custom Boots", true, renderIndex, 3, CUSTOM));
+
+         //----------------------------Custom Enchantments-------------------------------
+        final LinkedPrefabRegistry enchantmentRegistry = Spoutcraft.getEnchantmentPrefabRegistry();
+        EnumEnchantmentType customEnchantment = EnumHelper.addEnchantmentType("CUSTOM");
+
+        enchantmentRegistry.put(new EnchantmentPrefab(this, "testEnchantment", "Test Enchantment", 1, customEnchantment));
 
         final LinkedPrefabRegistry blockRegistry = Spoutcraft.getBlockPrefabRegistry();
         final MaterialPrefab testMaterial = new MaterialPrefab(this, "testMaterial", MapIndex.DIRT);
