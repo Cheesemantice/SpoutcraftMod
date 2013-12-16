@@ -27,7 +27,7 @@ import java.util.ArrayDeque;
 import java.util.Arrays;
 
 public abstract class AbstractGuiRenderer implements GuiRenderer {
-    private ArrayDeque<int[]> clipStack = new ArrayDeque<int[]>();
+    private ArrayDeque<int[]> clipStack = new ArrayDeque<>();
     private int[] curClip = new int[4];
 
     @Override

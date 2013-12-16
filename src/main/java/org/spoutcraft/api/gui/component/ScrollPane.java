@@ -24,8 +24,6 @@
  */
 package org.spoutcraft.api.gui.component;
 
-import java.util.List;
-
 import org.spoutcraft.api.gui.Container;
 import org.spoutcraft.api.gui.Component;
 import org.spoutcraft.api.util.Color;

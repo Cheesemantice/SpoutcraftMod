@@ -25,6 +25,7 @@ package org.spoutcraft.api;
 
 import org.spoutcraft.api.addon.AddonManager;
 import org.spoutcraft.api.block.BlockPrefab;
+import org.spoutcraft.api.enchantments.EnchantmentPrefab;
 import org.spoutcraft.api.item.ItemPrefab;
 import org.spoutcraft.api.logger.SpoutcraftLogger;
 import org.spoutcraft.api.material.MaterialPrefab;
@@ -39,6 +40,7 @@ public final class Spoutcraft {
     private static LinkedPrefabRegistry<? extends BlockPrefab, ?> blockPrefabRegistry;
     private static LinkedPrefabRegistry<? extends ItemPrefab, ?> itemPrefabRegistry;
     private static LinkedPrefabRegistry<? extends MaterialPrefab, ?> materialPrefabRegistry;
+    private static LinkedPrefabRegistry<? extends EnchantmentPrefab, ?> enchantmentPrefabRegistry;
     private static FileSystem fileSystem;
 
     public static SpoutcraftLogger getLogger() {
@@ -59,6 +61,10 @@ public final class Spoutcraft {
 
     public static LinkedPrefabRegistry<? extends MaterialPrefab, ?> getMaterialPrefabRegistry() {
         return materialPrefabRegistry;
+    }
+
+    public static LinkedPrefabRegistry<? extends EnchantmentPrefab, ?> getEnchantmentPrefabRegistry() {
+        return enchantmentPrefabRegistry;
     }
 
     public static FileSystem getFileSystem() {
@@ -115,6 +121,17 @@ public final class Spoutcraft {
         }
         Spoutcraft.materialPrefabRegistry = materialPrefabRegistry;
         return materialPrefabRegistry;
+    }
+
+    public static LinkedPrefabRegistry<? extends EnchantmentPrefab, ?> setEnchantmentPrefabRegistry(LinkedPrefabRegistry<? extends EnchantmentPrefab, ?> enchantmentPrefabRegistry) {
+        if (Spoutcraft.enchantmentPrefabRegistry != null) {
+            throw new IllegalStateException("Attempt to assign enchantment prefab registry twice!");
+        }
+        if (enchantmentPrefabRegistry == null) {
+            throw new IllegalStateException("Attempt to assign a null enchantment prefab registry!");
+        }
+        Spoutcraft.enchantmentPrefabRegistry = enchantmentPrefabRegistry;
+        return enchantmentPrefabRegistry;
     }
 
     public static FileSystem setFileSystem(FileSystem fileSystem) {

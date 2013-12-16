@@ -96,18 +96,22 @@ public class Frame extends Container {
         innerContainer.setHeight(height - 13);
     }
 
+    @Override
     public void addComponent(Component c) {
         innerContainer.addComponent(c);
     }
 
+    @Override
     public void removeComponent(Component c) {
         innerContainer.addComponent(c);
     }
 
+    @Override
     public void clearComponents() {
         innerContainer.clearComponents();
     }
 
+    @Override
     public List<Component> getComponents() {
         return innerContainer.getComponents();
     }

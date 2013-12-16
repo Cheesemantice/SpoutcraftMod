@@ -46,7 +46,7 @@ import org.spoutcraft.api.protocol.message.Message;
 
 public class AddFileMessage implements Message {
     @SideOnly (Side.CLIENT)
-    private static Map<String, SplitFile> fileDataBuffer = new HashMap<String, SplitFile>();
+    private static Map<String, SplitFile> fileDataBuffer = new HashMap<>();
     private final String addonIdentifier;
     private final String name;
     @SideOnly (Side.CLIENT)
@@ -117,24 +117,15 @@ public class AddFileMessage implements Message {
         if (split.fileComplete()) {
             //TODO Pass to FileSystem
             final Path path = Paths.get("assets", name);
-            FileOutputStream stream = null;
-            try {
+            try(FileOutputStream stream  = new FileOutputStream(path.toFile())){
                 if (Files.exists(path)) {
                     Files.delete(path);
                 }
                 Files.createFile(path);
-                stream = new FileOutputStream(path.toFile());
                 split.write(stream);
             } catch (IOException e) {
                 e.printStackTrace();
             } finally {
-                if (stream != null) {
-                    try {
-                        stream.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
                 fileDataBuffer.remove(name);
             }
         }
@@ -170,7 +161,7 @@ public class AddFileMessage implements Message {
         //Leave room for other packet related data
         ByteBuffer readBuff = ByteBuffer.allocate(32000);
         ReadableByteChannel channel = Files.newByteChannel(path, StandardOpenOption.READ);
-        List<AddFileMessage> messages = new ArrayList<AddFileMessage>();
+        List<AddFileMessage> messages = new ArrayList<>();
         int amnt;
         int part = 0;
         String name = path.getFileName().toString();

@@ -37,11 +37,9 @@ import org.spoutcraft.api.util.Color;
 import org.spoutcraft.api.gl.Texture;
 import org.spoutcraft.api.gl.ArrayBuffer;
 import org.spoutcraft.api.gl.BufferAccess;
-import org.spoutcraft.api.util.RenderUtil;
 import org.spoutcraft.api.util.TextureUtil;
 
 import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.opengl.GL15.*;
 
 public class CustomFont {
 

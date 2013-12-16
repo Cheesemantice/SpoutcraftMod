@@ -100,6 +100,7 @@ public class TextField extends LabelBase {
         return (int) (this.getFont().getSize() + 4);
     }
 
+    @Override
     public void keyPress(int key, char c) {
         if (key == Keyboard.KEY_BACK) {
             int curLen = this.getText().length();
@@ -111,6 +112,7 @@ public class TextField extends LabelBase {
         }
     }
 
+    @Override
     public void keyRelease(int key, char c) {
 
     }

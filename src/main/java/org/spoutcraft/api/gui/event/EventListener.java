@@ -77,7 +77,7 @@ public class EventListener implements Comparable<EventListener> {
     public static List<Method> getHandlers(Object o) {
         Class<?> clazz = o.getClass();
         Method[] methods = clazz.getMethods();
-        List<Method> handlers = new ArrayList<Method>();
+        List<Method> handlers = new ArrayList<>();
         for (Method m : methods) {
             EventHandler h = m.getAnnotation(EventHandler.class);
             if (h != null && m.getParameterTypes().length == 1) {

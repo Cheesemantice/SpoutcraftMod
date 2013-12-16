@@ -39,7 +39,7 @@ import org.spoutcraft.api.gui.event.mouse.MouseUpEvent;
 import org.spoutcraft.api.gui.event.mouse.MouseScrollEvent;
 
 public class Container extends Component {
-    private List<Component> components = new ArrayList<Component>();
+    private List<Component> components = new ArrayList<>();
     private Component focusedComponent;
 
     @Override

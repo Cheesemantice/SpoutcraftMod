@@ -33,7 +33,7 @@ public class ArmorPrefab extends ItemPrefab {
     private final int armorType;
 
     /**
-     * armorType: 0 is helmet, 1 is plate, 2 is legs and 3 is boots
+     * @param armorType 0 is helmet, 1 is plate, 2 is legs and 3 is boots
      */
     public ArmorPrefab(Addon addon, String identifier, String displayName, boolean showInCreativeTab, int renderIndex, int armorType, EnumArmorMaterial armorMaterial) {
         super(addon, identifier, displayName, 1, showInCreativeTab);
