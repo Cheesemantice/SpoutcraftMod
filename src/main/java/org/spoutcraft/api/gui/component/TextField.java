@@ -96,8 +96,9 @@ public class TextField extends LabelBase {
         if (super.getHeight() >= 0) {
             return super.getHeight();
         }
-        this.getFont().setSize(this.getFontSize());
-        return (int) (this.getFont().getSize() + 4);
+        //this.getFont().setSize(this.getFontSize());
+        //return (int) (this.getFont().getSize() + 4);
+        return (int) (this.getFontSize() + 4);
     }
 
     @Override
