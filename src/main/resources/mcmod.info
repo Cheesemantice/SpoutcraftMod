@@ -4,7 +4,7 @@
   "description": "@description@",
   "version": "@version@-b@buildNumber@",
   "credits": "",
-  "logoFile": "/spoutcraft/textures/gui/title/spoutcraft.png",
+  "logoFile": "assets/spoutcraft/textures/gui/title/spoutcraft.png",
   "mcversion": "@mcversion@",
   "url": "@url@",
   "updateUrl": "",

@@ -16,6 +16,7 @@ archivesBaseName = 'spoutcraftmod'
 version = '1.0.0-SNAPSHOT'
 
 // Extended project information
+ext.projectName = 'Spoutcraft'
 ext.inceptionYear = '2013'
 ext.packaging = 'jar'
 ext.url = 'http://spoutcraft.org/'
@@ -71,6 +72,7 @@ buildscript {
 
 // Dependencies for compilation and testing
 dependencies {
+    compile 'commons-codec:commons-codec:1.8'
     compile 'io.netty:netty-all:4.0.13.Final'
     compile 'junit:junit:4.8.1'
     compile 'org.powermock:powermock-api-mockito:1.5.2'
@@ -90,8 +92,8 @@ processResources {
     // Filter info file variables
     from('src/main/resources/mcmod.info') {
         filter ReplaceTokens, tokens: [
-            "modid": archivesBaseName,
-            "name": project.name,
+            "modid": projectName,
+            "name": projectName,
             "description": project.ext.description,
             "version": version,
             "buildNumber": buildNumber,
@@ -191,7 +193,7 @@ uploadArchives {
 
         // Maven POM generation
         pom.project {
-            name project.name
+            name projectName
             artifactId archivesBaseName
             packaging packaging
             inceptionYear inceptionYear
