@@ -1,7 +1,7 @@
 SpoutcraftMod
 =============
 [![Build Status](https://travis-ci.org/Spoutcraft/SpoutcraftMod.png?branch=master)](https://travis-ci.org/Spoutcraft/SpoutcraftMod) [![Coverage Status](https://coveralls.io/repos/Spoutcraft/SpoutcraftMod/badge.png)](https://coveralls.io/r/Spoutcraft/SpoutcraftMod)  
-SpoutcraftMod is a Forge mod that expands Minecraft through an easy-to-use addon API.
+SpoutcraftMod is a Forge mod that expands Minecraft through an easy-to-use addon API. It is licensed under the [MIT License]
 
 * [Homepage]
 * [Source]
@@ -31,7 +31,7 @@ __For [IntelliJ]__
 ## Running
 __Note 1:__ The following is aimed to help you setup run configurations for Eclipse and IntelliJ, if you do not want to be able to run SpoutcraftMod directly from your IDE then you can skip this.  
 __Note 2:__ The working directories for both Client and Server will need to be created manually in the root of SpoutcraftMod's directory. Otherwise you'll get a few errors and will not be able to run it this way.  
-__Note 3:__ When running the Server, make sure you set it to __online-mode=false__ in the server.properties in ~/run/server!  
+__Note 3:__ When running the Server, make sure you set it to *__online-mode=false__* in the server.properties in ~/run/server!  
 
 __For [Eclipse]__  
 1. Go to 'Run > Run Configurations'.  
@@ -48,27 +48,25 @@ __For [IntelliJ]__
  
 __Client__
 ```
-Main class: net.minecraft.launchwrapper.Launch
-VM options: -Xmx1G -Xms512M -Dfml.ignoreInvalidMinecraftCertificates=true -Djava.library.path="../../build/natives"
-Program arguments: --version 1.6 --tweakClass cpw.mods.fml.common.launcher.FMLTweaker --username Username
-Working directory: Path/to/SpoutcraftMod/run/client
-Use classpath of module: SpoutcraftMod (IntelliJ-only)
+Main class:       net.minecraft.launchwrapper.Launch
+VM options:       -Xmx1G -Xms512M -Dfml.ignoreInvalidMinecraftCertificates=true -Djava.library.path="../../build/natives"
+Program args:     --version 1.6 --tweakClass cpw.mods.fml.common.launcher.FMLTweaker --username Username
+Working dir:      Path/to/SpoutcraftMod/run/client
+Module classpath: SpoutcraftMod (IntelliJ-only)
 ```
 
 __Server__
 ```
-Main class: cpw.mods.fml.relauncher.ServerLaunchWrapper
-VM options: -Xmx1G -Xms512M -Dfml.ignoreInvalidMinecraftCertificates=true
-Working directory: Path/to/SpoutcraftMod/run/server
-Use classpath of module: SpoutcraftMod (IntelliJ-only)
+Main class:       cpw.mods.fml.relauncher.ServerLaunchWrapper
+VM options:       -Xmx1G -Xms512M -Dfml.ignoreInvalidMinecraftCertificates=true
+Working dir:      Path/to/SpoutcraftMod/run/server
+Module classpath: SpoutcraftMod (IntelliJ-only)
 ```
 
 ## Building
 __Note:__ If you do not have [Gradle] installed you can use the gradlew files included with the project in place of 'gradle' in the following command(s). If you are using Git Bash, Unix or OS X then use './gradlew'. If you are using Windows then use 'gradlew.bat'.
 
-In order to build SpoutcraftMod you simply need to run the `gradle` command. By default it runs through the following tasks: 'clean', 'build' and 'licenseFormatMain'.
-
-You can find the compiled JAR files in `SpoutcraftMod/build/libs`.
+In order to build SpoutcraftMod you simply need to run the `gradle` command. You can find the compiled JAR files in `~/build/libs`, in most cases you'll only need 'spoutcraft-x.x.x-SNAPSHOT.jar'.
 
 ## Contributing
 Are you a talented programmer looking to contribute some code? We'd love the help!
@@ -96,12 +94,11 @@ __Help! Things are not working!__
 [Homepage]: http://spoutcraft.org/
 [Forums]: http://spoutcraft.org/forums/
 [Chat]: http://spoutcraft.org/chat/
-[License]: http://www.gnu.org/licenses/lgpl.html
-[Source]: https://github.com/Spoutcraft/SpoutcraftMod
-[Issues]: https://github.com/Spoutcraft/SpoutcraftMod/issues
+[Issues]: http://spoutcraft.org/issues/
+[Source]: https://github.com/Spoutcraft/SpoutcraftMod/
+[Twitter]: https://twitter.com/Spoutcraft/
+[Facebook]: http://www.facebook.com/pages/Spoutcraft/351909024946422/
+[MIT License]: http://www.tldrlegal.com/license/mit-license/
 [Gradle]: http://www.gradle.org/
 [Eclipse]: http://www.eclipse.org/
 [IntelliJ]: http://www.jetbrains.com/idea/
-[Twitter]: https://twitter.com/Spoutcraft
-[Facebook]: http://www.facebook.com/pages/Spoutcraft/351909024946422
-[Donate]: http://spoutcraft.org/donate/

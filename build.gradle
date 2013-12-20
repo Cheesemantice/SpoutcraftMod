@@ -45,20 +45,16 @@ buildscript {
     repositories {
         mavenCentral()
         maven {
-            name = 'sonatype-nexus-releases'
-            url = 'https://oss.sonatype.org/content/repositories/releases'
-        }
-        maven {
-            name = 'sonatype-nexus-snapshots'
-            url = 'https://oss.sonatype.org/content/repositories/snapshots'
+            name = 'sonatype-nexus-public'
+            url = 'https://oss.sonatype.org/content/repositories/public/'
         }
         maven {
             name = 'forge-repo'
-            url = 'http://files.minecraftforge.net/maven'
+            url = 'http://files.minecraftforge.net/maven/'
         }
         maven {
             name = 'shadow-repo'
-            url = 'http://dl.bintray.com/content/johnrengelman/gradle-plugins'
+            url = 'http://dl.bintray.com/content/johnrengelman/gradle-plugins/'
         }
     }
     dependencies {
