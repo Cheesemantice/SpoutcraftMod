@@ -113,6 +113,7 @@ shadow {
     artifactAttached = false
     include 'com/flowpowered/**'
     include 'io/netty/**'
+    include 'org/apache/commons/codec/**'
 }
 
 // License header formatting
