@@ -23,6 +23,7 @@
  */
 package org.spoutcraft.mod.addon;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
@@ -30,9 +31,12 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 
 import cpw.mods.fml.relauncher.Side;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.spoutcraft.api.Spoutcraft;
 import org.spoutcraft.api.addon.Addon;
 import org.spoutcraft.api.addon.AddonLoader;
@@ -40,11 +44,13 @@ import org.spoutcraft.api.addon.AddonManager;
 import org.spoutcraft.api.addon.InternalAddon;
 import org.spoutcraft.api.exception.InvalidAddonException;
 import org.spoutcraft.api.exception.InvalidDescriptionException;
+import org.spoutcraft.api.util.map.SerializableHashMap;
 
 public class ServerAddonManager implements AddonManager {
     protected final AddonLoader loader;
     protected final Addon internal;
-    private final Collection<Addon> addons = new ArrayList<>();
+    protected final Collection<Addon> addons = new ArrayList<>();
+    protected final SerializableHashMap<String, String> addonMD5s = new SerializableHashMap<>();
 
     protected ServerAddonManager(AddonLoader loader, Addon internal) {
         this.loader = loader;
@@ -102,14 +108,11 @@ public class ServerAddonManager implements AddonManager {
         }
 
         for (Path jar : stream) {
-            Addon addon = null;
             try {
-                addon = loadAddon(jar);
+                //TODO This will need testing
+                addonMD5s.put(loadAddon(jar).getDescription().getName(), DigestUtils.md5Hex(new FileInputStream(jar.toFile())));
             } catch (Exception e) {
                 Spoutcraft.getLogger().log(Level.SEVERE, "Unable to load [" + jar.getFileName() + "] in directory [" + path + "]", e);
-            }
-            if (addon != null) {
-                addons.add(addon);
             }
         }
         return Collections.unmodifiableCollection(addons);
@@ -153,5 +156,9 @@ public class ServerAddonManager implements AddonManager {
     //TODO Expose to API?
     public Addon getInternalAddon() {
         return internal;
+    }
+
+    public SerializableHashMap<String, String> getAddonMD5s() {
+        return addonMD5s;
     }
 }
