@@ -25,8 +25,7 @@ package org.spoutcraft.api.gui.event.mouse;
 
 import org.spoutcraft.api.gui.Component;
 
-public class MouseScrollEvent extends MouseEvent{
-
+public class MouseScrollEvent extends MouseEvent {
     private final int amnt;
 
     public MouseScrollEvent(Component source, int btn, int x, int y, int amnt) {
@@ -38,5 +37,4 @@ public class MouseScrollEvent extends MouseEvent{
     public int getScrollAmnt() {
         return this.amnt;
     }
-
 }

@@ -30,7 +30,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.network.INetworkManager;
-
 import org.spoutcraft.api.LinkedPrefabRegistry;
 import org.spoutcraft.api.enchantment.EnchantmentPrefab;
 import org.spoutcraft.api.protocol.MessageDispatcher;
@@ -61,9 +60,9 @@ public class EnchantmentPrefabRegistry implements LinkedPrefabRegistry<Enchantme
 
         REGISTRY.add(prefab);
         PREFAB_BY_ENCHANTMENT.put(prefab, enchantment);
-        
+
         LanguageUtil.add("enchantment." + prefab.getIdentifier(), prefab.getDisplayName());
-        
+
         return enchantment;
     }
 

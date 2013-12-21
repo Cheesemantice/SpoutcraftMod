@@ -45,7 +45,7 @@ public class DownloadLinkCodec implements Codec<DownloadLinkMessage> {
     @Override
     public DownloadLinkMessage decode(Side side, ByteBuf buffer) throws IOException {
         if (side.isServer()) {
-            throw new IllegalStateException("Server is not allowed to receive links!");
+            throw new IOException("Server is not allowed to receive links!");
         }
         final String addonIdentifier = BufferUtil.readUTF8(buffer);
         //TODO Sanity check needed and here?
@@ -62,7 +62,7 @@ public class DownloadLinkCodec implements Codec<DownloadLinkMessage> {
     @Override
     public ByteBuf encode(Side side, DownloadLinkMessage message) throws IOException {
         if (side.isClient()) {
-            throw new IllegalStateException("Client is not allowed to send links!");
+            throw new IOException("Client is not allowed to send links!");
         }
         final String addonIdentifier = message.getAddonIdentifier();
         final URL url = message.getUrl();

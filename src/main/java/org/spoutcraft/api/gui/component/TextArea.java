@@ -23,25 +23,22 @@
  */
 package org.spoutcraft.api.gui.component;
 
-import java.util.List;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
-import org.spoutcraft.api.gui.Component;
+import org.lwjgl.opengl.*;
 import org.spoutcraft.api.resource.CustomFont;
 import org.spoutcraft.api.util.Color;
 
-import org.lwjgl.opengl.GL11;
-
 public class TextArea extends TextField {
-
     private String[] lines;
     private List<String> linesWithWrap = new ArrayList<String>();
 
     @Override
     public int getHeight() {
         int height = super.getHeight();
-        if(height == -1) {
+        if (height == -1) {
             //getFont().setSize(getFontSize());
             return getFontSize() * getLinesWithWrap().size() + 4;
         } else {
@@ -72,16 +69,15 @@ public class TextArea extends TextField {
 
         GL11.glPushMatrix();
         GL11.glTranslatef(x + 2, 2, 0);
-        for(String line : lines) {
+        for (String line : lines) {
             GL11.glTranslatef(0, getFontSize(), 0);
             font.drawString(line, 0, 0);
         }
 
-        if(this.isFocused()) {
-            this.fillRect((int)font.getWidth(lines.get(lines.size() - 1)) + 1, 0, 1, getFontSize(), txtColor);
+        if (this.isFocused()) {
+            this.fillRect((int) font.getWidth(lines.get(lines.size() - 1)) + 1, 0, 1, getFontSize(), txtColor);
         }
         GL11.glPopMatrix();
-
     }
 
     @Override
@@ -111,27 +107,26 @@ public class TextArea extends TextField {
         CustomFont font = getFont();
         font.setSize(getFontSize());
         int width = getWidth();
-        for(String line : preLines) {
-            if(font.getWidth(line) <= width - 6) {
+        for (String line : preLines) {
+            if (font.getWidth(line) <= width - 6) {
                 lines.add(line);
             } else {
                 StringBuilder nxtLine = new StringBuilder();
                 String[] words = line.split(" +");
                 float curWidth = 0;
-                for(String word : words) {
+                for (String word : words) {
                     float wordWidth = font.getWidth(word);
-                    if(curWidth + wordWidth > width - 6) {
+                    if (curWidth + wordWidth > width - 6) {
                         lines.add(nxtLine.toString());
                         nxtLine = new StringBuilder();
                         curWidth = 0;
                     }
                     curWidth += wordWidth;
                 }
-                if(nxtLine.length() > 0) {
+                if (nxtLine.length() > 0) {
                     lines.add(nxtLine.toString());
                 }
             }
         }
     }
-
 }

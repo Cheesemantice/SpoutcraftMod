@@ -23,6 +23,7 @@
  */
 package org.spoutcraft.mod.gui.builtin;
 
+import org.spoutcraft.api.gui.Container;
 import org.spoutcraft.api.gui.Gui;
 import org.spoutcraft.api.gui.component.Button;
 import org.spoutcraft.api.gui.component.CheckBox;
@@ -30,13 +31,12 @@ import org.spoutcraft.api.gui.component.Frame;
 import org.spoutcraft.api.gui.component.Label;
 import org.spoutcraft.api.gui.component.RadioButton;
 import org.spoutcraft.api.gui.component.RadioGroup;
-import org.spoutcraft.api.gui.component.TextField;
 import org.spoutcraft.api.gui.component.ScrollPane;
-import org.spoutcraft.api.gui.Container;
+import org.spoutcraft.api.gui.component.TextField;
 import org.spoutcraft.api.gui.event.ActionEvent;
 import org.spoutcraft.api.gui.event.EventHandler;
-import org.spoutcraft.api.util.Color;
 import org.spoutcraft.api.resource.TextFormat;
+import org.spoutcraft.api.util.Color;
 
 public class SpoutcraftTestGui extends Gui {
     private Button testBtn = new Button("Test Button");
@@ -112,7 +112,6 @@ public class SpoutcraftTestGui extends Gui {
         testFrm.setHeight(75);
         testFrm.setX(width / 2 - 100);
         testFrm.setY(height / 2 - 70);
-
 
         Container scrllInner = new Container();
 

@@ -35,8 +35,8 @@ import org.spoutcraft.api.gui.event.key.KeyPressEvent;
 import org.spoutcraft.api.gui.event.key.KeyReleaseEvent;
 import org.spoutcraft.api.gui.event.mouse.MouseDownEvent;
 import org.spoutcraft.api.gui.event.mouse.MouseMoveEvent;
-import org.spoutcraft.api.gui.event.mouse.MouseUpEvent;
 import org.spoutcraft.api.gui.event.mouse.MouseScrollEvent;
+import org.spoutcraft.api.gui.event.mouse.MouseUpEvent;
 
 public class Container extends Component {
     private List<Component> components = new ArrayList<>();

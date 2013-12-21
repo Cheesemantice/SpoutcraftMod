@@ -117,7 +117,7 @@ public class AddFileMessage implements Message {
         if (split.fileComplete()) {
             //TODO Pass to FileSystem
             final Path path = Paths.get("assets", name);
-            try(FileOutputStream stream  = new FileOutputStream(path.toFile())){
+            try (FileOutputStream stream = new FileOutputStream(path.toFile())) {
                 if (Files.exists(path)) {
                     Files.delete(path);
                 }

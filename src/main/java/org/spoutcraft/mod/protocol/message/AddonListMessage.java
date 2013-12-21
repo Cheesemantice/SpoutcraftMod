@@ -23,9 +23,12 @@
  */
 package org.spoutcraft.mod.protocol.message;
 
+import java.util.Map;
+
 import cpw.mods.fml.common.network.Player;
 import cpw.mods.fml.relauncher.Side;
 import net.minecraft.network.INetworkManager;
+import org.spoutcraft.api.Spoutcraft;
 import org.spoutcraft.api.protocol.message.Message;
 import org.spoutcraft.api.util.map.SerializableHashMap;
 
@@ -43,5 +46,11 @@ public class AddonListMessage implements Message {
 
     @Override
     public void handle(Side side, INetworkManager manager, Player player) {
+        if (side.isServer()) {
+            Spoutcraft.getLogger().info("Received list of addons from client");
+            for (Map.Entry<String, String> entry : map.entrySet()) {
+                Spoutcraft.getLogger().info("Addon: " + entry.getKey() + " MD5: " + entry.getValue());
+            }
+        }
     }
 }

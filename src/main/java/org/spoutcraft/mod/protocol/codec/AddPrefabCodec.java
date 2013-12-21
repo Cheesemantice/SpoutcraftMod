@@ -43,7 +43,7 @@ public class AddPrefabCodec implements Codec<AddPrefabMessage> {
     @Override
     public AddPrefabMessage decode(Side side, ByteBuf buffer) throws IOException {
         if (side.isServer()) {
-            throw new IllegalStateException("The server is not allowed to receive prefabs");
+            throw new IOException("The server is not allowed to receive prefabs");
         }
 
         final byte[] data = new byte[buffer.readableBytes()];
@@ -60,7 +60,7 @@ public class AddPrefabCodec implements Codec<AddPrefabMessage> {
     @Override
     public ByteBuf encode(Side side, AddPrefabMessage message) throws IOException {
         if (side.isClient()) {
-            throw new IllegalStateException("The client is not allowed to send prefabs");
+            throw new IOException("The client is not allowed to send prefabs");
         }
         final byte[] data = SerializationUtils.serialize(message.getPrefab());
         final ByteBuf buffer = Unpooled.buffer();

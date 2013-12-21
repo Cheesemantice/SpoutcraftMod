@@ -23,20 +23,15 @@
  */
 package org.spoutcraft.api.gui.component;
 
-import org.spoutcraft.api.gui.Container;
-import org.spoutcraft.api.gui.Component;
-import org.spoutcraft.api.util.Color;
 import org.lwjgl.opengl.*;
+import org.spoutcraft.api.gui.Component;
+import org.spoutcraft.api.gui.Container;
+import org.spoutcraft.api.util.Color;
 
 public class ScrollPane extends Container {
-
-
     private Component innerComponent;
-
     private int vertScroll = 0;
     private int vertScrollWidth = 5;
-
-
     private boolean movingScrollBar = false;
     private int movingScrollBarInitY = 0;
     private int movingScrollBarInitBarY = 0;
@@ -69,12 +64,12 @@ public class ScrollPane extends Container {
     }
 
     public int getVertScrollbarHeight() {
-        return (int)((getHeight() - 2) * getVertScrollbarScale());
+        return (int) ((getHeight() - 2) * getVertScrollbarScale());
     }
 
     public float getVertScrollbarScale() {
         //return (getHeight() - 2) / (float)getMaxVertScroll();
-        return getHeight() / (float)getInnerHeight();
+        return getHeight() / (float) getInnerHeight();
     }
 
     public void setVertScroll(int pixels) {
@@ -84,7 +79,7 @@ public class ScrollPane extends Container {
 
     public void setVertScroll(float pct) {
         pct = Math.max(0, Math.min(1, pct));
-        this.vertScroll = (int)(getMaxVertScroll() * pct);
+        this.vertScroll = (int) (getMaxVertScroll() * pct);
         this.innerComponent.setY(-getVertScroll());
     }
 
@@ -102,11 +97,11 @@ public class ScrollPane extends Container {
         //GL11.glTranslatef(0, -getVertScroll(), 0);
         //this.setClip(0, getVertScroll(), getWidth(), getHeight());
         this.setSubClip(0, 0, getWidth(), getHeight(), getX(), getY());
-        if(innerComponent.isVisible()) {
+        if (innerComponent.isVisible()) {
             innerComponent.render();
         }
 
-        float barTranslate = getVertScroll() / (float)getMaxVertScroll() * (getHeight() - getVertScrollbarHeight() - 2) + 1;
+        float barTranslate = getVertScroll() / (float) getMaxVertScroll() * (getHeight() - getVertScrollbarHeight() - 2) + 1;
         //this.popClip();
         this.fillRect(getWidth() - vertScrollWidth, 0, vertScrollWidth, getHeight(), getForeground().multiply(new Color(0xA0A0A0)));
         GL11.glTranslatef(0, barTranslate, 0);
@@ -117,13 +112,13 @@ public class ScrollPane extends Container {
 
     @Override
     public void mouseDown(int btn, int x, int y) {
-        if(x > getWidth() - getVertScrollbarWidth()) {
+        if (x > getWidth() - getVertScrollbarWidth()) {
             this.movingScrollBar = true;
-            int toScroll = (int)((y / getVertScrollbarScale()));
+            int toScroll = (int) ((y / getVertScrollbarScale()));
             if (toScroll < getVertScroll()) {
                 this.setVertScroll(toScroll);
             } else if (toScroll > getVertScroll() + getVertScrollbarHeight() / getVertScrollbarScale()) {
-                this.setVertScroll(toScroll - (int)(getVertScrollbarHeight() / getVertScrollbarScale()));
+                this.setVertScroll(toScroll - (int) (getVertScrollbarHeight() / getVertScrollbarScale()));
             }
             movingScrollBarInitY = y;
             movingScrollBarInitBarY = getVertScroll();
@@ -134,7 +129,7 @@ public class ScrollPane extends Container {
 
     @Override
     public void mouseUp(int btn, int x, int y) {
-        if(movingScrollBar) {
+        if (movingScrollBar) {
             movingScrollBar = false;
         } else {
             super.mouseUp(btn, x, y);
@@ -143,11 +138,11 @@ public class ScrollPane extends Container {
 
     @Override
     public void mouseMove(int btn, int x, int y) {
-        if(btn == -1) {
+        if (btn == -1) {
             movingScrollBar = false;
         }
-        if(movingScrollBar) {
-            int off = (int)((y - movingScrollBarInitY) / getVertScrollbarScale());
+        if (movingScrollBar) {
+            int off = (int) ((y - movingScrollBarInitY) / getVertScrollbarScale());
             int scroll = off + movingScrollBarInitBarY;
             this.setVertScroll(scroll);
         } else {
@@ -158,8 +153,7 @@ public class ScrollPane extends Container {
     @Override
     public void mouseScroll(int btn, int x, int y, int amnt) {
         float mult = 0.2F;
-        amnt = (int)(amnt * mult);
+        amnt = (int) (amnt * mult);
         this.setVertScroll(getVertScroll() - amnt);
     }
-
 }

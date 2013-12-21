@@ -46,8 +46,8 @@ public class SerializableHashMap<E extends Serializable, T extends Serializable>
 
     public byte[] serialize() throws IOException {
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        
-        try(ObjectOutput out = new ObjectOutputStream(bos)){
+
+        try (ObjectOutput out = new ObjectOutputStream(bos)) {
             out.writeObject(this);
         }
 

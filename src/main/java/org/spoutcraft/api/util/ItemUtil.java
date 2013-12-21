@@ -27,29 +27,24 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 
 public class ItemUtil {
-
-    public static String getItemName(Item item)
-    {
+    public static String getItemName(Item item) {
         return getItemName(item.getUnlocalizedName());
     }
 
-    public static String getItemName(String identifier)
-    {
+    public static String getItemName(String identifier) {
         return identifier.replace("item.spoutcraft:", "");
     }
 
-    public static String getArmorName(ItemArmor itemArmor)
-    {
-        String identifier = getItemName(itemArmor);        
+    public static String getArmorName(ItemArmor itemArmor) {
+        String identifier = getItemName(itemArmor);
         return getArmorName(identifier, itemArmor.armorType);
     }
 
-    public static String getArmorName(String identifier, int armorType)
-    {
-        if(identifier.contains("spoutcraft")){
+    public static String getArmorName(String identifier, int armorType) {
+        if (identifier.contains("spoutcraft")) {
             identifier = getItemName(identifier);
         }
-        switch(armorType){
+        switch (armorType) {
             case 0:
                 identifier = identifier.replace("_helmet", "");
                 break;
@@ -64,9 +59,9 @@ public class ItemUtil {
                 break;
             default:
                 identifier = identifier.replace("_helmet", "");
-                break;   
+                break;
         }
-        
+
         return identifier;
     }
 }

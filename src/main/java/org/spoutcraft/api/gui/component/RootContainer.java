@@ -23,10 +23,10 @@
  */
 package org.spoutcraft.api.gui.component;
 
-import org.spoutcraft.api.gui.Container;
+import org.lwjgl.opengl.*;
 import org.spoutcraft.api.gui.Component;
+import org.spoutcraft.api.gui.Container;
 import org.spoutcraft.api.gui.Gui;
-import org.lwjgl.opengl.GL11;
 
 public class RootContainer extends Container {
     public RootContainer(Gui gui) {

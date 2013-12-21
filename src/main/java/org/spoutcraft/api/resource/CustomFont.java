@@ -33,43 +33,40 @@ import java.awt.image.DataBufferInt;
 import java.nio.FloatBuffer;
 import java.util.Arrays;
 
-import org.spoutcraft.api.util.Color;
-import org.spoutcraft.api.gl.Texture;
 import org.spoutcraft.api.gl.ArrayBuffer;
 import org.spoutcraft.api.gl.BufferAccess;
+import org.spoutcraft.api.gl.Texture;
+import org.spoutcraft.api.util.Color;
 import org.spoutcraft.api.util.TextureUtil;
 
 import static org.lwjgl.opengl.GL11.*;
 
 public class CustomFont {
-
     //Matches up to the color codes found here http://minecraft.gamepedia.com/Formatting_codes
     public static final Color[] DEFAULT_COLOR_PALETTE = new Color[] {
-        new Color(0x000000),
-        new Color(0x0000AA),
-        new Color(0x00AA00),
-        new Color(0x00AAAA),
-        new Color(0xAA0000),
-        new Color(0xAA00AA),
-        new Color(0xFFAA00),
-        new Color(0xAAAAAA),
-        new Color(0x555555),
-        new Color(0x5555FF),
-        new Color(0x55FF55),
-        new Color(0x55FFFF),
-        new Color(0xFF5555),
-        new Color(0xFF55FF),
-        new Color(0xFFFF55),
-        new Color(0xFFFFFF)
+            new Color(0x000000),
+            new Color(0x0000AA),
+            new Color(0x00AA00),
+            new Color(0x00AAAA),
+            new Color(0xAA0000),
+            new Color(0xAA00AA),
+            new Color(0xFFAA00),
+            new Color(0xAAAAAA),
+            new Color(0x555555),
+            new Color(0x5555FF),
+            new Color(0x55FF55),
+            new Color(0x55FFFF),
+            new Color(0xFF5555),
+            new Color(0xFF55FF),
+            new Color(0xFFFF55),
+            new Color(0xFFFFFF)
     };
-
     private static final ArrayBuffer FONT_VBO = new ArrayBuffer();
     //x,y,u,b
     private static final int FONT_STRIDE = (2 + 2 + 4) * 4;
     private static final int FONT_VERT_OFF = 0;
     private static final int FONT_UV_OFF = 2 * 4;
     private static final int FONT_COLOR_OFF = (2 + 2) * 4;
-
     public final int fontSize;
     private int descent;
     private int fontHeight;
@@ -137,7 +134,7 @@ public class CustomFont {
     }
 
     public void setColorPalette(Color[] colors) {
-        if(colors.length < 16) {
+        if (colors.length < 16) {
             throw new IllegalArgumentException("Palette must contain 16 colors");
         }
         this.palette = colors;
@@ -284,10 +281,10 @@ public class CustomFont {
             float cy = fchar.posY * scale + y;
 
             data.put(new float[] {
-                    cx,         cy,          u0, v0, r, g, b, a,
-                    cx,         cy + height, u0, v1, r, g, b, a,
+                    cx, cy, u0, v0, r, g, b, a,
+                    cx, cy + height, u0, v1, r, g, b, a,
                     cx + width, cy + height, u1, v1, r, g, b, a,
-                    cx + width, cy,          u1, v0, r, g, b, a
+                    cx + width, cy, u1, v0, r, g, b, a
             });
             translateX += width;
         }

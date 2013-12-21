@@ -35,7 +35,7 @@ import org.spoutcraft.mod.protocol.message.AddonListMessage;
 public class AddonListCodec implements Codec<AddonListMessage> {
     @Override
     public String getChannel() {
-        return "SPC-ListAddon";
+        return "SPC-AddonList";
     }
 
     @Override
@@ -43,8 +43,8 @@ public class AddonListCodec implements Codec<AddonListMessage> {
         final AddonListMessage message;
         try {
             message = new AddonListMessage(new SerializableHashMap<String, String>(buffer.array()));
-        } catch (Exception e) {
-            throw new IllegalStateException("Deserialization failed while decoding " + this);
+        } catch (ClassNotFoundException e) {
+            throw new IOException(e);
         }
         return message;
     }

@@ -43,7 +43,7 @@ public class AddFileCodec implements Codec<AddFileMessage> {
     @Override
     public AddFileMessage decode(Side side, ByteBuf buffer) throws IOException {
         if (side.isServer()) {
-            throw new IllegalStateException("Server is not allowed to receive files!");
+            throw new IOException("Server is not allowed to receive files!");
         }
         final String addonIdentifier = BufferUtil.readUTF8(buffer);
         //TODO Sanity check needed and here?
@@ -62,7 +62,7 @@ public class AddFileCodec implements Codec<AddFileMessage> {
     @Override
     public ByteBuf encode(Side side, AddFileMessage message) throws IOException {
         if (side.isClient()) {
-            throw new IllegalStateException("Client is not allowed to send files!");
+            throw new IOException("Client is not allowed to send files!");
         }
         final String addonIdentifier = message.getAddonIdentifier();
         final String fname = message.getFileName();

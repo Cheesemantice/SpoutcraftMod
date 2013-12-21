@@ -24,7 +24,6 @@
 package org.spoutcraft.api.resource;
 
 public class TextFormat {
-
     public static final char CONTROL = '\u00a7';
     public static final String BLACK = CONTROL + "0";
     public static final String DARK_BLUE = CONTROL + "1";
@@ -44,5 +43,4 @@ public class TextFormat {
     public static final String WHITE = CONTROL + "f";
     public static final String RESET = CONTROL + "r";
     public static final String RGB = CONTROL + "#";
-
 }

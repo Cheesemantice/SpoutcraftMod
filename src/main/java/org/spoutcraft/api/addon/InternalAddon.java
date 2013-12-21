@@ -25,17 +25,17 @@ package org.spoutcraft.api.addon;
 
 import java.util.EnumSet;
 
-import cpw.mods.fml.client.registry.RenderingRegistry;
-import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.client.registry.KeyBindingRegistry;
+import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.TickType;
+import cpw.mods.fml.relauncher.Side;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.settings.KeyBinding;
+import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.item.EnumArmorMaterial;
 import net.minecraft.item.EnumToolMaterial;
 import net.minecraftforge.common.EnumHelper;
-import net.minecraft.client.settings.KeyBinding;
-import net.minecraft.enchantment.EnumEnchantmentType;
-
+import org.lwjgl.input.*;
 import org.spoutcraft.api.LinkedPrefabRegistry;
 import org.spoutcraft.api.Spoutcraft;
 import org.spoutcraft.api.block.MovingPrefab;
@@ -47,10 +47,9 @@ import org.spoutcraft.api.item.SpadePrefab;
 import org.spoutcraft.api.item.SwordPrefab;
 import org.spoutcraft.api.material.MapIndex;
 import org.spoutcraft.api.material.MaterialPrefab;
+import org.spoutcraft.mod.gui.builtin.SpoutcraftTestGui;
 import org.spoutcraft.mod.item.special.SpoutcraftEmblem;
 import org.spoutcraft.mod.item.special.VanillaEmblem;
-import org.spoutcraft.mod.gui.builtin.SpoutcraftTestGui;
-import org.lwjgl.input.*;
 
 @SuppressWarnings ("unchecked")
 public final class InternalAddon extends Addon {

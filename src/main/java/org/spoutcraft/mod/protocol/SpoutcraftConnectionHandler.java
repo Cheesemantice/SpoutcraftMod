@@ -32,9 +32,13 @@ import net.minecraft.network.packet.NetHandler;
 import net.minecraft.network.packet.Packet1Login;
 import net.minecraft.server.MinecraftServer;
 import org.spoutcraft.api.Spoutcraft;
+import org.spoutcraft.api.protocol.MessageDispatcher;
+import org.spoutcraft.api.util.map.SerializableHashMap;
+import org.spoutcraft.mod.addon.ClientAddonManager;
 import org.spoutcraft.mod.block.BlockPrefabRegistry;
 import org.spoutcraft.mod.item.ItemPrefabRegistry;
 import org.spoutcraft.mod.material.MaterialPrefabRegistry;
+import org.spoutcraft.mod.protocol.message.AddonListMessage;
 
 public class SpoutcraftConnectionHandler implements IConnectionHandler {
     @Override
@@ -69,6 +73,6 @@ public class SpoutcraftConnectionHandler implements IConnectionHandler {
 
     @Override
     public void clientLoggedIn(NetHandler clientHandler, INetworkManager manager, Packet1Login login) {
-
+        MessageDispatcher.send(new AddonListMessage((SerializableHashMap<String, String>) ((ClientAddonManager) Spoutcraft.getAddonManager()).getLoader().getAddonMD5s()));
     }
 }

@@ -23,12 +23,14 @@
  */
 package org.spoutcraft.api.addon;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.Constructor;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.jar.JarEntry;
@@ -38,14 +40,17 @@ import java.util.logging.Level;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import cpw.mods.fml.relauncher.Side;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.spoutcraft.api.Spoutcraft;
 import org.spoutcraft.api.exception.InvalidAddonException;
 import org.spoutcraft.api.exception.InvalidDescriptionException;
+import org.spoutcraft.api.util.map.SerializableHashMap;
 
 public class AddonLoader {
     private static final String ADDON_JSON = "addon.info";
     private final Side side;
     private final Map<String, AddonClassLoader> loaders = new HashMap<>();
+    private final SerializableHashMap<String, String> addonMD5s = new SerializableHashMap<>();
 
     public AddonLoader(Side side) {
         this.side = side;
@@ -98,6 +103,7 @@ public class AddonLoader {
                 Constructor<? extends Addon> constructor = addonClass.getConstructor();
                 addon = constructor.newInstance();
                 addon.initialize(side, this, description, loader, dataPath, path);
+                addonMD5s.put(description.getIdentifier(), DigestUtils.md5Hex(new FileInputStream(path.toFile())));
             } catch (Exception e) {
                 throw new InvalidAddonException(e);
             }
@@ -113,7 +119,7 @@ public class AddonLoader {
         }
 
         AddonDescription description;
-        try(JarFile jar = new JarFile(path.toFile())){
+        try (JarFile jar = new JarFile(path.toFile())) {
             JarEntry entry = jar.getJarEntry(ADDON_JSON);
 
             if (entry == null) {
@@ -145,5 +151,9 @@ public class AddonLoader {
             }
         }
         return null;
+    }
+
+    public Map<String, String> getAddonMD5s() {
+        return Collections.unmodifiableMap(addonMD5s);
     }
 }
