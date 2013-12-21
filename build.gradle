@@ -19,7 +19,7 @@ version = '1.0.0-SNAPSHOT'
 ext.projectName = 'Spoutcraft'
 ext.inceptionYear = '2013'
 ext.packaging = 'jar'
-ext.url = 'http://spoutcraft.org/'
+ext.url = 'http://spoutcraft.org'
 ext.description = 'Forge mod that expands Minecraft through an easy-to-use addon API.'
 ext.organization = 'SpoutcraftDev'
 

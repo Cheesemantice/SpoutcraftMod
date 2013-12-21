@@ -3,14 +3,16 @@ language: java
 jdk: oraclejdk7
 
 # Compile and package JAR and set build properties
-install: ./gradlew build -PbuildNumber=$TRAVIS_BUILD_NUMBER -PciSystem=travis -Pcommit=${TRAVIS_COMMIT:0:7} -PserviceJobId=$TRAVIS_JOB_ID
+install: ./gradlew build -PbuildNumber=$TRAVIS_BUILD_NUMBER -PciSystem=travis -Pcommit=${TRAVIS_COMMIT:0:7}
 
+# Perform steps after compilation/test success
 after_success:
   # Generate Cobertura report for Coveralls.io
-  - "./gradlew cobertura coveralls"
+  - "./gradlew cobertura coveralls -PserviceJobId=$TRAVIS_JOB_ID"
   # Check if commit s not a pull request, if git repo is official, and if branch is master. If checks pass, add libs and deploy artifacts to Maven repository.
   - "[[ $TRAVIS_PULL_REQUEST == false ]] && [[ $TRAVIS_REPO_SLUG == Spoutcraft/SpoutcraftMod ]] && [[ $TRAVIS_BRANCH == master ]] && ./gradlew build shadow uploadArchives"
 
+# Notification services
 notifications:
   # Disable build status email notifications, until the issue with forks is fixed
   email: false
@@ -18,6 +20,7 @@ notifications:
     # Send build information and status to Notifico
     - http://n.tkte.ch/h/1610/ZzFGpYhiRZGB6EhwfV-uj7Vt
 
+# Environmental system variables
 env:
   global:
     # Make the log output cleaner
