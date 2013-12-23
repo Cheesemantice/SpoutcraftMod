@@ -1,11 +1,12 @@
 package org.spoutcraft.api.event.item;
 
+import com.flowpowered.events.Cancellable;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import org.spoutcraft.api.item.ItemPrefab;
 
-public class ItemCreateEvent extends ItemPrefabEvent {
+public class ItemCreateEvent extends ItemPrefabEvent implements Cancellable {
     private final ItemStack stack;
     private final World world;
     private final EntityPlayer player;
@@ -27,5 +28,10 @@ public class ItemCreateEvent extends ItemPrefabEvent {
 
     public ItemStack getStack() {
         return stack;
+    }
+
+    @Override
+    public void setCancelled(boolean cancelled) {
+        super.setCancelled(cancelled);
     }
 }
