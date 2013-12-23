@@ -29,6 +29,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+import org.spoutcraft.api.Spoutcraft;
+import org.spoutcraft.api.event.item.ItemCreateEvent;
+import org.spoutcraft.api.event.item.ItemCreatedEvent;
 import org.spoutcraft.api.item.ItemPrefab;
 import org.spoutcraft.mod.SpoutcraftMod;
 
@@ -71,8 +74,10 @@ public class CustomItem extends Item {
 
     @Override
     public void onCreated(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer) {
-        super.onCreated(par1ItemStack, par2World, par3EntityPlayer);
-        prefab.onCraftOrSmelt(FMLCommonHandler.instance().getEffectiveSide(), par1ItemStack, par2World, par3EntityPlayer);
+        if (!Spoutcraft.getEventManager().callEvent(new ItemCreateEvent(prefab, par1ItemStack, par2World, par3EntityPlayer)).isCancelled()) {
+            super.onCreated(par1ItemStack, par2World, par3EntityPlayer);
+            Spoutcraft.getEventManager().callEvent(new ItemCreatedEvent(prefab, par1ItemStack, par2World, par3EntityPlayer));
+        }
     }
 
     @Override

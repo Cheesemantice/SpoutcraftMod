@@ -68,10 +68,6 @@ public class ItemPrefab extends Prefab {
 
     }
 
-    public void onCraftOrSmelt(Side side, ItemStack stack, World world, EntityPlayer player) {
-
-    }
-
     public void onPlayerStoppedUsing(Side side, ItemStack stack, World world, EntityPlayer player, int ticksItemHasBeenUsed) {
 
     }

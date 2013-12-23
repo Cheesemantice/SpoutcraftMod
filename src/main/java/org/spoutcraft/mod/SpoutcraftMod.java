@@ -25,6 +25,7 @@ package org.spoutcraft.mod;
 
 import java.nio.ByteBuffer;
 
+import com.flowpowered.events.SimpleEventManager;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
@@ -69,6 +70,9 @@ public class SpoutcraftMod {
     public void onInitialize(FMLInitializationEvent event) {
         // Setup logger
         Spoutcraft.setLogger(new SpoutcraftLogger());
+
+        //TODO Ask kitskub to remove the need for Apache's logger.
+        Spoutcraft.setEventManager(new SimpleEventManager());
 
         // Setup protocol
         bindCodecMessages();
