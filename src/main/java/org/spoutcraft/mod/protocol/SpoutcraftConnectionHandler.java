@@ -73,6 +73,6 @@ public class SpoutcraftConnectionHandler implements IConnectionHandler {
 
     @Override
     public void clientLoggedIn(NetHandler clientHandler, INetworkManager manager, Packet1Login login) {
-        MessageDispatcher.send(new AddonListMessage((SerializableHashMap<String, String>) ((ClientAddonManager) Spoutcraft.getAddonManager()).getLoader().getAddonMD5s()));
+        MessageDispatcher.send(new AddonListMessage(((ClientAddonManager) Spoutcraft.getAddonManager()).getLoader().getAddonMD5s()));
     }
 }

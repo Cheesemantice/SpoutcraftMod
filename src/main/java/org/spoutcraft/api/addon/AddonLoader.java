@@ -26,6 +26,7 @@ package org.spoutcraft.api.addon;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.Serializable;
 import java.lang.reflect.Constructor;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -153,7 +154,7 @@ public class AddonLoader {
         return null;
     }
 
-    public Map<String, String> getAddonMD5s() {
-        return Collections.unmodifiableMap(addonMD5s);
+    public SerializableHashMap<String, String> getAddonMD5s() {
+        return addonMD5s;
     }
 }

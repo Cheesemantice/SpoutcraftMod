@@ -50,9 +50,11 @@ import org.spoutcraft.mod.material.MaterialPrefabRegistry;
 import org.spoutcraft.mod.protocol.SpoutcraftConnectionHandler;
 import org.spoutcraft.mod.protocol.codec.AddFileCodec;
 import org.spoutcraft.mod.protocol.codec.AddPrefabCodec;
+import org.spoutcraft.mod.protocol.codec.AddonListCodec;
 import org.spoutcraft.mod.protocol.codec.DownloadLinkCodec;
 import org.spoutcraft.mod.protocol.message.AddFileMessage;
 import org.spoutcraft.mod.protocol.message.AddPrefabMessage;
+import org.spoutcraft.mod.protocol.message.AddonListMessage;
 import org.spoutcraft.mod.protocol.message.DownloadLinkMessage;
 import org.spoutcraft.mod.resource.ClientFileSystem;
 import org.spoutcraft.mod.resource.ServerFileSystem;
@@ -140,9 +142,10 @@ public class SpoutcraftMod {
 
     private void bindCodecMessages() {
         NetworkRegistry.instance().registerConnectionHandler(new SpoutcraftConnectionHandler());
-        Protocol.register(AddPrefabMessage.class, AddPrefabCodec.class);
-        Protocol.register(DownloadLinkMessage.class, DownloadLinkCodec.class);
         Protocol.register(AddFileMessage.class, AddFileCodec.class);
+        Protocol.register(AddPrefabMessage.class, AddPrefabCodec.class);
+        Protocol.register(AddonListMessage.class, AddonListCodec.class);
+        Protocol.register(DownloadLinkMessage.class, DownloadLinkCodec.class);
     }
 
     public static CustomTabs getCustomTabs() {

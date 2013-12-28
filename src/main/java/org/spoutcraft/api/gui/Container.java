@@ -167,7 +167,7 @@ public class Container extends Component {
     @Override
     protected void processEvents() {
         //Because we process our events first,
-        //it allows us to pass our events down to sub components in 1 tick
+        //it allows us to pass our events down to sub components in 1 ticking
         super.processEvents();
         for (Component c : components) {
             c.processEvents();
