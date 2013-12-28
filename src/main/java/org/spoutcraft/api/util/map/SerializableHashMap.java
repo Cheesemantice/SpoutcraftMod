@@ -40,6 +40,10 @@ public class SerializableHashMap<E extends Serializable, T extends Serializable>
     public SerializableHashMap() {
     }
 
+    public SerializableHashMap(SerializableHashMap<E, T> map) {
+        putAll(map);
+    }
+
     public SerializableHashMap(byte[] serialized) throws IOException, ClassNotFoundException {
         putAll(deserialize(serialized));
     }

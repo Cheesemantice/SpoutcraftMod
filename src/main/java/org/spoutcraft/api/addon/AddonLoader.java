@@ -155,6 +155,6 @@ public class AddonLoader {
     }
 
     public SerializableHashMap<String, String> getAddonMD5s() {
-        return addonMD5s;
+        return new SerializableHashMap<>(addonMD5s);
     }
 }
