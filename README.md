@@ -85,6 +85,9 @@ __Why do I get `javac: source release 1.7 requires target release 1.7` in Intell
 >3. Select SpoutcraftMod and set the 'Target bytecode version' as '1.7'.
 >4. Click Apply and OK and try running it again.
 
+__Why do I get `Zip file rt.jar failed to read properly` in IntelliJ?__
+>This is the result of Forge attempting to classload the Java runtime JAR, overall it is not an error that will cause any harm to your development and should be ignored.
+
 __A dependency was added, but my IDE is missing it! How do I add it?__
 >If a new dependency was added, you can run either 'gradle ideaModule' or for Eclipse 'gradle eclipse'. This should recreate the settings for your IDE and add the missing dependency.
 
