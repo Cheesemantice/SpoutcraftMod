@@ -81,7 +81,6 @@ repositories {
     }
 }
 dependencies {
-    compile 'com.flowpowered:flow-events:0.1.0-SNAPSHOT'
     compile 'commons-codec:commons-codec:1.8'
     compile 'io.netty:netty-all:4.0.13.Final'
     compile 'junit:junit:4.8.1'
