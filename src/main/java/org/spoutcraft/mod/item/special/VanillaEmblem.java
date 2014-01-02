@@ -23,25 +23,14 @@
  */
 package org.spoutcraft.mod.item.special;
 
-import cpw.mods.fml.relauncher.Side;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
 import org.spoutcraft.api.Spoutcraft;
 import org.spoutcraft.api.item.FoodPrefab;
-import org.spoutcraft.mod.addon.ServerAddonManager;
+import org.spoutcraft.mod.addon.CommonAddonManager;
 
 public class VanillaEmblem extends FoodPrefab {
     private static final long serialVersionUID = -8370246450152726518L;
 
     public VanillaEmblem() {
-        super(((ServerAddonManager) Spoutcraft.getAddonManager()).getInternalAddon(), "vanilla_emblem", "Vanilla Emblem", 64, 5, 5, true, true);
-    }
-
-    @Override
-    public void onEaten(Side side, ItemStack stack, World world, EntityPlayer player) {
-        if (side.isServer()) {
-            player.addChatMessage("Eating that reminds you of the good ole days...");
-        }
+        super(((CommonAddonManager) Spoutcraft.getAddonManager()).getInternalAddon(), "vanilla_emblem", "Vanilla Emblem", 64, 5, 5, true, true);
     }
 }

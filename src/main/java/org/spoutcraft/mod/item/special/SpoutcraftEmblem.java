@@ -23,32 +23,14 @@
  */
 package org.spoutcraft.mod.item.special;
 
-import cpw.mods.fml.relauncher.Side;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.world.Explosion;
 import org.spoutcraft.api.Spoutcraft;
 import org.spoutcraft.api.item.ItemPrefab;
-import org.spoutcraft.mod.addon.ServerAddonManager;
+import org.spoutcraft.mod.addon.CommonAddonManager;
 
 public class SpoutcraftEmblem extends ItemPrefab {
     private static final long serialVersionUID = -8756295039828645516L;
 
     public SpoutcraftEmblem() {
-        super(((ServerAddonManager) Spoutcraft.getAddonManager()).getInternalAddon(), "spout_emblem", "Spoutcraft Emblem", 1, true);
-    }
-
-    @Override
-    public boolean onLeftClickEntity(Side side, ItemStack stack, EntityPlayer player, Entity entity) {
-        if (side.isServer()) {
-            Explosion explosion = entity.worldObj.newExplosion(entity, entity.posX, entity.posY, entity.posZ, 25f, true, true);
-            explosion.isFlaming = true;
-            explosion.isSmoking = true;
-            explosion.doExplosionA();
-            Spoutcraft.getLogger().info("Test this");
-            explosion.doExplosionB(true);
-        }
-        return false;
+        super(((CommonAddonManager) Spoutcraft.getAddonManager()).getInternalAddon(), "spout_emblem", "Spoutcraft Emblem", 1, true);
     }
 }

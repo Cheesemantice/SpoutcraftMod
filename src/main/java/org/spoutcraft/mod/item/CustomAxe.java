@@ -24,10 +24,11 @@
 package org.spoutcraft.mod.item;
 
 import net.minecraft.item.ItemAxe;
+import org.spoutcraft.api.Prefabable;
 import org.spoutcraft.api.item.AxePrefab;
 import org.spoutcraft.mod.SpoutcraftMod;
 
-public class CustomAxe extends ItemAxe {
+public class CustomAxe extends ItemAxe implements Prefabable<AxePrefab> {
     private final AxePrefab prefab;
 
     public CustomAxe(int id, AxePrefab prefab) {
@@ -42,43 +43,8 @@ public class CustomAxe extends ItemAxe {
         }
     }
 
-    protected AxePrefab getPrefab() {
+    @Override
+    public AxePrefab getPrefab() {
         return prefab;
-    }
-
-    @Override
-    public float getStrVsBlock(net.minecraft.item.ItemStack par1ItemStack, net.minecraft.block.Block par2Block) {
-        return prefab.getStrVsBlock(par1ItemStack, par2Block);
-    }
-
-    @Override
-    public boolean hitEntity(net.minecraft.item.ItemStack par1ItemStack, net.minecraft.entity.EntityLivingBase par2EntityLivingBase, net.minecraft.entity.EntityLivingBase par3EntityLivingBase) {
-        super.hitEntity(par1ItemStack, par2EntityLivingBase, par3EntityLivingBase);
-        return prefab.hitEntity(par1ItemStack, par2EntityLivingBase, par3EntityLivingBase);
-    }
-
-    @Override
-    public boolean onBlockDestroyed(net.minecraft.item.ItemStack par1ItemStack, net.minecraft.world.World par2World, int par3, int par4, int par5, int par6, net.minecraft.entity.EntityLivingBase par7EntityLivingBase) {
-        super.onBlockDestroyed(par1ItemStack, par2World, par3, par4, par5, par6, par7EntityLivingBase);
-        return prefab.onBlockDestroyed(par1ItemStack, par2World, par3, par4, par5, par6, par7EntityLivingBase);
-    }
-
-    @Override
-    public int getItemEnchantability() {
-        return prefab.getItemEnchantability();
-    }
-
-    @Override
-    public String getToolMaterialName() {
-        return prefab.getToolMaterialName();
-    }
-
-    @Override
-    public boolean getIsRepairable(net.minecraft.item.ItemStack par1ItemStack, net.minecraft.item.ItemStack par2ItemStack) {
-        return prefab.getIsRepairable(par1ItemStack, par2ItemStack);
-    }
-
-    public float getStrVsBlock(net.minecraft.item.ItemStack stack, net.minecraft.block.Block block, int meta) {
-        return prefab.getStrVsBlock(stack, block, meta);
     }
 }

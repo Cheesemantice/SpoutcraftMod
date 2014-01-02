@@ -27,7 +27,7 @@ import net.minecraft.item.EnumToolMaterial;
 import org.spoutcraft.api.addon.Addon;
 
 public class PickaxePrefab extends ItemPrefab {
-    private static final long serialVersionUID = -6534031862597033948L;
+    private static final long serialVersionUID = 1L;
     private final EnumToolMaterial toolMaterial;
 
     public PickaxePrefab(Addon addon, String identifier, String displayName, int maxStackSize, boolean showInCreativeTab, EnumToolMaterial toolMaterial) {
@@ -37,33 +37,5 @@ public class PickaxePrefab extends ItemPrefab {
 
     public EnumToolMaterial getToolMaterial() {
         return toolMaterial;
-    }
-
-    public float getStrVsBlock(net.minecraft.item.ItemStack par1ItemStack, net.minecraft.block.Block par2Block) {
-        return 1f;
-    }
-
-    public boolean hitEntity(net.minecraft.item.ItemStack par1ItemStack, net.minecraft.entity.EntityLivingBase par2EntityLivingBase, net.minecraft.entity.EntityLivingBase par3EntityLivingBase) {
-        return true;
-    }
-
-    public boolean onBlockDestroyed(net.minecraft.item.ItemStack par1ItemStack, net.minecraft.world.World par2World, int par3, int par4, int par5, int par6, net.minecraft.entity.EntityLivingBase par7EntityLivingBase) {
-        return true;
-    }
-
-    public int getItemEnchantability() {
-        return getToolMaterial().getEnchantability();
-    }
-
-    public String getToolMaterialName() {
-        return getToolMaterial().toString();
-    }
-
-    public boolean getIsRepairable(net.minecraft.item.ItemStack par1ItemStack, net.minecraft.item.ItemStack par2ItemStack) {
-        return false;
-    }
-
-    public float getStrVsBlock(net.minecraft.item.ItemStack stack, net.minecraft.block.Block block, int meta) {
-        return 1f;
     }
 }

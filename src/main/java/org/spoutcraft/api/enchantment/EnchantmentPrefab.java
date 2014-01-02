@@ -28,7 +28,7 @@ import org.spoutcraft.api.Prefab;
 import org.spoutcraft.api.addon.Addon;
 
 public class EnchantmentPrefab extends Prefab {
-    private static final long serialVersionUID = -7118572071238928874L;
+    private static final long serialVersionUID = 1L;
     private final EnumEnchantmentType enchantmentType;
     private final String displayName;
     private final int weight;

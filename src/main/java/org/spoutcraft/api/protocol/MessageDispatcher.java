@@ -48,7 +48,7 @@ public class MessageDispatcher {
 
     @SuppressWarnings ("unchecked")
     public static Packet250CustomPayload create(Message message) {
-        Codec codec = Protocol.find(message.getClass());
+        Codec codec = MessageCodecLookupService.find(message.getClass());
         if (codec == null) {
             throw new IllegalStateException("Attempt to send message with no bound codec!");
         }

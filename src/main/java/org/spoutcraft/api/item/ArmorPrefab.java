@@ -27,7 +27,7 @@ import net.minecraft.item.EnumArmorMaterial;
 import org.spoutcraft.api.addon.Addon;
 
 public class ArmorPrefab extends ItemPrefab {
-    private static final long serialVersionUID = 2689311857042870037L;
+    private static final long serialVersionUID = 1L;
     private final EnumArmorMaterial armorMaterial;
     private final int renderIndex;
     private final int armorType;

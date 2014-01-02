@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.spoutcraft.api.exception;
+package org.spoutcraft.api.addon;
 
 public class InvalidDescriptionException extends Exception {
     private static final long serialVersionUID = 1L;

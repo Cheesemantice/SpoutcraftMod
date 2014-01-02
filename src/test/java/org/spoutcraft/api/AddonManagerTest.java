@@ -27,7 +27,7 @@ import java.util.logging.Logger;
 
 import org.junit.Test;
 import org.spoutcraft.api.logger.SpoutcraftLogger;
-import org.spoutcraft.mod.addon.ServerAddonManager;
+import org.spoutcraft.mod.addon.CommonAddonManager;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -39,9 +39,9 @@ public class AddonManagerTest {
         if (Spoutcraft.getLogger() == null) {
             Spoutcraft.setLogger(new SpoutcraftLogger(Logger.getLogger("Spoutcraft")));
         }
-        ServerAddonManager manager = (ServerAddonManager) Spoutcraft.getAddonManager();
+        CommonAddonManager manager = (CommonAddonManager) Spoutcraft.getAddonManager();
         if (manager == null) {
-            manager = (ServerAddonManager) Spoutcraft.setAddonManager(new ServerAddonManager());
+            manager = (CommonAddonManager) Spoutcraft.setAddonManager(new CommonAddonManager());
         }
         assertNotNull(manager.getAddon("spoutcraft"));
         assertNull(manager.getAddon("test"));

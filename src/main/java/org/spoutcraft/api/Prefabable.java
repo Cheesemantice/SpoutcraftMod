@@ -21,21 +21,15 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.spoutcraft.api.item;
+package org.spoutcraft.api;
 
-import net.minecraft.item.EnumToolMaterial;
-import org.spoutcraft.api.addon.Addon;
-
-public class AxePrefab extends ItemPrefab {
-    private static final long serialVersionUID = 1L;
-    private final EnumToolMaterial toolMaterial;
-
-    public AxePrefab(Addon addon, String identifier, String displayName, int maxStackSize, boolean showInCreativeTab, EnumToolMaterial toolMaterial) {
-        super(addon, identifier, displayName, maxStackSize, showInCreativeTab);
-        this.toolMaterial = toolMaterial;
-    }
-
-    public EnumToolMaterial getToolMaterial() {
-        return toolMaterial;
-    }
+/**
+ * Types an object to a {@link org.spoutcraft.api.Prefab}
+ */
+public interface Prefabable<T extends Prefab> {
+    /**
+     * Returns the {@link org.spoutcraft.api.Prefab}
+     * @return The prefab
+     */
+    public T getPrefab();
 }

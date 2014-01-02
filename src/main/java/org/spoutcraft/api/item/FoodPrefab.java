@@ -23,14 +23,10 @@
  */
 package org.spoutcraft.api.item;
 
-import cpw.mods.fml.relauncher.Side;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
 import org.spoutcraft.api.addon.Addon;
 
 public class FoodPrefab extends ItemPrefab {
-    private static final long serialVersionUID = -9141329006338569612L;
+    private static final long serialVersionUID = 1L;
     private final int healAmount;
     private final int saturationModifier;
     private final boolean wolfFavorite;
@@ -52,9 +48,6 @@ public class FoodPrefab extends ItemPrefab {
 
     public boolean isWolfFavorite() {
         return wolfFavorite;
-    }
-
-    public void onEaten(Side side, ItemStack stack, World world, EntityPlayer player) {
     }
 
     @Override

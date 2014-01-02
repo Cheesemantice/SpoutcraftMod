@@ -31,7 +31,7 @@ import org.spoutcraft.api.block.BlockPrefab;
 import org.spoutcraft.api.logger.SpoutcraftLogger;
 import org.spoutcraft.api.material.MapIndex;
 import org.spoutcraft.api.material.MaterialPrefab;
-import org.spoutcraft.mod.addon.ServerAddonManager;
+import org.spoutcraft.mod.addon.CommonAddonManager;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
@@ -43,9 +43,9 @@ public class PrefabTest {
             Spoutcraft.setLogger(new SpoutcraftLogger(Logger.getLogger("Spoutcraft")));
         }
         if (Spoutcraft.getAddonManager() == null) {
-            Spoutcraft.setAddonManager(new ServerAddonManager());
+            Spoutcraft.setAddonManager(new CommonAddonManager());
         }
-        final Addon addon = ((ServerAddonManager) Spoutcraft.getAddonManager()).getInternalAddon();
+        final Addon addon = ((CommonAddonManager) Spoutcraft.getAddonManager()).getInternalAddon();
         final MaterialPrefab mtest = new MaterialPrefab(addon, "test", MapIndex.DIRT);
         final BlockPrefab test = new BlockPrefab(addon, "test", "test", mtest, 1f, 1, 1, true);
         assertNotEquals(mtest, test);

@@ -28,7 +28,7 @@ import org.spoutcraft.api.addon.AddonLoader;
 import org.spoutcraft.api.addon.InternalAddon;
 
 //TODO Override parent methods and show GUI acceptance screens
-public class ClientAddonManager extends ServerAddonManager {
+public class ClientAddonManager extends CommonAddonManager {
     public ClientAddonManager() {
         super(new AddonLoader(Side.CLIENT), new InternalAddon(Side.CLIENT));
     }

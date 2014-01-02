@@ -37,17 +37,17 @@ import org.lwjgl.opengl.*;
 import org.spoutcraft.api.Spoutcraft;
 import org.spoutcraft.api.addon.AddonManager;
 import org.spoutcraft.api.logger.SpoutcraftLogger;
-import org.spoutcraft.api.protocol.Protocol;
+import org.spoutcraft.api.protocol.MessageCodecLookupService;
 import org.spoutcraft.api.resource.FileSystem;
 import org.spoutcraft.api.util.TextureUtil;
 import org.spoutcraft.mod.addon.ClientAddonManager;
-import org.spoutcraft.mod.addon.ServerAddonManager;
+import org.spoutcraft.mod.addon.CommonAddonManager;
 import org.spoutcraft.mod.block.BlockPrefabRegistry;
 import org.spoutcraft.mod.enchantment.EnchantmentPrefabRegistry;
 import org.spoutcraft.mod.handler.ClientTickHandlers;
 import org.spoutcraft.mod.item.ItemPrefabRegistry;
 import org.spoutcraft.mod.material.MaterialPrefabRegistry;
-import org.spoutcraft.mod.protocol.SpoutcraftConnectionHandler;
+import org.spoutcraft.mod.protocol.CommonConnectionHandler;
 import org.spoutcraft.mod.protocol.codec.AddFileCodec;
 import org.spoutcraft.mod.protocol.codec.AddPrefabCodec;
 import org.spoutcraft.mod.protocol.codec.AddonListCodec;
@@ -119,7 +119,7 @@ public class SpoutcraftMod {
                     throw new RuntimeException("Could not initialize FileSystem", e);
                 }
 
-                manager = Spoutcraft.setAddonManager(new ServerAddonManager());
+                manager = Spoutcraft.setAddonManager(new CommonAddonManager());
 
                 //Setup addon manager
                 manager.loadAddons(ServerFileSystem.ADDONS_PATH);
@@ -141,11 +141,11 @@ public class SpoutcraftMod {
     }
 
     private void bindCodecMessages() {
-        NetworkRegistry.instance().registerConnectionHandler(new SpoutcraftConnectionHandler());
-        Protocol.register(AddFileMessage.class, AddFileCodec.class);
-        Protocol.register(AddPrefabMessage.class, AddPrefabCodec.class);
-        Protocol.register(AddonListMessage.class, AddonListCodec.class);
-        Protocol.register(DownloadLinkMessage.class, DownloadLinkCodec.class);
+        NetworkRegistry.instance().registerConnectionHandler(new CommonConnectionHandler());
+        MessageCodecLookupService.register(AddFileMessage.class, AddFileCodec.class);
+        MessageCodecLookupService.register(AddPrefabMessage.class, AddPrefabCodec.class);
+        MessageCodecLookupService.register(AddonListMessage.class, AddonListCodec.class);
+        MessageCodecLookupService.register(DownloadLinkMessage.class, DownloadLinkCodec.class);
     }
 
     public static CustomTabs getCustomTabs() {

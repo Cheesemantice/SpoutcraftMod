@@ -37,7 +37,7 @@ public class MessagePacketHandler implements IPacketHandler {
     @SuppressWarnings ("rawtypes")
     @Override
     public void onPacketData(INetworkManager manager, Packet250CustomPayload packet, Player player) {
-        final Codec codec = Protocol.find(packet.channel);
+        final Codec codec = MessageCodecLookupService.find(packet.channel);
         final Message message;
         try {
             final ByteBuf buffer = Unpooled.buffer();

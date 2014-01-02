@@ -21,18 +21,22 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.spoutcraft.api.exception;
+package org.spoutcraft.api.addon;
 
-public class InvalidPrefabException extends Exception {
+public class InvalidAddonException extends Exception {
     private static final long serialVersionUID = 1L;
     private final String message;
     private final Throwable cause;
 
-    public InvalidPrefabException(String message) {
+    public InvalidAddonException(String message) {
         this(message, null);
     }
 
-    public InvalidPrefabException(String message, Throwable cause) {
+    public InvalidAddonException(Throwable cause) {
+        this(null, cause);
+    }
+
+    public InvalidAddonException(String message, Throwable cause) {
         this.message = message;
         this.cause = cause;
     }
@@ -56,7 +60,7 @@ public class InvalidPrefabException extends Exception {
             return false;
         }
 
-        final InvalidPrefabException that = (InvalidPrefabException) o;
+        final InvalidAddonException that = (InvalidAddonException) o;
 
         return !(cause != null ? !cause.equals(that.cause) : that.cause != null) && !(message != null ? !message.equals(that.message) : that.message != null);
     }

@@ -73,10 +73,6 @@ public final class Spoutcraft {
         return fileSystem;
     }
 
-    public static SimpleEventManager getEventManager() {
-        return eventManager;
-    }
-
     /**
      * INTERNAL USE ONLY
      */

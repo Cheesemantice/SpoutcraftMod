@@ -26,9 +26,6 @@ package org.spoutcraft.api.addon;
 import java.nio.file.Path;
 import java.util.Collection;
 
-import org.spoutcraft.api.exception.InvalidAddonException;
-import org.spoutcraft.api.exception.InvalidDescriptionException;
-
 public interface AddonManager {
     public Addon getAddon(String identifier);
 

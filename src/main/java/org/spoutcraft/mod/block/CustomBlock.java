@@ -24,13 +24,12 @@
 package org.spoutcraft.mod.block;
 
 import net.minecraft.block.Block;
-import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
+import org.spoutcraft.api.Prefabable;
 import org.spoutcraft.api.block.BlockPrefab;
 import org.spoutcraft.mod.SpoutcraftMod;
 import org.spoutcraft.mod.material.CustomMaterial;
 
-public class CustomBlock extends Block {
+public class CustomBlock extends Block implements Prefabable<BlockPrefab> {
     private final BlockPrefab prefab;
 
     public CustomBlock(int id, BlockPrefab prefab, CustomMaterial material) {
@@ -46,15 +45,6 @@ public class CustomBlock extends Block {
     }
 
     @Override
-    public int getLightValue(IBlockAccess world, int x, int y, int z) {
-        return prefab.getLightValue(world, x, y, z);
-    }
-
-    @Override
-    public int getLightOpacity(World world, int x, int y, int z) {
-        return prefab.getLightOpacity(world, x, y, z);
-    }
-
     public BlockPrefab getPrefab() {
         return prefab;
     }

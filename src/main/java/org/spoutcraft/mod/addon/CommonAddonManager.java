@@ -38,21 +38,21 @@ import org.spoutcraft.api.addon.Addon;
 import org.spoutcraft.api.addon.AddonLoader;
 import org.spoutcraft.api.addon.AddonManager;
 import org.spoutcraft.api.addon.InternalAddon;
-import org.spoutcraft.api.exception.InvalidAddonException;
-import org.spoutcraft.api.exception.InvalidDescriptionException;
+import org.spoutcraft.api.addon.InvalidAddonException;
+import org.spoutcraft.api.addon.InvalidDescriptionException;
 
-public class ServerAddonManager implements AddonManager {
+public class CommonAddonManager implements AddonManager {
     protected final AddonLoader loader;
     protected final Addon internal;
     protected final Collection<Addon> addons = new ArrayList<>();
 
-    protected ServerAddonManager(AddonLoader loader, Addon internal) {
+    protected CommonAddonManager(AddonLoader loader, Addon internal) {
         this.loader = loader;
         this.internal = internal;
         addons.add(internal);
     }
 
-    public ServerAddonManager() {
+    public CommonAddonManager() {
         this(new AddonLoader(Side.SERVER), new InternalAddon(Side.SERVER));
     }
 

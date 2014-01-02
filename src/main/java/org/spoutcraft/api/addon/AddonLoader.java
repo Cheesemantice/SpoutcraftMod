@@ -26,12 +26,10 @@ package org.spoutcraft.api.addon;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.Serializable;
 import java.lang.reflect.Constructor;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.jar.JarEntry;
@@ -43,8 +41,6 @@ import com.google.gson.GsonBuilder;
 import cpw.mods.fml.relauncher.Side;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.spoutcraft.api.Spoutcraft;
-import org.spoutcraft.api.exception.InvalidAddonException;
-import org.spoutcraft.api.exception.InvalidDescriptionException;
 import org.spoutcraft.api.util.map.SerializableHashMap;
 
 public class AddonLoader {

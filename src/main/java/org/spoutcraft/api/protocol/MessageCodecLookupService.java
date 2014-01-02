@@ -31,7 +31,7 @@ import cpw.mods.fml.common.network.NetworkRegistry;
 import org.spoutcraft.api.protocol.codec.Codec;
 import org.spoutcraft.api.protocol.message.Message;
 
-public class Protocol {
+public class MessageCodecLookupService {
     private static final MessagePacketHandler HANDLER;
     private static final Map<Class<? extends Message>, Codec<?>> TABLE;
 

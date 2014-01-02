@@ -23,16 +23,11 @@
  */
 package org.spoutcraft.api.item;
 
-import cpw.mods.fml.relauncher.Side;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
 import org.spoutcraft.api.Prefab;
 import org.spoutcraft.api.addon.Addon;
 
 public class ItemPrefab extends Prefab {
-    private static final long serialVersionUID = 1286537757382452478L;
+    private static final long serialVersionUID = 1L;
     private final String displayName;
     private final int maxStackSize;
     private final boolean showInCreativeTab;
@@ -54,22 +49,6 @@ public class ItemPrefab extends Prefab {
 
     public boolean shouldShowInCreativeTab() {
         return showInCreativeTab;
-    }
-
-    public boolean onLeftClickEntity(Side side, ItemStack stack, EntityPlayer player, Entity entity) {
-        return false;
-    }
-
-    public ItemStack onItemRightClick(Side side, ItemStack stack, World world, EntityPlayer player) {
-        return stack;
-    }
-
-    public void onUpdate(Side side, ItemStack stack, World world, Entity entity, int slot, boolean isCurrentlyHeldItem) {
-
-    }
-
-    public void onPlayerStoppedUsing(Side side, ItemStack stack, World world, EntityPlayer player, int ticksItemHasBeenUsed) {
-
     }
 
     @Override
