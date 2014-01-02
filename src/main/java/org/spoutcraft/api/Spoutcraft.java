@@ -23,7 +23,6 @@
  */
 package org.spoutcraft.api;
 
-import com.flowpowered.events.SimpleEventManager;
 import org.spoutcraft.api.addon.AddonManager;
 import org.spoutcraft.api.block.BlockPrefab;
 import org.spoutcraft.api.enchantment.EnchantmentPrefab;
