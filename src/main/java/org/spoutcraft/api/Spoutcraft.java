@@ -38,7 +38,6 @@ import org.spoutcraft.api.resource.FileSystem;
 public final class Spoutcraft {
     private static SpoutcraftLogger logger;
     private static AddonManager addonManager;
-    private static SimpleEventManager eventManager;
     private static LinkedPrefabRegistry<? extends BlockPrefab, ?> blockPrefabRegistry;
     private static LinkedPrefabRegistry<? extends ItemPrefab, ?> itemPrefabRegistry;
     private static LinkedPrefabRegistry<? extends MaterialPrefab, ?> materialPrefabRegistry;
@@ -90,17 +89,6 @@ public final class Spoutcraft {
         }
         Spoutcraft.addonManager = manager;
         return manager;
-    }
-
-    public static SimpleEventManager setEventManager(SimpleEventManager eventManager) {
-        if (Spoutcraft.eventManager != null) {
-            throw new IllegalStateException("Attempt to assign event manager twice!");
-        }
-        if (eventManager == null) {
-            throw new IllegalStateException("Attempt to assign a null event manager!");
-        }
-        Spoutcraft.eventManager = eventManager;
-        return eventManager;
     }
 
     public static LinkedPrefabRegistry<? extends BlockPrefab, ?> setBlockRegistry(LinkedPrefabRegistry<? extends BlockPrefab, ?> prefabRegistry) {
