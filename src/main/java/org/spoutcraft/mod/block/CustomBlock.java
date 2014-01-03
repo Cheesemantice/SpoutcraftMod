@@ -24,16 +24,16 @@
 package org.spoutcraft.mod.block;
 
 import net.minecraft.block.Block;
+import org.spoutcraft.api.Materials;
 import org.spoutcraft.api.Prefabable;
 import org.spoutcraft.api.block.BlockPrefab;
 import org.spoutcraft.mod.SpoutcraftMod;
-import org.spoutcraft.mod.material.CustomMaterial;
 
 public class CustomBlock extends Block implements Prefabable<BlockPrefab> {
     private final BlockPrefab prefab;
 
-    public CustomBlock(int id, BlockPrefab prefab, CustomMaterial material) {
-        super(id, material);
+    public CustomBlock(int id, BlockPrefab prefab) {
+        super(id, Materials.CUSTOM_BLOCK);
         this.prefab = prefab;
         setUnlocalizedName(prefab.getIdentifier());
         setTextureName("spoutcraft:" + prefab.getIdentifier());

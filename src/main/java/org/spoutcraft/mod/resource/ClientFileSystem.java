@@ -33,7 +33,7 @@ import java.util.Map;
 import org.spoutcraft.api.addon.Addon;
 import org.spoutcraft.api.util.RenderUtil;
 
-public class ClientFileSystem extends ServerFileSystem {
+public class ClientFileSystem extends CommonFileSystem {
     public static final Path ASSETS_PATH = Paths.get(BASE_PATH.toString(), "assets");
     public static final Path TEXTURES_PATH = Paths.get(ASSETS_PATH.toString(), "textures");
     public static final Path BLOCK_TEXTURES_PATH = Paths.get(TEXTURES_PATH.toString(), "blocks");

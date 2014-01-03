@@ -28,7 +28,6 @@ import org.spoutcraft.api.block.BlockPrefab;
 import org.spoutcraft.api.enchantment.EnchantmentPrefab;
 import org.spoutcraft.api.item.ItemPrefab;
 import org.spoutcraft.api.logger.SpoutcraftLogger;
-import org.spoutcraft.api.material.MaterialPrefab;
 import org.spoutcraft.api.resource.FileSystem;
 
 /**
@@ -39,7 +38,6 @@ public final class Spoutcraft {
     private static AddonManager addonManager;
     private static LinkedPrefabRegistry<? extends BlockPrefab, ?> blockPrefabRegistry;
     private static LinkedPrefabRegistry<? extends ItemPrefab, ?> itemPrefabRegistry;
-    private static LinkedPrefabRegistry<? extends MaterialPrefab, ?> materialPrefabRegistry;
     private static LinkedPrefabRegistry<? extends EnchantmentPrefab, ?> enchantmentPrefabRegistry;
     private static FileSystem fileSystem;
 
@@ -57,10 +55,6 @@ public final class Spoutcraft {
 
     public static LinkedPrefabRegistry<? extends ItemPrefab, ?> getItemPrefabRegistry() {
         return itemPrefabRegistry;
-    }
-
-    public static LinkedPrefabRegistry<? extends MaterialPrefab, ?> getMaterialPrefabRegistry() {
-        return materialPrefabRegistry;
     }
 
     public static LinkedPrefabRegistry<? extends EnchantmentPrefab, ?> getEnchantmentPrefabRegistry() {
@@ -110,17 +104,6 @@ public final class Spoutcraft {
         }
         Spoutcraft.itemPrefabRegistry = itemPrefabRegistry;
         return itemPrefabRegistry;
-    }
-
-    public static LinkedPrefabRegistry<? extends MaterialPrefab, ?> setMaterialRegistry(LinkedPrefabRegistry<? extends MaterialPrefab, ?> materialPrefabRegistry) {
-        if (Spoutcraft.materialPrefabRegistry != null) {
-            throw new IllegalStateException("Attempt to assign material registry twice!");
-        }
-        if (materialPrefabRegistry == null) {
-            throw new IllegalStateException("Attempt to assign a null material registry!");
-        }
-        Spoutcraft.materialPrefabRegistry = materialPrefabRegistry;
-        return materialPrefabRegistry;
     }
 
     public static LinkedPrefabRegistry<? extends EnchantmentPrefab, ?> setEnchantmentPrefabRegistry(LinkedPrefabRegistry<? extends EnchantmentPrefab, ?> enchantmentPrefabRegistry) {

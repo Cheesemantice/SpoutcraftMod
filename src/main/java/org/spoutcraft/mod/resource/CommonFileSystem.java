@@ -34,7 +34,7 @@ import java.util.Map;
 import org.spoutcraft.api.addon.Addon;
 import org.spoutcraft.api.resource.FileSystem;
 
-public class ServerFileSystem implements FileSystem {
+public class CommonFileSystem implements FileSystem {
     public static final Path BASE_PATH = Paths.get(".");
     public static final Path MODS_PATH = Paths.get(BASE_PATH.toString(), "mods");
     public static final Path ADDONS_PATH = Paths.get(MODS_PATH.toString(), "spoutcraft" + File.separator + "addons");

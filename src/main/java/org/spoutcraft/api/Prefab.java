@@ -29,7 +29,6 @@ import org.spoutcraft.api.addon.Addon;
 
 /**
  * A Prefab is a descriptor, by extending this class and providing characteristics you can use it to build real Minecraft classes.
- * Prefabs are sent over the wire and constructed into real Minecraft classes.
  */
 public abstract class Prefab implements Serializable {
     private static final long serialVersionUID = 1L;

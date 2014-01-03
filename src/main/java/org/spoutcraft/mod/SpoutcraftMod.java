@@ -45,7 +45,6 @@ import org.spoutcraft.mod.block.BlockPrefabRegistry;
 import org.spoutcraft.mod.enchantment.EnchantmentPrefabRegistry;
 import org.spoutcraft.mod.handler.ClientTickHandlers;
 import org.spoutcraft.mod.item.ItemPrefabRegistry;
-import org.spoutcraft.mod.material.MaterialPrefabRegistry;
 import org.spoutcraft.mod.protocol.CommonConnectionHandler;
 import org.spoutcraft.mod.protocol.codec.AddFileCodec;
 import org.spoutcraft.mod.protocol.codec.AddPrefabCodec;
@@ -56,7 +55,7 @@ import org.spoutcraft.mod.protocol.message.AddPrefabMessage;
 import org.spoutcraft.mod.protocol.message.AddonListMessage;
 import org.spoutcraft.mod.protocol.message.DownloadLinkMessage;
 import org.spoutcraft.mod.resource.ClientFileSystem;
-import org.spoutcraft.mod.resource.ServerFileSystem;
+import org.spoutcraft.mod.resource.CommonFileSystem;
 
 // TODO: Reflect GameRegistry, LanguageRegistry, NetworkRegistry and remove addon content on server leave
 // TODO: Fix generics?
@@ -101,12 +100,12 @@ public class SpoutcraftMod {
 
                 manager = Spoutcraft.setAddonManager(new ClientAddonManager());
 
-                //Setup addon manager
-                manager.loadAddons(ServerFileSystem.ADDONS_PATH);
+                // Setup addon manager
+                manager.loadAddons(CommonFileSystem.ADDONS_PATH);
                 ClientTickHandlers.start();
                 break;
             case SERVER:
-                fileSystem = Spoutcraft.setFileSystem(new ServerFileSystem());
+                fileSystem = Spoutcraft.setFileSystem(new CommonFileSystem());
 
                 // Setup file system
                 try {
@@ -118,7 +117,7 @@ public class SpoutcraftMod {
                 manager = Spoutcraft.setAddonManager(new CommonAddonManager());
 
                 //Setup addon manager
-                manager.loadAddons(ServerFileSystem.ADDONS_PATH);
+                manager.loadAddons(CommonFileSystem.ADDONS_PATH);
                 break;
             default:
                 throw new RuntimeException("Spoutcraft is being ran on an invalid side!");
@@ -128,7 +127,6 @@ public class SpoutcraftMod {
         Spoutcraft.setBlockRegistry(new BlockPrefabRegistry());
         Spoutcraft.setEnchantmentPrefabRegistry(new EnchantmentPrefabRegistry());
         Spoutcraft.setItemPrefabRegistry(new ItemPrefabRegistry());
-        Spoutcraft.setMaterialRegistry(new MaterialPrefabRegistry());
 
         // Setup creative tab
         customTabs = new CustomTabs();

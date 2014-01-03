@@ -36,7 +36,6 @@ import org.spoutcraft.api.protocol.MessageDispatcher;
 import org.spoutcraft.mod.addon.ClientAddonManager;
 import org.spoutcraft.mod.block.BlockPrefabRegistry;
 import org.spoutcraft.mod.item.ItemPrefabRegistry;
-import org.spoutcraft.mod.material.MaterialPrefabRegistry;
 import org.spoutcraft.mod.protocol.message.AddonListMessage;
 
 public class CommonConnectionHandler implements IConnectionHandler {
@@ -44,7 +43,6 @@ public class CommonConnectionHandler implements IConnectionHandler {
     public void playerLoggedIn(Player player, NetHandler netHandler, final INetworkManager manager) {
 
         if (!FMLCommonHandler.instance().getMinecraftServerInstance().isSinglePlayer()) {
-            ((MaterialPrefabRegistry) Spoutcraft.getMaterialPrefabRegistry()).sync(manager);
             ((ItemPrefabRegistry) Spoutcraft.getItemPrefabRegistry()).sync(manager);
             ((BlockPrefabRegistry) Spoutcraft.getBlockPrefabRegistry()).sync(manager);
         }

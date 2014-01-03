@@ -23,35 +23,41 @@
  */
 package org.spoutcraft.api.block;
 
+import com.google.gson.Gson;
 import org.spoutcraft.api.Prefab;
 import org.spoutcraft.api.addon.Addon;
-import org.spoutcraft.api.material.MaterialPrefab;
 
 public class BlockPrefab extends Prefab {
     private static final long serialVersionUID = 1L;
     private final String displayName;
-    private final MaterialPrefab prefab;
     private final float hardness;
     private final boolean showInCreativeTab;
     private final int light;
     private final int lightOpacity;
+    private final String modelPath;
 
-    public BlockPrefab(Addon addon, String identifier, String displayName, MaterialPrefab prefab, float hardness, int light, int lightOpacity, boolean showInCreativeTab) {
+    public BlockPrefab(Addon addon, String identifier, String displayName, float hardness, int light, int lightOpacity, boolean showInCreativeTab) {
         super(addon, identifier);
         this.displayName = displayName;
-        this.prefab = prefab;
         this.hardness = hardness;
         this.light = light;
         this.lightOpacity = lightOpacity;
         this.showInCreativeTab = showInCreativeTab;
+        modelPath = null;
+    }
+
+    public BlockPrefab(Addon addon, String identifier, Gson gson) {
+        super(addon, identifier);
+        displayName = gson.fromJson("display-name", String.class);
+        hardness = gson.fromJson("hardness", Float.class);
+        showInCreativeTab = gson.fromJson("show-in-creative-tab", Boolean.class);
+        light = gson.fromJson("light-level", Integer.class);
+        lightOpacity = gson.fromJson("light-opacity", Integer.class);
+        modelPath = gson.fromJson("model-path", String.class);
     }
 
     public String getDisplayName() {
         return displayName;
-    }
-
-    public MaterialPrefab getMaterialPrefab() {
-        return prefab;
     }
 
     public float getHardness() {
@@ -62,6 +68,10 @@ public class BlockPrefab extends Prefab {
         return showInCreativeTab;
     }
 
+    public String getModelPath() {
+        return modelPath;
+    }
+
     @Override
     public String toString() {
         final String NEW_LINE = System.getProperty("line.separator");
@@ -69,10 +79,10 @@ public class BlockPrefab extends Prefab {
         final StringBuilder builder = new StringBuilder(parent.substring(0, parent.length() - 1));
         builder
                 .append(" Display Name: " + displayName + NEW_LINE)
-                .append(" " + prefab.toString() + NEW_LINE)
                 .append(" Hardness: " + hardness + NEW_LINE)
                 .append(" Light Level: " + light + NEW_LINE)
                 .append(" Light Opacity: " + lightOpacity + NEW_LINE)
+                .append(" Model: " + modelPath + NEW_LINE)
                 .append("}");
         return builder.toString();
     }

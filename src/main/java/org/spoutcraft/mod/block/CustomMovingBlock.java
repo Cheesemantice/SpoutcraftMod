@@ -24,16 +24,16 @@
 package org.spoutcraft.mod.block;
 
 import net.minecraft.block.BlockSand;
+import org.spoutcraft.api.Materials;
 import org.spoutcraft.api.Prefabable;
 import org.spoutcraft.api.block.MovingPrefab;
 import org.spoutcraft.mod.SpoutcraftMod;
-import org.spoutcraft.mod.material.CustomMaterial;
 
 public class CustomMovingBlock extends BlockSand implements Prefabable<MovingPrefab> {
     private final MovingPrefab prefab;
 
-    public CustomMovingBlock(int id, MovingPrefab prefab, CustomMaterial material) {
-        super(id, material);
+    public CustomMovingBlock(int id, MovingPrefab prefab) {
+        super(id, Materials.CUSTOM_MOVING);
         this.prefab = prefab;
         setUnlocalizedName(prefab.getIdentifier());
         setTextureName("spoutcraft:" + prefab.getIdentifier());
