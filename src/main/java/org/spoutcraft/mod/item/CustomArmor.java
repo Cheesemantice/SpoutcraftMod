@@ -23,32 +23,25 @@
  */
 package org.spoutcraft.mod.item;
 
-import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemArmor;
-import net.minecraft.item.ItemStack;
 import org.spoutcraft.api.Prefabable;
+import org.spoutcraft.api.addon.Addon;
 import org.spoutcraft.api.item.ArmorPrefab;
-import org.spoutcraft.api.util.ItemUtil;
 import org.spoutcraft.mod.SpoutcraftMod;
 
 public class CustomArmor extends ItemArmor implements Prefabable<ArmorPrefab> {
     private final ArmorPrefab prefab;
 
-    public CustomArmor(int id, ArmorPrefab prefab) {
-        super(id, prefab.getToolMaterial(), prefab.getRenderIndex(), prefab.getArmorType());
+    public CustomArmor(int id, Addon addon, ArmorPrefab prefab) {
+        super(id, prefab.getToolMaterial(), ArmorPrefab.RENDER_INDEX, prefab.getArmorType().value());
         this.prefab = prefab;
         setUnlocalizedName("spoutcraft:" + prefab.getIdentifier());
-        setTextureName("spoutcraft:" + prefab.getIdentifier());
+        setTextureName("spoutcraft:" + addon.getDescription().getIdentifier() + "/textures/items/armor/" + prefab.getIdentifier());
         setMaxStackSize(prefab.getMaxStackSize());
 
         if (prefab.shouldShowInCreativeTab()) {
             setCreativeTab(SpoutcraftMod.getCustomTabs());
         }
-    }
-
-    @Override
-    public String getArmorTexture(ItemStack stack, Entity entity, int slot, int layer) {
-        return "spoutcraft:" + String.format("textures/models/armor/" + ItemUtil.getArmorName(prefab.getIdentifier(), prefab.getArmorType()) + "_layer_%d.png", Integer.valueOf(layer == 2 ? 2 : 1));
     }
 
     @Override

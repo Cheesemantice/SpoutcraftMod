@@ -25,17 +25,18 @@ package org.spoutcraft.mod.item;
 
 import net.minecraft.item.ItemSword;
 import org.spoutcraft.api.Prefabable;
+import org.spoutcraft.api.addon.Addon;
 import org.spoutcraft.api.item.SwordPrefab;
 import org.spoutcraft.mod.SpoutcraftMod;
 
 public class CustomSword extends ItemSword implements Prefabable<SwordPrefab> {
     private final SwordPrefab prefab;
 
-    CustomSword(int id, SwordPrefab prefab) {
+    public CustomSword(int id, Addon addon, SwordPrefab prefab) {
         super(id, prefab.getToolMaterial());
         this.prefab = prefab;
         setUnlocalizedName("spoutcraft:" + prefab.getIdentifier());
-        setTextureName("spoutcraft:" + prefab.getIdentifier());
+        setTextureName("spoutcraft:" + addon.getDescription().getIdentifier() + "/textures/items/swords/" + prefab.getIdentifier());
         setMaxStackSize(prefab.getMaxStackSize());
 
         if (prefab.shouldShowInCreativeTab()) {

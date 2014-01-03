@@ -28,6 +28,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import org.spoutcraft.api.Spoutcraft;
 import org.spoutcraft.api.util.LanguageUtil;
+import org.spoutcraft.mod.addon.CommonAddonManager;
 
 public class CustomTabs extends CreativeTabs {
     protected CustomTabs() {
@@ -37,6 +38,6 @@ public class CustomTabs extends CreativeTabs {
 
     @Override
     public ItemStack getIconItemStack() {
-        return new ItemStack((Item) Spoutcraft.getItemPrefabRegistry().find("spout_emblem"), 1, 0);
+        return new ItemStack((Item) Spoutcraft.getItemPrefabRegistry().find(((CommonAddonManager) Spoutcraft.getAddonManager()).getInternalAddon(), "spout_emblem"), 1, 0);
     }
 }

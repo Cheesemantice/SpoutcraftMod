@@ -25,17 +25,18 @@ package org.spoutcraft.mod.item;
 
 import net.minecraft.item.ItemFood;
 import org.spoutcraft.api.Prefabable;
+import org.spoutcraft.api.addon.Addon;
 import org.spoutcraft.api.item.FoodPrefab;
 import org.spoutcraft.mod.SpoutcraftMod;
 
 public class CustomFood extends ItemFood implements Prefabable<FoodPrefab> {
     private final FoodPrefab prefab;
 
-    public CustomFood(int id, FoodPrefab prefab) {
+    public CustomFood(int id, Addon addon, FoodPrefab prefab) {
         super(id, prefab.getHealAmount(), prefab.getSaturationModifier(), prefab.isWolfFavorite());
         this.prefab = prefab;
         setUnlocalizedName("spoutcraft:" + prefab.getIdentifier());
-        setTextureName("spoutcraft:" + prefab.getIdentifier());
+        setTextureName("spoutcraft:" + addon.getDescription().getIdentifier() + "/textures/items/food/" + prefab.getIdentifier());
         setMaxStackSize(prefab.getMaxStackSize());
 
         if (prefab.shouldShowInCreativeTab()) {

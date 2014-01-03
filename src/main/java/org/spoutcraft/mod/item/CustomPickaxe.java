@@ -25,17 +25,18 @@ package org.spoutcraft.mod.item;
 
 import net.minecraft.item.ItemPickaxe;
 import org.spoutcraft.api.Prefabable;
+import org.spoutcraft.api.addon.Addon;
 import org.spoutcraft.api.item.PickaxePrefab;
 import org.spoutcraft.mod.SpoutcraftMod;
 
 public class CustomPickaxe extends ItemPickaxe implements Prefabable<PickaxePrefab> {
     private final PickaxePrefab prefab;
 
-    public CustomPickaxe(int id, PickaxePrefab prefab) {
+    public CustomPickaxe(int id, Addon addon, PickaxePrefab prefab) {
         super(id, prefab.getToolMaterial());
         this.prefab = prefab;
         setUnlocalizedName("spoutcraft:" + prefab.getIdentifier());
-        setTextureName("spoutcraft:" + prefab.getIdentifier());
+        setTextureName("spoutcraft:" + addon.getDescription().getIdentifier() + "/textures/items/pickaxes/" + prefab.getIdentifier());
         setMaxStackSize(prefab.getMaxStackSize());
 
         if (prefab.shouldShowInCreativeTab()) {

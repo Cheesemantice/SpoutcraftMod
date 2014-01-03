@@ -25,23 +25,15 @@ package org.spoutcraft.api;
 
 import java.io.Serializable;
 
-import org.spoutcraft.api.addon.Addon;
-
 /**
  * A Prefab is a descriptor, by extending this class and providing characteristics you can use it to build real Minecraft classes.
  */
 public abstract class Prefab implements Serializable {
     private static final long serialVersionUID = 1L;
-    private final String addonIdentifier;
     private final String identifier;
 
-    public Prefab(Addon addon, String identifier) {
-        this.addonIdentifier = addon.getDescription().getIdentifier();
+    public Prefab(String identifier) {
         this.identifier = identifier;
-    }
-
-    public String getAddonIdentifier() {
-        return addonIdentifier;
     }
 
     public String getIdentifier() {
@@ -60,25 +52,17 @@ public abstract class Prefab implements Serializable {
 
         final Prefab prefab = (Prefab) o;
 
-        return addonIdentifier.equals(prefab.addonIdentifier) && identifier.equals(prefab.identifier);
+        return identifier.equals(prefab.identifier);
     }
 
     @Override
     public int hashCode() {
-        int result = addonIdentifier.hashCode();
-        result = 31 * result + identifier.hashCode();
-        return result;
+        return identifier.hashCode();
     }
 
     @Override
     public String toString() {
         final String NEW_LINE = System.getProperty("line.separator");
-        final StringBuilder builder = new StringBuilder();
-        builder
-                .append(getClass().getName() + " {" + NEW_LINE)
-                .append(" Addon Identifier: " + getAddonIdentifier() + NEW_LINE)
-                .append(" Identifier: " + getIdentifier() + NEW_LINE)
-                .append("}");
-        return builder.toString();
+        return (getClass().getName() + " {" + NEW_LINE) + " Identifier: " + getIdentifier() + NEW_LINE + "}";
     }
 }

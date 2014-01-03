@@ -25,17 +25,18 @@ package org.spoutcraft.mod.item;
 
 import net.minecraft.item.ItemAxe;
 import org.spoutcraft.api.Prefabable;
+import org.spoutcraft.api.addon.Addon;
 import org.spoutcraft.api.item.AxePrefab;
 import org.spoutcraft.mod.SpoutcraftMod;
 
 public class CustomAxe extends ItemAxe implements Prefabable<AxePrefab> {
     private final AxePrefab prefab;
 
-    public CustomAxe(int id, AxePrefab prefab) {
+    public CustomAxe(int id, Addon addon, AxePrefab prefab) {
         super(id, prefab.getToolMaterial());
         this.prefab = prefab;
         setUnlocalizedName("spoutcraft:" + prefab.getIdentifier());
-        setTextureName("spoutcraft:" + prefab.getIdentifier());
+        setTextureName("spoutcraft:" + addon.getDescription().getIdentifier() + "/textures/items/axes/" + prefab.getIdentifier());
         setMaxStackSize(prefab.getMaxStackSize());
 
         if (prefab.shouldShowInCreativeTab()) {

@@ -25,7 +25,6 @@ package org.spoutcraft.api.block;
 
 import com.google.gson.Gson;
 import org.spoutcraft.api.Prefab;
-import org.spoutcraft.api.addon.Addon;
 
 public class BlockPrefab extends Prefab {
     private static final long serialVersionUID = 1L;
@@ -36,8 +35,8 @@ public class BlockPrefab extends Prefab {
     private final int lightOpacity;
     private final String modelPath;
 
-    public BlockPrefab(Addon addon, String identifier, String displayName, float hardness, int light, int lightOpacity, boolean showInCreativeTab) {
-        super(addon, identifier);
+    public BlockPrefab(String identifier, String displayName, float hardness, int light, int lightOpacity, boolean showInCreativeTab) {
+        super(identifier);
         this.displayName = displayName;
         this.hardness = hardness;
         this.light = light;
@@ -46,8 +45,8 @@ public class BlockPrefab extends Prefab {
         modelPath = null;
     }
 
-    public BlockPrefab(Addon addon, String identifier, Gson gson) {
-        super(addon, identifier);
+    public BlockPrefab(String identifier, Gson gson) {
+        super(identifier);
         displayName = gson.fromJson("display-name", String.class);
         hardness = gson.fromJson("hardness", Float.class);
         showInCreativeTab = gson.fromJson("show-in-creative-tab", Boolean.class);
@@ -76,14 +75,6 @@ public class BlockPrefab extends Prefab {
     public String toString() {
         final String NEW_LINE = System.getProperty("line.separator");
         final String parent = super.toString();
-        final StringBuilder builder = new StringBuilder(parent.substring(0, parent.length() - 1));
-        builder
-                .append(" Display Name: " + displayName + NEW_LINE)
-                .append(" Hardness: " + hardness + NEW_LINE)
-                .append(" Light Level: " + light + NEW_LINE)
-                .append(" Light Opacity: " + lightOpacity + NEW_LINE)
-                .append(" Model: " + modelPath + NEW_LINE)
-                .append("}");
-        return builder.toString();
+        return parent.substring(0, parent.length() - 1) + " Display Name: " + displayName + NEW_LINE + " Hardness: " + hardness + NEW_LINE + " Light Level: " + light + NEW_LINE + " Light Opacity: " + lightOpacity + NEW_LINE + " Model: " + modelPath + NEW_LINE + "}";
     }
 }

@@ -25,17 +25,18 @@ package org.spoutcraft.mod.item;
 
 import net.minecraft.item.ItemSpade;
 import org.spoutcraft.api.Prefabable;
+import org.spoutcraft.api.addon.Addon;
 import org.spoutcraft.api.item.SpadePrefab;
 import org.spoutcraft.mod.SpoutcraftMod;
 
 public class CustomSpade extends ItemSpade implements Prefabable<SpadePrefab> {
     private final SpadePrefab prefab;
 
-    public CustomSpade(int id, SpadePrefab prefab) {
+    public CustomSpade(int id, Addon addon, SpadePrefab prefab) {
         super(id, prefab.getToolMaterial());
         this.prefab = prefab;
         setUnlocalizedName("spoutcraft:" + prefab.getIdentifier());
-        setTextureName("spoutcraft:" + prefab.getIdentifier());
+        setTextureName("spoutcraft:" + addon.getDescription().getIdentifier() + "/textures/items/spades/" + prefab.getIdentifier());
         setMaxStackSize(prefab.getMaxStackSize());
 
         if (prefab.shouldShowInCreativeTab()) {

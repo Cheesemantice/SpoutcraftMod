@@ -48,13 +48,7 @@ public class AddPrefabCodec implements Codec<AddPrefabMessage> {
 
         final byte[] data = new byte[buffer.readableBytes()];
         buffer.readBytes(data);
-
-        final Prefab prefab = (Prefab) SerializationUtils.deserialize(data);
-        //TODO Sanity check needed and here?
-        if (Spoutcraft.getAddonManager().getAddon(prefab.getAddonIdentifier()) == null) {
-            return null;
-        }
-        return new AddPrefabMessage(prefab);
+        return new AddPrefabMessage( (Prefab) SerializationUtils.deserialize(data));
     }
 
     @Override

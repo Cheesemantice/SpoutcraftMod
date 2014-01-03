@@ -33,6 +33,7 @@ import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.network.INetworkManager;
 import org.spoutcraft.api.LinkedPrefabRegistry;
+import org.spoutcraft.api.addon.Addon;
 import org.spoutcraft.api.block.BlockPrefab;
 import org.spoutcraft.api.block.MovingPrefab;
 import org.spoutcraft.api.protocol.MessageDispatcher;
@@ -47,13 +48,13 @@ public class BlockPrefabRegistry implements LinkedPrefabRegistry<BlockPrefab, Bl
     private static final int ID_START = 2000;
 
     @Override
-    public BlockPrefab put(BlockPrefab prefab) {
-        create(prefab);
+    public BlockPrefab put(Addon addon, BlockPrefab prefab) {
+        create(addon, prefab);
         return prefab;
     }
 
     @Override
-    public Block create(BlockPrefab prefab) {
+    public Block create(Addon addon, BlockPrefab prefab) {
         if (prefab == null) {
             throw new IllegalStateException("Attempt made to put null block prefab into registry!");
         }
@@ -61,9 +62,9 @@ public class BlockPrefabRegistry implements LinkedPrefabRegistry<BlockPrefab, Bl
         final int id = ID_START + ID_COUNTER.incrementAndGet();
         final Block block;
         if (prefab instanceof MovingPrefab) {
-            block = new CustomMovingBlock(id, (MovingPrefab) prefab);
+            block = new CustomMovingBlock(id, addon, (MovingPrefab) prefab);
         } else {
-            block = new CustomBlock(id, prefab);
+            block = new CustomBlock(id, addon, prefab);
         }
 
         REGISTRY.add(prefab);
@@ -76,7 +77,7 @@ public class BlockPrefabRegistry implements LinkedPrefabRegistry<BlockPrefab, Bl
     }
 
     @Override
-    public BlockPrefab get(String identifier) {
+    public BlockPrefab get(Addon addon, String identifier) {
         if (identifier != null && !identifier.isEmpty()) {
             for (BlockPrefab prefab : REGISTRY) {
                 if (prefab.getIdentifier().equals(identifier)) {
@@ -88,12 +89,12 @@ public class BlockPrefabRegistry implements LinkedPrefabRegistry<BlockPrefab, Bl
     }
 
     @Override
-    public Block find(BlockPrefab prefab) {
+    public Block find(Addon addon, BlockPrefab prefab) {
         return prefab == null ? null : PREFAB_BY_BLOCK.get(prefab);
     }
 
     @Override
-    public Block find(String identifier) {
+    public Block find(Addon addon, String identifier) {
         if (identifier != null && !identifier.isEmpty()) {
             for (Map.Entry<BlockPrefab, Block> entry : PREFAB_BY_BLOCK.entrySet()) {
                 if (entry.getKey().getIdentifier().equals(identifier)) {

@@ -23,34 +23,51 @@
  */
 package org.spoutcraft.api.item;
 
+import cpw.mods.fml.client.registry.RenderingRegistry;
+import cpw.mods.fml.common.FMLCommonHandler;
 import net.minecraft.item.EnumArmorMaterial;
-import org.spoutcraft.api.addon.Addon;
 
 public class ArmorPrefab extends ItemPrefab {
+    public static final int RENDER_INDEX;
     private static final long serialVersionUID = 1L;
     private final EnumArmorMaterial armorMaterial;
-    private final int renderIndex;
-    private final int armorType;
+    private final ArmorType armorType;
 
-    /**
-     * @param armorType 0 is helmet, 1 is plate, 2 is legs and 3 is boots
-     */
-    public ArmorPrefab(Addon addon, String identifier, String displayName, boolean showInCreativeTab, int renderIndex, int armorType, EnumArmorMaterial armorMaterial) {
-        super(addon, identifier, displayName, 1, showInCreativeTab);
-        this.armorMaterial = armorMaterial;
-        this.renderIndex = renderIndex;
+    static {
+        if (FMLCommonHandler.instance().getEffectiveSide().isClient()) {
+            RENDER_INDEX = RenderingRegistry.addNewArmourRendererPrefix("Custom");
+        } else {
+            RENDER_INDEX = 0;
+        }
+    }
+
+    public ArmorPrefab(String identifier, String displayName, boolean showInCreativeTab, ArmorType armorType, EnumArmorMaterial armorMaterial) {
+        super(identifier, displayName, 1, showInCreativeTab);
         this.armorType = armorType;
+        this.armorMaterial = armorMaterial;
     }
 
     public EnumArmorMaterial getToolMaterial() {
         return armorMaterial;
     }
 
-    public int getRenderIndex() {
-        return renderIndex;
+    public ArmorType getArmorType() {
+        return armorType;
     }
 
-    public int getArmorType() {
-        return armorType;
+    public static enum ArmorType {
+        HELMET(0),
+        CHESTPLATE(1),
+        LEGGINGS(2),
+        BOOTS(3);
+        private final int value;
+
+        private ArmorType(int value) {
+            this.value = value;
+        }
+
+        public int value() {
+            return value;
+        }
     }
 }

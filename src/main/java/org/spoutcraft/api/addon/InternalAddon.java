@@ -26,7 +26,6 @@ package org.spoutcraft.api.addon;
 import java.util.EnumSet;
 
 import cpw.mods.fml.client.registry.KeyBindingRegistry;
-import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.TickType;
 import cpw.mods.fml.relauncher.Side;
 import net.minecraft.client.Minecraft;
@@ -68,49 +67,48 @@ public final class InternalAddon extends Addon {
         final LinkedPrefabRegistry itemRegistry = Spoutcraft.getItemPrefabRegistry();
 
         //Special
-        itemRegistry.put(new SpoutcraftEmblem());
-        itemRegistry.put(new VanillaEmblem());
+        itemRegistry.put(this, new SpoutcraftEmblem());
+        itemRegistry.put(this, new VanillaEmblem());
 
         //--------------------------------Custom Tools--------------------------------------------------------------------
-        itemRegistry.put(new SwordPrefab(this, "custom_blade", "Custom Blade", 1, true, EnumToolMaterial.EMERALD));
-        itemRegistry.put(new PickaxePrefab(this, "custom_pickaxe", "Custom Pickaxe", 2, true, EnumToolMaterial.EMERALD));
-        itemRegistry.put(new SpadePrefab(this, "custom_shovel", "Custom Shovel", 3, true, EnumToolMaterial.EMERALD));
-        itemRegistry.put(new AxePrefab(this, "custom_axe", "Custom Axe", 4, true, EnumToolMaterial.EMERALD));
+        itemRegistry.put(this, new SwordPrefab("custom_blade", "Custom Blade", 1, true, EnumToolMaterial.EMERALD));
+        itemRegistry.put(this, new PickaxePrefab("custom_pickaxe", "Custom Pickaxe", 2, true, EnumToolMaterial.EMERALD));
+        itemRegistry.put(this, new SpadePrefab("custom_shovel", "Custom Shovel", 3, true, EnumToolMaterial.EMERALD));
+        itemRegistry.put(this, new AxePrefab("custom_axe", "Custom Axe", 4, true, EnumToolMaterial.EMERALD));
 
         //-------------------------------Custom Armor---------------------------------------------------------------------
         EnumArmorMaterial customArmorMaterial = EnumHelper.addArmorMaterial("Custom", 100, new int[] {2, 3, 2, 2}, 15);
-        int renderIndex = getSide().isServer() ? 0 : RenderingRegistry.addNewArmourRendererPrefix("Custom");
-        itemRegistry.put(new ArmorPrefab(this, "custom_helmet", "Custom Helmet", true, renderIndex, 0, customArmorMaterial));
-        itemRegistry.put(new ArmorPrefab(this, "custom_chestplate", "Custom Chestplate", true, renderIndex, 1, customArmorMaterial));
-        itemRegistry.put(new ArmorPrefab(this, "custom_leggings", "Custom Leggings", true, renderIndex, 2, customArmorMaterial));
-        itemRegistry.put(new ArmorPrefab(this, "custom_boots", "Custom Boots", true, renderIndex, 3, customArmorMaterial));
+        itemRegistry.put(this, new ArmorPrefab("custom_helmet", "Custom Helmet", true, ArmorPrefab.ArmorType.HELMET, customArmorMaterial));
+        itemRegistry.put(this, new ArmorPrefab("custom_chestplate", "Custom Chestplate", true, ArmorPrefab.ArmorType.CHESTPLATE, customArmorMaterial));
+        itemRegistry.put(this, new ArmorPrefab("custom_leggings", "Custom Leggings", true, ArmorPrefab.ArmorType.LEGGINGS, customArmorMaterial));
+        itemRegistry.put(this, new ArmorPrefab("custom_boots", "Custom Boots", true, ArmorPrefab.ArmorType.BOOTS, customArmorMaterial));
 
         //----------------------------Custom Enchantments-----------------------------------------------------------------
         final LinkedPrefabRegistry enchantmentRegistry = Spoutcraft.getEnchantmentPrefabRegistry();
         EnumEnchantmentType customEnchantment = EnumHelper.addEnchantmentType("Custom");
-        enchantmentRegistry.put(new EnchantmentPrefab(this, "customEnchantment", "Custom Enchantment", 1, customEnchantment));
+        enchantmentRegistry.put(this, new EnchantmentPrefab("customEnchantment", "Custom Enchantment", 1, customEnchantment));
 
         //Everyone loves numbers :P
-        blockRegistry.put(new MovingPrefab(this, "0b", "0 (Black)", 0.5f, 1, 255, true));
-        blockRegistry.put(new MovingPrefab(this, "0w", "0 (White)", 0.5f, 1, 255, true));
-        blockRegistry.put(new MovingPrefab(this, "1b", "1 (Black)", 0.5f, 1, 255, true));
-        blockRegistry.put(new MovingPrefab(this, "1w", "1 (White)", 0.5f, 1, 255, true));
-        blockRegistry.put(new MovingPrefab(this, "2b", "2 (Black)", 0.5f, 1, 255, true));
-        blockRegistry.put(new MovingPrefab(this, "2w", "2 (White)", 0.5f, 1, 255, true));
-        blockRegistry.put(new MovingPrefab(this, "3b", "3 (Black)", 0.5f, 1, 255, true));
-        blockRegistry.put(new MovingPrefab(this, "3w", "3 (White)", 0.5f, 1, 255, true));
-        blockRegistry.put(new MovingPrefab(this, "4b", "4 (Black)", 0.5f, 1, 255, true));
-        blockRegistry.put(new MovingPrefab(this, "4w", "4 (White)", 0.5f, 1, 255, true));
-        blockRegistry.put(new MovingPrefab(this, "5b", "5 (Black)", 0.5f, 1, 255, true));
-        blockRegistry.put(new MovingPrefab(this, "5w", "5 (White)", 0.5f, 1, 255, true));
-        blockRegistry.put(new MovingPrefab(this, "6b", "6 (Black)", 0.5f, 1, 255, true));
-        blockRegistry.put(new MovingPrefab(this, "6w", "6 (White)", 0.5f, 1, 255, true));
-        blockRegistry.put(new MovingPrefab(this, "7b", "7 (Black)", 0.5f, 1, 255, true));
-        blockRegistry.put(new MovingPrefab(this, "7w", "7 (White)", 0.5f, 1, 255, true));
-        blockRegistry.put(new MovingPrefab(this, "8b", "8 (Black)", 0.5f, 1, 255, true));
-        blockRegistry.put(new MovingPrefab(this, "8w", "8 (White)", 0.5f, 1, 255, true));
-        blockRegistry.put(new MovingPrefab(this, "9b", "9 (Black)", 0.5f, 1, 255, true));
-        blockRegistry.put(new MovingPrefab(this, "9w", "9 (White)", 0.5f, 1, 255, true));
+        blockRegistry.put(this, new MovingPrefab("0b", "0 (Black)", 0.5f, 1, 255, true));
+        blockRegistry.put(this, new MovingPrefab("0w", "0 (White)", 0.5f, 1, 255, true));
+        blockRegistry.put(this, new MovingPrefab("1b", "1 (Black)", 0.5f, 1, 255, true));
+        blockRegistry.put(this, new MovingPrefab("1w", "1 (White)", 0.5f, 1, 255, true));
+        blockRegistry.put(this, new MovingPrefab("2b", "2 (Black)", 0.5f, 1, 255, true));
+        blockRegistry.put(this, new MovingPrefab("2w", "2 (White)", 0.5f, 1, 255, true));
+        blockRegistry.put(this, new MovingPrefab("3b", "3 (Black)", 0.5f, 1, 255, true));
+        blockRegistry.put(this, new MovingPrefab("3w", "3 (White)", 0.5f, 1, 255, true));
+        blockRegistry.put(this, new MovingPrefab("4b", "4 (Black)", 0.5f, 1, 255, true));
+        blockRegistry.put(this, new MovingPrefab("4w", "4 (White)", 0.5f, 1, 255, true));
+        blockRegistry.put(this, new MovingPrefab("5b", "5 (Black)", 0.5f, 1, 255, true));
+        blockRegistry.put(this, new MovingPrefab("5w", "5 (White)", 0.5f, 1, 255, true));
+        blockRegistry.put(this, new MovingPrefab("6b", "6 (Black)", 0.5f, 1, 255, true));
+        blockRegistry.put(this, new MovingPrefab("6w", "6 (White)", 0.5f, 1, 255, true));
+        blockRegistry.put(this, new MovingPrefab("7b", "7 (Black)", 0.5f, 1, 255, true));
+        blockRegistry.put(this, new MovingPrefab("7w", "7 (White)", 0.5f, 1, 255, true));
+        blockRegistry.put(this, new MovingPrefab("8b", "8 (Black)", 0.5f, 1, 255, true));
+        blockRegistry.put(this, new MovingPrefab("8w", "8 (White)", 0.5f, 1, 255, true));
+        blockRegistry.put(this, new MovingPrefab("9b", "9 (Black)", 0.5f, 1, 255, true));
+        blockRegistry.put(this, new MovingPrefab("9w", "9 (White)", 0.5f, 1, 255, true));
 
         if (getSide().isClient()) {
             KeyBinding guiBind = new KeyBinding("CustomGui", Keyboard.KEY_U);

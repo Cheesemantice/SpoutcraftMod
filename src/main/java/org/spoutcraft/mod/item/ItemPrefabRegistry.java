@@ -32,6 +32,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.item.Item;
 import net.minecraft.network.INetworkManager;
 import org.spoutcraft.api.LinkedPrefabRegistry;
+import org.spoutcraft.api.addon.Addon;
 import org.spoutcraft.api.item.ArmorPrefab;
 import org.spoutcraft.api.item.AxePrefab;
 import org.spoutcraft.api.item.FoodPrefab;
@@ -51,13 +52,13 @@ public class ItemPrefabRegistry implements LinkedPrefabRegistry<ItemPrefab, Item
     private static final int ID_START = 200;
 
     @Override
-    public ItemPrefab put(ItemPrefab prefab) {
-        create(prefab);
+    public ItemPrefab put(Addon addon, ItemPrefab prefab) {
+        create(addon, prefab);
         return prefab;
     }
 
     @Override
-    public Item create(ItemPrefab prefab) {
+    public Item create(Addon addon, ItemPrefab prefab) {
         if (prefab == null) {
             throw new IllegalStateException("Attempt made to put null item prefab into registry!");
         }
@@ -65,19 +66,19 @@ public class ItemPrefabRegistry implements LinkedPrefabRegistry<ItemPrefab, Item
         final int id = ID_START + ID_COUNTER.incrementAndGet();
         final Item item;
         if (prefab instanceof FoodPrefab) {
-            item = new CustomFood(id, (FoodPrefab) prefab);
+            item = new CustomFood(id, addon, (FoodPrefab) prefab);
         } else if (prefab instanceof SwordPrefab) {
-            item = new CustomSword(id, (SwordPrefab) prefab);
+            item = new CustomSword(id, addon, (SwordPrefab) prefab);
         } else if (prefab instanceof PickaxePrefab) {
-            item = new CustomPickaxe(id, (PickaxePrefab) prefab);
+            item = new CustomPickaxe(id, addon, (PickaxePrefab) prefab);
         } else if (prefab instanceof SpadePrefab) {
-            item = new CustomSpade(id, (SpadePrefab) prefab);
+            item = new CustomSpade(id, addon, (SpadePrefab) prefab);
         } else if (prefab instanceof AxePrefab) {
-            item = new CustomAxe(id, (AxePrefab) prefab);
+            item = new CustomAxe(id, addon, (AxePrefab) prefab);
         } else if (prefab instanceof ArmorPrefab) {
-            item = new CustomArmor(id, (ArmorPrefab) prefab);
+            item = new CustomArmor(id, addon, (ArmorPrefab) prefab);
         } else {
-            item = new CustomItem(id, prefab);
+            item = new CustomItem(id, addon, prefab);
         }
 
         REGISTRY.add(prefab);
@@ -89,7 +90,7 @@ public class ItemPrefabRegistry implements LinkedPrefabRegistry<ItemPrefab, Item
     }
 
     @Override
-    public ItemPrefab get(String identifier) {
+    public ItemPrefab get(Addon addon, String identifier) {
         for (ItemPrefab prefab : REGISTRY) {
             if (prefab.getIdentifier().equals(identifier)) {
                 return prefab;
@@ -99,12 +100,12 @@ public class ItemPrefabRegistry implements LinkedPrefabRegistry<ItemPrefab, Item
     }
 
     @Override
-    public Item find(ItemPrefab prefab) {
+    public Item find(Addon addon, ItemPrefab prefab) {
         return prefab == null ? null : PREFAB_BY_ITEM.get(prefab);
     }
 
     @Override
-    public Item find(String identifier) {
+    public Item find(Addon addon, String identifier) {
         if (identifier != null && !identifier.isEmpty()) {
             for (Map.Entry<ItemPrefab, Item> entry : PREFAB_BY_ITEM.entrySet()) {
                 if (entry.getKey().getIdentifier().equals(identifier)) {

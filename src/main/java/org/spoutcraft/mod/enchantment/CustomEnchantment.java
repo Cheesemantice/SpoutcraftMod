@@ -25,32 +25,16 @@ package org.spoutcraft.mod.enchantment;
 
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.item.ItemStack;
+import org.spoutcraft.api.addon.Addon;
 import org.spoutcraft.api.enchantment.EnchantmentPrefab;
 
 public class CustomEnchantment extends Enchantment {
     private final EnchantmentPrefab prefab;
 
-    public CustomEnchantment(int id, EnchantmentPrefab prefab) {
+    public CustomEnchantment(int id, Addon addon, EnchantmentPrefab prefab) {
         super(id, prefab.getWeight(), prefab.getEnchantmentType());
         this.prefab = prefab;
-
         this.setName(prefab.getIdentifier());
-    }
-
-    /**
-     * Change what items this enchantment can be applied to using an enchantment table
-     */
-    @Override
-    public boolean canApplyAtEnchantingTable(ItemStack itemStack) {
-        return true;
-    }
-
-    /**
-     * Change what items this enchantment can be applied to
-     */
-    @Override
-    public boolean canApply(ItemStack itemStack) {
-        return true;
     }
 
     protected EnchantmentPrefab getPrefab() {

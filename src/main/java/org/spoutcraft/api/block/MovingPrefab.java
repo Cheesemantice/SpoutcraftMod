@@ -23,12 +23,10 @@
  */
 package org.spoutcraft.api.block;
 
-import org.spoutcraft.api.addon.Addon;
-
 public class MovingPrefab extends BlockPrefab {
     private static final long serialVersionUID = 1L;
 
-    public MovingPrefab(Addon addon, String identifier, String displayName, float hardness, int light, int lightOpacity, boolean showInCreativeTab) {
-        super(addon, identifier, displayName, hardness, light, lightOpacity, showInCreativeTab);
+    public MovingPrefab(String identifier, String displayName, float hardness, int light, int lightOpacity, boolean showInCreativeTab) {
+        super(identifier, displayName, hardness, light, lightOpacity, showInCreativeTab);
     }
 }

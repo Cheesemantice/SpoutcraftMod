@@ -25,17 +25,18 @@ package org.spoutcraft.mod.item;
 
 import net.minecraft.item.Item;
 import org.spoutcraft.api.Prefabable;
+import org.spoutcraft.api.addon.Addon;
 import org.spoutcraft.api.item.ItemPrefab;
 import org.spoutcraft.mod.SpoutcraftMod;
 
 public class CustomItem extends Item implements Prefabable<ItemPrefab> {
     private final ItemPrefab prefab;
 
-    public CustomItem(int id, ItemPrefab prefab) {
+    public CustomItem(int id, Addon addon, ItemPrefab prefab) {
         super(id);
         this.prefab = prefab;
         setUnlocalizedName("spoutcraft:" + prefab.getIdentifier());
-        setTextureName("spoutcraft:" + prefab.getIdentifier());
+        setTextureName("spoutcraft:" + addon.getDescription().getIdentifier() + "/textures/items/" + prefab.getIdentifier());
         setMaxStackSize(prefab.getMaxStackSize());
 
         if (prefab.shouldShowInCreativeTab()) {

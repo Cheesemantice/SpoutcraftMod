@@ -25,7 +25,6 @@ package org.spoutcraft.api.enchantment;
 
 import net.minecraft.enchantment.EnumEnchantmentType;
 import org.spoutcraft.api.Prefab;
-import org.spoutcraft.api.addon.Addon;
 
 public class EnchantmentPrefab extends Prefab {
     private static final long serialVersionUID = 1L;
@@ -33,8 +32,8 @@ public class EnchantmentPrefab extends Prefab {
     private final String displayName;
     private final int weight;
 
-    public EnchantmentPrefab(Addon addon, String identifier, String displayName, int weight, EnumEnchantmentType enchantmentType) {
-        super(addon, identifier);
+    public EnchantmentPrefab(String identifier, String displayName, int weight, EnumEnchantmentType enchantmentType) {
+        super(identifier);
         this.displayName = displayName;
         this.weight = weight;
         this.enchantmentType = enchantmentType;
@@ -56,10 +55,6 @@ public class EnchantmentPrefab extends Prefab {
     public String toString() {
         final String NEW_LINE = System.getProperty("line.separator");
         final String parent = super.toString();
-        final StringBuilder builder = new StringBuilder(parent.substring(0, parent.length() - 1) + NEW_LINE);
-        builder
-                .append(" Enchantment Type: " + enchantmentType + NEW_LINE)
-                .append("}");
-        return builder.toString();
+        return parent.substring(0, parent.length() - 1) + NEW_LINE + " Enchantment Type: " + enchantmentType + NEW_LINE + "}";
     }
 }

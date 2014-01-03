@@ -23,14 +23,10 @@
  */
 package org.spoutcraft.mod.item.special;
 
-import org.spoutcraft.api.Spoutcraft;
 import org.spoutcraft.api.item.FoodPrefab;
-import org.spoutcraft.mod.addon.CommonAddonManager;
 
 public class VanillaEmblem extends FoodPrefab {
-    private static final long serialVersionUID = -8370246450152726518L;
-
     public VanillaEmblem() {
-        super(((CommonAddonManager) Spoutcraft.getAddonManager()).getInternalAddon(), "vanilla_emblem", "Vanilla Emblem", 64, 5, 5, true, true);
+        super("vanilla_emblem", "Vanilla Emblem", 64, 5, 5, true, true);
     }
 }

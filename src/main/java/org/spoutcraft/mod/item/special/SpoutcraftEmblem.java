@@ -23,14 +23,10 @@
  */
 package org.spoutcraft.mod.item.special;
 
-import org.spoutcraft.api.Spoutcraft;
 import org.spoutcraft.api.item.ItemPrefab;
-import org.spoutcraft.mod.addon.CommonAddonManager;
 
 public class SpoutcraftEmblem extends ItemPrefab {
-    private static final long serialVersionUID = -8756295039828645516L;
-
     public SpoutcraftEmblem() {
-        super(((CommonAddonManager) Spoutcraft.getAddonManager()).getInternalAddon(), "spout_emblem", "Spoutcraft Emblem", 1, true);
+        super("spout_emblem", "Spoutcraft Emblem", 1, true);
     }
 }

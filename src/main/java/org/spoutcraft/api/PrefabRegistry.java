@@ -23,21 +23,25 @@
  */
 package org.spoutcraft.api;
 
+import org.spoutcraft.api.addon.Addon;
+
 public interface PrefabRegistry<T extends Prefab> {
     /**
      * Puts a new {@link Prefab} into the registry.
      *
+     * @param addon The addon this prefab will be registered under
      * @param prefab The prefab to put
      * @return The prefab
      * @throws IllegalStateException If the prefab has been added before or if the prefab provided is null
      */
-    public T put(T prefab);
+    public T put(Addon addon, T prefab);
 
     /**
-     * Gets a T by its unique identifier
+     * Gets a T by its unique {@link org.spoutcraft.api.addon.Addon} and identifier
      *
+     * @param addon The addon to lookup
      * @param identifier The identifier to lookup
      * @return The prefab or null if not found
      */
-    public T get(String identifier);
+    public T get(Addon addon, String identifier);
 }

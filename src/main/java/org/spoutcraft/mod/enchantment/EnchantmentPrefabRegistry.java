@@ -31,6 +31,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.network.INetworkManager;
 import org.spoutcraft.api.LinkedPrefabRegistry;
+import org.spoutcraft.api.addon.Addon;
 import org.spoutcraft.api.enchantment.EnchantmentPrefab;
 import org.spoutcraft.api.protocol.MessageDispatcher;
 import org.spoutcraft.api.util.LanguageUtil;
@@ -44,30 +45,30 @@ public class EnchantmentPrefabRegistry implements LinkedPrefabRegistry<Enchantme
     private static final int ID_START = 200;
 
     @Override
-    public EnchantmentPrefab put(EnchantmentPrefab prefab) {
-        create(prefab);
+    public EnchantmentPrefab put(Addon addon, EnchantmentPrefab prefab) {
+        create(addon, prefab);
         return prefab;
     }
 
     @Override
-    public Enchantment create(EnchantmentPrefab prefab) {
+    public Enchantment create(Addon addon, EnchantmentPrefab prefab) {
         if (prefab == null) {
             throw new IllegalStateException("Attempt made to put null enchantment prefab into registry!");
         }
 
         final int id = ID_START + ID_COUNTER.incrementAndGet();
-        final Enchantment enchantment = new CustomEnchantment(id, prefab);
+        final Enchantment enchantment = new CustomEnchantment(id, addon, prefab);
 
         REGISTRY.add(prefab);
         PREFAB_BY_ENCHANTMENT.put(prefab, enchantment);
 
-        LanguageUtil.add("enchantment." + prefab.getIdentifier(), prefab.getDisplayName());
+        LanguageUtil.add("enchantment." + addon.getDescription().getIdentifier() + "." + prefab.getIdentifier(), prefab.getDisplayName());
 
         return enchantment;
     }
 
     @Override
-    public EnchantmentPrefab get(String identifier) {
+    public EnchantmentPrefab get(Addon addon, String identifier) {
         for (EnchantmentPrefab prefab : REGISTRY) {
             if (prefab.getIdentifier().equals(identifier)) {
                 return prefab;
@@ -77,12 +78,12 @@ public class EnchantmentPrefabRegistry implements LinkedPrefabRegistry<Enchantme
     }
 
     @Override
-    public Enchantment find(EnchantmentPrefab prefab) {
+    public Enchantment find(Addon addon, EnchantmentPrefab prefab) {
         return prefab == null ? null : PREFAB_BY_ENCHANTMENT.get(prefab);
     }
 
     @Override
-    public Enchantment find(String identifier) {
+    public Enchantment find(Addon addon, String identifier) {
         if (identifier != null && !identifier.isEmpty()) {
             for (Map.Entry<EnchantmentPrefab, Enchantment> entry : PREFAB_BY_ENCHANTMENT.entrySet()) {
                 if (entry.getKey().getIdentifier().equals(identifier)) {

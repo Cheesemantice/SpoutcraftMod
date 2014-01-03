@@ -24,7 +24,6 @@
 package org.spoutcraft.api.item;
 
 import org.spoutcraft.api.Prefab;
-import org.spoutcraft.api.addon.Addon;
 
 public class ItemPrefab extends Prefab {
     private static final long serialVersionUID = 1L;
@@ -32,8 +31,8 @@ public class ItemPrefab extends Prefab {
     private final int maxStackSize;
     private final boolean showInCreativeTab;
 
-    public ItemPrefab(Addon addon, String identifier, String displayName, int maxStackSize, boolean showInCreativeTab) {
-        super(addon, identifier);
+    public ItemPrefab(String identifier, String displayName, int maxStackSize, boolean showInCreativeTab) {
+        super(identifier);
         this.displayName = displayName;
         this.maxStackSize = maxStackSize;
         this.showInCreativeTab = showInCreativeTab;
@@ -55,11 +54,6 @@ public class ItemPrefab extends Prefab {
     public String toString() {
         final String NEW_LINE = System.getProperty("line.separator");
         final String parent = super.toString();
-        final StringBuilder builder = new StringBuilder(parent.substring(0, parent.length() - 1) + NEW_LINE);
-        builder
-                .append(" Display Name: " + displayName + NEW_LINE)
-                .append(" Max Stack Size: " + maxStackSize + NEW_LINE)
-                .append("}");
-        return builder.toString();
+        return parent.substring(0, parent.length() - 1) + NEW_LINE + " Display Name: " + displayName + NEW_LINE + " Max Stack Size: " + maxStackSize + NEW_LINE + "}";
     }
 }
