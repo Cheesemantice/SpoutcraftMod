@@ -37,7 +37,7 @@ public class CustomBlock extends Block implements Prefabable<BlockPrefab> {
         super(id, Materials.CUSTOM_BLOCK);
         this.prefab = prefab;
         setUnlocalizedName(prefab.getIdentifier());
-        setTextureName("spoutcraft:" + addon.getDescription() + "/textures/blocks/" + prefab.getIdentifier());
+        setTextureName("spoutcraft:" + addon.getDescription().getIdentifier() + "/textures/blocks/" + prefab.getIdentifier());
         setHardness(prefab.getHardness());
 
         if (prefab.shouldShowInCreativeTab()) {
