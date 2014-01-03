@@ -45,12 +45,10 @@ import org.spoutcraft.api.util.LanguageUtil;
 import org.spoutcraft.mod.protocol.message.AddPrefabMessage;
 
 public class ItemPrefabRegistry implements LinkedPrefabRegistry<ItemPrefab, Item> {
-    private static final ArrayList<ItemPrefab> REGISTRY = new ArrayList<>();
-    private static final AtomicInteger ID_COUNTER = new AtomicInteger(0);
+    private static final int ID_START = 2000;
+    private static int ID_COUNTER = 0;
     //INTERNAL
-    private static final HashMap<ItemPrefab, Item> PREFAB_BY_ITEM = new HashMap<>();
-    private static final int ID_START = 200;
-
+    private static final Map<Addon, Map<ItemPrefab, Item>> ADDON_ITEM_PREFAB_INSTANCE_REGISTRY = new HashMap<>();
     @Override
     public ItemPrefab put(Addon addon, ItemPrefab prefab) {
         create(addon, prefab);
@@ -63,7 +61,7 @@ public class ItemPrefabRegistry implements LinkedPrefabRegistry<ItemPrefab, Item
             throw new IllegalStateException("Attempt made to put null item prefab into registry!");
         }
 
-        final int id = ID_START + ID_COUNTER.incrementAndGet();
+        final int id = ID_START + ID_COUNTER++;
         final Item item;
         if (prefab instanceof FoodPrefab) {
             item = new CustomFood(id, addon, (FoodPrefab) prefab);

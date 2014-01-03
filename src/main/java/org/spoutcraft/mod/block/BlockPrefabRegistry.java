@@ -38,7 +38,7 @@ import org.spoutcraft.mod.SpoutcraftMod;
 
 public class BlockPrefabRegistry implements LinkedPrefabRegistry<BlockPrefab, Block> {
     private static final int ID_START = 2000;
-    private static final int ID_COUNTER = 0;
+    private static int ID_COUNTER = 0;
     //INTERNAL
     private static final Map<Addon, Map<BlockPrefab, Block>> ADDON_BLOCK_PREFAB_INSTANCE_REGISTRY = new HashMap<>();
 
@@ -68,7 +68,7 @@ public class BlockPrefabRegistry implements LinkedPrefabRegistry<BlockPrefab, Bl
             return block;
         }
 
-        final int id = ID_START + ID_COUNTER;
+        final int id = ID_START + ID_COUNTER++;
         if (prefab instanceof MovingPrefab) {
             block = new CustomMovingBlock(id, addon, (MovingPrefab) prefab);
         } else {
