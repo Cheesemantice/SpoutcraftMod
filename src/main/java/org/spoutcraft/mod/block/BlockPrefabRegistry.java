@@ -23,29 +23,24 @@
  */
 package org.spoutcraft.mod.block;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
-import net.minecraft.network.INetworkManager;
 import org.spoutcraft.api.LinkedPrefabRegistry;
 import org.spoutcraft.api.addon.Addon;
 import org.spoutcraft.api.block.BlockPrefab;
 import org.spoutcraft.api.block.MovingPrefab;
-import org.spoutcraft.api.protocol.MessageDispatcher;
 import org.spoutcraft.api.util.LanguageUtil;
-import org.spoutcraft.mod.protocol.message.AddPrefabMessage;
+import org.spoutcraft.mod.SpoutcraftMod;
 
 public class BlockPrefabRegistry implements LinkedPrefabRegistry<BlockPrefab, Block> {
-    private static final ArrayList<BlockPrefab> REGISTRY = new ArrayList<>();
-    private static final AtomicInteger ID_COUNTER = new AtomicInteger(0);
-    //INTERNAL
-    private static final HashMap<BlockPrefab, Block> PREFAB_BY_BLOCK = new HashMap<>();
     private static final int ID_START = 2000;
+    private static final int ID_COUNTER = 0;
+    //INTERNAL
+    private static final Map<Addon, Map<BlockPrefab, Block>> ADDON_BLOCK_PREFAB_INSTANCE_REGISTRY = new HashMap<>();
 
     @Override
     public BlockPrefab put(Addon addon, BlockPrefab prefab) {
@@ -55,32 +50,50 @@ public class BlockPrefabRegistry implements LinkedPrefabRegistry<BlockPrefab, Bl
 
     @Override
     public Block create(Addon addon, BlockPrefab prefab) {
-        if (prefab == null) {
-            throw new IllegalStateException("Attempt made to put null block prefab into registry!");
+        if (addon == null) {
+            throw new IllegalStateException("Attempt to create block with null addon!");
         }
 
-        final int id = ID_START + ID_COUNTER.incrementAndGet();
-        final Block block;
+        if (prefab == null) {
+            throw new IllegalStateException("Attempt to create block with null block prefab!");
+        }
+
+        Map<BlockPrefab, Block> addonRegistry = ADDON_BLOCK_PREFAB_INSTANCE_REGISTRY.get(addon);
+        if (addonRegistry == null) {
+            addonRegistry = ADDON_BLOCK_PREFAB_INSTANCE_REGISTRY.put(addon, new HashMap<BlockPrefab, Block>());
+        }
+
+        Block block = addonRegistry.get(prefab);
+        if (block != null) {
+            return block;
+        }
+
+        final int id = ID_START + ID_COUNTER;
         if (prefab instanceof MovingPrefab) {
             block = new CustomMovingBlock(id, addon, (MovingPrefab) prefab);
         } else {
             block = new CustomBlock(id, addon, prefab);
         }
 
-        REGISTRY.add(prefab);
-        PREFAB_BY_BLOCK.put(prefab, block);
-
-        //TODO Link ItemPrefab to BlockPrefab as an option
-        GameRegistry.registerBlock(block, ItemBlock.class, prefab.getIdentifier(), "Spoutcraft");
+        addonRegistry.put(prefab, block);
+        GameRegistry.registerBlock(block, ItemBlock.class, prefab.getIdentifier(), SpoutcraftMod.MOD_ID + addon.getDescription().getIdentifier());
         LanguageUtil.name(block, prefab.getDisplayName());
         return block;
     }
 
     @Override
     public BlockPrefab get(Addon addon, String identifier) {
-        if (identifier != null && !identifier.isEmpty()) {
-            for (BlockPrefab prefab : REGISTRY) {
-                if (prefab.getIdentifier().equals(identifier)) {
+        if (addon == null) {
+            throw new IllegalStateException("Attempt to get block prefab with null addon!");
+        }
+
+        if (identifier == null || identifier.isEmpty()) {
+            throw new IllegalStateException("Attempt to get block prefab with empty or null identifier!");
+        }
+        Map<BlockPrefab, Block> addonRegistry = ADDON_BLOCK_PREFAB_INSTANCE_REGISTRY.get(addon);
+        if (addonRegistry != null && !addonRegistry.isEmpty()) {
+            for (BlockPrefab prefab : addonRegistry.keySet()) {
+                if (prefab.getIdentifier().equalsIgnoreCase(identifier)) {
                     return prefab;
                 }
             }
@@ -90,29 +103,37 @@ public class BlockPrefabRegistry implements LinkedPrefabRegistry<BlockPrefab, Bl
 
     @Override
     public Block find(Addon addon, BlockPrefab prefab) {
-        return prefab == null ? null : PREFAB_BY_BLOCK.get(prefab);
+        if (addon == null) {
+            throw new IllegalStateException("Attempt to find block with null addon!");
+        }
+
+        if (prefab == null) {
+            throw new IllegalStateException("Attempt to find block with null block prefab!");
+        }
+        Map<BlockPrefab, Block> addonRegistry = ADDON_BLOCK_PREFAB_INSTANCE_REGISTRY.get(addon);
+        if (addonRegistry != null && !addonRegistry.isEmpty()) {
+            return addonRegistry.get(prefab);
+        }
+        return null;
     }
 
     @Override
     public Block find(Addon addon, String identifier) {
-        if (identifier != null && !identifier.isEmpty()) {
-            for (Map.Entry<BlockPrefab, Block> entry : PREFAB_BY_BLOCK.entrySet()) {
-                if (entry.getKey().getIdentifier().equals(identifier)) {
+        if (addon == null) {
+            throw new IllegalStateException("Attempt to find block with null addon!");
+        }
+
+        if (identifier == null || identifier.isEmpty()) {
+            throw new IllegalStateException("Attempt to find block with null or empty identifier!");
+        }
+        Map<BlockPrefab, Block> addonRegistry = ADDON_BLOCK_PREFAB_INSTANCE_REGISTRY.get(addon);
+        if (addonRegistry != null && !addonRegistry.isEmpty()) {
+            for (Map.Entry<BlockPrefab, Block> entry : addonRegistry.entrySet()) {
+                if (entry.getKey().getIdentifier().equalsIgnoreCase(identifier)) {
                     return entry.getValue();
                 }
             }
         }
         return null;
-    }
-
-    /**
-     * Syncs the entire block registry to the client
-     *
-     * @param network The connected network
-     */
-    public void sync(final INetworkManager network) {
-        for (BlockPrefab prefab : REGISTRY) {
-            network.addToSendQueue(MessageDispatcher.create(new AddPrefabMessage(prefab)));
-        }
     }
 }

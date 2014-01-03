@@ -30,7 +30,6 @@ import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import org.apache.commons.lang3.SerializationUtils;
 import org.spoutcraft.api.Prefab;
-import org.spoutcraft.api.Spoutcraft;
 import org.spoutcraft.api.protocol.codec.Codec;
 import org.spoutcraft.mod.protocol.message.AddPrefabMessage;
 
@@ -48,7 +47,7 @@ public class AddPrefabCodec implements Codec<AddPrefabMessage> {
 
         final byte[] data = new byte[buffer.readableBytes()];
         buffer.readBytes(data);
-        return new AddPrefabMessage( (Prefab) SerializationUtils.deserialize(data));
+        return new AddPrefabMessage((Prefab) SerializationUtils.deserialize(data));
     }
 
     @Override

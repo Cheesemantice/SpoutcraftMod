@@ -29,6 +29,7 @@ package org.spoutcraft.api;
 public interface Prefabable<T extends Prefab> {
     /**
      * Returns the {@link org.spoutcraft.api.Prefab}
+     *
      * @return The prefab
      */
     public T getPrefab();

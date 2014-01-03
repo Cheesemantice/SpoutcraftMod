@@ -62,6 +62,7 @@ import org.spoutcraft.mod.resource.CommonFileSystem;
 @Mod (modid = "Spoutcraft")
 @NetworkMod (clientSideRequired = true, serverSideRequired = true)
 public class SpoutcraftMod {
+    public static final String MOD_ID = "Spoutcraft";
     @Instance (value = "Spoutcraft")
     public static SpoutcraftMod instance;
     private static CustomTabs customTabs;

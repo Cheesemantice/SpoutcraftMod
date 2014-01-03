@@ -24,7 +24,6 @@
 package org.spoutcraft.mod.enchantment;
 
 import net.minecraft.enchantment.Enchantment;
-import net.minecraft.item.ItemStack;
 import org.spoutcraft.api.addon.Addon;
 import org.spoutcraft.api.enchantment.EnchantmentPrefab;
 
