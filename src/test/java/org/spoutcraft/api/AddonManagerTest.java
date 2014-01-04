@@ -47,8 +47,8 @@ public class AddonManagerTest {
         Logger mock = PowerMockito.mock(Logger.class);
         PowerMockito.when(FMLLog.getLogger()).thenReturn(mock);
         final Spoutcraft game = new Spoutcraft(Side.SERVER);
-        assertNotNull(game.getAddonManager().getAddon("spoutcraft"));
+        assertNotNull(game.getAddonManager().getAddon("internal"));
         assertNull(game.getAddonManager().getAddon("test"));
-        assertEquals(game.getAddonManager().getAddon("spoutcraft"), ((CommonAddonManager) game.getAddonManager()).getInternalAddon());
+        assertEquals(game.getAddonManager().getAddon("internal"), ((CommonAddonManager) game.getAddonManager()).getInternalAddon());
     }
 }
