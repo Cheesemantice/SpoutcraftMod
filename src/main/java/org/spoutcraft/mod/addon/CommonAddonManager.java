@@ -153,6 +153,6 @@ public class CommonAddonManager implements AddonManager {
     }
 
     private boolean isOfficialAddon(String identifier) {
-        return "identifier".equalsIgnoreCase(identifier);
+        return "internal".equalsIgnoreCase(identifier);
     }
 }

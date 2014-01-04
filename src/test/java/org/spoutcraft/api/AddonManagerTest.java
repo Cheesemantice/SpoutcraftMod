@@ -35,8 +35,10 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import org.spoutcraft.mod.addon.CommonAddonManager;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.fail;
 
 @RunWith (PowerMockRunner.class)
 @PrepareForTest ({FMLLog.class, Side.class, Logger.class})
@@ -47,8 +49,16 @@ public class AddonManagerTest {
         Logger mock = PowerMockito.mock(Logger.class);
         PowerMockito.when(FMLLog.getLogger()).thenReturn(mock);
         final Spoutcraft game = new Spoutcraft(Side.SERVER);
-        assertNotNull(game.getAddonManager().getAddon("internal"));
+        boolean exceptionCaught = false;
+        try {
+            game.getAddonManager().getAddon("internal");
+        } catch (IllegalStateException ignore) {
+            exceptionCaught = true;
+        }
+        if (!exceptionCaught) {
+            fail("Getting the internal addon by identifier 'internal' should throw an exception but it did not!");
+        }
         assertNull(game.getAddonManager().getAddon("test"));
-        assertEquals(game.getAddonManager().getAddon("internal"), ((CommonAddonManager) game.getAddonManager()).getInternalAddon());
+        assertNotEquals(game.getAddonManager().getAddon("test"), ((CommonAddonManager) game.getAddonManager()).getInternalAddon());
     }
 }
