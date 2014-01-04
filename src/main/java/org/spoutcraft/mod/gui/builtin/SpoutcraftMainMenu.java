@@ -34,16 +34,18 @@ import net.minecraft.client.gui.GuiSelectWorld;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.*;
+import org.spoutcraft.api.Spoutcraft;
 import org.spoutcraft.api.resource.CustomFont;
 import org.spoutcraft.api.util.RenderUtil;
 import org.spoutcraft.api.util.TextureUtil;
 import org.spoutcraft.mod.SpoutcraftMod;
+import org.spoutcraft.mod.addon.CommonAddonManager;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL12.*;
 
 public class SpoutcraftMainMenu extends GuiScreen {
-    private static final int SPOUTCRAFT_LOGO_TEX = TextureUtil.loadTexture(new ResourceLocation("spoutcraft", "textures/gui/title/spoutcraft.png"));
+    private static final int SPOUTCRAFT_LOGO_TEX = TextureUtil.loadTexture(new ResourceLocation("spoutcraft", "textures/gui/internal/spoutcraft.png"));
     private SpoutcraftBackground background = new SpoutcraftBackground();
     private final CustomFont ubuntu;
 
@@ -55,9 +57,9 @@ public class SpoutcraftMainMenu extends GuiScreen {
         TextureUtil.setWrapT(GL_CLAMP_TO_EDGE);
     }
 
-    public SpoutcraftMainMenu() {
+    public SpoutcraftMainMenu(Spoutcraft game) {
         try {
-            ubuntu = new CustomFont(Font.createFont(Font.TRUETYPE_FONT, SpoutcraftMod.class.getResourceAsStream("/assets/spoutcraft/fonts/ubuntu-regular.ttf")).deriveFont(36f));
+            ubuntu = new CustomFont(Font.createFont(Font.TRUETYPE_FONT, SpoutcraftMod.class.getResourceAsStream("/assets/spoutcraft/fonts/" + ((CommonAddonManager) game.getAddonManager()).getInternalAddon().getDescription().getIdentifier() + "/ubuntu-regular.ttf")).deriveFont(36f));
         } catch (Exception e) {
             throw new RuntimeException("Could not load font", e);
         }
@@ -115,7 +117,7 @@ public class SpoutcraftMainMenu extends GuiScreen {
                 break;
             case 5: // Addons
                 break;
-            default:// Quit
+            default: // Quit
                 RenderUtil.MINECRAFT.shutdown();
         }
     }

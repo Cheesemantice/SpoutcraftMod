@@ -81,7 +81,9 @@ public class SpoutcraftMod {
                 if (windowIcon != null && taskbarIcon != null) {
                     Display.setIcon(new ByteBuffer[] {windowIcon, taskbarIcon});
                 }
-                ClientTickHandlers.start();
+
+                final ClientTickHandlers handlers = new ClientTickHandlers(game);
+                handlers.start();
                 break;
             case SERVER:
                 break;

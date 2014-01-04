@@ -34,18 +34,27 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.*;
+import org.spoutcraft.api.Spoutcraft;
 import org.spoutcraft.api.util.RenderUtil;
+import org.spoutcraft.mod.addon.ClientAddonManager;
+import org.spoutcraft.mod.addon.CommonAddonManager;
 import org.spoutcraft.mod.gui.builtin.SpoutcraftMainMenu;
 
 public class ClientTickHandlers {
-    public static void start() {
+    private final Spoutcraft game;
+
+    public ClientTickHandlers(Spoutcraft game) {
+        this.game = game;
+    }
+
+    public void start() {
         // Show our main menu
         TickRegistry.registerTickHandler(new ITickHandler() {
             @Override
             public void tickStart(EnumSet<TickType> type, Object... tickData) {
                 final GuiScreen current = RenderUtil.MINECRAFT.currentScreen;
                 if (current != null && current.getClass() == GuiMainMenu.class && current.getClass() != SpoutcraftMainMenu.class) {
-                    RenderUtil.MINECRAFT.displayGuiScreen(new SpoutcraftMainMenu());
+                    RenderUtil.MINECRAFT.displayGuiScreen(new SpoutcraftMainMenu(game));
                 }
             }
 
@@ -80,7 +89,7 @@ public class ClientTickHandlers {
 
                     // Draw Spoutcraft logo
                     GL11.glPushMatrix();
-                    RenderUtil.MINECRAFT.getTextureManager().bindTexture(new ResourceLocation("spoutcraft", "textures/gui/title/spoutcraft.png"));
+                    RenderUtil.MINECRAFT.getTextureManager().bindTexture(new ResourceLocation("spoutcraft", "textures/gui/" + ((CommonAddonManager) game.getAddonManager()).getInternalAddon().getDescription().getIdentifier() + "/spoutcraft.png"));
                     GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
                     GL11.glEnable(GL11.GL_BLEND);
                     GL11.glTranslatef(width - 45, height - 13, 0.0f);
