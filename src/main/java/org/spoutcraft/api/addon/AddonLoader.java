@@ -42,7 +42,7 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.spoutcraft.api.Spoutcraft;
 import org.spoutcraft.api.util.map.SerializableHashMap;
 
-public class AddonLoader {
+public final class AddonLoader {
     private static final String ADDON_JSON = "addon.info";
     private final Spoutcraft game;
     private final Map<String, AddonClassLoader> loaders = new HashMap<>();

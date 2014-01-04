@@ -32,7 +32,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-public class AddonClassLoader extends URLClassLoader {
+public final class AddonClassLoader extends URLClassLoader {
     private Addon addon;
     private final AddonLoader loader;
     private final Map<String, Class<?>> namesByClasses = new HashMap<>();

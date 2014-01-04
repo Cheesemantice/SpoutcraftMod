@@ -32,7 +32,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import cpw.mods.fml.relauncher.Side;
 
-public class AddonDescription {
+public final class AddonDescription {
     private final String identifier;
     private final String name;
     private final String version;
