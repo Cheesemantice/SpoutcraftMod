@@ -26,6 +26,8 @@ package org.spoutcraft.mod.item.special;
 import org.spoutcraft.api.item.FoodPrefab;
 
 public class VanillaEmblem extends FoodPrefab {
+    private static final long serialVersionUID = 1L;
+
     public VanillaEmblem() {
         super("vanilla_emblem", "Vanilla Emblem", 64, 5, 5, true, true);
     }

@@ -25,8 +25,10 @@ package org.spoutcraft.mod.item.special;
 
 import org.spoutcraft.api.item.ItemPrefab;
 
-public class SpoutcraftEmblem extends ItemPrefab {
-    public SpoutcraftEmblem() {
-        super("spout_emblem", "Spoutcraft Emblem", 1, true);
+public class SpoutEmblem extends ItemPrefab {
+    private static final long serialVersionUID = 1L;
+
+    public SpoutEmblem() {
+        super("spout_emblem", "Spout Emblem", 1, true);
     }
 }

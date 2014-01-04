@@ -46,7 +46,7 @@ import org.spoutcraft.api.item.PickaxePrefab;
 import org.spoutcraft.api.item.SpadePrefab;
 import org.spoutcraft.api.item.SwordPrefab;
 import org.spoutcraft.mod.gui.builtin.SpoutcraftTestGui;
-import org.spoutcraft.mod.item.special.SpoutcraftEmblem;
+import org.spoutcraft.mod.item.special.SpoutEmblem;
 import org.spoutcraft.mod.item.special.VanillaEmblem;
 
 public final class InternalAddon extends Addon {
@@ -67,7 +67,7 @@ public final class InternalAddon extends Addon {
         final LinkedPrefabRegistry<ItemPrefab, Item> itemRegistry = game.getItemPrefabRegistry();
 
         //Special
-        itemRegistry.put(this, new SpoutcraftEmblem());
+        itemRegistry.put(this, new SpoutEmblem());
         itemRegistry.put(this, new VanillaEmblem());
 
         //--------------------------------Custom Tools--------------------------------------------------------------------
