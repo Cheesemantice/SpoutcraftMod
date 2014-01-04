@@ -36,7 +36,7 @@ public class CustomFood extends ItemFood implements Prefabable<FoodPrefab> {
         super(id, prefab.getHealAmount(), prefab.getSaturationModifier(), prefab.isWolfFavorite());
         this.prefab = prefab;
         setUnlocalizedName("spoutcraft:" + prefab.getIdentifier());
-        setTextureName("spoutcraft:" + addon.getDescription().getIdentifier() + "/foods/" + prefab.getIdentifier());
+        setTextureName("spoutcraft:" + addon.getDescription().getIdentifier() + "/food/" + prefab.getIdentifier());
         setMaxStackSize(prefab.getMaxStackSize());
 
         if (prefab.shouldShowInCreativeTab()) {
