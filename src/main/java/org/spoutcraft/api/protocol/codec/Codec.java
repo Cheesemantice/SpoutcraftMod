@@ -27,6 +27,7 @@ import java.io.IOException;
 
 import cpw.mods.fml.relauncher.Side;
 import io.netty.buffer.ByteBuf;
+import org.spoutcraft.api.Spoutcraft;
 import org.spoutcraft.api.protocol.message.Message;
 
 public interface Codec<T extends Message> {
@@ -35,20 +36,20 @@ public interface Codec<T extends Message> {
     /**
      * Decodes a {@link ByteBuf} into a message
      *
-     * @param side The current side Forge is on (Client/Server)
+     * @param game See {@link org.spoutcraft.api.Spoutcraft}
      * @param buffer the buffer to read from
      * @return the message fully encoded.
      * @throws IOException If any decoding fails on the buffer
      */
-    public T decode(Side side, ByteBuf buffer) throws IOException;
+    public T decode(Spoutcraft game, ByteBuf buffer) throws IOException;
 
     /**
      * Encodes a {@link Message} into a {@link ByteBuf}.
      *
-     * @param side The current side Forge is on (Client/Server)
+     * @param game See {@link org.spoutcraft.api.Spoutcraft}
      * @param message The message to encode
      * @return A buffer ready to be sent
      * @throws IOException If any data on the message fails to encode
      */
-    public ByteBuf encode(Side side, T message) throws IOException;
+    public ByteBuf encode(Spoutcraft game, T message) throws IOException;
 }

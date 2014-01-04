@@ -45,7 +45,7 @@ public class AddonManagerTest {
     public void test() {
         PowerMockito.mockStatic(FMLLog.class);
         Logger mock = PowerMockito.mock(Logger.class);
-        PowerMockito.when(FMLLog.getLogger()).thenReturn(mock);;
+        PowerMockito.when(FMLLog.getLogger()).thenReturn(mock);
         final Spoutcraft game = new Spoutcraft(Side.SERVER);
         assertNotNull(game.getAddonManager().getAddon("spoutcraft"));
         assertNull(game.getAddonManager().getAddon("test"));

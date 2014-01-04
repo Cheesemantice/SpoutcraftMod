@@ -30,10 +30,16 @@ import org.spoutcraft.api.Spoutcraft;
 import org.spoutcraft.api.protocol.message.Message;
 
 public class AddPrefabMessage implements Message {
+    private final String addonIdentifier;
     private final Prefab prefab;
 
-    public AddPrefabMessage(Prefab prefab) {
+    public AddPrefabMessage(String addonIdentifier, Prefab prefab) {
+        this.addonIdentifier = addonIdentifier;
         this.prefab = prefab;
+    }
+
+    public String getAddonIdentifier() {
+        return addonIdentifier;
     }
 
     public Prefab getPrefab() {
@@ -43,6 +49,7 @@ public class AddPrefabMessage implements Message {
     @Override
     public void handle(Spoutcraft game, INetworkManager manager, Player player) {
         game.getLogger().info("Received prefab from the server");
+        game.getLogger().info("Addon Identifier: " + addonIdentifier);
         game.getLogger().info(prefab.toString());
     }
 }

@@ -28,6 +28,7 @@ import java.io.IOException;
 import cpw.mods.fml.relauncher.Side;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
+import org.spoutcraft.api.Spoutcraft;
 import org.spoutcraft.api.protocol.codec.Codec;
 import org.spoutcraft.api.util.map.SerializableHashMap;
 import org.spoutcraft.mod.protocol.message.AddonListMessage;
@@ -39,7 +40,7 @@ public class AddonListCodec implements Codec<AddonListMessage> {
     }
 
     @Override
-    public AddonListMessage decode(Side side, ByteBuf buffer) throws IOException {
+    public AddonListMessage decode(Spoutcraft game, ByteBuf buffer) throws IOException {
         final AddonListMessage message;
         try {
             message = new AddonListMessage(new SerializableHashMap<String, String>(buffer.array()));
@@ -50,8 +51,8 @@ public class AddonListCodec implements Codec<AddonListMessage> {
     }
 
     @Override
-    public ByteBuf encode(Side side, AddonListMessage message) throws IOException {
-        if (side.isServer()) {
+    public ByteBuf encode(Spoutcraft game, AddonListMessage message) throws IOException {
+        if (game.getSide().isServer()) {
             throw new IllegalStateException("Server does not send the addon list, it checks it");
         }
         return Unpooled.buffer().writeBytes(message.getMap().serialize());

@@ -48,7 +48,7 @@ public class AddonListMessage implements Message {
         if (game.getSide().isServer()) {
             game.getLogger().info("Received list of addons from client");
             for (Map.Entry<String, String> entry : map.entrySet()) {
-                game.getLogger().info("Addon: " + entry.getKey() + " MD5: " + entry.getValue());
+                game.getLogger().info("Addon Identifier: " + entry.getKey() + " MD5: " + entry.getValue());
             }
         }
     }

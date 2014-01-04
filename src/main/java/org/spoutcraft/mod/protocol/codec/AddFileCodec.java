@@ -28,6 +28,7 @@ import java.io.IOException;
 import cpw.mods.fml.relauncher.Side;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
+import org.spoutcraft.api.Spoutcraft;
 import org.spoutcraft.api.protocol.codec.Codec;
 import org.spoutcraft.api.util.BufferUtil;
 import org.spoutcraft.mod.protocol.message.AddFileMessage;
@@ -39,8 +40,8 @@ public class AddFileCodec implements Codec<AddFileMessage> {
     }
 
     @Override
-    public AddFileMessage decode(Side side, ByteBuf buffer) throws IOException {
-        if (side.isServer()) {
+    public AddFileMessage decode(Spoutcraft game, ByteBuf buffer) throws IOException {
+        if (game.getSide().isServer()) {
             throw new IOException("Server is not allowed to receive files!");
         }
         final String addonIdentifier = BufferUtil.readUTF8(buffer);
@@ -53,8 +54,8 @@ public class AddFileCodec implements Codec<AddFileMessage> {
     }
 
     @Override
-    public ByteBuf encode(Side side, AddFileMessage message) throws IOException {
-        if (side.isClient()) {
+    public ByteBuf encode(Spoutcraft game, AddFileMessage message) throws IOException {
+        if (game.getSide().isClient()) {
             throw new IOException("Client is not allowed to send files!");
         }
         final String addonIdentifier = message.getAddonIdentifier();

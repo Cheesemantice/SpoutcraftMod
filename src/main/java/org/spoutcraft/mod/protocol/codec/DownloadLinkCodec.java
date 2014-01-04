@@ -30,6 +30,7 @@ import cpw.mods.fml.relauncher.Side;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import org.apache.commons.lang3.SerializationUtils;
+import org.spoutcraft.api.Spoutcraft;
 import org.spoutcraft.api.protocol.codec.Codec;
 import org.spoutcraft.api.util.BufferUtil;
 import org.spoutcraft.mod.protocol.message.DownloadLinkMessage;
@@ -41,8 +42,8 @@ public class DownloadLinkCodec implements Codec<DownloadLinkMessage> {
     }
 
     @Override
-    public DownloadLinkMessage decode(Side side, ByteBuf buffer) throws IOException {
-        if (side.isServer()) {
+    public DownloadLinkMessage decode(Spoutcraft game,  ByteBuf buffer) throws IOException {
+        if (game.getSide().isServer()) {
             throw new IOException("Server is not allowed to receive links!");
         }
         final String addonIdentifier = BufferUtil.readUTF8(buffer);
@@ -53,8 +54,8 @@ public class DownloadLinkCodec implements Codec<DownloadLinkMessage> {
     }
 
     @Override
-    public ByteBuf encode(Side side, DownloadLinkMessage message) throws IOException {
-        if (side.isClient()) {
+    public ByteBuf encode(Spoutcraft game, DownloadLinkMessage message) throws IOException {
+        if (game.getSide().isClient()) {
             throw new IOException("Client is not allowed to send links!");
         }
         final String addonIdentifier = message.getAddonIdentifier();
