@@ -55,6 +55,9 @@ public class CommonAddonManager implements AddonManager {
 
     @Override
     public Addon getAddon(String identifier) {
+        if (isOfficialAddon(identifier)) {
+            throw new IllegalStateException("Official internal addons are restricted to the mod, a developer is doing something bad!");
+        }
         if (identifier != null && !identifier.isEmpty()) {
             for (Addon addon : addons) {
                 if (addon.getDescription().getIdentifier().equalsIgnoreCase(identifier)) {
@@ -141,12 +144,15 @@ public class CommonAddonManager implements AddonManager {
         addons.add(internal);
     }
 
-    //TODO Expose to API?
     public Addon getInternalAddon() {
         return internal;
     }
 
     public AddonLoader getLoader() {
         return loader;
+    }
+
+    private boolean isOfficialAddon(String identifier) {
+        return "identifier".equalsIgnoreCase(identifier);
     }
 }
