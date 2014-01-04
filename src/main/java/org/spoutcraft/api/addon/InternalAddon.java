@@ -30,7 +30,6 @@ import cpw.mods.fml.common.TickType;
 import cpw.mods.fml.relauncher.Side;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
-import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.item.EnumArmorMaterial;
 import net.minecraft.item.EnumToolMaterial;
 import net.minecraftforge.common.EnumHelper;
@@ -38,7 +37,6 @@ import org.lwjgl.input.*;
 import org.spoutcraft.api.LinkedPrefabRegistry;
 import org.spoutcraft.api.Spoutcraft;
 import org.spoutcraft.api.block.MovingPrefab;
-import org.spoutcraft.api.enchantment.EnchantmentPrefab;
 import org.spoutcraft.api.item.ArmorPrefab;
 import org.spoutcraft.api.item.AxePrefab;
 import org.spoutcraft.api.item.PickaxePrefab;
@@ -82,11 +80,6 @@ public final class InternalAddon extends Addon {
         itemRegistry.put(this, new ArmorPrefab("custom_chestplate", "Custom Chestplate", true, ArmorPrefab.ArmorType.CHESTPLATE, customArmorMaterial));
         itemRegistry.put(this, new ArmorPrefab("custom_leggings", "Custom Leggings", true, ArmorPrefab.ArmorType.LEGGINGS, customArmorMaterial));
         itemRegistry.put(this, new ArmorPrefab("custom_boots", "Custom Boots", true, ArmorPrefab.ArmorType.BOOTS, customArmorMaterial));
-
-        //----------------------------Custom Enchantments-----------------------------------------------------------------
-        final LinkedPrefabRegistry enchantmentRegistry = Spoutcraft.getEnchantmentPrefabRegistry();
-        EnumEnchantmentType customEnchantment = EnumHelper.addEnchantmentType("Custom");
-        enchantmentRegistry.put(this, new EnchantmentPrefab("customEnchantment", "Custom Enchantment", 1, customEnchantment));
 
         //Everyone loves numbers :P
         blockRegistry.put(this, new MovingPrefab("0b", "0 (Black)", 0.5f, 1, 255, true));

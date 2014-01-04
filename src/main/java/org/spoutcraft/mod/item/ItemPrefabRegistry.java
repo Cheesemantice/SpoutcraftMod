@@ -28,7 +28,6 @@ import java.util.Map;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.item.Item;
-import net.minecraft.network.INetworkManager;
 import org.spoutcraft.api.LinkedPrefabRegistry;
 import org.spoutcraft.api.addon.Addon;
 import org.spoutcraft.api.item.ArmorPrefab;
@@ -38,10 +37,8 @@ import org.spoutcraft.api.item.ItemPrefab;
 import org.spoutcraft.api.item.PickaxePrefab;
 import org.spoutcraft.api.item.SpadePrefab;
 import org.spoutcraft.api.item.SwordPrefab;
-import org.spoutcraft.api.protocol.MessageDispatcher;
 import org.spoutcraft.api.util.LanguageUtil;
 import org.spoutcraft.mod.SpoutcraftMod;
-import org.spoutcraft.mod.protocol.message.AddPrefabMessage;
 
 public class ItemPrefabRegistry implements LinkedPrefabRegistry<ItemPrefab, Item> {
     private static final int ID_START = 2000;

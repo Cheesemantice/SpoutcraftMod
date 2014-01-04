@@ -23,7 +23,6 @@
  */
 package org.spoutcraft.mod.protocol;
 
-import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.network.IConnectionHandler;
 import cpw.mods.fml.common.network.Player;
 import net.minecraft.network.INetworkManager;
@@ -34,12 +33,12 @@ import net.minecraft.server.MinecraftServer;
 import org.spoutcraft.api.Spoutcraft;
 import org.spoutcraft.api.protocol.MessageDispatcher;
 import org.spoutcraft.mod.addon.ClientAddonManager;
-import org.spoutcraft.mod.item.ItemPrefabRegistry;
 import org.spoutcraft.mod.protocol.message.AddonListMessage;
 
 public class CommonConnectionHandler implements IConnectionHandler {
     @Override
     public void playerLoggedIn(Player player, NetHandler netHandler, final INetworkManager manager) {
+
     }
 
     @Override
