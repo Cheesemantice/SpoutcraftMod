@@ -27,17 +27,21 @@ import java.util.EnumSet;
 
 import cpw.mods.fml.client.registry.KeyBindingRegistry;
 import cpw.mods.fml.common.TickType;
+import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.item.EnumArmorMaterial;
 import net.minecraft.item.EnumToolMaterial;
+import net.minecraft.item.Item;
 import net.minecraftforge.common.EnumHelper;
 import org.lwjgl.input.*;
 import org.spoutcraft.api.LinkedPrefabRegistry;
 import org.spoutcraft.api.Spoutcraft;
+import org.spoutcraft.api.block.BlockPrefab;
 import org.spoutcraft.api.block.MovingPrefab;
 import org.spoutcraft.api.item.ArmorPrefab;
 import org.spoutcraft.api.item.AxePrefab;
+import org.spoutcraft.api.item.ItemPrefab;
 import org.spoutcraft.api.item.PickaxePrefab;
 import org.spoutcraft.api.item.SpadePrefab;
 import org.spoutcraft.api.item.SwordPrefab;
@@ -45,7 +49,6 @@ import org.spoutcraft.mod.gui.builtin.SpoutcraftTestGui;
 import org.spoutcraft.mod.item.special.SpoutcraftEmblem;
 import org.spoutcraft.mod.item.special.VanillaEmblem;
 
-@SuppressWarnings ("unchecked")
 public final class InternalAddon extends Addon {
     public InternalAddon(Spoutcraft game) {
         this.game = game;
@@ -60,8 +63,8 @@ public final class InternalAddon extends Addon {
 
     @Override
     public void onEnable() {
-        final LinkedPrefabRegistry blockRegistry = game.getBlockPrefabRegistry();
-        final LinkedPrefabRegistry itemRegistry = game.getItemPrefabRegistry();
+        final LinkedPrefabRegistry<BlockPrefab, Block> blockRegistry = game.getBlockPrefabRegistry();
+        final LinkedPrefabRegistry<ItemPrefab, Item> itemRegistry = game.getItemPrefabRegistry();
 
         //Special
         itemRegistry.put(this, new SpoutcraftEmblem());

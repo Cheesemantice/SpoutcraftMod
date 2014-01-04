@@ -69,12 +69,12 @@ public abstract class Addon {
         this.root = root;
     }
 
-    public Spoutcraft getGame() {
-        return game;
-    }
-
     public boolean isEnabled() {
         return enabled;
+    }
+    
+    public Spoutcraft getGame() {
+        return game;
     }
 
     public AddonDescription getDescription() {

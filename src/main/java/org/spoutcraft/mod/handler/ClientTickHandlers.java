@@ -36,7 +36,6 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.*;
 import org.spoutcraft.api.Spoutcraft;
 import org.spoutcraft.api.util.RenderUtil;
-import org.spoutcraft.mod.addon.ClientAddonManager;
 import org.spoutcraft.mod.addon.CommonAddonManager;
 import org.spoutcraft.mod.gui.builtin.SpoutcraftMainMenu;
 

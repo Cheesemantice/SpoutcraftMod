@@ -24,6 +24,8 @@
 package org.spoutcraft.api;
 
 import cpw.mods.fml.relauncher.Side;
+import net.minecraft.block.Block;
+import net.minecraft.item.Item;
 import org.spoutcraft.api.addon.AddonManager;
 import org.spoutcraft.api.block.BlockPrefab;
 import org.spoutcraft.api.item.ItemPrefab;
@@ -47,8 +49,8 @@ public final class Spoutcraft {
     private final AddonManager addonManager;
     private final FileSystem fileSystem;
     private final MessageDispatcher network;
-    private final LinkedPrefabRegistry<? extends BlockPrefab, ?> blockPrefabRegistry;
-    private final LinkedPrefabRegistry<? extends ItemPrefab, ?> itemPrefabRegistry;
+    private final LinkedPrefabRegistry<BlockPrefab, Block> blockPrefabRegistry;
+    private final LinkedPrefabRegistry<ItemPrefab, Item> itemPrefabRegistry;
 
     public Spoutcraft(Side side) {
         this.side = side;
@@ -86,11 +88,11 @@ public final class Spoutcraft {
         return network;
     }
 
-    public LinkedPrefabRegistry<? extends BlockPrefab, ?> getBlockPrefabRegistry() {
+    public LinkedPrefabRegistry<BlockPrefab, Block> getBlockPrefabRegistry() {
         return blockPrefabRegistry;
     }
 
-    public LinkedPrefabRegistry<? extends ItemPrefab, ?> getItemPrefabRegistry() {
+    public LinkedPrefabRegistry<ItemPrefab, Item> getItemPrefabRegistry() {
         return itemPrefabRegistry;
     }
 }
