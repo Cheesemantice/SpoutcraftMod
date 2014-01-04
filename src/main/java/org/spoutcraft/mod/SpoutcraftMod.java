@@ -27,24 +27,15 @@ import java.nio.ByteBuffer;
 
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
-import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.*;
 import org.spoutcraft.api.Spoutcraft;
-import org.spoutcraft.api.addon.AddonManager;
-import org.spoutcraft.api.logger.SpoutcraftLogger;
 import org.spoutcraft.api.protocol.MessageCodecLookupService;
-import org.spoutcraft.api.resource.FileSystem;
 import org.spoutcraft.api.util.TextureUtil;
-import org.spoutcraft.mod.addon.ClientAddonManager;
-import org.spoutcraft.mod.addon.CommonAddonManager;
-import org.spoutcraft.mod.block.BlockPrefabRegistry;
-import org.spoutcraft.mod.enchantment.EnchantmentPrefabRegistry;
 import org.spoutcraft.mod.handler.ClientTickHandlers;
-import org.spoutcraft.mod.item.ItemPrefabRegistry;
 import org.spoutcraft.mod.protocol.CommonConnectionHandler;
 import org.spoutcraft.mod.protocol.codec.AddFileCodec;
 import org.spoutcraft.mod.protocol.codec.AddPrefabCodec;
@@ -54,31 +45,32 @@ import org.spoutcraft.mod.protocol.message.AddFileMessage;
 import org.spoutcraft.mod.protocol.message.AddPrefabMessage;
 import org.spoutcraft.mod.protocol.message.AddonListMessage;
 import org.spoutcraft.mod.protocol.message.DownloadLinkMessage;
-import org.spoutcraft.mod.resource.ClientFileSystem;
 import org.spoutcraft.mod.resource.CommonFileSystem;
 
 // TODO: Reflect GameRegistry, LanguageRegistry, NetworkRegistry and remove addon content on server leave
-// TODO: Fix generics?
 @Mod (modid = "Spoutcraft")
 @NetworkMod (clientSideRequired = true, serverSideRequired = true)
 public class SpoutcraftMod {
-    public static final String MOD_ID = "Spoutcraft";
-    @Instance (value = "Spoutcraft")
-    public static SpoutcraftMod instance;
     private static CustomTabs customTabs;
+    private final Spoutcraft game;
+
+    public SpoutcraftMod() {
+        game = new Spoutcraft();
+    }
 
     @EventHandler
     public void onInitialize(FMLInitializationEvent event) {
-        // Setup logger
-        Spoutcraft.setLogger(new SpoutcraftLogger());
+        // Setup addons
+        game.getAddonManager().loadAddons(CommonFileSystem.ADDONS_PATH);
 
-        // Setup protocol
-        bindCodecMessages();
+        // Setup file system
+        try {
+            game.getFileSystem().init();
+        } catch (Exception e) {
+            throw new RuntimeException("Could not initialize FileSystem", e);
+        }
 
-        final FileSystem fileSystem;
-        final AddonManager manager;
-
-        switch (event.getSide()) {
+        switch (game.getSide()) {
             case CLIENT:
                 // Set the title
                 Display.setTitle("Spoutcraft");
@@ -89,58 +81,26 @@ public class SpoutcraftMod {
                 if (windowIcon != null && taskbarIcon != null) {
                     Display.setIcon(new ByteBuffer[] {windowIcon, taskbarIcon});
                 }
-
-                fileSystem = Spoutcraft.setFileSystem(new ClientFileSystem());
-
-                // Setup file system
-                try {
-                    fileSystem.init();
-                } catch (Exception e) {
-                    throw new RuntimeException("Could not initialize FileSystem", e);
-                }
-
-                manager = Spoutcraft.setAddonManager(new ClientAddonManager());
-
-                // Setup addon manager
-                manager.loadAddons(CommonFileSystem.ADDONS_PATH);
                 ClientTickHandlers.start();
                 break;
             case SERVER:
-                fileSystem = Spoutcraft.setFileSystem(new CommonFileSystem());
-
-                // Setup file system
-                try {
-                    fileSystem.init();
-                } catch (Exception e) {
-                    throw new RuntimeException("Could not initialize FileSystem", e);
-                }
-
-                manager = Spoutcraft.setAddonManager(new CommonAddonManager());
-
-                //Setup addon manager
-                manager.loadAddons(CommonFileSystem.ADDONS_PATH);
                 break;
             default:
                 throw new RuntimeException("Spoutcraft is being ran on an invalid side!");
         }
 
-        // Setup registries
-        Spoutcraft.setBlockRegistry(new BlockPrefabRegistry());
-        Spoutcraft.setEnchantmentPrefabRegistry(new EnchantmentPrefabRegistry());
-        Spoutcraft.setItemPrefabRegistry(new ItemPrefabRegistry());
-
         // Setup creative tab
         customTabs = new CustomTabs();
 
-        manager.enable();
-    }
-
-    private void bindCodecMessages() {
+        // Setup protocol
         NetworkRegistry.instance().registerConnectionHandler(new CommonConnectionHandler());
         MessageCodecLookupService.register(AddFileMessage.class, AddFileCodec.class);
         MessageCodecLookupService.register(AddPrefabMessage.class, AddPrefabCodec.class);
         MessageCodecLookupService.register(AddonListMessage.class, AddonListCodec.class);
         MessageCodecLookupService.register(DownloadLinkMessage.class, DownloadLinkCodec.class);
+
+        // Enable addons
+        game.getAddonManager().enable();
     }
 
     public static CustomTabs getCustomTabs() {

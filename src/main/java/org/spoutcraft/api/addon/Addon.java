@@ -26,12 +26,14 @@ package org.spoutcraft.api.addon;
 import java.nio.file.Path;
 
 import cpw.mods.fml.relauncher.Side;
+import org.spoutcraft.api.Spoutcraft;
 
 /**
  * An addon is like a Mod or a Plugin (from Bukkit). It is the bridge between external code and SpoutcraftAPI's framework. <p/> The power of addons lie in the ability to use Spoutcraft API and Forge
  * without needing to make a new Mod.
  */
 public abstract class Addon {
+    protected Spoutcraft game;
     protected Side side;
     protected AddonLoader loader;
     protected AddonDescription description;
@@ -59,7 +61,8 @@ public abstract class Addon {
         this.enabled = false;
     }
 
-    protected void initialize(Side side, AddonLoader loader, AddonDescription description, AddonClassLoader classLoader, Path dataPath, Path root) {
+    protected void initialize(Spoutcraft game, Side side, AddonLoader loader, AddonDescription description, AddonClassLoader classLoader, Path dataPath, Path root) {
+        this.game = game;
         this.side = side;
         this.loader = loader;
         this.description = description;
@@ -67,6 +70,10 @@ public abstract class Addon {
         this.logger = new AddonLogger(this);
         this.dataPath = dataPath;
         this.root = root;
+    }
+
+    public Spoutcraft getGame() {
+        return game;
     }
 
     public Side getSide() {

@@ -23,108 +23,66 @@
  */
 package org.spoutcraft.api;
 
+import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.relauncher.Side;
 import org.spoutcraft.api.addon.AddonManager;
 import org.spoutcraft.api.block.BlockPrefab;
-import org.spoutcraft.api.enchantment.EnchantmentPrefab;
 import org.spoutcraft.api.item.ItemPrefab;
 import org.spoutcraft.api.logger.SpoutcraftLogger;
 import org.spoutcraft.api.resource.FileSystem;
+import org.spoutcraft.mod.addon.ClientAddonManager;
+import org.spoutcraft.mod.addon.CommonAddonManager;
+import org.spoutcraft.mod.block.BlockPrefabRegistry;
+import org.spoutcraft.mod.item.ItemPrefabRegistry;
+import org.spoutcraft.mod.resource.ClientFileSystem;
+import org.spoutcraft.mod.resource.CommonFileSystem;
 
 /**
- * Represents the Spoutcraft core with access to necessary registries
+ * The game class that has access to various components that culminate into the Spoutcraft experience.
  */
 public final class Spoutcraft {
-    private static SpoutcraftLogger logger;
-    private static AddonManager addonManager;
-    private static LinkedPrefabRegistry<? extends BlockPrefab, ?> blockPrefabRegistry;
-    private static LinkedPrefabRegistry<? extends ItemPrefab, ?> itemPrefabRegistry;
-    private static LinkedPrefabRegistry<? extends EnchantmentPrefab, ?> enchantmentPrefabRegistry;
-    private static FileSystem fileSystem;
+    public static final String MOD_ID = "Spoutcraft";
+    private final SpoutcraftLogger logger;
+    private final AddonManager addonManager;
+    private final FileSystem fileSystem;
+    private final LinkedPrefabRegistry<? extends BlockPrefab, ?> blockPrefabRegistry;
+    private final LinkedPrefabRegistry<? extends ItemPrefab, ?> itemPrefabRegistry;
 
-    public static SpoutcraftLogger getLogger() {
+    public Spoutcraft() {
+        logger = new SpoutcraftLogger();
+
+        if (getSide().isServer()) {
+            addonManager = new CommonAddonManager(this);
+            fileSystem = new CommonFileSystem();
+        } else {
+            addonManager = new ClientAddonManager(this);
+            fileSystem = new ClientFileSystem();
+        }
+        blockPrefabRegistry = new BlockPrefabRegistry();
+        itemPrefabRegistry = new ItemPrefabRegistry();
+    }
+
+    public Side getSide() {
+        return FMLCommonHandler.instance().getEffectiveSide();
+    }
+
+    public SpoutcraftLogger getLogger() {
         return logger;
     }
 
-    public static AddonManager getAddonManager() {
+    public AddonManager getAddonManager() {
         return addonManager;
     }
 
-    public static LinkedPrefabRegistry<? extends BlockPrefab, ?> getBlockPrefabRegistry() {
+    public FileSystem getFileSystem() {
+        return fileSystem;
+    }
+
+    public LinkedPrefabRegistry<? extends BlockPrefab, ?> getBlockPrefabRegistry() {
         return blockPrefabRegistry;
     }
 
-    public static LinkedPrefabRegistry<? extends ItemPrefab, ?> getItemPrefabRegistry() {
+    public LinkedPrefabRegistry<? extends ItemPrefab, ?> getItemPrefabRegistry() {
         return itemPrefabRegistry;
-    }
-
-    public static LinkedPrefabRegistry<? extends EnchantmentPrefab, ?> getEnchantmentPrefabRegistry() {
-        return enchantmentPrefabRegistry;
-    }
-
-    public static FileSystem getFileSystem() {
-        return fileSystem;
-    }
-
-    /**
-     * INTERNAL USE ONLY
-     */
-    public static SpoutcraftLogger setLogger(SpoutcraftLogger logger) {
-        if (Spoutcraft.logger != null) {
-            throw new IllegalStateException("Attempt to assign logger twice!");
-        }
-        Spoutcraft.logger = logger;
-        return logger;
-    }
-
-    public static AddonManager setAddonManager(AddonManager manager) {
-        if (Spoutcraft.addonManager != null) {
-            throw new IllegalStateException("Attempt to assign addon manager twice!");
-        }
-        Spoutcraft.addonManager = manager;
-        return manager;
-    }
-
-    public static LinkedPrefabRegistry<? extends BlockPrefab, ?> setBlockRegistry(LinkedPrefabRegistry<? extends BlockPrefab, ?> prefabRegistry) {
-        if (Spoutcraft.blockPrefabRegistry != null) {
-            throw new IllegalStateException("Attempt to assign block registry twice!");
-        }
-        if (prefabRegistry == null) {
-            throw new IllegalStateException("Attempt to assign a null block registry!");
-        }
-        Spoutcraft.blockPrefabRegistry = prefabRegistry;
-        return prefabRegistry;
-    }
-
-    public static LinkedPrefabRegistry<? extends ItemPrefab, ?> setItemPrefabRegistry(LinkedPrefabRegistry<? extends ItemPrefab, ?> itemPrefabRegistry) {
-        if (Spoutcraft.itemPrefabRegistry != null) {
-            throw new IllegalStateException("Attempt to assign item prefab registry twice!");
-        }
-        if (itemPrefabRegistry == null) {
-            throw new IllegalStateException("Attempt to assign a null item prefab registry!");
-        }
-        Spoutcraft.itemPrefabRegistry = itemPrefabRegistry;
-        return itemPrefabRegistry;
-    }
-
-    public static LinkedPrefabRegistry<? extends EnchantmentPrefab, ?> setEnchantmentPrefabRegistry(LinkedPrefabRegistry<? extends EnchantmentPrefab, ?> enchantmentPrefabRegistry) {
-        if (Spoutcraft.enchantmentPrefabRegistry != null) {
-            throw new IllegalStateException("Attempt to assign enchantment prefab registry twice!");
-        }
-        if (enchantmentPrefabRegistry == null) {
-            throw new IllegalStateException("Attempt to assign a null enchantment prefab registry!");
-        }
-        Spoutcraft.enchantmentPrefabRegistry = enchantmentPrefabRegistry;
-        return enchantmentPrefabRegistry;
-    }
-
-    public static FileSystem setFileSystem(FileSystem fileSystem) {
-        if (Spoutcraft.fileSystem != null) {
-            throw new IllegalStateException("Attempt to assign file system twice!");
-        }
-        if (fileSystem == null) {
-            throw new IllegalStateException("Attempt to assign a null file system!");
-        }
-        Spoutcraft.fileSystem = fileSystem;
-        return fileSystem;
     }
 }

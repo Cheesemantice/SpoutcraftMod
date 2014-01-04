@@ -42,18 +42,20 @@ import org.spoutcraft.api.addon.InvalidAddonException;
 import org.spoutcraft.api.addon.InvalidDescriptionException;
 
 public class CommonAddonManager implements AddonManager {
+    protected final Spoutcraft game;
     protected final AddonLoader loader;
     protected final Addon internal;
     protected final Collection<Addon> addons = new ArrayList<>();
 
-    protected CommonAddonManager(AddonLoader loader, Addon internal) {
+    protected CommonAddonManager(Spoutcraft game, AddonLoader loader, Addon internal) {
+        this.game = game;
         this.loader = loader;
         this.internal = internal;
         addons.add(internal);
     }
 
-    public CommonAddonManager() {
-        this(new AddonLoader(Side.SERVER), new InternalAddon(Side.SERVER));
+    public CommonAddonManager(Spoutcraft game) {
+        this(game, new AddonLoader(Side.SERVER), new InternalAddon(Side.SERVER));
     }
 
     @Override
@@ -103,7 +105,7 @@ public class CommonAddonManager implements AddonManager {
             try {
                 loadAddon(jar);
             } catch (Exception e) {
-                Spoutcraft.getLogger().log(Level.SEVERE, "Unable to load [" + jar.getFileName() + "] in directory [" + path + "]", e);
+                game.getLogger().log(Level.SEVERE, "Unable to load [" + jar.getFileName() + "] in directory [" + path + "]", e);
             }
         }
         return Collections.unmodifiableCollection(addons);
