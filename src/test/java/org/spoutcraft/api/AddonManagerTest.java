@@ -25,26 +25,30 @@ package org.spoutcraft.api;
 
 import java.util.logging.Logger;
 
+import cpw.mods.fml.common.FMLLog;
+import cpw.mods.fml.relauncher.Side;
 import org.junit.Test;
-import org.spoutcraft.api.logger.SpoutcraftLogger;
+import org.junit.runner.RunWith;
+import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 import org.spoutcraft.mod.addon.CommonAddonManager;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
+@RunWith(PowerMockRunner.class)
+@PrepareForTest({FMLLog.class, Side.class, Logger.class})
 public class AddonManagerTest {
     @Test
     public void test() {
-        if (Spoutcraft.getLogger() == null) {
-            Spoutcraft.setLogger(new SpoutcraftLogger(Logger.getLogger("Spoutcraft")));
-        }
-        CommonAddonManager manager = (CommonAddonManager) Spoutcraft.getAddonManager();
-        if (manager == null) {
-            manager = (CommonAddonManager) Spoutcraft.setAddonManager(new CommonAddonManager());
-        }
-        assertNotNull(manager.getAddon("spoutcraft"));
-        assertNull(manager.getAddon("test"));
-        assertEquals(manager.getAddon("spoutcraft"), manager.getInternalAddon());
+        PowerMockito.mockStatic(FMLLog.class);
+        Logger mock = PowerMockito.mock(Logger.class);
+        PowerMockito.when(FMLLog.getLogger()).thenReturn(mock);;
+        final Spoutcraft game = new Spoutcraft(Side.SERVER);
+        assertNotNull(game.getAddonManager().getAddon("spoutcraft"));
+        assertNull(game.getAddonManager().getAddon("test"));
+        assertEquals(game.getAddonManager().getAddon("spoutcraft"), ((CommonAddonManager) game.getAddonManager()).getInternalAddon());
     }
 }

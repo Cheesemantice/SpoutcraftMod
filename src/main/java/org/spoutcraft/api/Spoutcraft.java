@@ -43,6 +43,7 @@ import org.spoutcraft.mod.resource.CommonFileSystem;
  */
 public final class Spoutcraft {
     public static final String MOD_ID = "Spoutcraft";
+    private final Side side;
     private final SpoutcraftLogger logger;
     private final AddonManager addonManager;
     private final FileSystem fileSystem;
@@ -50,7 +51,8 @@ public final class Spoutcraft {
     private final LinkedPrefabRegistry<? extends BlockPrefab, ?> blockPrefabRegistry;
     private final LinkedPrefabRegistry<? extends ItemPrefab, ?> itemPrefabRegistry;
 
-    public Spoutcraft() {
+    public Spoutcraft(Side side) {
+        this.side = side;
         logger = new SpoutcraftLogger();
 
         if (getSide().isServer()) {
@@ -66,7 +68,7 @@ public final class Spoutcraft {
     }
 
     public Side getSide() {
-        return FMLCommonHandler.instance().getEffectiveSide();
+        return side;
     }
 
     public SpoutcraftLogger getLogger() {

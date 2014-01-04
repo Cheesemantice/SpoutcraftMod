@@ -25,6 +25,7 @@ package org.spoutcraft.mod;
 
 import java.nio.ByteBuffer;
 
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
@@ -54,7 +55,7 @@ public class SpoutcraftMod {
     private final Spoutcraft game;
 
     public SpoutcraftMod() {
-        game = new Spoutcraft();
+        game = new Spoutcraft(FMLCommonHandler.instance().getEffectiveSide());
     }
 
     @EventHandler

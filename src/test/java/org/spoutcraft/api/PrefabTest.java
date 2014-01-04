@@ -23,23 +23,14 @@
  */
 package org.spoutcraft.api;
 
-import java.util.logging.Logger;
-
 import org.junit.Test;
-import org.spoutcraft.api.addon.Addon;
 import org.spoutcraft.api.block.BlockPrefab;
-import org.spoutcraft.api.logger.SpoutcraftLogger;
-import org.spoutcraft.mod.addon.CommonAddonManager;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
 public class PrefabTest {
     @Test
     public void test() {
-        if (Spoutcraft.getLogger() == null) {
-            Spoutcraft.setLogger(new SpoutcraftLogger(Logger.getLogger("Spoutcraft")));
-        }
         final BlockPrefab test = new BlockPrefab("test", "test", 1f, 1, 1, true);
         final BlockPrefab test2 = new BlockPrefab("test2", "test2", 1f, 1, 1, true);
         assertNotEquals(test, test2);
