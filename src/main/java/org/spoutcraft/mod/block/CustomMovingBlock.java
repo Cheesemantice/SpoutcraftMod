@@ -37,7 +37,7 @@ public class CustomMovingBlock extends BlockSand implements Prefabable<MovingPre
         super(id, Materials.CUSTOM_MOVING);
         this.prefab = prefab;
         setUnlocalizedName(prefab.getIdentifier());
-        setTextureName("spoutcraft:" + addon.getDescription().getIdentifier() + "/moving/" + prefab.getIdentifier());
+        setTextureName("spoutcraft:" + addon.getDescription().getIdentifier() + "/movings/" + prefab.getIdentifier());
         setHardness(prefab.getHardness());
 
         if (prefab.shouldShowInCreativeTab()) {
