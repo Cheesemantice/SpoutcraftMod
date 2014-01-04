@@ -30,25 +30,38 @@ import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.common.network.Player;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.network.packet.Packet250CustomPayload;
+import org.spoutcraft.api.Spoutcraft;
 import org.spoutcraft.api.protocol.codec.Codec;
 import org.spoutcraft.api.protocol.message.Message;
 
 public class MessageDispatcher {
-    public static void send(Message message) {
+    private final MessageCodecLookupService messageCodecLookupService;
+    private final Spoutcraft game;
+
+    public MessageDispatcher(Spoutcraft game) {
+        this.game = game;
+        messageCodecLookupService = new MessageCodecLookupService(game);
+    }
+
+    public MessageCodecLookupService getProtocol() {
+        return messageCodecLookupService;
+    }
+
+    public void send(Message message) {
         PacketDispatcher.sendPacketToAllPlayers(create(message));
     }
 
-    public static void send(Player player, Message message) {
+    public void send(Player player, Message message) {
         PacketDispatcher.sendPacketToPlayer(create(message), player);
     }
 
-    public static void send(Message message, int dimension) {
+    public void send(Message message, int dimension) {
         PacketDispatcher.sendPacketToAllInDimension(create(message), dimension);
     }
 
     @SuppressWarnings ("unchecked")
-    public static Packet250CustomPayload create(Message message) {
-        Codec codec = MessageCodecLookupService.find(message.getClass());
+    public Packet250CustomPayload create(Message message) {
+        Codec codec = messageCodecLookupService.find(message.getClass());
         if (codec == null) {
             throw new IllegalStateException("Attempt to send message with no bound codec!");
         }

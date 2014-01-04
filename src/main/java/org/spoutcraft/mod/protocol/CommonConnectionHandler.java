@@ -31,11 +31,16 @@ import net.minecraft.network.packet.NetHandler;
 import net.minecraft.network.packet.Packet1Login;
 import net.minecraft.server.MinecraftServer;
 import org.spoutcraft.api.Spoutcraft;
-import org.spoutcraft.api.protocol.MessageDispatcher;
 import org.spoutcraft.mod.addon.ClientAddonManager;
 import org.spoutcraft.mod.protocol.message.AddonListMessage;
 
 public class CommonConnectionHandler implements IConnectionHandler {
+    private final Spoutcraft game;
+
+    public CommonConnectionHandler(Spoutcraft game) {
+        this.game = game;
+    }
+
     @Override
     public void playerLoggedIn(Player player, NetHandler netHandler, final INetworkManager manager) {
 
@@ -63,6 +68,6 @@ public class CommonConnectionHandler implements IConnectionHandler {
 
     @Override
     public void clientLoggedIn(NetHandler clientHandler, INetworkManager manager, Packet1Login login) {
-        MessageDispatcher.send(new AddonListMessage(((ClientAddonManager) Spoutcraft.getAddonManager()).getLoader().getAddonMD5s()));
+        game.getNetwork().send(new AddonListMessage(((ClientAddonManager) game.getAddonManager()).getLoader().getAddonMD5s()));
     }
 }

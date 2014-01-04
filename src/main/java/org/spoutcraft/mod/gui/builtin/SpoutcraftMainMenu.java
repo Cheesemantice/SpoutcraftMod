@@ -68,6 +68,7 @@ public class SpoutcraftMainMenu extends GuiScreen {
         addButtons();
     }
 
+    @SuppressWarnings("unchecked")
     private void addButtons() {
         String singleplayerText = I18n.getString("menu.singleplayer");
         String multiplayerText = I18n.getString("menu.multiplayer");

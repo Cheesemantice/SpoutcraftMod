@@ -30,14 +30,21 @@ import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet250CustomPayload;
+import org.spoutcraft.api.Spoutcraft;
 import org.spoutcraft.api.protocol.codec.Codec;
 import org.spoutcraft.api.protocol.message.Message;
 
 public class MessagePacketHandler implements IPacketHandler {
+    private final Spoutcraft game;
+
+    public MessagePacketHandler(Spoutcraft game) {
+        this.game = game;
+    }
+
     @SuppressWarnings ("rawtypes")
     @Override
     public void onPacketData(INetworkManager manager, Packet250CustomPayload packet, Player player) {
-        final Codec codec = MessageCodecLookupService.find(packet.channel);
+        final Codec codec = game.getNetwork().getProtocol().find(packet.channel);
         final Message message;
         try {
             final ByteBuf buffer = Unpooled.buffer();
@@ -47,7 +54,7 @@ public class MessagePacketHandler implements IPacketHandler {
             throw new IllegalStateException("Error decoding codec: " + codec, t);
         }
         if (message != null) {
-            message.handle(FMLCommonHandler.instance().getEffectiveSide(), manager, player);
+            message.handle(game, manager, player);
         }
     }
 }

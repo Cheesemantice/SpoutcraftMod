@@ -33,7 +33,6 @@ import cpw.mods.fml.common.network.NetworkRegistry;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.*;
 import org.spoutcraft.api.Spoutcraft;
-import org.spoutcraft.api.protocol.MessageCodecLookupService;
 import org.spoutcraft.api.util.TextureUtil;
 import org.spoutcraft.mod.handler.ClientTickHandlers;
 import org.spoutcraft.mod.protocol.CommonConnectionHandler;
@@ -90,14 +89,14 @@ public class SpoutcraftMod {
         }
 
         // Setup creative tab
-        customTabs = new CustomTabs();
+        customTabs = new CustomTabs(game);
 
         // Setup protocol
-        NetworkRegistry.instance().registerConnectionHandler(new CommonConnectionHandler());
-        MessageCodecLookupService.register(AddFileMessage.class, AddFileCodec.class);
-        MessageCodecLookupService.register(AddPrefabMessage.class, AddPrefabCodec.class);
-        MessageCodecLookupService.register(AddonListMessage.class, AddonListCodec.class);
-        MessageCodecLookupService.register(DownloadLinkMessage.class, DownloadLinkCodec.class);
+        NetworkRegistry.instance().registerConnectionHandler(new CommonConnectionHandler(game));
+        game.getNetwork().getProtocol().register(AddFileMessage.class, AddFileCodec.class);
+        game.getNetwork().getProtocol().register(AddPrefabMessage.class, AddPrefabCodec.class);
+        game.getNetwork().getProtocol().register(AddonListMessage.class, AddonListCodec.class);
+        game.getNetwork().getProtocol().register(DownloadLinkMessage.class, DownloadLinkCodec.class);
 
         // Enable addons
         game.getAddonManager().enable();

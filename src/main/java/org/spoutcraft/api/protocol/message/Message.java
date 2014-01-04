@@ -24,9 +24,9 @@
 package org.spoutcraft.api.protocol.message;
 
 import cpw.mods.fml.common.network.Player;
-import cpw.mods.fml.relauncher.Side;
 import net.minecraft.network.INetworkManager;
+import org.spoutcraft.api.Spoutcraft;
 
 public interface Message {
-    public void handle(Side side, INetworkManager manager, Player player);
+    public void handle(Spoutcraft game, INetworkManager manager, Player player);
 }

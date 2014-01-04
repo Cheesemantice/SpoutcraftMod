@@ -29,6 +29,7 @@ import org.spoutcraft.api.addon.AddonManager;
 import org.spoutcraft.api.block.BlockPrefab;
 import org.spoutcraft.api.item.ItemPrefab;
 import org.spoutcraft.api.logger.SpoutcraftLogger;
+import org.spoutcraft.api.protocol.MessageDispatcher;
 import org.spoutcraft.api.resource.FileSystem;
 import org.spoutcraft.mod.addon.ClientAddonManager;
 import org.spoutcraft.mod.addon.CommonAddonManager;
@@ -45,6 +46,7 @@ public final class Spoutcraft {
     private final SpoutcraftLogger logger;
     private final AddonManager addonManager;
     private final FileSystem fileSystem;
+    private final MessageDispatcher network;
     private final LinkedPrefabRegistry<? extends BlockPrefab, ?> blockPrefabRegistry;
     private final LinkedPrefabRegistry<? extends ItemPrefab, ?> itemPrefabRegistry;
 
@@ -58,6 +60,7 @@ public final class Spoutcraft {
             addonManager = new ClientAddonManager(this);
             fileSystem = new ClientFileSystem();
         }
+        network = new MessageDispatcher(this);
         blockPrefabRegistry = new BlockPrefabRegistry();
         itemPrefabRegistry = new ItemPrefabRegistry();
     }
@@ -76,6 +79,10 @@ public final class Spoutcraft {
 
     public FileSystem getFileSystem() {
         return fileSystem;
+    }
+
+    public MessageDispatcher getNetwork() {
+        return network;
     }
 
     public LinkedPrefabRegistry<? extends BlockPrefab, ?> getBlockPrefabRegistry() {

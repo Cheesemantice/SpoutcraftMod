@@ -38,19 +38,18 @@ import java.util.logging.Level;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import cpw.mods.fml.relauncher.Side;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.spoutcraft.api.Spoutcraft;
 import org.spoutcraft.api.util.map.SerializableHashMap;
 
 public class AddonLoader {
     private static final String ADDON_JSON = "addon.info";
-    private final Side side;
+    private final Spoutcraft game;
     private final Map<String, AddonClassLoader> loaders = new HashMap<>();
     private final SerializableHashMap<String, String> addonMD5s = new SerializableHashMap<>();
 
-    public AddonLoader(Side side) {
-        this.side = side;
+    public AddonLoader(Spoutcraft game) {
+        this.game = game;
     }
 
     public void enable(Addon addon) {
@@ -59,12 +58,12 @@ public class AddonLoader {
         }
 
         try {
-            Spoutcraft.getLogger().info("Enabling [" + addon.getDescription().getName() + " " + addon.getDescription().getVersion() + "]...");
+            game.getLogger().info("Enabling [" + addon.getDescription().getName() + " " + addon.getDescription().getVersion() + "]...");
             addon.onEnable();
             addon.enable();
-            Spoutcraft.getLogger().info("[" + addon.getDescription().getName() + "] enabled");
+            game.getLogger().info("[" + addon.getDescription().getName() + "] enabled");
         } catch (Throwable t) {
-            Spoutcraft.getLogger().log(Level.SEVERE, "Exception caught while enabling addon [" + addon.getDescription().getName() + "]", t);
+            game.getLogger().log(Level.SEVERE, "Exception caught while enabling addon [" + addon.getDescription().getName() + "]", t);
         }
 
         loaders.put(addon.getDescription().getName(), addon.getClassLoader());
@@ -77,11 +76,11 @@ public class AddonLoader {
 
         try {
             addon.disable();
-            Spoutcraft.getLogger().info("Disabling [" + addon.getDescription().getName() + " " + addon.getDescription().getVersion() + "]...");
+            game.getLogger().info("Disabling [" + addon.getDescription().getName() + " " + addon.getDescription().getVersion() + "]...");
             addon.onDisable();
-            Spoutcraft.getLogger().info("[" + addon.getDescription().getName() + "] disabled");
+            game.getLogger().info("[" + addon.getDescription().getName() + "] disabled");
         } catch (Throwable t) {
-            Spoutcraft.getLogger().log(Level.SEVERE, "Exception caught while disabling addon [" + addon.getDescription().getName() + "]", t);
+            game.getLogger().log(Level.SEVERE, "Exception caught while disabling addon [" + addon.getDescription().getName() + "]", t);
         }
     }
 
@@ -90,7 +89,7 @@ public class AddonLoader {
         Addon addon = null;
         AddonClassLoader loader;
 
-        if (description.isValidMode(side)) {
+        if (description.isValidMode(game.getSide())) {
             final Path dataPath = Paths.get(path.getParent().toString(), description.getIdentifier());
             try {
                 loader = new AddonClassLoader(this.getClass().getClassLoader(), this);
@@ -99,7 +98,7 @@ public class AddonLoader {
                 Class<? extends Addon> addonClass = addonMain.asSubclass(Addon.class);
                 Constructor<? extends Addon> constructor = addonClass.getConstructor();
                 addon = constructor.newInstance();
-                addon.initialize(side, this, description, loader, dataPath, path);
+                addon.initialize(game, this, description, loader, dataPath, path);
                 addonMD5s.put(description.getIdentifier(), DigestUtils.md5Hex(new FileInputStream(path.toFile())));
             } catch (Exception e) {
                 throw new InvalidAddonException(e);

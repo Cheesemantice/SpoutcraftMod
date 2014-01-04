@@ -30,11 +30,11 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
 import org.spoutcraft.api.LinkedPrefabRegistry;
+import org.spoutcraft.api.Spoutcraft;
 import org.spoutcraft.api.addon.Addon;
 import org.spoutcraft.api.block.BlockPrefab;
 import org.spoutcraft.api.block.MovingPrefab;
 import org.spoutcraft.api.util.LanguageUtil;
-import org.spoutcraft.mod.SpoutcraftMod;
 
 public class BlockPrefabRegistry implements LinkedPrefabRegistry<BlockPrefab, Block> {
     private static final int ID_START = 2000;
@@ -75,7 +75,7 @@ public class BlockPrefabRegistry implements LinkedPrefabRegistry<BlockPrefab, Bl
         }
 
         addonRegistry.put(prefab, block);
-        GameRegistry.registerBlock(block, ItemBlock.class, prefab.getIdentifier(), SpoutcraftMod.MOD_ID + " - " + addon.getDescription().getIdentifier());
+        GameRegistry.registerBlock(block, ItemBlock.class, prefab.getIdentifier(), Spoutcraft.MOD_ID + " - " + addon.getDescription().getIdentifier());
         LanguageUtil.name(block, prefab.getDisplayName());
         return block;
     }

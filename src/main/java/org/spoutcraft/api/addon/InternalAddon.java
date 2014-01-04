@@ -27,7 +27,6 @@ import java.util.EnumSet;
 
 import cpw.mods.fml.client.registry.KeyBindingRegistry;
 import cpw.mods.fml.common.TickType;
-import cpw.mods.fml.relauncher.Side;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.item.EnumArmorMaterial;
@@ -48,21 +47,21 @@ import org.spoutcraft.mod.item.special.VanillaEmblem;
 
 @SuppressWarnings ("unchecked")
 public final class InternalAddon extends Addon {
-    public InternalAddon(Side side) {
-        this.side = side;
+    public InternalAddon(Spoutcraft game) {
+        this.game = game;
         root = null;
         dataPath = null;
-        loader = new AddonLoader(side);
+        loader = new AddonLoader(game);
         classLoader = new AddonClassLoader(getClassLoader(), loader);
         classLoader.setAddon(this);
-        description = new AddonDescription("spoutcraft", "Spoutcraft", "1.0-SNAPSHOT", AddonMode.BOTH, null);
-        logger = new AddonLogger(this);
+        description = new AddonDescription(Spoutcraft.MOD_ID.toLowerCase(), Spoutcraft.MOD_ID, "1.0-SNAPSHOT", AddonMode.BOTH, null);
+        logger = new AddonLogger(game.getLogger(), this);
     }
 
     @Override
     public void onEnable() {
-        final LinkedPrefabRegistry blockRegistry = Spoutcraft.getBlockPrefabRegistry();
-        final LinkedPrefabRegistry itemRegistry = Spoutcraft.getItemPrefabRegistry();
+        final LinkedPrefabRegistry blockRegistry = game.getBlockPrefabRegistry();
+        final LinkedPrefabRegistry itemRegistry = game.getItemPrefabRegistry();
 
         //Special
         itemRegistry.put(this, new SpoutcraftEmblem());
@@ -103,7 +102,7 @@ public final class InternalAddon extends Addon {
         blockRegistry.put(this, new MovingPrefab("9b", "9 (Black)", 0.5f, 1, 255, true));
         blockRegistry.put(this, new MovingPrefab("9w", "9 (White)", 0.5f, 1, 255, true));
 
-        if (getSide().isClient()) {
+        if (game.getSide().isClient()) {
             KeyBinding guiBind = new KeyBinding("CustomGui", Keyboard.KEY_U);
 
             KeyBindingRegistry.registerKeyBinding(new KeyBindingRegistry.KeyHandler(new KeyBinding[] {guiBind}, new boolean[] {false}) {

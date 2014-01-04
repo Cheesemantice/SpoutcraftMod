@@ -29,6 +29,7 @@ import java.util.Map;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.item.Item;
 import org.spoutcraft.api.LinkedPrefabRegistry;
+import org.spoutcraft.api.Spoutcraft;
 import org.spoutcraft.api.addon.Addon;
 import org.spoutcraft.api.item.ArmorPrefab;
 import org.spoutcraft.api.item.AxePrefab;
@@ -38,7 +39,6 @@ import org.spoutcraft.api.item.PickaxePrefab;
 import org.spoutcraft.api.item.SpadePrefab;
 import org.spoutcraft.api.item.SwordPrefab;
 import org.spoutcraft.api.util.LanguageUtil;
-import org.spoutcraft.mod.SpoutcraftMod;
 
 public class ItemPrefabRegistry implements LinkedPrefabRegistry<ItemPrefab, Item> {
     private static final int ID_START = 2000;
@@ -89,7 +89,7 @@ public class ItemPrefabRegistry implements LinkedPrefabRegistry<ItemPrefab, Item
         }
 
         addonRegistry.put(prefab, item);
-        GameRegistry.registerItem(item, prefab.getIdentifier(), SpoutcraftMod.MOD_ID + " - " + addon.getDescription().getIdentifier());
+        GameRegistry.registerItem(item, prefab.getIdentifier(), Spoutcraft.MOD_ID + " - " + addon.getDescription().getIdentifier());
         LanguageUtil.name(item, prefab.getDisplayName());
         return item;
     }

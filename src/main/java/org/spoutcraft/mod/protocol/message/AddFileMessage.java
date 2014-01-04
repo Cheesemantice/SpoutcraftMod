@@ -41,7 +41,7 @@ import cpw.mods.fml.common.network.Player;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.network.INetworkManager;
-import org.spoutcraft.api.addon.Addon;
+import org.spoutcraft.api.Spoutcraft;
 import org.spoutcraft.api.protocol.message.Message;
 
 public class AddFileMessage implements Message {
@@ -59,15 +59,15 @@ public class AddFileMessage implements Message {
     private Path path;
 
     @SideOnly (Side.SERVER)
-    public AddFileMessage(Addon addon, String name, Path path) {
-        this.addonIdentifier = addon.getDescription().getIdentifier();
+    public AddFileMessage(String addonIdentifier, String name, Path path) {
+        this.addonIdentifier = addonIdentifier;
         this.name = name;
         this.path = path;
     }
 
     @SideOnly (Side.CLIENT)
-    public AddFileMessage(Addon addon, String name, int part, int partCount, byte[] data) {
-        this.addonIdentifier = addon.getDescription().getIdentifier();
+    public AddFileMessage(String addonIdentifier, String name, int part, int partCount, byte[] data) {
+        this.addonIdentifier = addonIdentifier;
         this.name = name;
         this.filePart = part;
         this.filePartCount = partCount;
@@ -103,7 +103,7 @@ public class AddFileMessage implements Message {
     }
 
     @Override
-    public void handle(Side side, INetworkManager manager, Player player) {
+    public void handle(Spoutcraft game, INetworkManager manager, Player player) {
 
         SplitFile split;
         if (fileDataBuffer.containsKey(name)) {
@@ -157,7 +157,7 @@ public class AddFileMessage implements Message {
         }
     }
 
-    public static List<AddFileMessage> splitFileToMessages(Addon addon, Path path) throws IOException {
+    public static List<AddFileMessage> splitFileToMessages(String addonIdentifier, Path path) throws IOException {
         //Leave room for other packet related data
         ByteBuffer readBuff = ByteBuffer.allocate(32000);
         ReadableByteChannel channel = Files.newByteChannel(path, StandardOpenOption.READ);
@@ -170,7 +170,7 @@ public class AddFileMessage implements Message {
             byte[] chunk = new byte[amnt];
             readBuff.get(chunk);
             readBuff.clear();
-            messages.add(new AddFileMessage(addon, name, part, 0, chunk));
+            messages.add(new AddFileMessage(addonIdentifier, name, part, 0, chunk));
             part++;
         }
         //part is now maxParts

@@ -28,19 +28,22 @@ import java.util.HashMap;
 import java.util.Map;
 
 import cpw.mods.fml.common.network.NetworkRegistry;
+import org.spoutcraft.api.Spoutcraft;
 import org.spoutcraft.api.protocol.codec.Codec;
 import org.spoutcraft.api.protocol.message.Message;
 
 public class MessageCodecLookupService {
-    private static final MessagePacketHandler HANDLER;
-    private static final Map<Class<? extends Message>, Codec<?>> TABLE;
+    private final Spoutcraft game;
+    private final MessagePacketHandler handler;
+    private final Map<Class<? extends Message>, Codec<?>> table;
 
-    static {
-        HANDLER = new MessagePacketHandler();
-        TABLE = new HashMap<>(5, 1.0f);
+    public MessageCodecLookupService(Spoutcraft game) {
+        this.game = game;
+        handler = new MessagePacketHandler(game);
+        table = new HashMap<>(5, 1.0f);
     }
 
-    public static <T extends Message, C extends Codec<T>> void register(Class<T> clazz, Class<C> clazzz) {
+    public <T extends Message, C extends Codec<T>> void register(Class<T> clazz, Class<C> clazzz) {
         Constructor<C> constructor;
         try {
             constructor = clazzz.getConstructor();
@@ -53,18 +56,18 @@ public class MessageCodecLookupService {
         } catch (Exception e) {
             throw new IllegalStateException("Could not create instance of codec: " + clazzz);
         }
-        TABLE.put(clazz, c);
-        NetworkRegistry.instance().registerChannel(HANDLER, c.getChannel());
+        table.put(clazz, c);
+        NetworkRegistry.instance().registerChannel(handler, c.getChannel());
     }
 
     @SuppressWarnings ("unchecked")
-    public static <T extends Message> Codec<T> find(Class<T> clazz) {
-        return (Codec<T>) TABLE.get(clazz);
+    public <T extends Message> Codec<T> find(Class<T> clazz) {
+        return (Codec<T>) table.get(clazz);
     }
 
     @SuppressWarnings ({"unchecked", "rawtypes"})
-    public static <T extends Message> Codec<T> find(String channel) {
-        for (Codec codec : TABLE.values()) {
+    public <T extends Message> Codec<T> find(String channel) {
+        for (Codec codec : table.values()) {
             if (codec.getChannel().equals(channel)) {
                 return codec;
             }

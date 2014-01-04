@@ -28,8 +28,6 @@ import java.io.IOException;
 import cpw.mods.fml.relauncher.Side;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
-import org.spoutcraft.api.Spoutcraft;
-import org.spoutcraft.api.addon.Addon;
 import org.spoutcraft.api.protocol.codec.Codec;
 import org.spoutcraft.api.util.BufferUtil;
 import org.spoutcraft.mod.protocol.message.AddFileMessage;
@@ -46,17 +44,12 @@ public class AddFileCodec implements Codec<AddFileMessage> {
             throw new IOException("Server is not allowed to receive files!");
         }
         final String addonIdentifier = BufferUtil.readUTF8(buffer);
-        //TODO Sanity check needed and here?
-        final Addon addon = Spoutcraft.getAddonManager().getAddon(addonIdentifier);
-        if (addon == null) {
-            return null;
-        }
         final String fname = BufferUtil.readUTF8(buffer);
         final short part = buffer.readShort();
         final short partCount = buffer.readShort();
         final byte[] data = new byte[buffer.readableBytes()];
         buffer.readBytes(data);
-        return new AddFileMessage(addon, fname, part, partCount, data);
+        return new AddFileMessage(addonIdentifier, fname, part, partCount, data);
     }
 
     @Override

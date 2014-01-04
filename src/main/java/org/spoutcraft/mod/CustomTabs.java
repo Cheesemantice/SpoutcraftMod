@@ -28,16 +28,19 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import org.spoutcraft.api.Spoutcraft;
 import org.spoutcraft.api.util.LanguageUtil;
-import org.spoutcraft.mod.addon.CommonAddonManager;
+import org.spoutcraft.mod.addon.ClientAddonManager;
 
 public class CustomTabs extends CreativeTabs {
-    protected CustomTabs() {
-        super("Spoutcraft");
-        LanguageUtil.add("itemGroup.Spoutcraft", "Spoutcraft");
+    private final Spoutcraft game;
+
+    protected CustomTabs(Spoutcraft game) {
+        super(Spoutcraft.MOD_ID);
+        this.game = game;
+        LanguageUtil.add("itemGroup." + Spoutcraft.MOD_ID, Spoutcraft.MOD_ID);
     }
 
     @Override
     public ItemStack getIconItemStack() {
-        return new ItemStack((Item) Spoutcraft.getItemPrefabRegistry().find(((CommonAddonManager) Spoutcraft.getAddonManager()).getInternalAddon(), "spout_emblem"), 1, 0);
+        return new ItemStack((Item) game.getItemPrefabRegistry().find(((ClientAddonManager) game.getAddonManager()).getInternalAddon(), "spout_emblem"), 1, 0);
     }
 }

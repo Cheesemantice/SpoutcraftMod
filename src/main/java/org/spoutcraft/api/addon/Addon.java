@@ -25,7 +25,6 @@ package org.spoutcraft.api.addon;
 
 import java.nio.file.Path;
 
-import cpw.mods.fml.relauncher.Side;
 import org.spoutcraft.api.Spoutcraft;
 
 /**
@@ -34,7 +33,6 @@ import org.spoutcraft.api.Spoutcraft;
  */
 public abstract class Addon {
     protected Spoutcraft game;
-    protected Side side;
     protected AddonLoader loader;
     protected AddonDescription description;
     protected AddonClassLoader classLoader;
@@ -61,23 +59,18 @@ public abstract class Addon {
         this.enabled = false;
     }
 
-    protected void initialize(Spoutcraft game, Side side, AddonLoader loader, AddonDescription description, AddonClassLoader classLoader, Path dataPath, Path root) {
+    protected void initialize(Spoutcraft game, AddonLoader loader, AddonDescription description, AddonClassLoader classLoader, Path dataPath, Path root) {
         this.game = game;
-        this.side = side;
         this.loader = loader;
         this.description = description;
         this.classLoader = classLoader;
-        this.logger = new AddonLogger(this);
+        this.logger = new AddonLogger(game.getLogger(), this);
         this.dataPath = dataPath;
         this.root = root;
     }
 
     public Spoutcraft getGame() {
         return game;
-    }
-
-    public Side getSide() {
-        return side;
     }
 
     public boolean isEnabled() {

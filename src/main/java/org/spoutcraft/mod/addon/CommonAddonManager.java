@@ -32,7 +32,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.logging.Level;
 
-import cpw.mods.fml.relauncher.Side;
 import org.spoutcraft.api.Spoutcraft;
 import org.spoutcraft.api.addon.Addon;
 import org.spoutcraft.api.addon.AddonLoader;
@@ -47,15 +46,11 @@ public class CommonAddonManager implements AddonManager {
     protected final Addon internal;
     protected final Collection<Addon> addons = new ArrayList<>();
 
-    protected CommonAddonManager(Spoutcraft game, AddonLoader loader, Addon internal) {
-        this.game = game;
-        this.loader = loader;
-        this.internal = internal;
-        addons.add(internal);
-    }
-
     public CommonAddonManager(Spoutcraft game) {
-        this(game, new AddonLoader(Side.SERVER), new InternalAddon(Side.SERVER));
+        this.game = game;
+        this.loader = new AddonLoader(game);
+        this.internal = new InternalAddon(game);
+        addons.add(internal);
     }
 
     @Override
