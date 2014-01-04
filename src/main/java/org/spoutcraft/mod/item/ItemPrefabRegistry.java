@@ -23,10 +23,8 @@
  */
 package org.spoutcraft.mod.item;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.item.Item;
@@ -42,13 +40,14 @@ import org.spoutcraft.api.item.SpadePrefab;
 import org.spoutcraft.api.item.SwordPrefab;
 import org.spoutcraft.api.protocol.MessageDispatcher;
 import org.spoutcraft.api.util.LanguageUtil;
+import org.spoutcraft.mod.SpoutcraftMod;
 import org.spoutcraft.mod.protocol.message.AddPrefabMessage;
 
 public class ItemPrefabRegistry implements LinkedPrefabRegistry<ItemPrefab, Item> {
     private static final int ID_START = 2000;
     private static int ID_COUNTER = 0;
-    //INTERNAL
     private static final Map<Addon, Map<ItemPrefab, Item>> ADDON_ITEM_PREFAB_INSTANCE_REGISTRY = new HashMap<>();
+
     @Override
     public ItemPrefab put(Addon addon, ItemPrefab prefab) {
         create(addon, prefab);
@@ -57,12 +56,25 @@ public class ItemPrefabRegistry implements LinkedPrefabRegistry<ItemPrefab, Item
 
     @Override
     public Item create(Addon addon, ItemPrefab prefab) {
+        if (addon == null) {
+            throw new IllegalStateException("Attempt to create item with null addon!");
+        }
+
         if (prefab == null) {
-            throw new IllegalStateException("Attempt made to put null item prefab into registry!");
+            throw new IllegalStateException("Attempt to create block with null block prefab!");
+        }
+
+        Map<ItemPrefab, Item> addonRegistry = ADDON_ITEM_PREFAB_INSTANCE_REGISTRY.get(addon);
+        if (addonRegistry == null) {
+            addonRegistry = ADDON_ITEM_PREFAB_INSTANCE_REGISTRY.put(addon, new HashMap<ItemPrefab, Item>());
+        }
+
+        Item item = addonRegistry.get(prefab);
+        if (item != null) {
+            return item;
         }
 
         final int id = ID_START + ID_COUNTER++;
-        final Item item;
         if (prefab instanceof FoodPrefab) {
             item = new CustomFood(id, addon, (FoodPrefab) prefab);
         } else if (prefab instanceof SwordPrefab) {
@@ -79,19 +91,27 @@ public class ItemPrefabRegistry implements LinkedPrefabRegistry<ItemPrefab, Item
             item = new CustomItem(id, addon, prefab);
         }
 
-        REGISTRY.add(prefab);
-        PREFAB_BY_ITEM.put(prefab, item);
-
-        GameRegistry.registerItem(item, prefab.getIdentifier(), "Spoutcraft");
+        addonRegistry.put(prefab, item);
+        GameRegistry.registerItem(item, prefab.getIdentifier(), SpoutcraftMod.MOD_ID + " - " + addon.getDescription().getIdentifier());
         LanguageUtil.name(item, prefab.getDisplayName());
         return item;
     }
 
     @Override
     public ItemPrefab get(Addon addon, String identifier) {
-        for (ItemPrefab prefab : REGISTRY) {
-            if (prefab.getIdentifier().equals(identifier)) {
-                return prefab;
+        if (addon == null) {
+            throw new IllegalStateException("Attempt to get item prefab with null addon!");
+        }
+
+        if (identifier == null || identifier.isEmpty()) {
+            throw new IllegalStateException("Attempt to get item prefab with empty or null identifier!");
+        }
+        Map<ItemPrefab, Item> addonRegistry = ADDON_ITEM_PREFAB_INSTANCE_REGISTRY.get(addon);
+        if (addonRegistry != null && !addonRegistry.isEmpty()) {
+            for (ItemPrefab prefab : addonRegistry.keySet()) {
+                if (prefab.getIdentifier().equalsIgnoreCase(identifier)) {
+                    return prefab;
+                }
             }
         }
         return null;
@@ -99,29 +119,37 @@ public class ItemPrefabRegistry implements LinkedPrefabRegistry<ItemPrefab, Item
 
     @Override
     public Item find(Addon addon, ItemPrefab prefab) {
-        return prefab == null ? null : PREFAB_BY_ITEM.get(prefab);
+        if (addon == null) {
+            throw new IllegalStateException("Attempt to find item with null addon!");
+        }
+
+        if (prefab == null) {
+            throw new IllegalStateException("Attempt to find item with null item prefab!");
+        }
+        Map<ItemPrefab, Item> addonRegistry = ADDON_ITEM_PREFAB_INSTANCE_REGISTRY.get(addon);
+        if (addonRegistry != null && !addonRegistry.isEmpty()) {
+            return addonRegistry.get(prefab);
+        }
+        return null;
     }
 
     @Override
     public Item find(Addon addon, String identifier) {
-        if (identifier != null && !identifier.isEmpty()) {
-            for (Map.Entry<ItemPrefab, Item> entry : PREFAB_BY_ITEM.entrySet()) {
-                if (entry.getKey().getIdentifier().equals(identifier)) {
+        if (addon == null) {
+            throw new IllegalStateException("Attempt to find block with null addon!");
+        }
+
+        if (identifier == null || identifier.isEmpty()) {
+            throw new IllegalStateException("Attempt to find block with null or empty identifier!");
+        }
+        Map<ItemPrefab, Item> addonRegistry = ADDON_ITEM_PREFAB_INSTANCE_REGISTRY.get(addon);
+        if (addonRegistry != null && !addonRegistry.isEmpty()) {
+            for (Map.Entry<ItemPrefab, Item> entry : addonRegistry.entrySet()) {
+                if (entry.getKey().getIdentifier().equalsIgnoreCase(identifier)) {
                     return entry.getValue();
                 }
             }
         }
         return null;
-    }
-
-    /**
-     * Syncs the entire block registry to the client
-     *
-     * @param network The connected network
-     */
-    public void sync(final INetworkManager network) {
-        for (ItemPrefab prefab : REGISTRY) {
-            network.addToSendQueue(MessageDispatcher.create(new AddPrefabMessage(prefab)));
-        }
     }
 }

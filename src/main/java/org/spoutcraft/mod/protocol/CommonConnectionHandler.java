@@ -40,10 +40,6 @@ import org.spoutcraft.mod.protocol.message.AddonListMessage;
 public class CommonConnectionHandler implements IConnectionHandler {
     @Override
     public void playerLoggedIn(Player player, NetHandler netHandler, final INetworkManager manager) {
-
-        if (!FMLCommonHandler.instance().getMinecraftServerInstance().isSinglePlayer()) {
-            ((ItemPrefabRegistry) Spoutcraft.getItemPrefabRegistry()).sync(manager);
-        }
     }
 
     @Override

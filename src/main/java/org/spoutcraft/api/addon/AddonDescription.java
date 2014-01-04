@@ -66,14 +66,7 @@ public class AddonDescription {
     @Override
     public String toString() {
         final String NEW_LINE = System.getProperty("line.separator");
-        final StringBuilder builder = new StringBuilder();
-        builder
-                .append(getClass().getName() + " {" + NEW_LINE)
-                .append(" Identifier: " + identifier + NEW_LINE)
-                .append(" Name: " + name + NEW_LINE)
-                .append(" Version: " + version + NEW_LINE)
-                .append("}");
-        return builder.toString();
+        return (getClass().getName() + " {" + NEW_LINE) + " Identifier: " + identifier + NEW_LINE + " Name: " + name + NEW_LINE + " Version: " + version + NEW_LINE + "}";
     }
 
     public boolean isValidMode(Side side) {

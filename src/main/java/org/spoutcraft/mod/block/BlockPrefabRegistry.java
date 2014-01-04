@@ -39,7 +39,6 @@ import org.spoutcraft.mod.SpoutcraftMod;
 public class BlockPrefabRegistry implements LinkedPrefabRegistry<BlockPrefab, Block> {
     private static final int ID_START = 2000;
     private static int ID_COUNTER = 0;
-    //INTERNAL
     private static final Map<Addon, Map<BlockPrefab, Block>> ADDON_BLOCK_PREFAB_INSTANCE_REGISTRY = new HashMap<>();
 
     @Override
@@ -76,7 +75,7 @@ public class BlockPrefabRegistry implements LinkedPrefabRegistry<BlockPrefab, Bl
         }
 
         addonRegistry.put(prefab, block);
-        GameRegistry.registerBlock(block, ItemBlock.class, prefab.getIdentifier(), SpoutcraftMod.MOD_ID + addon.getDescription().getIdentifier());
+        GameRegistry.registerBlock(block, ItemBlock.class, prefab.getIdentifier(), SpoutcraftMod.MOD_ID + " - " + addon.getDescription().getIdentifier());
         LanguageUtil.name(block, prefab.getDisplayName());
         return block;
     }
