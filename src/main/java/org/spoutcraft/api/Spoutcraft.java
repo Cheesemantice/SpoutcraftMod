@@ -23,7 +23,6 @@
  */
 package org.spoutcraft.api;
 
-import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
 import org.spoutcraft.api.addon.AddonManager;
 import org.spoutcraft.api.block.BlockPrefab;

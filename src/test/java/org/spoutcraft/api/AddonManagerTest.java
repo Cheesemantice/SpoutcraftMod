@@ -38,8 +38,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
-@RunWith(PowerMockRunner.class)
-@PrepareForTest({FMLLog.class, Side.class, Logger.class})
+@RunWith (PowerMockRunner.class)
+@PrepareForTest ({FMLLog.class, Side.class, Logger.class})
 public class AddonManagerTest {
     @Test
     public void test() {

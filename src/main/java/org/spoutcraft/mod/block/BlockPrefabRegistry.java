@@ -37,7 +37,7 @@ import org.spoutcraft.api.block.MovingPrefab;
 import org.spoutcraft.api.util.LanguageUtil;
 
 public class BlockPrefabRegistry implements LinkedPrefabRegistry<BlockPrefab, Block> {
-    private static final int ID_START = 2000;
+    private static final int ID_START = 3000;
     private static int ID_COUNTER = 0;
     private static final Map<Addon, Map<BlockPrefab, Block>> ADDON_BLOCK_PREFAB_INSTANCE_REGISTRY = new HashMap<>();
 
@@ -59,7 +59,8 @@ public class BlockPrefabRegistry implements LinkedPrefabRegistry<BlockPrefab, Bl
 
         Map<BlockPrefab, Block> addonRegistry = ADDON_BLOCK_PREFAB_INSTANCE_REGISTRY.get(addon);
         if (addonRegistry == null) {
-            addonRegistry = ADDON_BLOCK_PREFAB_INSTANCE_REGISTRY.put(addon, new HashMap<BlockPrefab, Block>());
+            addonRegistry = new HashMap<>();
+            ADDON_BLOCK_PREFAB_INSTANCE_REGISTRY.put(addon, addonRegistry);
         }
 
         Block block = addonRegistry.get(prefab);
@@ -75,7 +76,7 @@ public class BlockPrefabRegistry implements LinkedPrefabRegistry<BlockPrefab, Bl
         }
 
         addonRegistry.put(prefab, block);
-        GameRegistry.registerBlock(block, ItemBlock.class, prefab.getIdentifier(), Spoutcraft.MOD_ID + " - " + addon.getDescription().getIdentifier());
+        GameRegistry.registerBlock(block, ItemBlock.class, prefab.getIdentifier(), Spoutcraft.MOD_ID);
         LanguageUtil.name(block, prefab.getDisplayName());
         return block;
     }

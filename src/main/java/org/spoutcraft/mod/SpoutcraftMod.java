@@ -60,15 +60,15 @@ public class SpoutcraftMod {
 
     @EventHandler
     public void onInitialize(FMLInitializationEvent event) {
-        // Setup addons
-        game.getAddonManager().loadAddons(CommonFileSystem.ADDONS_PATH);
-
         // Setup file system
         try {
             game.getFileSystem().init();
         } catch (Exception e) {
             throw new RuntimeException("Could not initialize FileSystem", e);
         }
+
+        // Setup addons
+        game.getAddonManager().loadAddons(CommonFileSystem.ADDONS_PATH);
 
         switch (game.getSide()) {
             case CLIENT:

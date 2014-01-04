@@ -25,7 +25,6 @@ package org.spoutcraft.mod.protocol.codec;
 
 import java.io.IOException;
 
-import cpw.mods.fml.relauncher.Side;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import org.spoutcraft.api.Spoutcraft;

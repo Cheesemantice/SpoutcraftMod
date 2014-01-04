@@ -54,7 +54,7 @@ public final class InternalAddon extends Addon {
         loader = new AddonLoader(game);
         classLoader = new AddonClassLoader(getClassLoader(), loader);
         classLoader.setAddon(this);
-        description = new AddonDescription(Spoutcraft.MOD_ID.toLowerCase(), Spoutcraft.MOD_ID, "1.0-SNAPSHOT", AddonMode.BOTH, null);
+        description = new AddonDescription("internal", Spoutcraft.MOD_ID, "1.0-SNAPSHOT", AddonMode.BOTH, null);
         logger = new AddonLogger(game.getLogger(), this);
     }
 

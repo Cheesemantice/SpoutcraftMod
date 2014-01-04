@@ -36,7 +36,7 @@ public class CustomArmor extends ItemArmor implements Prefabable<ArmorPrefab> {
         super(id, prefab.getToolMaterial(), ArmorPrefab.RENDER_INDEX, prefab.getArmorType().value());
         this.prefab = prefab;
         setUnlocalizedName("spoutcraft:" + prefab.getIdentifier());
-        setTextureName("spoutcraft:" + addon.getDescription().getIdentifier() + "/textures/items/armor/" + prefab.getIdentifier());
+        setTextureName("spoutcraft:" + addon.getDescription().getIdentifier() + "/armor/" + prefab.getIdentifier());
         setMaxStackSize(prefab.getMaxStackSize());
 
         if (prefab.shouldShowInCreativeTab()) {

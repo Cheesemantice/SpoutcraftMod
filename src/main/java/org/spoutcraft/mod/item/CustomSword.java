@@ -36,7 +36,7 @@ public class CustomSword extends ItemSword implements Prefabable<SwordPrefab> {
         super(id, prefab.getToolMaterial());
         this.prefab = prefab;
         setUnlocalizedName("spoutcraft:" + prefab.getIdentifier());
-        setTextureName("spoutcraft:" + addon.getDescription().getIdentifier() + "/textures/items/swords/" + prefab.getIdentifier());
+        setTextureName("spoutcraft:" + addon.getDescription().getIdentifier() + "/swords/" + prefab.getIdentifier());
         setMaxStackSize(prefab.getMaxStackSize());
 
         if (prefab.shouldShowInCreativeTab()) {

@@ -26,7 +26,6 @@ package org.spoutcraft.mod.protocol.codec;
 import java.io.IOException;
 import java.net.URL;
 
-import cpw.mods.fml.relauncher.Side;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import org.apache.commons.lang3.SerializationUtils;
@@ -42,7 +41,7 @@ public class DownloadLinkCodec implements Codec<DownloadLinkMessage> {
     }
 
     @Override
-    public DownloadLinkMessage decode(Spoutcraft game,  ByteBuf buffer) throws IOException {
+    public DownloadLinkMessage decode(Spoutcraft game, ByteBuf buffer) throws IOException {
         if (game.getSide().isServer()) {
             throw new IOException("Server is not allowed to receive links!");
         }

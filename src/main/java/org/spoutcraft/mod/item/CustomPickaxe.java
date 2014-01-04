@@ -36,7 +36,7 @@ public class CustomPickaxe extends ItemPickaxe implements Prefabable<PickaxePref
         super(id, prefab.getToolMaterial());
         this.prefab = prefab;
         setUnlocalizedName("spoutcraft:" + prefab.getIdentifier());
-        setTextureName("spoutcraft:" + addon.getDescription().getIdentifier() + "/textures/items/pickaxes/" + prefab.getIdentifier());
+        setTextureName("spoutcraft:" + addon.getDescription().getIdentifier() + "/pickaxes/" + prefab.getIdentifier());
         setMaxStackSize(prefab.getMaxStackSize());
 
         if (prefab.shouldShowInCreativeTab()) {

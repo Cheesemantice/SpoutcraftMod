@@ -41,7 +41,7 @@ import org.spoutcraft.api.item.SwordPrefab;
 import org.spoutcraft.api.util.LanguageUtil;
 
 public class ItemPrefabRegistry implements LinkedPrefabRegistry<ItemPrefab, Item> {
-    private static final int ID_START = 2000;
+    private static final int ID_START = 3000;
     private static int ID_COUNTER = 0;
     private static final Map<Addon, Map<ItemPrefab, Item>> ADDON_ITEM_PREFAB_INSTANCE_REGISTRY = new HashMap<>();
 
@@ -63,7 +63,8 @@ public class ItemPrefabRegistry implements LinkedPrefabRegistry<ItemPrefab, Item
 
         Map<ItemPrefab, Item> addonRegistry = ADDON_ITEM_PREFAB_INSTANCE_REGISTRY.get(addon);
         if (addonRegistry == null) {
-            addonRegistry = ADDON_ITEM_PREFAB_INSTANCE_REGISTRY.put(addon, new HashMap<ItemPrefab, Item>());
+            addonRegistry = new HashMap<>();
+            ADDON_ITEM_PREFAB_INSTANCE_REGISTRY.put(addon, addonRegistry);
         }
 
         Item item = addonRegistry.get(prefab);
@@ -89,7 +90,7 @@ public class ItemPrefabRegistry implements LinkedPrefabRegistry<ItemPrefab, Item
         }
 
         addonRegistry.put(prefab, item);
-        GameRegistry.registerItem(item, prefab.getIdentifier(), Spoutcraft.MOD_ID + " - " + addon.getDescription().getIdentifier());
+        GameRegistry.registerItem(item, prefab.getIdentifier(), Spoutcraft.MOD_ID);
         LanguageUtil.name(item, prefab.getDisplayName());
         return item;
     }

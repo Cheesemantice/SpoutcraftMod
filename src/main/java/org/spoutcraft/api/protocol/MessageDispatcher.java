@@ -25,7 +25,6 @@ package org.spoutcraft.api.protocol;
 
 import java.io.IOException;
 
-import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.common.network.Player;
 import io.netty.buffer.ByteBuf;
@@ -67,7 +66,7 @@ public class MessageDispatcher {
         }
         final ByteBuf encoded;
         try {
-            encoded = codec.encode(FMLCommonHandler.instance().getEffectiveSide(), message);
+            encoded = codec.encode(game, message);
         } catch (IOException e) {
             throw new IllegalStateException("Failed to encode message: " + message, e);
         }

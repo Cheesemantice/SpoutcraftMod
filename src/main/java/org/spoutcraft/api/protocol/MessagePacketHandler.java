@@ -23,7 +23,6 @@
  */
 package org.spoutcraft.api.protocol;
 
-import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.network.IPacketHandler;
 import cpw.mods.fml.common.network.Player;
 import io.netty.buffer.ByteBuf;
@@ -49,7 +48,7 @@ public class MessagePacketHandler implements IPacketHandler {
         try {
             final ByteBuf buffer = Unpooled.buffer();
             buffer.writeBytes(packet.data);
-            message = codec.decode(FMLCommonHandler.instance().getEffectiveSide(), buffer);
+            message = codec.decode(game, buffer);
         } catch (Throwable t) {
             throw new IllegalStateException("Error decoding codec: " + codec, t);
         }
