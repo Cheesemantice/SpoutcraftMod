@@ -33,11 +33,11 @@ import com.google.gson.JsonParseException;
 import cpw.mods.fml.relauncher.Side;
 
 public class AddonDescription {
-    private String identifier;
-    private String name;
-    private String version;
-    private AddonMode mode;
-    private String mainClassName;
+    private final String identifier;
+    private final String name;
+    private final String version;
+    private final AddonMode mode;
+    private final String mainClassName;
 
     public AddonDescription(String identifier, String name, String version, AddonMode mode, String mainClassName) {
         this.identifier = identifier;
@@ -63,12 +63,6 @@ public class AddonDescription {
         return mainClassName;
     }
 
-    @Override
-    public String toString() {
-        final String NEW_LINE = System.getProperty("line.separator");
-        return (getClass().getName() + " {" + NEW_LINE) + " Identifier: " + identifier + NEW_LINE + " Name: " + name + NEW_LINE + " Version: " + version + NEW_LINE + "}";
-    }
-
     public boolean isValidMode(Side side) {
         switch (mode) {
             case CLIENT:
@@ -86,6 +80,31 @@ public class AddonDescription {
         }
 
         return false;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        final AddonDescription that = (AddonDescription) o;
+
+        return identifier.equals(that.identifier);
+    }
+
+    @Override
+    public int hashCode() {
+        return identifier.hashCode();
+    }
+
+    @Override
+    public String toString() {
+        final String NEW_LINE = System.getProperty("line.separator");
+        return (getClass().getName() + " {" + NEW_LINE) + " Identifier: " + identifier + NEW_LINE + " Name: " + name + NEW_LINE + " Version: " + version + NEW_LINE + "}";
     }
 }
 

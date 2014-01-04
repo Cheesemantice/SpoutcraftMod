@@ -38,6 +38,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 @RunWith (PowerMockRunner.class)
@@ -48,6 +49,7 @@ public class AddonManagerTest {
         PowerMockito.mockStatic(FMLLog.class);
         Logger mock = PowerMockito.mock(Logger.class);
         PowerMockito.when(FMLLog.getLogger()).thenReturn(mock);
+        // Test internal addon code
         final Spoutcraft game = new Spoutcraft(Side.SERVER);
         boolean exceptionCaught = false;
         try {
@@ -60,5 +62,6 @@ public class AddonManagerTest {
         }
         assertNull(game.getAddonManager().getAddon("test"));
         assertNotEquals(game.getAddonManager().getAddon("test"), ((CommonAddonManager) game.getAddonManager()).getInternalAddon());
+        assertEquals(((CommonAddonManager) game.getAddonManager()).getInternalAddon(), ((CommonAddonManager) game.getAddonManager()).getInternalAddon());
     }
 }

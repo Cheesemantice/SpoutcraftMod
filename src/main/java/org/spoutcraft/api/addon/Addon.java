@@ -100,4 +100,37 @@ public abstract class Addon {
     public Path getPath() {
         return root;
     }
+
+    @Override
+    public final boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Addon)) {
+            return false;
+        }
+
+        final Addon addon = (Addon) o;
+
+        return !(description != null ? !description.equals(addon.description) : addon.description != null);
+    }
+
+    @Override
+    public final int hashCode() {
+        return description != null ? description.hashCode() : 0;
+    }
+
+    @Override
+    public String toString() {
+        return "Addon{" +
+                "game=" + game +
+                ", loader=" + loader +
+                ", description=" + description +
+                ", classLoader=" + classLoader +
+                ", logger=" + logger +
+                ", dataPath=" + dataPath +
+                ", root=" + root +
+                ", enabled=" + enabled +
+                '}';
+    }
 }
