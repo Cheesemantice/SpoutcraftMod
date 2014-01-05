@@ -47,8 +47,7 @@ import static org.lwjgl.opengl.GL12.*;
 public class SpoutcraftMainMenu extends GuiScreen {
     private static final int SPOUTCRAFT_LOGO_TEX = TextureUtil.loadTexture(new ResourceLocation("spoutcraft", "textures/gui/internal/spoutcraft.png"));
     private SpoutcraftBackground background = new SpoutcraftBackground();
-    private final CustomFont ubuntu;
-
+    
     static {
         TextureUtil.bind(SPOUTCRAFT_LOGO_TEX);
         TextureUtil.setMinFilter(GL_LINEAR);
@@ -57,13 +56,7 @@ public class SpoutcraftMainMenu extends GuiScreen {
         TextureUtil.setWrapT(GL_CLAMP_TO_EDGE);
     }
 
-    public SpoutcraftMainMenu(Spoutcraft game) {
-        try {
-            ubuntu = new CustomFont(Font.createFont(Font.TRUETYPE_FONT, SpoutcraftMod.class.getResourceAsStream("/assets/spoutcraft/fonts/" + ((CommonAddonManager) game.getAddonManager()).getInternalAddon().getDescription().getIdentifier() + "/ubuntu-regular.ttf")).deriveFont(36f));
-        } catch (Exception e) {
-            throw new RuntimeException("Could not load font", e);
-        }
-    }
+    public SpoutcraftMainMenu(Spoutcraft game) {}
 
     @Override
     public void initGui() {
@@ -163,8 +156,8 @@ public class SpoutcraftMainMenu extends GuiScreen {
         GL11.glPopMatrix();
 
         // Draw the Copyright string
-        ubuntu.setScale(0.17f);
-        ubuntu.drawString("Copyright Mojang AB. Do not distribute!", 4, height - 5);
+        SpoutcraftMod.getCustomFont().setScale(0.17f);
+        SpoutcraftMod.getCustomFont().drawString("Copyright Mojang AB. Do not distribute!", 4, height - 5);
         super.drawScreen(par1, par2, par3);
     }
 

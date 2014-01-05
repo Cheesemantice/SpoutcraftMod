@@ -23,6 +23,7 @@
  */
 package org.spoutcraft.mod;
 
+import java.awt.Font;
 import java.nio.ByteBuffer;
 
 import cpw.mods.fml.common.FMLCommonHandler;
@@ -32,9 +33,12 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import net.minecraft.util.ResourceLocation;
+
 import org.lwjgl.opengl.*;
 import org.spoutcraft.api.Spoutcraft;
+import org.spoutcraft.api.resource.CustomFont;
 import org.spoutcraft.api.util.TextureUtil;
+import org.spoutcraft.mod.addon.CommonAddonManager;
 import org.spoutcraft.mod.handler.ClientTickHandlers;
 import org.spoutcraft.mod.protocol.CommonConnectionHandler;
 import org.spoutcraft.mod.protocol.codec.AddFileCodec;
@@ -53,6 +57,7 @@ import org.spoutcraft.mod.resource.CommonFileSystem;
 public class SpoutcraftMod {
     private static CustomTabs customTabs;
     private final Spoutcraft game;
+    private static CustomFont customFont = null;
 
     public SpoutcraftMod() {
         game = new Spoutcraft(FMLCommonHandler.instance().getEffectiveSide());
@@ -82,6 +87,13 @@ public class SpoutcraftMod {
                     Display.setIcon(new ByteBuffer[] {windowIcon, taskbarIcon});
                 }
 
+                // Setup CustomFont
+                try {
+                    customFont = (new CustomFont(Font.createFont(Font.TRUETYPE_FONT, SpoutcraftMod.class.getResourceAsStream("/assets/spoutcraft/fonts/" + ((CommonAddonManager) game.getAddonManager()).getInternalAddon().getDescription().getIdentifier() + "/ubuntu-regular.ttf")).deriveFont(36f)));
+                } catch (Exception e) {
+                    throw new RuntimeException("Could not load font", e);
+                }
+                
                 final ClientTickHandlers handlers = new ClientTickHandlers(game);
                 handlers.start();
                 break;
@@ -108,4 +120,8 @@ public class SpoutcraftMod {
     public static CustomTabs getCustomTabs() {
         return customTabs;
     }
+
+	public static CustomFont getCustomFont() {
+		return customFont;
+	}	
 }
