@@ -148,10 +148,21 @@ public class CustomFont {
      * @return this font object, so this can be chained with the constructor
      */
     public CustomFont setFilter(int min, int mag) {
-        this.fontTexture.bind();
-        TextureUtil.setMinFilter(min);
-        TextureUtil.setMagFilter(mag);
-        return this;
+    	this.fontTexture.bind();
+    	TextureUtil.setMinFilter(min);
+    	TextureUtil.setMagFilter(mag);
+    	return this;
+    }
+
+    /**
+     * Sets color to use when drawing string using colorInt value.
+     * 
+     * @param colorInt e.g. -102934
+     * 
+     */
+    public void setColor(int colorInt) {
+    	java.awt.Color c = new java.awt.Color(colorInt);
+    	setColor(c.getBlue(), c.getGreen(), c.getBlue(), c.getAlpha());    	  
     }
 
     /**
