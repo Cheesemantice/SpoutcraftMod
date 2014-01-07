@@ -30,26 +30,18 @@ import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.network.NetworkMod;
-import cpw.mods.fml.common.network.NetworkRegistry;
+import cpw.mods.fml.common.gameevent.TickEvent;
 import net.minecraft.client.gui.GuiMainMenu;
+import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.GuiOpenEvent;
 import net.minecraftforge.common.MinecraftForge;
 import org.lwjgl.opengl.*;
 import org.spoutcraft.api.Spoutcraft;
+import org.spoutcraft.api.util.RenderUtil;
 import org.spoutcraft.api.util.TextureUtil;
+import org.spoutcraft.mod.addon.CommonAddonManager;
 import org.spoutcraft.mod.gui.builtin.SpoutcraftMainMenu;
-import org.spoutcraft.mod.handler.ClientTickHandlers;
-import org.spoutcraft.mod.protocol.CommonConnectionHandler;
-import org.spoutcraft.mod.protocol.codec.AddFileCodec;
-import org.spoutcraft.mod.protocol.codec.AddPrefabCodec;
-import org.spoutcraft.mod.protocol.codec.AddonListCodec;
-import org.spoutcraft.mod.protocol.codec.DownloadLinkCodec;
-import org.spoutcraft.mod.protocol.message.AddFileMessage;
-import org.spoutcraft.mod.protocol.message.AddPrefabMessage;
-import org.spoutcraft.mod.protocol.message.AddonListMessage;
-import org.spoutcraft.mod.protocol.message.DownloadLinkMessage;
 import org.spoutcraft.mod.resource.CommonFileSystem;
 
 // TODO: Reflect GameRegistry, LanguageRegistry, NetworkRegistry and remove addon content on server leave
@@ -64,6 +56,8 @@ public class SpoutcraftMod {
 
     @EventHandler
     public void onInitialize(FMLInitializationEvent event) {
+        MinecraftForge.EVENT_BUS.register(this);
+
         // Setup file system
         try {
             game.getFileSystem().init();
@@ -104,6 +98,37 @@ public class SpoutcraftMod {
 
     public static CustomTabs getCustomTabs() {
         return customTabs;
+    }
+
+    @SubscribeEvent
+    public void onTick(TickEvent event) {
+        // End of tick and in-game
+        if (event.phase == TickEvent.Phase.END && RenderUtil.MINECRAFT.currentScreen == null) {
+            ScaledResolution scaledResolution = new ScaledResolution(RenderUtil.MINECRAFT.gameSettings, RenderUtil.MINECRAFT.displayWidth, RenderUtil.MINECRAFT.displayHeight);
+            int width = scaledResolution.getScaledWidth();
+            int height = scaledResolution.getScaledHeight();
+
+            // Draw Spoutcraft logo
+            GL11.glPushMatrix();
+            RenderUtil.MINECRAFT.getTextureManager().bindTexture(new ResourceLocation("spoutcraft", "textures/gui/" + ((CommonAddonManager) game.getAddonManager()).getInternalAddon().getDescription().getIdentifier() + "/spoutcraft.png"));
+            GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+            GL11.glEnable(GL11.GL_BLEND);
+            GL11.glTranslatef(width - 45, height - 13, 0.0f);
+            GL11.glScalef(0.17f, 0.17f, 1.0f);
+            GL11.glTranslatef(-width + 45, -height + 13, 0.0f);
+            RenderUtil.create2DRectangleModal(width - 45, height - 13, 256, 67, 0);
+            RenderUtil.TESSELLATOR.draw();
+            GL11.glDisable(GL11.GL_BLEND);
+            GL11.glPopMatrix();
+
+            // Draw milestone string
+            GL11.glPushMatrix();
+            GL11.glTranslatef(width - 14, height - 8, 0.0f);
+            GL11.glScalef(0.50f, 0.50f, 1.0f);
+            GL11.glTranslatef(-width + 14, -height + 8, 0.0f);
+            RenderUtil.MINECRAFT.fontRenderer.drawString("Alpha", width - 14, height - 3, 16776960);
+            GL11.glPopMatrix();
+        }
     }
 
     @SubscribeEvent
