@@ -23,18 +23,18 @@
  */
 package org.spoutcraft.api.item;
 
-import net.minecraft.item.EnumToolMaterial;
+import net.minecraft.item.Item;
 
 public class SwordPrefab extends ItemPrefab {
     private static final long serialVersionUID = 1L;
-    private final EnumToolMaterial toolMaterial;
+    private final Item.ToolMaterial toolMaterial;
 
-    public SwordPrefab(String identifier, String displayName, int maxStackSize, boolean showInCreativeTab, EnumToolMaterial toolMaterial) {
+    public SwordPrefab(String identifier, String displayName, int maxStackSize, boolean showInCreativeTab, Item.ToolMaterial toolMaterial) {
         super(identifier, displayName, maxStackSize, showInCreativeTab);
         this.toolMaterial = toolMaterial;
     }
 
-    public EnumToolMaterial getToolMaterial() {
+    public Item.ToolMaterial getToolMaterial() {
         return toolMaterial;
     }
 }

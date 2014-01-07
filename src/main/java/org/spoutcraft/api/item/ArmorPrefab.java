@@ -25,12 +25,12 @@ package org.spoutcraft.api.item;
 
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.FMLCommonHandler;
-import net.minecraft.item.EnumArmorMaterial;
+import net.minecraft.item.ItemArmor;
 
 public class ArmorPrefab extends ItemPrefab {
     public static final int RENDER_INDEX;
     private static final long serialVersionUID = 1L;
-    private final EnumArmorMaterial armorMaterial;
+    private final ItemArmor.ArmorMaterial armorMaterial;
     private final ArmorType armorType;
 
     static {
@@ -41,13 +41,13 @@ public class ArmorPrefab extends ItemPrefab {
         }
     }
 
-    public ArmorPrefab(String identifier, String displayName, boolean showInCreativeTab, ArmorType armorType, EnumArmorMaterial armorMaterial) {
+    public ArmorPrefab(String identifier, String displayName, boolean showInCreativeTab, ArmorType armorType, ItemArmor.ArmorMaterial armorMaterial) {
         super(identifier, displayName, 1, showInCreativeTab);
         this.armorType = armorType;
         this.armorMaterial = armorMaterial;
     }
 
-    public EnumArmorMaterial getToolMaterial() {
+    public ItemArmor.ArmorMaterial getToolMaterial() {
         return armorMaterial;
     }
 

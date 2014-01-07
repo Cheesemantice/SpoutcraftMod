@@ -29,12 +29,17 @@ import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.network.NetworkRegistry;
+import net.minecraft.client.gui.GuiMainMenu;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.client.event.GuiOpenEvent;
+import net.minecraftforge.common.MinecraftForge;
 import org.lwjgl.opengl.*;
 import org.spoutcraft.api.Spoutcraft;
 import org.spoutcraft.api.util.TextureUtil;
+import org.spoutcraft.mod.gui.builtin.SpoutcraftMainMenu;
 import org.spoutcraft.mod.handler.ClientTickHandlers;
 import org.spoutcraft.mod.protocol.CommonConnectionHandler;
 import org.spoutcraft.mod.protocol.codec.AddFileCodec;
@@ -49,7 +54,6 @@ import org.spoutcraft.mod.resource.CommonFileSystem;
 
 // TODO: Reflect GameRegistry, LanguageRegistry, NetworkRegistry and remove addon content on server leave
 @Mod (modid = "Spoutcraft")
-@NetworkMod (clientSideRequired = true, serverSideRequired = true)
 public class SpoutcraftMod {
     private static CustomTabs customTabs;
     private final Spoutcraft game;
@@ -82,8 +86,6 @@ public class SpoutcraftMod {
                     Display.setIcon(new ByteBuffer[] {windowIcon, taskbarIcon});
                 }
 
-                final ClientTickHandlers handlers = new ClientTickHandlers(game);
-                handlers.start();
                 break;
             case SERVER:
                 break;
@@ -94,12 +96,7 @@ public class SpoutcraftMod {
         // Setup creative tab
         customTabs = new CustomTabs(game);
 
-        // Setup protocol
-        NetworkRegistry.instance().registerConnectionHandler(new CommonConnectionHandler(game));
-        game.getNetwork().getProtocol().register(AddFileMessage.class, AddFileCodec.class);
-        game.getNetwork().getProtocol().register(AddPrefabMessage.class, AddPrefabCodec.class);
-        game.getNetwork().getProtocol().register(AddonListMessage.class, AddonListCodec.class);
-        game.getNetwork().getProtocol().register(DownloadLinkMessage.class, DownloadLinkCodec.class);
+        //TODO Rebuild protocol
 
         // Enable addons
         game.getAddonManager().enable();
@@ -107,5 +104,13 @@ public class SpoutcraftMod {
 
     public static CustomTabs getCustomTabs() {
         return customTabs;
+    }
+
+    @SubscribeEvent
+    public void onGuiOpen(GuiOpenEvent event) {
+        //TODO Check config file, see if they want to use our menu
+        if (event.gui instanceof GuiMainMenu) {
+            event.gui = new SpoutcraftMainMenu(game);
+        }
     }
 }

@@ -1,12 +1,11 @@
 // Default tasks
-defaultTasks 'clean', 'build', 'licenseFormatMain', 'licenseFormatTest', 'shadow', 'install'
+defaultTasks 'clean', 'build', 'licenseFormatMain', 'licenseFormatTest', 'install'
 
 // Apply plugins
 apply plugin: 'cobertura'
 apply plugin: 'coveralls'
 apply plugin: 'forge'
 apply plugin: 'license'
-apply plugin: 'shadow'
 apply plugin: 'maven'
 apply plugin: 'signing'
 
@@ -21,14 +20,14 @@ ext.inceptionYear = '2013'
 ext.packaging = 'jar'
 ext.url = 'http://spoutcraft.org'
 ext.description = 'Forge mod that expands Minecraft through an easy-to-use addon API.'
-ext.organization = 'SpoutcraftDev'
+ext.organization = 'Spoutcraft'
 
 // Minecraft version
-ext.minecraftVersion = '1.6.4'
+ext.minecraftVersion = '1.7.2'
 
 // MinecraftForge version
 minecraft {
-    version = '1.6.4-9.11.1.964'
+    version = '1.7.2-10.12.0.996'
 }
 
 // Minimum version of Java required
@@ -57,15 +56,10 @@ buildscript {
             name = 'forge-repo'
             url = 'http://files.minecraftforge.net/maven/'
         }
-        maven {
-            name = 'shadow-repo'
-            url = 'http://dl.bintray.com/content/johnrengelman/gradle-plugins/'
-        }
     }
     dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:1.0-SNAPSHOT'
+        classpath 'net.minecraftforge.gradle:ForgeGradle:1.1-SNAPSHOT'
         classpath 'nl.javadude.gradle.plugins:license-gradle-plugin:0.6.0'
-        classpath 'org.gradle.plugins:shadow:0.7.4'
         classpath 'net.saliman:gradle-cobertura-plugin:2.0.0' // Coveralls plugin dependency
         classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:0.1.6'
     }
@@ -81,8 +75,6 @@ repositories {
     }
 }
 dependencies {
-    compile 'commons-codec:commons-codec:1.8'
-    compile 'io.netty:netty-all:4.0.13.Final'
     compile 'junit:junit:4.8.1'
     compile 'org.powermock:powermock-api-mockito:1.5.2'
     compile 'org.powermock:powermock-module-junit4:1.5.2'
@@ -111,14 +103,6 @@ processResources {
             "authors": organization
         ]
     }
-}
-
-// Include dependencies in final JAR
-shadow {
-    artifactAttached = false
-    include 'com/flowpowered/**'
-    include 'io/netty/**'
-    include 'org/apache/**'
 }
 
 // License header formatting

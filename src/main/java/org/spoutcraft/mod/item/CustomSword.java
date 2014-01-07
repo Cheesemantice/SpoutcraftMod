@@ -32,8 +32,8 @@ import org.spoutcraft.mod.SpoutcraftMod;
 public class CustomSword extends ItemSword implements Prefabable<SwordPrefab> {
     private final SwordPrefab prefab;
 
-    public CustomSword(int id, Addon addon, SwordPrefab prefab) {
-        super(id, prefab.getToolMaterial());
+    public CustomSword(Addon addon, SwordPrefab prefab) {
+        super(prefab.getToolMaterial());
         this.prefab = prefab;
         setUnlocalizedName("spoutcraft:" + prefab.getIdentifier());
         setTextureName("spoutcraft:" + addon.getDescription().getIdentifier() + "/swords/" + prefab.getIdentifier());

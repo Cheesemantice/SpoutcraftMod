@@ -26,8 +26,6 @@ package org.spoutcraft.api.addon;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.spoutcraft.api.logger.SpoutcraftLogger;
-
 public class AddonLogger extends Logger {
     public AddonLogger(SpoutcraftLogger parent, Addon addon) {
         super(addon.getDescription().getName(), null);

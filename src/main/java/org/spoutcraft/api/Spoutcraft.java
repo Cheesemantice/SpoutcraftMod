@@ -26,10 +26,11 @@ package org.spoutcraft.api;
 import cpw.mods.fml.relauncher.Side;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.spoutcraft.api.addon.AddonManager;
 import org.spoutcraft.api.block.BlockPrefab;
 import org.spoutcraft.api.item.ItemPrefab;
-import org.spoutcraft.api.logger.SpoutcraftLogger;
 import org.spoutcraft.api.protocol.MessageDispatcher;
 import org.spoutcraft.api.resource.FileSystem;
 import org.spoutcraft.mod.addon.ClientAddonManager;
@@ -44,8 +45,8 @@ import org.spoutcraft.mod.resource.CommonFileSystem;
  */
 public final class Spoutcraft {
     public static final String MOD_ID = "Spoutcraft";
+    private static final Logger LOGGER = LogManager.getLogger("Spoutcraft");
     private final Side side;
-    private final SpoutcraftLogger logger;
     private final AddonManager addonManager;
     private final FileSystem fileSystem;
     private final MessageDispatcher network;
@@ -54,7 +55,6 @@ public final class Spoutcraft {
 
     public Spoutcraft(Side side) {
         this.side = side;
-        logger = new SpoutcraftLogger();
 
         if (getSide().isServer()) {
             addonManager = new CommonAddonManager(this);
@@ -72,8 +72,8 @@ public final class Spoutcraft {
         return side;
     }
 
-    public SpoutcraftLogger getLogger() {
-        return logger;
+    public Logger getLogger() {
+        return LOGGER;
     }
 
     public AddonManager getAddonManager() {
