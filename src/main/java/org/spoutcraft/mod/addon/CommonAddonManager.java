@@ -103,7 +103,7 @@ public class CommonAddonManager implements AddonManager {
             try {
                 loadAddon(jar);
             } catch (Exception e) {
-                game.getLogger().log(Level.SEVERE, "Unable to load [" + jar.getFileName() + "] in directory [" + path + "]", e);
+                game.getLogger().fatal("Unable to load [" + jar.getFileName() + "] in directory [" + path + "]", e);
             }
         }
         return Collections.unmodifiableCollection(addons);
