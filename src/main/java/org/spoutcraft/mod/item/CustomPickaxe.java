@@ -32,8 +32,8 @@ import org.spoutcraft.mod.SpoutcraftMod;
 public class CustomPickaxe extends ItemPickaxe implements Prefabable<PickaxePrefab> {
     private final PickaxePrefab prefab;
 
-    public CustomPickaxe(int id, Addon addon, PickaxePrefab prefab) {
-        super(id, prefab.getToolMaterial());
+    public CustomPickaxe(Addon addon, PickaxePrefab prefab) {
+        super(prefab.getToolMaterial());
         this.prefab = prefab;
         setUnlocalizedName("spoutcraft:" + prefab.getIdentifier());
         setTextureName("spoutcraft:" + addon.getDescription().getIdentifier() + "/pickaxes/" + prefab.getIdentifier());

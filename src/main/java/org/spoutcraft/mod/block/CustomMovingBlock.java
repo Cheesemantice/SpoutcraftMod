@@ -39,7 +39,7 @@ public class CustomMovingBlock extends BlockSand implements Prefabable<MovingPre
         // Hotswap Material.Sand to Materials.CUSTOM_MOVING
         try {
             ReflectionUtil.setFinalField(this, "field_149764_J", Materials.Custom_Moving);
-        } catch (IllegalAccessException|NoSuchFieldException e) {
+        } catch (IllegalAccessException | NoSuchFieldException e) {
             addon.getGame().getLogger().error("Failed to hotswap material on CustomMovingBlock to Materials.Custom_Moving!", e);
         }
 

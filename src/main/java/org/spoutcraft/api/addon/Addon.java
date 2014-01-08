@@ -25,6 +25,8 @@ package org.spoutcraft.api.addon;
 
 import java.nio.file.Path;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.spoutcraft.api.Spoutcraft;
 
 /**
@@ -36,7 +38,7 @@ public abstract class Addon {
     protected AddonLoader loader;
     protected AddonDescription description;
     protected AddonClassLoader classLoader;
-    protected AddonLogger logger;
+    protected Logger logger;
     protected Path dataPath, root;
     protected boolean enabled = false;
 
@@ -64,7 +66,7 @@ public abstract class Addon {
         this.loader = loader;
         this.description = description;
         this.classLoader = classLoader;
-        this.logger = new AddonLogger(game.getLogger(), this);
+        this.logger = LogManager.getLogger(description.getName());
         this.dataPath = dataPath;
         this.root = root;
     }
@@ -72,7 +74,7 @@ public abstract class Addon {
     public boolean isEnabled() {
         return enabled;
     }
-    
+
     public Spoutcraft getGame() {
         return game;
     }
@@ -89,7 +91,7 @@ public abstract class Addon {
         return classLoader;
     }
 
-    public AddonLogger getLogger() {
+    public Logger getLogger() {
         return logger;
     }
 

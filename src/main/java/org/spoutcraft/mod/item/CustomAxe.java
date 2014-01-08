@@ -32,8 +32,8 @@ import org.spoutcraft.mod.SpoutcraftMod;
 public class CustomAxe extends ItemAxe implements Prefabable<AxePrefab> {
     private final AxePrefab prefab;
 
-    public CustomAxe(int id, Addon addon, AxePrefab prefab) {
-        super(id, prefab.getToolMaterial());
+    public CustomAxe(Addon addon, AxePrefab prefab) {
+        super(prefab.getToolMaterial());
         this.prefab = prefab;
         setUnlocalizedName("spoutcraft:" + prefab.getIdentifier());
         setTextureName("spoutcraft:" + addon.getDescription().getIdentifier() + "/axes/" + prefab.getIdentifier());

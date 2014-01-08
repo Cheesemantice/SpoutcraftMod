@@ -23,17 +23,17 @@
  */
 package org.spoutcraft.api.addon;
 
-import java.util.EnumSet;
-
-import cpw.mods.fml.client.registry.KeyBindingRegistry;
-import cpw.mods.fml.common.TickType;
+import cpw.mods.fml.client.registry.ClientRegistry;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.InputEvent;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
-import net.minecraft.item.EnumArmorMaterial;
-import net.minecraft.item.EnumToolMaterial;
 import net.minecraft.item.Item;
-import net.minecraftforge.common.EnumHelper;
+import net.minecraft.item.ItemArmor;
+import net.minecraftforge.common.util.EnumHelper;
+import org.apache.logging.log4j.LogManager;
 import org.lwjgl.input.*;
 import org.spoutcraft.api.LinkedPrefabRegistry;
 import org.spoutcraft.api.Spoutcraft;
@@ -45,11 +45,13 @@ import org.spoutcraft.api.item.ItemPrefab;
 import org.spoutcraft.api.item.PickaxePrefab;
 import org.spoutcraft.api.item.SpadePrefab;
 import org.spoutcraft.api.item.SwordPrefab;
-import org.spoutcraft.mod.gui.builtin.SpoutcraftTestGui;
 import org.spoutcraft.mod.item.special.SpoutEmblem;
 import org.spoutcraft.mod.item.special.VanillaEmblem;
 
 public final class InternalAddon extends Addon {
+    @SideOnly (Side.CLIENT)
+    private final KeyBinding bind = new KeyBinding("CustomGui", Keyboard.KEY_U, "Opens a test custom gui");
+
     public InternalAddon(Spoutcraft game) {
         this.game = game;
         root = null;
@@ -58,7 +60,7 @@ public final class InternalAddon extends Addon {
         classLoader = new AddonClassLoader(getClassLoader(), loader);
         classLoader.setAddon(this);
         description = new AddonDescription("internal", Spoutcraft.MOD_ID, "1.0-SNAPSHOT", AddonMode.BOTH, null);
-        logger = new AddonLogger(game.getLogger(), this);
+        logger = LogManager.getLogger("Internal");
     }
 
     @Override
@@ -71,13 +73,13 @@ public final class InternalAddon extends Addon {
         itemRegistry.put(this, new VanillaEmblem());
 
         //--------------------------------Custom Tools--------------------------------------------------------------------
-        itemRegistry.put(this, new SwordPrefab("custom_blade", "Custom Blade", 1, true, EnumToolMaterial.EMERALD));
-        itemRegistry.put(this, new PickaxePrefab("custom_pickaxe", "Custom Pickaxe", 2, true, EnumToolMaterial.EMERALD));
-        itemRegistry.put(this, new SpadePrefab("custom_shovel", "Custom Shovel", 3, true, EnumToolMaterial.EMERALD));
-        itemRegistry.put(this, new AxePrefab("custom_axe", "Custom Axe", 4, true, EnumToolMaterial.EMERALD));
+        itemRegistry.put(this, new SwordPrefab("custom_blade", "Custom Blade", 1, true, Item.ToolMaterial.EMERALD));
+        itemRegistry.put(this, new PickaxePrefab("custom_pickaxe", "Custom Pickaxe", 2, true, Item.ToolMaterial.EMERALD));
+        itemRegistry.put(this, new SpadePrefab("custom_shovel", "Custom Shovel", 3, true, Item.ToolMaterial.EMERALD));
+        itemRegistry.put(this, new AxePrefab("custom_axe", "Custom Axe", 4, true, Item.ToolMaterial.EMERALD));
 
         //-------------------------------Custom Armor---------------------------------------------------------------------
-        EnumArmorMaterial customArmorMaterial = EnumHelper.addArmorMaterial("Custom", 100, new int[] {2, 3, 2, 2}, 15);
+        ItemArmor.ArmorMaterial customArmorMaterial = EnumHelper.addArmorMaterial("Custom", 100, new int[] {2, 3, 2, 2}, 15);
         itemRegistry.put(this, new ArmorPrefab("custom_helmet", "Custom Helmet", true, ArmorPrefab.ArmorType.HELMET, customArmorMaterial));
         itemRegistry.put(this, new ArmorPrefab("custom_chestplate", "Custom Chestplate", true, ArmorPrefab.ArmorType.CHESTPLATE, customArmorMaterial));
         itemRegistry.put(this, new ArmorPrefab("custom_leggings", "Custom Leggings", true, ArmorPrefab.ArmorType.LEGGINGS, customArmorMaterial));
@@ -106,32 +108,12 @@ public final class InternalAddon extends Addon {
         blockRegistry.put(this, new MovingPrefab("9w", "9 (White)", 0.5f, 1, 255, true));
 
         if (game.getSide().isClient()) {
-            KeyBinding guiBind = new KeyBinding("CustomGui", Keyboard.KEY_U);
-
-            KeyBindingRegistry.registerKeyBinding(new KeyBindingRegistry.KeyHandler(new KeyBinding[] {guiBind}, new boolean[] {false}) {
-                private EnumSet<TickType> ticks = EnumSet.of(TickType.CLIENT);
-
-                @Override
-                public String getLabel() {
-                    return "Spoutcraft - Custom GUI Test Key Handler";
-                }
-
-                @Override
-                public void keyDown(EnumSet<TickType> types, KeyBinding kb, boolean tickEnd, boolean isRepeat) {
-                }
-
-                @Override
-                public void keyUp(EnumSet<TickType> types, KeyBinding kb, boolean tickEnd) {
-                    if (kb.keyDescription.equals("CustomGui") && Minecraft.getMinecraft().currentScreen == null) {
-                        Minecraft.getMinecraft().displayGuiScreen(new SpoutcraftTestGui());
-                    }
-                }
-
-                @Override
-                public EnumSet<TickType> ticks() {
-                    return ticks;
-                }
-            });
+            ClientRegistry.registerKeyBinding(bind);
         }
+    }
+
+    @SubscribeEvent
+    public void onKeyPress(InputEvent.KeyInputEvent event) {
+        //TODO Ask cpw or complete KeyInputEvent for them
     }
 }

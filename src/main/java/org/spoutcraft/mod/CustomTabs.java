@@ -34,13 +34,10 @@ public class CustomTabs extends CreativeTabs {
     protected CustomTabs(Spoutcraft game) {
         super(Spoutcraft.MOD_ID);
         this.game = game;
-        LanguageUtil.add("itemGroup." + Spoutcraft.MOD_ID, Spoutcraft.MOD_ID);
-
     }
 
     @Override
-    public int getTabIconItemIndex() {
-        final Item item = game.getItemPrefabRegistry().find(((CommonAddonManager) game.getAddonManager()).getInternalAddon(), "spout_emblem");
-        return item.itemID;
+    public Item getTabIconItem() {
+        return game.getItemPrefabRegistry().find(((CommonAddonManager) game.getAddonManager()).getInternalAddon(), "spout_emblem");
     }
 }

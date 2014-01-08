@@ -32,8 +32,8 @@ import org.spoutcraft.mod.SpoutcraftMod;
 public class CustomSpade extends ItemSpade implements Prefabable<SpadePrefab> {
     private final SpadePrefab prefab;
 
-    public CustomSpade(int id, Addon addon, SpadePrefab prefab) {
-        super(id, prefab.getToolMaterial());
+    public CustomSpade(Addon addon, SpadePrefab prefab) {
+        super(prefab.getToolMaterial());
         this.prefab = prefab;
         setUnlocalizedName("spoutcraft:" + prefab.getIdentifier());
         setTextureName("spoutcraft:" + addon.getDescription().getIdentifier() + "/spades/" + prefab.getIdentifier());

@@ -331,10 +331,7 @@ public abstract class Component {
     }
 
     public boolean isFocused() {
-        if (getParent() == null) {
-            return false;
-        }
-        return getParent().getFocusedComponent() == this;
+        return getParent() != null && getParent().getFocusedComponent() == this;
     }
 
     public void focus() {

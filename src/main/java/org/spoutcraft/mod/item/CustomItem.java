@@ -32,8 +32,7 @@ import org.spoutcraft.mod.SpoutcraftMod;
 public class CustomItem extends Item implements Prefabable<ItemPrefab> {
     private final ItemPrefab prefab;
 
-    public CustomItem(int id, Addon addon, ItemPrefab prefab) {
-        super(id);
+    public CustomItem(Addon addon, ItemPrefab prefab) {
         this.prefab = prefab;
         setUnlocalizedName("spoutcraft:" + prefab.getIdentifier());
         setTextureName("spoutcraft:" + addon.getDescription().getIdentifier() + "/" + prefab.getIdentifier());

@@ -32,8 +32,8 @@ import org.spoutcraft.mod.SpoutcraftMod;
 public class CustomFood extends ItemFood implements Prefabable<FoodPrefab> {
     private final FoodPrefab prefab;
 
-    public CustomFood(int id, Addon addon, FoodPrefab prefab) {
-        super(id, prefab.getHealAmount(), prefab.getSaturationModifier(), prefab.isWolfFavorite());
+    public CustomFood(Addon addon, FoodPrefab prefab) {
+        super(prefab.getHealAmount(), prefab.getSaturationModifier(), prefab.isWolfFavorite());
         this.prefab = prefab;
         setUnlocalizedName("spoutcraft:" + prefab.getIdentifier());
         setTextureName("spoutcraft:" + addon.getDescription().getIdentifier() + "/food/" + prefab.getIdentifier());

@@ -32,8 +32,8 @@ import org.spoutcraft.mod.SpoutcraftMod;
 public class CustomArmor extends ItemArmor implements Prefabable<ArmorPrefab> {
     private final ArmorPrefab prefab;
 
-    public CustomArmor(int id, Addon addon, ArmorPrefab prefab) {
-        super(id, prefab.getToolMaterial(), ArmorPrefab.RENDER_INDEX, prefab.getArmorType().value());
+    public CustomArmor(Addon addon, ArmorPrefab prefab) {
+        super(prefab.getToolMaterial(), ArmorPrefab.RENDER_INDEX, prefab.getArmorType().value());
         this.prefab = prefab;
         setUnlocalizedName("spoutcraft:" + prefab.getIdentifier());
         setTextureName("spoutcraft:" + addon.getDescription().getIdentifier() + "/armor/" + prefab.getIdentifier());

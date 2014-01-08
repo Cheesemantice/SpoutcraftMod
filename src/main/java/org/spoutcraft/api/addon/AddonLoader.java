@@ -23,7 +23,6 @@
  */
 package org.spoutcraft.api.addon;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.Constructor;
@@ -34,11 +33,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
-import java.util.logging.Level;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import org.apache.commons.codec.digest.DigestUtils;
 import org.spoutcraft.api.Spoutcraft;
 import org.spoutcraft.api.util.map.SerializableHashMap;
 
@@ -63,7 +60,7 @@ public final class AddonLoader {
             addon.enable();
             game.getLogger().info("[" + addon.getDescription().getName() + "] enabled");
         } catch (Throwable t) {
-            game.getLogger().log(Level.SEVERE, "Exception caught while enabling addon [" + addon.getDescription().getName() + "]", t);
+            game.getLogger().fatal("Exception caught while enabling addon [" + addon.getDescription().getName() + "]", t);
         }
 
         loaders.put(addon.getDescription().getName(), addon.getClassLoader());
@@ -80,7 +77,7 @@ public final class AddonLoader {
             addon.onDisable();
             game.getLogger().info("[" + addon.getDescription().getName() + "] disabled");
         } catch (Throwable t) {
-            game.getLogger().log(Level.SEVERE, "Exception caught while disabling addon [" + addon.getDescription().getName() + "]", t);
+            game.getLogger().fatal("Exception caught while disabling addon [" + addon.getDescription().getName() + "]", t);
         }
     }
 
@@ -99,7 +96,8 @@ public final class AddonLoader {
                 Constructor<? extends Addon> constructor = addonClass.getConstructor();
                 addon = constructor.newInstance();
                 addon.initialize(game, this, description, loader, dataPath, path);
-                addonMD5s.put(description.getIdentifier(), DigestUtils.md5Hex(new FileInputStream(path.toFile())));
+                //TODO Fix addon md5s not to require a lib
+                //addonMD5s.put(description.getIdentifier(), DigestUtils.md5Hex(new FileInputStream(path.toFile())));
             } catch (Exception e) {
                 throw new InvalidAddonException(e);
             }

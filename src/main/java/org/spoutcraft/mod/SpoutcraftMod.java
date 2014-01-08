@@ -38,6 +38,8 @@ import net.minecraftforge.client.event.GuiOpenEvent;
 import net.minecraftforge.common.MinecraftForge;
 import org.lwjgl.opengl.*;
 import org.spoutcraft.api.Spoutcraft;
+import org.spoutcraft.api.gl.GLGCFactory;
+import org.spoutcraft.api.gl.GLGCObject;
 import org.spoutcraft.api.util.RenderUtil;
 import org.spoutcraft.api.util.TextureUtil;
 import org.spoutcraft.mod.addon.CommonAddonManager;
@@ -45,7 +47,7 @@ import org.spoutcraft.mod.gui.builtin.SpoutcraftMainMenu;
 import org.spoutcraft.mod.resource.CommonFileSystem;
 
 // TODO: Reflect GameRegistry, LanguageRegistry, NetworkRegistry and remove addon content on server leave
-@Mod (modid = "Spoutcraft")
+@Mod (modid = Spoutcraft.MOD_ID)
 public class SpoutcraftMod {
     private static CustomTabs customTabs;
     private final Spoutcraft game;
@@ -101,7 +103,18 @@ public class SpoutcraftMod {
     }
 
     @SubscribeEvent
-    public void onTick(TickEvent event) {
+    public void onTick(TickEvent.ClientTickEvent event) {
+        if (event.phase == TickEvent.Phase.END) {
+            // Clean up gl objects
+            GLGCObject toDelete;
+            while ((toDelete = GLGCFactory.poll()) != null) {
+                toDelete.delete();
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public void onTick(TickEvent.RenderTickEvent event) {
         // End of tick and in-game
         if (event.phase == TickEvent.Phase.END && RenderUtil.MINECRAFT.currentScreen == null) {
             ScaledResolution scaledResolution = new ScaledResolution(RenderUtil.MINECRAFT.gameSettings, RenderUtil.MINECRAFT.displayWidth, RenderUtil.MINECRAFT.displayHeight);
