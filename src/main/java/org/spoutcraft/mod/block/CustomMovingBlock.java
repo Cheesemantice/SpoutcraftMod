@@ -28,20 +28,31 @@ import org.spoutcraft.api.Materials;
 import org.spoutcraft.api.Prefabable;
 import org.spoutcraft.api.addon.Addon;
 import org.spoutcraft.api.block.MovingPrefab;
+import org.spoutcraft.api.util.ReflectionUtil;
 import org.spoutcraft.mod.SpoutcraftMod;
 
 public class CustomMovingBlock extends BlockSand implements Prefabable<MovingPrefab> {
     private final MovingPrefab prefab;
 
-    public CustomMovingBlock(int id, Addon addon, MovingPrefab prefab) {
-        super(id, Materials.CUSTOM_MOVING);
+    public CustomMovingBlock(Addon addon, MovingPrefab prefab) {
         this.prefab = prefab;
-        setUnlocalizedName(prefab.getIdentifier());
-        setTextureName("spoutcraft:" + addon.getDescription().getIdentifier() + "/moving/" + prefab.getIdentifier());
-        setHardness(prefab.getHardness());
+        // Hotswap Material.Sand to Materials.CUSTOM_MOVING
+        try {
+            ReflectionUtil.setFinalField(this, "field_149764_J", Materials.Custom_Moving);
+        } catch (IllegalAccessException|NoSuchFieldException e) {
+            addon.getGame().getLogger().error("Failed to hotswap material on CustomMovingBlock to Materials.Custom_Moving!", e);
+        }
+
+        // setBlockName
+        func_149663_c(prefab.getIdentifier());
+        // setBlockTextureName
+        func_149658_d("spoutcraft:" + addon.getDescription().getIdentifier() + "/moving/" + prefab.getIdentifier());
+        // setHardness
+        func_149711_c(prefab.getHardness());
 
         if (prefab.shouldShowInCreativeTab()) {
-            setCreativeTab(SpoutcraftMod.getCustomTabs());
+            // setCreativeTab
+            func_149647_a(SpoutcraftMod.getCustomTabs());
         }
     }
 

@@ -33,15 +33,19 @@ import org.spoutcraft.mod.SpoutcraftMod;
 public class CustomBlock extends Block implements Prefabable<BlockPrefab> {
     private final BlockPrefab prefab;
 
-    public CustomBlock(int id, Addon addon, BlockPrefab prefab) {
-        super(id, Materials.CUSTOM_BLOCK);
+    public CustomBlock(Addon addon, BlockPrefab prefab) {
+        super(Materials.Custom_Block);
         this.prefab = prefab;
-        setUnlocalizedName(prefab.getIdentifier());
-        setTextureName("spoutcraft:" + addon.getDescription().getIdentifier() + "/" + prefab.getIdentifier());
-        setHardness(prefab.getHardness());
+        // setBlockName
+        func_149663_c(prefab.getDisplayName());
+        // setBlockTextureName
+        func_149658_d("spoutcraft:" + addon.getDescription().getIdentifier() + "/" + prefab.getIdentifier());
+        // setHardness
+        func_149711_c(prefab.getHardness());
 
         if (prefab.shouldShowInCreativeTab()) {
-            setCreativeTab(SpoutcraftMod.getCustomTabs());
+            // setCreativeTab
+            func_149647_a(SpoutcraftMod.getCustomTabs());
         }
     }
 

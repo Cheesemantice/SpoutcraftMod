@@ -27,18 +27,18 @@ import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 
 public class Materials {
-    public static final CustomMovingMaterial CUSTOM_MOVING = new CustomMovingMaterial();
-    public static final CustomBlockMaterial CUSTOM_BLOCK = new CustomBlockMaterial();
+    public static final CustomMovingMaterial Custom_Moving = new CustomMovingMaterial();
+    public static final CustomBlockMaterial Custom_Block = new CustomBlockMaterial();
 
     public static class CustomBlockMaterial extends Material {
         public CustomBlockMaterial() {
-            super(MapColor.clayColor);
+            super(MapColor.field_151653_I);
         }
     }
 
     public static class CustomMovingMaterial extends Material {
         public CustomMovingMaterial() {
-            super(MapColor.clayColor);
+            super(MapColor.field_151653_I);
         }
     }
 }

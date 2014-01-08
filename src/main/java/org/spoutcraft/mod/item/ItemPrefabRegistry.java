@@ -38,11 +38,8 @@ import org.spoutcraft.api.item.ItemPrefab;
 import org.spoutcraft.api.item.PickaxePrefab;
 import org.spoutcraft.api.item.SpadePrefab;
 import org.spoutcraft.api.item.SwordPrefab;
-import org.spoutcraft.api.util.LanguageUtil;
 
 public class ItemPrefabRegistry implements LinkedPrefabRegistry<ItemPrefab, Item> {
-    private static final int ID_START = 3000;
-    private static int ID_COUNTER = 0;
     private static final Map<Addon, Map<ItemPrefab, Item>> ADDON_ITEM_PREFAB_INSTANCE_REGISTRY = new HashMap<>();
 
     @Override
@@ -72,26 +69,24 @@ public class ItemPrefabRegistry implements LinkedPrefabRegistry<ItemPrefab, Item
             return item;
         }
 
-        final int id = ID_START + ID_COUNTER++;
         if (prefab instanceof FoodPrefab) {
-            item = new CustomFood(id, addon, (FoodPrefab) prefab);
+            item = new CustomFood(addon, (FoodPrefab) prefab);
         } else if (prefab instanceof SwordPrefab) {
-            item = new CustomSword(id, addon, (SwordPrefab) prefab);
+            item = new CustomSword(addon, (SwordPrefab) prefab);
         } else if (prefab instanceof PickaxePrefab) {
-            item = new CustomPickaxe(id, addon, (PickaxePrefab) prefab);
+            item = new CustomPickaxe(addon, (PickaxePrefab) prefab);
         } else if (prefab instanceof SpadePrefab) {
-            item = new CustomSpade(id, addon, (SpadePrefab) prefab);
+            item = new CustomSpade(addon, (SpadePrefab) prefab);
         } else if (prefab instanceof AxePrefab) {
-            item = new CustomAxe(id, addon, (AxePrefab) prefab);
+            item = new CustomAxe(addon, (AxePrefab) prefab);
         } else if (prefab instanceof ArmorPrefab) {
-            item = new CustomArmor(id, addon, (ArmorPrefab) prefab);
+            item = new CustomArmor(addon, (ArmorPrefab) prefab);
         } else {
-            item = new CustomItem(id, addon, prefab);
+            item = new CustomItem(addon, prefab);
         }
 
         addonRegistry.put(prefab, item);
         GameRegistry.registerItem(item, prefab.getIdentifier(), Spoutcraft.MOD_ID);
-        LanguageUtil.name(item, prefab.getDisplayName());
         return item;
     }
 

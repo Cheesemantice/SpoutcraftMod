@@ -25,10 +25,7 @@ package org.spoutcraft.mod;
 
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import org.spoutcraft.api.Spoutcraft;
-import org.spoutcraft.api.util.LanguageUtil;
-import org.spoutcraft.mod.addon.ClientAddonManager;
 import org.spoutcraft.mod.addon.CommonAddonManager;
 
 public class CustomTabs extends CreativeTabs {
