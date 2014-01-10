@@ -1,5 +1,5 @@
 // Default tasks
-defaultTasks 'clean', 'setupDecompWorkspace', 'build', 'licenseFormatMain', 'licenseFormatTest', 'shadow', 'install'
+defaultTasks 'clean', 'setupDecompWorkspace', 'build', 'licenseFormatMain', 'licenseFormatTest', 'shadowJar', 'install'
 
 // Apply plugins
 apply plugin: 'cobertura'
@@ -48,6 +48,7 @@ configurations.all {
 // Plugin repositories and dependencies
 buildscript {
     repositories {
+        jcenter()
         mavenCentral()
         maven {
             name = 'sonatype-nexus-public'
@@ -57,15 +58,11 @@ buildscript {
             name = 'forge-repo'
             url = 'http://files.minecraftforge.net/maven/'
         }
-        maven {
-            name = 'shadow-repo'
-            url = 'http://dl.bintray.com/content/johnrengelman/gradle-plugins/'
-        }
     }
     dependencies {
         classpath 'net.minecraftforge.gradle:ForgeGradle:1.0-SNAPSHOT'
+        classpath 'com.github.jengelman.gradle.plugins:shadow:0.8'
         classpath 'nl.javadude.gradle.plugins:license-gradle-plugin:0.6.0'
-        classpath 'org.gradle.plugins:shadow:0.7.4'
         classpath 'net.saliman:gradle-cobertura-plugin:2.0.0' // Coveralls plugin dependency
         classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:0.1.6'
     }
@@ -82,7 +79,7 @@ repositories {
 }
 dependencies {
     compile 'commons-codec:commons-codec:1.8'
-    compile 'io.netty:netty-all:4.0.13.Final'
+    compile 'io.netty:netty-all:4.0.14.Final'
     compile 'junit:junit:4.8.1'
     compile 'org.powermock:powermock-api-mockito:1.5.2'
     compile 'org.powermock:powermock-module-junit4:1.5.2'

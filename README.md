@@ -66,7 +66,7 @@ Module classpath: SpoutcraftMod (IntelliJ-only)
 ## Building
 __Note:__ If you do not have [Gradle] installed you can use the gradlew files included with the project in place of 'gradle' in the following command(s). If you are using Git Bash, Unix or OS X then use './gradlew'. If you are using Windows then use 'gradlew.bat'.
 
-In order to build SpoutcraftMod you simply need to run the `gradle` command. You can find the compiled JAR files in `~/build/libs`, in most cases you'll only need 'spoutcraft-x.x.x-SNAPSHOT.jar'.
+In order to build SpoutcraftMod you simply need to run the `gradle` command. You can find the compiled JAR file in `~/build/distributions`.
 
 ## Contributing
 Are you a talented programmer looking to contribute some code? We'd love the help!
