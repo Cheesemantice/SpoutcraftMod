@@ -6,8 +6,8 @@ apply plugin: 'cobertura'
 apply plugin: 'coveralls'
 apply plugin: 'forge'
 apply plugin: 'license'
-apply plugin: 'shadow'
 apply plugin: 'maven'
+apply plugin: 'shadow'
 apply plugin: 'signing'
 
 // Basic project information
@@ -18,6 +18,7 @@ version = '1.0.0-SNAPSHOT'
 // Extended project information
 ext.projectName = 'Spoutcraft'
 ext.inceptionYear = '2013'
+ext.currentYear = '2014'
 ext.packaging = 'jar'
 ext.url = 'http://spoutcraft.org'
 ext.description = 'Forge mod that expands Minecraft through an easy-to-use addon API.'
@@ -48,7 +49,6 @@ configurations.all {
 // Plugin repositories and dependencies
 buildscript {
     repositories {
-        jcenter()
         mavenCentral()
         maven {
             name = 'sonatype-nexus-public'
@@ -58,6 +58,7 @@ buildscript {
             name = 'forge-repo'
             url = 'http://files.minecraftforge.net/maven/'
         }
+        jcenter()
     }
     dependencies {
         classpath 'net.minecraftforge.gradle:ForgeGradle:1.0-SNAPSHOT'
@@ -80,10 +81,10 @@ repositories {
 dependencies {
     compile 'commons-codec:commons-codec:1.8'
     compile 'io.netty:netty-all:4.0.14.Final'
-    compile 'junit:junit:4.8.1'
+    compile 'junit:junit:4.8.2'
     compile 'org.powermock:powermock-api-mockito:1.5.2'
     compile 'org.powermock:powermock-module-junit4:1.5.2'
-    testCompile 'junit:junit:4.8.1'
+    testCompile 'junit:junit:4.8.2'
     testCompile 'org.powermock:powermock-module-junit4:1.5.2'
 }
 
@@ -128,7 +129,7 @@ license {
     ext.name = project.name
     ext.organization = organization
     ext.url = url
-    ext.year = inceptionYear
+    ext.year = inceptionYear + '-' + currentYear
     header rootProject.file('HEADER.txt')
     strictCheck true
 }
@@ -168,7 +169,8 @@ uploadArchives {
 
         // Set all artifacts
         artifacts {
-            archives jar, javadocJar, sourcesJar
+            archives file("build/distributions/" + archivesBaseName + "-" + version + ".jar")
+            archives javadocJar, sourcesJar
         }
 
         // Tasks and variables based on if release or snapshot
