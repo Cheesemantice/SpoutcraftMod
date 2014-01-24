@@ -33,13 +33,13 @@ import org.spoutcraft.api.addon.Addon;
 public interface FileSystem {
     public void init() throws IOException;
 
-    public void send(Class<? extends Addon> clazz, Path path);
+    public void send(Addon addon, Path path);
 
-    public void send(Class<? extends Addon> clazz, String uri);
+    public void send(Addon addon, String uri);
 
-    public <R> R get(Class<? extends Addon> clazz, String name);
+    public <R> R get(Addon addon, String name);
 
-    public <R> Collection<R> getAllFor(Class<? extends Addon> clazz);
+    public <R> Collection<R> getAllFor(Addon addon);
 
-    public <R> Map<Class<? extends Addon>, R> getAll();
+    public <R> Map<Addon, R> getAll();
 }

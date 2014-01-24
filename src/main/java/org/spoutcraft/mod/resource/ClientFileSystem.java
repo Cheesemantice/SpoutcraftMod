@@ -50,35 +50,4 @@ public class ClientFileSystem extends CommonFileSystem {
             Files.createDirectories(ITEM_TEXTURES_PATH);
         }
     }
-
-    @Override
-    public void send(Class<? extends Addon> clazz, Path path) {
-        if (!RenderUtil.MINECRAFT.isIntegratedServerRunning()) {
-            throw new IllegalStateException("Client cannot send resources to the server!");
-        }
-        //TODO Handle SinglePlayer sending
-    }
-
-    @Override
-    public void send(Class<? extends Addon> clazz, String uri) {
-        if (!RenderUtil.MINECRAFT.isIntegratedServerRunning()) {
-            throw new IllegalStateException("Client cannot send resources to the server!");
-        }
-        //TODO Handle SinglePlayer sending
-    }
-
-    @Override
-    public <R> R get(Class<? extends Addon> clazz, String name) {
-        return null;
-    }
-
-    @Override
-    public <R> Collection<R> getAllFor(Class<? extends Addon> clazz) {
-        return null;
-    }
-
-    @Override
-    public <R> Map<Class<? extends Addon>, R> getAll() {
-        return null;
-    }
 }

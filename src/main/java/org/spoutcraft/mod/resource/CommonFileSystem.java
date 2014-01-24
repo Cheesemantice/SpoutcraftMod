@@ -47,25 +47,27 @@ public class CommonFileSystem implements FileSystem {
     }
 
     @Override
-    public void send(Class<? extends Addon> clazz, Path path) {
+    public void send(Addon addon, Path path) {
+
     }
 
     @Override
-    public void send(Class<? extends Addon> clazz, String uri) {
+    public void send(Addon addon, String uri) {
+
     }
 
     @Override
-    public <R> R get(Class<? extends Addon> clazz, String name) {
+    public <R> R get(Addon addon, String name) {
         throw new IllegalStateException("Server does not get resources, it only sends them");
     }
 
     @Override
-    public <R> Collection<R> getAllFor(Class<? extends Addon> clazz) {
+    public <R> Collection<R> getAllFor(Addon addon) {
         throw new IllegalStateException("Server does not get resources, it only sends them");
     }
 
     @Override
-    public <R> Map<Class<? extends Addon>, R> getAll() {
+    public <R> Map<Addon, R> getAll() {
         throw new IllegalStateException("Server does not get resources, it only sends them");
     }
 }
