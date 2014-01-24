@@ -33,7 +33,6 @@ public class BlockPrefab extends Prefab {
     private final boolean showInCreativeTab;
     private final int light;
     private final int lightOpacity;
-    private final String modelPath;
 
     public BlockPrefab(String identifier, String displayName, float hardness, int light, int lightOpacity, boolean showInCreativeTab) {
         super(identifier);
@@ -42,7 +41,6 @@ public class BlockPrefab extends Prefab {
         this.light = light;
         this.lightOpacity = lightOpacity;
         this.showInCreativeTab = showInCreativeTab;
-        modelPath = null;
     }
 
     public BlockPrefab(String identifier, Gson gson) {
@@ -52,7 +50,6 @@ public class BlockPrefab extends Prefab {
         showInCreativeTab = gson.fromJson("show-in-creative-tab", Boolean.class);
         light = gson.fromJson("light-level", Integer.class);
         lightOpacity = gson.fromJson("light-opacity", Integer.class);
-        modelPath = gson.fromJson("model-path", String.class);
     }
 
     public String getDisplayName() {
@@ -65,10 +62,6 @@ public class BlockPrefab extends Prefab {
 
     public boolean shouldShowInCreativeTab() {
         return showInCreativeTab;
-    }
-
-    public String getModelPath() {
-        return modelPath;
     }
 
     @Override
